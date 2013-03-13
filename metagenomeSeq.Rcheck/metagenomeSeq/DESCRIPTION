@@ -1,0 +1,27 @@
+Package: metagenomeSeq
+Title: Statistical analysis for sparse high-throughput
+      sequencing
+Version: 0.99.0
+Date: 2012-07-23
+Author: Joseph Nathaniel Paulson, Hector Corrada-Bravo
+Maintainer: Joseph Paulson <jpaulson@umiacs.umd.edu>
+Description: metaR is designed to determine features (be it Operational Taxanomic Unit (OTU), species, etc.) that are differentially abundant between two or more groups of multiple samples. metaR is designed to address the effects of both normalization and under-sampling of microbial communities on disease association detection and the testing of feature correlations.
+License: Artistic-2.0
+Depends: R(>= 2.10.0), Biobase, limma, matrixStats,
+      methods, RColorBrewer, gplots
+Suggests: annotate
+biocViews: Bioinformatics, DifferentialExpression,
+      Metagenomics, Visualization
+Collate: 'zigControl.R' 'cumNorm.R' 'plotOTU.R'
+      'fitZig.R' 'doCountMStep.R' 'doZeroMStep.R'
+      'doEStep.R' 'getZ.R' 'getPi.R' 'getCountDensity.R'
+      'getNegativeLogLikelihoods.R' 'isItStillActive.R'
+      'getEpsilon.R' 'load_meta.R' 'load_phenoData.R'
+      'exportMat.R' 'exportStats.R' 'cumNormStat.R'
+      'plotGenus.R' 'aggregateM.R' 'cumNormMat.R'
+      'load_metaQ.R' 'allClasses.R' 'MRtable.R'
+      'MRcoefs.R' 'plotMRheatmap.R' 'plotCorr.R'
+      'MRfisher.R' 'MRfulltable.R'
+URL: http://cbcb.umd.edu/software/metaR
+Packaged: 2013-03-11 15:44:54 UTC; jpaulson
+Built: R 2.15.2; ; 2013-03-11 15:44:55 UTC; unix

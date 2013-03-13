@@ -1,0 +1,1480 @@
+
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: i386-apple-darwin9.8.0/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "metagenomeSeq"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('metagenomeSeq')
+Loading required package: Biobase
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following object(s) are masked from ‘package:stats’:
+
+    xtabs
+
+The following object(s) are masked from ‘package:base’:
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, cbind,
+    colnames, duplicated, eval, get, intersect, lapply, mapply, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, rbind, rep.int,
+    rownames, sapply, setdiff, table, tapply, union, unique
+
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: limma
+Loading required package: matrixStats
+matrixStats v0.6.2 (2012-11-15) successfully loaded. See ?matrixStats for help.
+
+Attaching package: ‘matrixStats’
+
+The following object(s) are masked from ‘package:Biobase’:
+
+    anyMissing, rowMedians
+
+Loading required package: RColorBrewer
+Loading required package: gplots
+Loading required package: gtools
+Loading required package: gdata
+gdata: read.xls support for 'XLS' (Excel 97-2004) files ENABLED.
+
+gdata: read.xls support for 'XLSX' (Excel 2007+) files ENABLED.
+
+Attaching package: ‘gdata’
+
+The following object(s) are masked from ‘package:Biobase’:
+
+    combine
+
+The following object(s) are masked from ‘package:BiocGenerics’:
+
+    combine
+
+The following object(s) are masked from ‘package:stats’:
+
+    nobs
+
+The following object(s) are masked from ‘package:utils’:
+
+    object.size
+
+Loading required package: caTools
+Loading required package: grid
+Loading required package: KernSmooth
+KernSmooth 2.23 loaded
+Copyright M. P. Wand 1997-2009
+Loading required package: MASS
+
+Attaching package: ‘gplots’
+
+The following object(s) are masked from ‘package:stats’:
+
+    lowess
+
+> 
+> assign(".oldSearch", search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("MRcoefs")
+> ### * MRcoefs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MRcoefs
+> ### Title: Table of top-ranked microbial marker gene from linear model fit
+> ### Aliases: MRcoefs
+> 
+> ### ** Examples
+> 
+> data(lungData)
+> k = grep("Extraction.Control",pData(lungData)$SampleType)
+Loading required package: metaR
+Warning in .simpleDuplicateClass(def, prev) :
+  A specification for class “MRexperiment” in package ‘metaR’ seems equivalent to one from package ‘metagenomeSeq’ and is not turning on duplicate class definitions for this class
+
+Attaching package: ‘metaR’
+
+The following object(s) are masked from ‘package:metagenomeSeq’:
+
+    MRcoefs, MRcounts, MRfisher, MRfulltable, MRtable, aggregateM,
+    cumNorm, cumNormMat, cumNormStat, expSummary, exportMat,
+    exportStats, fitZig, libSize, load_meta, load_metaQ,
+    load_phenoData, newMRexperiment, normFactors, plotCorr, plotGenus,
+    plotMRheatmap, plotOTU, posterior.probs, zigControl
+
+> lungTrim = lungData[,-k]
+> k = which(rowSums(MRcounts(lungTrim)>0)<10)
+> lungTrim = lungTrim[-k,]
+> cumNorm(lungTrim)
+[1] TRUE
+> smokingStatus = pData(lungTrim)$SmokingStatus
+> mod = model.matrix(~smokingStatus)
+> settings = zigControl(maxit=1,verbose=FALSE)
+> fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+> head(MRcoefs(fit))
+                                                                                                                                  (Intercept)
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                    2.8409754
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                     2.6903428
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2           -0.5218778
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2              1.4093056
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1           -0.8504454
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2   1.6009246
+                                                                                                                                  smokingStatusSmoker
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                            -3.784271
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                             -3.574979
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                     2.767764
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                      -2.645719
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                     2.610162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2           -2.366161
+                                                                                                                                     newMat
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                   7.549064
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                    8.089207
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          11.262008
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2             7.667037
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          13.599162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2  5.139178
+                                                                                                                                        pValue
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  1.248334e-12
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                   1.918324e-11
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          3.898512e-08
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            3.086821e-13
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          1.000943e-07
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 2.355128e-09
+                                                                                                                                     adjPvalue
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  6.422679e-10
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                   6.579851e-09
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          3.740337e-06
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            3.176339e-10
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          6.866472e-06
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 4.039044e-07
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:metaR’
+
+> nameEx("MRcounts")
+> ### * MRcounts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MRcounts
+> ### Title: Accessor for the counts slot of a MRexperiment object
+> ### Aliases: MRcounts,MRexperiment-method MRcounts
+> 
+> ### ** Examples
+> 
+>    data(lungData)
+>    head(MRcounts(lungData))
+  CHK_6467_E3B11_BRONCH2_PREWASH_V1V2 CHK_6467_E3B11_OW_V1V2
+1                                   0                      0
+2                                   0                      0
+3                                   0                      0
+4                                   0                      0
+5                                   0                      0
+6                                   0                      0
+  CHK_6467_E3B08_OW_V1V2 CHK_6467_E3B07_BAL_A_V1V2 CHK_6467_E3B11_BAL_A_V1V2
+1                      0                         0                         0
+2                      0                         0                         0
+3                      0                         0                         0
+4                      0                         0                         0
+5                      0                         0                         0
+6                      0                         0                         0
+  CHK_6467_E3B09_OP_V1V2 CHK_6467_E3B08_BRONCH1_PREWASH_V1V2
+1                      0                                   0
+2                      0                                   0
+3                      0                                   0
+4                      0                                   0
+5                      0                                   0
+6                      0                                   0
+  CHK_6467_E3B11_BRONCH1_POSTWASH_V1V2 CHK_6467_E3B11_OP_V1V2
+1                                    0                      1
+2                                    0                      0
+3                                    0                      0
+4                                    0                      0
+5                                    0                      0
+6                                    0                      0
+  CHK_6467_E3B10_BRONCH1_TIPSWAB_V1V2 CHK_6467_E3B07_BAL_B_V1V2
+1                                   0                         0
+2                                   0                         0
+3                                   0                         0
+4                                   0                         0
+5                                   0                         0
+6                                   0                         0
+  CHK_6467_E3B08_BAL_A_V1V2 CHK_6467_E3B11_PSB_V1V2
+1                         0                       0
+2                         0                       0
+3                         0                       0
+4                         0                       0
+5                         0                       0
+6                         0                       0
+  CHK_6467_SAL1_11_5_209_11_18_V1V2 CHK_6467_E3B10_OW_V1V2
+1                                 0                      0
+2                                 0                      0
+3                                 0                      0
+4                                 0                      0
+5                                 0                      0
+6                                 0                      0
+  CHK_6467_SAL1_11_4_201_11_18_V1V2 CHK_6467_E3B09_BRONCH1_POSTWASH_V1V2
+1                                 0                                    0
+2                                 0                                    0
+3                                 0                                    0
+4                                 0                                    0
+5                                 0                                    0
+6                                 0                                    0
+  CHK_6467_E3B10_PSB_V1V2 CHK_6467_E3B08_BRONCH1_TIPSWAB_V1V2
+1                       0                                   0
+2                       0                                   0
+3                       0                                   0
+4                       0                                   0
+5                       0                                   0
+6                       0                                   0
+  CHK_6467_E3B06_BRONCH1_PREWASH_V1V2 CHK_6467_E3B10_BAL_1STRETURN_V1V2
+1                                   0                                 0
+2                                   0                                 0
+3                                   0                                 1
+4                                   0                                 0
+5                                   0                                 0
+6                                   0                                 0
+  CHK_6467_SS1_11_4_272_11_30_V1V2 CHK_6467_E3B08_BRONCH2_PREWASH_V1V2
+1                                0                                   0
+2                                0                                   0
+3                                0                                   0
+4                                0                                   0
+5                                0                                   0
+6                                0                                   0
+  CHK_6467_E3B10_NP_V1V2 CHK_6467_H2O1_11_5_208_11_18_V1V2
+1                      0                                 0
+2                      0                                 0
+3                      0                                 0
+4                      0                                 0
+5                      1                                 0
+6                      0                                 0
+  CHK_6467_E3B11_BAL_B_V1V2 CHK_6467_E3B11_BRONCH1_TIPSWAB_V1V2
+1                         0                                   0
+2                         0                                   0
+3                         0                                   0
+4                         0                                   0
+5                         0                                   0
+6                         0                                   0
+  CHK_6467_E3B08_BAL_1STRETURN_V1V2 CHK_6467_E3B08_NP_V1V2
+1                                 0                      0
+2                                 0                      0
+3                                 0                      0
+4                                 0                      0
+5                                 0                      0
+6                                 0                      0
+  CHK_6467_E3B10_BRONCH2_PREWASH_V1V2 CHK_6467_E3B09_NP_V1V2
+1                                   0                      0
+2                                   0                      0
+3                                   0                      0
+4                                   0                      0
+5                                   0                      0
+6                                   0                      0
+  CHK_6467_H2O1_11_2_280_11_30_V1V2 CHK_6467_E3B07_PSB_V1V2
+1                                 0                       0
+2                                 0                       1
+3                                 0                       0
+4                                 0                       0
+5                                 0                       0
+6                                 0                       0
+  CHK_6467_E3B07_NP_V1V2 CHK_6467_E3B09_BRONCH1_TIPSWAB_V1V2
+1                      0                                   0
+2                      0                                   0
+3                      0                                   0
+4                      0                                   0
+5                      0                                   0
+6                      0                                   0
+  CHK_6467_E3B06_BRONCH1_POSTWASH_V1V2 CHK_6467_E3B07_BAL_1STRETURN_V1V2
+1                                    0                                 0
+2                                    0                                 0
+3                                    0                                 0
+4                                    0                                 0
+5                                    0                                 0
+6                                    0                                 0
+  CHK_6467_E3B10_BRONCH1_PREWASH_V1V2 CHK_6467_E3B10_BRONCH1_POSTWASH_V1V2
+1                                   0                                    0
+2                                   0                                    0
+3                                   0                                    0
+4                                   0                                    0
+5                                   0                                    0
+6                                   0                                    0
+  CHK_6467_E3B11_BRONCH1_PREWASH_V1V2 CHK_6467_E3B09_PSB_V1V2
+1                                   0                       0
+2                                   0                       0
+3                                   0                       0
+4                                   0                       0
+5                                   0                       0
+6                                   0                       0
+  CHK_6467_E3B09_BRONCH1_PREWASH_V1V2 CHK_6467_E3B07_BRONCH2_PREWASH_V1V2
+1                                   0                                   0
+2                                   0                                   0
+3                                   0                                   0
+4                                   0                                   0
+5                                   0                                   0
+6                                   0                                   0
+  CHK_6467_PSBPLASTIC_12_6_285_12_6_V1V2 CHK_6467_E3B08_BRONCH1_POSTWASH_V1V2
+1                                      0                                    0
+2                                      0                                    0
+3                                      0                                    0
+4                                      0                                    0
+5                                      0                                    0
+6                                      0                                    0
+  CHK_6467_E3B06_BRONCH1_TIPSWAB_V1V2 CHK_6467_PSBMETAL_12_6_286_12_6_V1V2
+1                                   0                                    0
+2                                   0                                    0
+3                                   0                                    0
+4                                   0                                    0
+5                                   0                                    0
+6                                   0                                    0
+  CHK_6467_E3B11_NP_V1V2 CHK_6467_E3B10_OP_V1V2
+1                      0                      0
+2                      0                      0
+3                      0                      0
+4                      0                      0
+5                      0                      0
+6                      0                      0
+  CHK_6467_E3B09_BAL_1STRETURN_V1V2 CHK_6467_E3B06_NP_V1V2
+1                                 0                      0
+2                                 0                      0
+3                                 0                      0
+4                                 0                      0
+5                                 0                      0
+6                                 0                      0
+  CHK_6467_E3B09_BRONCH2_PREWASH_V1V2 CHK_6467_E3B06_BAL_A_V1V2
+1                                   0                         0
+2                                   0                         0
+3                                   0                         0
+4                                   0                         0
+5                                   0                         0
+6                                   0                         0
+  CHK_6467_E3B06_BAL_1STRETURN_V1V2 CHK_6467_E3B07_OP_V1V2
+1                                 0                      0
+2                                 0                      0
+3                                 0                      0
+4                                 0                      0
+5                                 0                      0
+6                                 0                      0
+  CHK_6467_E3B06_BAL_B_V1V2 CHK_6467_E3B11_BAL_1STRETURN_V1V2
+1                         0                                 0
+2                         0                                 0
+3                         0                                 0
+4                         0                                 0
+5                         0                                 0
+6                         0                                 0
+  CHK_6467_E3B07_BRONCH1_TIPSWAB_V1V2 CHK_6467_H2O1_11_4_222_11_18_V1V2
+1                                   0                                 0
+2                                   0                                 0
+3                                   0                                 0
+4                                   0                                 0
+5                                   0                                 0
+6                                   0                                 0
+  CHK_6467_E3B10_BAL_A_V1V2 CHK_6467_SS1_11_2_253_11_30_V1V2
+1                         0                                0
+2                         0                                0
+3                         0                                0
+4                         0                                0
+5                         0                                0
+6                         0                                0
+  CHK_6467_E3B06_BRONCH2_PREWASH_V1V2 CHK_6467_E3B06_OW_V1V2
+1                                   0                      0
+2                                   0                      0
+3                                   0                      0
+4                                   0                      0
+5                                   0                      0
+6                                   0                      0
+  CHK_6467_E3B07_BRONCH1_POSTWASH_V1V2 CHK_6467_E3B07_BRONCH1_PREWASH_V1V2
+1                                    0                                   0
+2                                    0                                   0
+3                                    0                                   0
+4                                    0                                   0
+5                                    0                                   0
+6                                    0                                   0
+  CHK_6467_E3B08_OP_V1V2 CHK_6467_E3B10_BAL_B_V1V2 CHK_6467_E3B06_OP_V1V2
+1                      0                         0                      0
+2                      0                         0                      0
+3                      0                         0                      0
+4                      0                         0                      0
+5                      0                         0                      0
+6                      0                         0                      0
+  CHK_6467_E3B07_OW_V1V2 CHK_6467_H2O1_11_2_223_11_29_V1V2
+1                      0                                 0
+2                      0                                 0
+3                      0                                 0
+4                      0                                 0
+5                      0                                 0
+6                      0                                 0
+  CHK_6467_E3B09_BAL_B_V1V2 CHK_6467_H201_12_6_281_12_6_V1V2
+1                         0                                0
+2                         0                                0
+3                         0                                0
+4                         0                                0
+5                         0                                0
+6                         0                                0
+  CHK_6467_E3B08_PSB_V1V2 CHK_6467_E3B08_BAL_B_V1V2 CHK_6467_E3B06_PSB_V1V2
+1                       0                         0                       0
+2                       0                         0                       0
+3                       0                         0                       0
+4                       0                         1                       0
+5                       0                         0                       0
+6                       0                         0                       1
+  CHK_6467_E3B09_OW_V1V2 CHK_6467_SAL1_11_2_224_11_29_V1V2
+1                      0                                 0
+2                      0                                 0
+3                      0                                 0
+4                      0                                 0
+5                      0                                 0
+6                      0                                 0
+  CHK_6467_E3B09_BAL_A_V1V2
+1                         0
+2                         0
+3                         0
+4                         0
+5                         0
+6                         0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MRexperiment-class")
+> ### * MRexperiment-class
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MRexperiment
+> ### Title: Class "MRexperiment" - a modified eSet object for the data from
+> ###   high-throughput sequencing experiments
+> ### Aliases: MRexperiment-class [,MRexperiment-method
+> 
+> ### ** Examples
+> 
+> # See vignette
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MRfisher")
+> ### * MRfisher
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MRfisher
+> ### Title: Wrapper to run fisher's test on presence/absence of a feature.
+> ### Aliases: MRfisher
+> 
+> ### ** Examples
+> 
+> data(lungData)
+> k = grep("Extraction.Control",pData(lungData)$SampleType)
+> lungTrim = lungData[,-k]
+> lungTrim = lungTrim[-which(rowSums(MRcounts(lungTrim)>0)<20),]
+> res = MRfisher(lungTrim,pData(lungTrim)$SmokingStatus);
+> head(res)
+       pvalues oddsratio     lower    upper
+1727 0.4430959 0.5948548 0.1883577 1.821181
+2583 0.7892942 0.7532895 0.2273688 2.440082
+2608  0.612282  0.682604 0.2209831 2.064348
+2667 0.7746491 0.7215728 0.1947008 2.573203
+2675 0.7642483  0.698299 0.1731198 2.669851
+2690 0.2127433   2.10035 0.7051078 6.487417
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MRfulltable")
+> ### * MRfulltable
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MRfulltable
+> ### Title: Table of top microbial marker gene from linear model fit
+> ###   including sequence information
+> ### Aliases: MRfulltable
+> 
+> ### ** Examples
+> 
+> data(lungData)
+> k = grep("Extraction.Control",pData(lungData)$SampleType)
+> lungTrim = lungData[,-k]
+> k = which(rowSums(MRcounts(lungTrim)>0)<10)
+> lungTrim = lungTrim[-k,]
+> cumNorm(lungTrim)
+[1] TRUE
+> smokingStatus = pData(lungTrim)$SmokingStatus
+> mod = model.matrix(~smokingStatus)
+> settings = zigControl(maxit=1,verbose=FALSE)
+> fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+> head(MRfulltable(fit))
+                                                                                                                                  +samples in group 1
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                                    6
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                     7
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                           26
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                              1
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                           23
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2                   2
+                                                                                                                                  +samples in group 0
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                                   24
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                    23
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                           15
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                             24
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                           14
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2                  21
+                                                                                                                                  counts in group 1
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                                 11
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                  22
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                       1893
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                            1
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                       1447
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2                 2
+                                                                                                                                  counts in group 0
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                               1538
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                1512
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                        162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                          390
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                        331
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2               326
+                                                                                                                                      fisher.p
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  1.674621e-05
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                   1.601021e-04
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          1.046526e-02
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            2.452864e-09
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          4.639423e-02
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 1.112248e-06
+                                                                                                                                   oddsRatio
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  11.4419823
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                    8.2174858
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2           0.2298917
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            77.9998920
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1           0.3262323
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 25.5498486
+                                                                                                                                        lower
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                   3.28927902
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                    2.48227546
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2           0.06481576
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            10.20176671
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1           0.10230444
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2  5.06499493
+                                                                                                                                         upper
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                    46.3573262
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                     30.6802446
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2             0.7389259
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            3529.0432703
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1             0.9845444
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2  256.5922372
+                                                                                                                                  (Intercept)
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                    2.8409754
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                     2.6903428
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2           -0.5218778
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2              1.4093056
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1           -0.8504454
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2   1.6009246
+                                                                                                                                  smokingStatusSmoker
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                            -3.784271
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                             -3.574979
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                     2.767764
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                      -2.645719
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                     2.610162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2           -2.366161
+                                                                                                                                     newMat
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                   7.549064
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                    8.089207
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          11.262008
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2             7.667037
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          13.599162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2  5.139178
+                                                                                                                                        pValue
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  1.248334e-12
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                   1.918324e-11
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          3.898512e-08
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            3.086821e-13
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          1.000943e-07
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 2.355128e-09
+                                                                                                                                     adjPvalue
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  6.422679e-10
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                   6.579851e-09
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          3.740337e-06
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            3.176339e-10
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          6.866472e-06
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 4.039044e-07
+> 
+> 
+> 
+> cleanEx()
+> nameEx("MRtable")
+> ### * MRtable
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: MRtable
+> ### Title: Table of top microbial marker gene from linear model fit
+> ###   including sequence information
+> ### Aliases: MRtable
+> 
+> ### ** Examples
+> 
+> data(lungData)
+> k = grep("Extraction.Control",pData(lungData)$SampleType)
+> lungTrim = lungData[,-k]
+> k = which(rowSums(MRcounts(lungTrim)>0)<10)
+> lungTrim = lungTrim[-k,]
+> cumNorm(lungTrim)
+[1] TRUE
+> smokingStatus = pData(lungTrim)$SmokingStatus
+> mod = model.matrix(~smokingStatus)
+> settings = zigControl(maxit=1,verbose=FALSE)
+> fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+> head(MRtable(fit))
+                                                                                                                                  +samples in group 1
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                                    6
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                     7
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                           26
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                              1
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                           23
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2                   2
+                                                                                                                                  +samples in group 0
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                                   24
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                    23
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                           15
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                             24
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                           14
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2                  21
+                                                                                                                                  counts in group 1
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                                 11
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                  22
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                       1893
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                            1
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                       1447
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2                 2
+                                                                                                                                  counts in group 0
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                               1538
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                                1512
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                        162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                          390
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                        331
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2               326
+                                                                                                                                  (Intercept)
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                    2.8409754
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                     2.6903428
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2           -0.5218778
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2              1.4093056
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1           -0.8504454
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2   1.6009246
+                                                                                                                                  smokingStatusSmoker
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                            -3.784271
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                             -3.574979
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2                     2.767764
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2                      -2.645719
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1                     2.610162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2           -2.366161
+                                                                                                                                     newMat
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                   7.549064
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                    8.089207
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          11.262008
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2             7.667037
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          13.599162
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2  5.139178
+                                                                                                                                        pValue
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  1.248334e-12
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                   1.918324e-11
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          3.898512e-08
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            3.086821e-13
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          1.000943e-07
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 2.355128e-09
+                                                                                                                                     adjPvalue
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria polysaccharea:1                                  6.422679e-10
+Proteobacteria;Betaproteobacteria;Neisseriales;Neisseriaceae;Neisseria;Neisseria meningitidis:1                                   6.579851e-09
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella paludivivens:2          3.740337e-06
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella intermedia:2            3.176339e-10
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Prevotellaceae;Prevotella;Prevotella sp. DJF_B116:1          6.866472e-06
+Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromonadaceae;Porphyromonas;Porphyromonas sp. UQD 414:2 4.039044e-07
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cumNorm")
+> ### * cumNorm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cumNorm
+> ### Title: Cumulative sum scaling factors.
+> ### Aliases: cumNorm
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> cumNorm(mouseData)
+[1] TRUE
+> head(normFactors(mouseData))
+             newMat
+PM1:20080107    152
+PM1:20080108    229
+PM1:20080114    257
+PM1:20071211    221
+PM1:20080121    246
+PM1:20071217    258
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cumNormMat")
+> ### * cumNormMat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cumNormMat
+> ### Title: Cumulative sum scaling factors.
+> ### Aliases: cumNormMat
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> head(cumNormMat(mouseData))
+                        PM1:20080107 PM1:20080108 PM1:20080114 PM1:20071211
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM1:20080121 PM1:20071217 PM1:20080128 PM1:20080204
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM1:20080211 PM1:20080218 PM1:20080225 PM1:20080303
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM10:20080107 PM10:20080108 PM10:20080114 PM10:20071211
+Prevotellaceae:1                    0             0             0             0
+Lachnospiraceae:1                   0             0             0             0
+Unclassified-Screened:1             0             0             0             0
+Clostridiales:1                     0             0             0             0
+Clostridiales:2                     0             0             0             0
+Firmicutes:1                        0             0             0             0
+                        PM10:20080121 PM10:20071217 PM10:20080128 PM10:20080204
+Prevotellaceae:1                    0             0             0             0
+Lachnospiraceae:1                   0             0             0             0
+Unclassified-Screened:1             0             0             0             0
+Clostridiales:1                     0             0             0             0
+Clostridiales:2                     0             0             0             0
+Firmicutes:1                        0             0             0             0
+                        PM10:20080211 PM10:20080218 PM10:20080225 PM10:20080303
+Prevotellaceae:1                    0             0             0             0
+Lachnospiraceae:1                   0             0             0             0
+Unclassified-Screened:1             0             0             0             0
+Clostridiales:1                     0             0             0             0
+Clostridiales:2                     0             0             0             0
+Firmicutes:1                        0             0             0             0
+                        PM11:20080107 PM11:20080108 PM11:20080114 PM11:20071211
+Prevotellaceae:1                    0             0             0             0
+Lachnospiraceae:1                   0             0             0             0
+Unclassified-Screened:1             0             0             0             0
+Clostridiales:1                     0             0             0             0
+Clostridiales:2                     0             0             0             0
+Firmicutes:1                        0             0             0             0
+                        PM11:20080121 PM11:20071217 PM11:20080128 PM11:20080204
+Prevotellaceae:1                    0             0      0.000000             0
+Lachnospiraceae:1                   0             0      0.000000             0
+Unclassified-Screened:1             0             0      3.322259             0
+Clostridiales:1                     0             0      0.000000             0
+Clostridiales:2                     0             0      0.000000             0
+Firmicutes:1                        0             0      0.000000             0
+                        PM11:20080211 PM11:20080218 PM11:20080225 PM11:20080303
+Prevotellaceae:1                    0             0             0             0
+Lachnospiraceae:1                   0             0             0             0
+Unclassified-Screened:1             0             0             0             0
+Clostridiales:1                     0             0             0             0
+Clostridiales:2                     0             0             0             0
+Firmicutes:1                        0             0             0             0
+                        PM12:20080107 PM12:20080108 PM12:20080114 PM12:20080121
+Prevotellaceae:1                    0             0             0             0
+Lachnospiraceae:1                   0             0             0             0
+Unclassified-Screened:1             0             0             0             0
+Clostridiales:1                     0             0             0             0
+Clostridiales:2                     0             0             0             0
+Firmicutes:1                        0             0             0             0
+                        PM12:20071217 PM12:20080128 PM12:20080204 PM12:20080211
+Prevotellaceae:1                    0             0             0             0
+Lachnospiraceae:1                   0             0             0             0
+Unclassified-Screened:1             0             0             0             0
+Clostridiales:1                     0             0             0             0
+Clostridiales:2                     0             0             0             0
+Firmicutes:1                        0             0             0             0
+                        PM12:20080218 PM12:20080225 PM12:20080303 PM2:20080107
+Prevotellaceae:1                    0             0             0            0
+Lachnospiraceae:1                   0             0             0            0
+Unclassified-Screened:1             0             0             0            0
+Clostridiales:1                     0             0             0            0
+Clostridiales:2                     0             0             0            0
+Firmicutes:1                        0             0             0            0
+                        PM2:20080108 PM2:20080114 PM2:20071211 PM2:20080121
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM2:20071217 PM2:20080128 PM2:20080204 PM2:20080211
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM2:20080218 PM2:20080225 PM2:20080303 PM3:20080107
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM3:20080108 PM3:20080114 PM3:20071211 PM3:20080121
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM3:20071217 PM3:20080128 PM3:20080204 PM3:20080211
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM3:20080218 PM3:20080225 PM3:20080303 PM4:20080107
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM4:20080108 PM4:20080114 PM4:20080121 PM4:20071217
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM4:20080128 PM4:20080204 PM4:20080211 PM4:20080218
+Prevotellaceae:1                   0            0     0.000000            0
+Lachnospiraceae:1                  0            0     0.000000            0
+Unclassified-Screened:1            0            0     0.000000            0
+Clostridiales:1                    0            0     0.000000            0
+Clostridiales:2                    0            0     4.926108            0
+Firmicutes:1                       0            0     0.000000            0
+                        PM4:20080225 PM4:20080303 PM5:20080107 PM5:20080108
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM5:20080114 PM5:20071211 PM5:20080121 PM5:20071217
+Prevotellaceae:1            0.000000     0.000000            0            0
+Lachnospiraceae:1           0.000000     5.050505            0            0
+Unclassified-Screened:1     0.000000     0.000000            0            0
+Clostridiales:1             3.676471     0.000000            0            0
+Clostridiales:2             0.000000     0.000000            0            0
+Firmicutes:1                0.000000     0.000000            0            0
+                        PM5:20080128 PM5:20080204 PM5:20080211 PM5:20080218
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM5:20080225 PM5:20080303 PM6:20080107 PM6:20080108
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM6:20080114 PM6:20080121 PM6:20071217 PM6:20080128
+Prevotellaceae:1                   0            0     4.807692            0
+Lachnospiraceae:1                  0            0     0.000000            0
+Unclassified-Screened:1            0            0     0.000000            0
+Clostridiales:1                    0            0     0.000000            0
+Clostridiales:2                    0            0     0.000000            0
+Firmicutes:1                       0            5     0.000000            0
+                        PM6:20080204 PM6:20080211 PM6:20080218 PM6:20080225
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM6:20080303 PM7:20080114 PM7:20071211 PM7:20080121
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM7:20071217 PM7:20080128 PM7:20080204 PM7:20080211
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM7:20080218 PM7:20080225 PM7:20080303 PM8:20080107
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM8:20080108 PM8:20080114 PM8:20071211 PM8:20080121
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM8:20071217 PM8:20080128 PM8:20080204 PM8:20080211
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM8:20080218 PM8:20080225 PM8:20080303 PM9:20080107
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM9:20080108 PM9:20080114 PM9:20071211 PM9:20080121
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM9:20071217 PM9:20080128 PM9:20080204 PM9:20080211
+Prevotellaceae:1                   0            0            0            0
+Lachnospiraceae:1                  0            0            0            0
+Unclassified-Screened:1            0            0            0            0
+Clostridiales:1                    0            0            0            0
+Clostridiales:2                    0            0            0            0
+Firmicutes:1                       0            0            0            0
+                        PM9:20080218 PM9:20080225 PM9:20080303
+Prevotellaceae:1                   0            0            0
+Lachnospiraceae:1                  0            0            0
+Unclassified-Screened:1            0            0            0
+Clostridiales:1                    0            0            0
+Clostridiales:2                    0            0            0
+Firmicutes:1                       0            0            0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cumNormStat")
+> ### * cumNormStat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cumNormStat
+> ### Title: Cumulative sum scaling percentile selection
+> ### Aliases: cumNormStat
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> p = round(cumNormStat(mouseData,pFlag=FALSE),digits=2)
+> s95=cumNorm(mouseData)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("expSummary")
+> ### * expSummary
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: expSummary
+> ### Title: Access MRexperiment object experiment data
+> ### Aliases: expSummary,MRexperiment-method expSummary
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> expSummary(mouseData)
+              libSize normFactors
+PM1:20080107      977          NA
+PM1:20080108     1886          NA
+PM1:20080114     2793          NA
+PM1:20071211     1472          NA
+PM1:20080121     2102          NA
+PM1:20071217     3567          NA
+PM1:20080128     2742          NA
+PM1:20080204     2935          NA
+PM1:20080211     2218          NA
+PM1:20080218     1554          NA
+PM1:20080225     2462          NA
+PM1:20080303     1344          NA
+PM10:20080107    2530          NA
+PM10:20080108    2210          NA
+PM10:20080114    2147          NA
+PM10:20071211    1511          NA
+PM10:20080121    2086          NA
+PM10:20071217    5808          NA
+PM10:20080128    2418          NA
+PM10:20080204    1904          NA
+PM10:20080211    1997          NA
+PM10:20080218    1553          NA
+PM10:20080225    2549          NA
+PM10:20080303    2213          NA
+PM11:20080107    2775          NA
+PM11:20080108    2908          NA
+PM11:20080114    2659          NA
+PM11:20071211    1289          NA
+PM11:20080121    2567          NA
+PM11:20071217    1968          NA
+PM11:20080128    3212          NA
+PM11:20080204    2668          NA
+PM11:20080211    2574          NA
+PM11:20080218    2605          NA
+PM11:20080225    2519          NA
+PM11:20080303    2587          NA
+PM12:20080107    2558          NA
+PM12:20080108    2460          NA
+PM12:20080114    2273          NA
+PM12:20080121    2494          NA
+PM12:20071217    2505          NA
+PM12:20080128    3043          NA
+PM12:20080204    2331          NA
+PM12:20080211    2413          NA
+PM12:20080218    1862          NA
+PM12:20080225    2223          NA
+PM12:20080303    2348          NA
+PM2:20080107     1845          NA
+PM2:20080108     1777          NA
+PM2:20080114     3004          NA
+PM2:20071211     1091          NA
+PM2:20080121     2340          NA
+PM2:20071217     1736          NA
+PM2:20080128     2046          NA
+PM2:20080204     1839          NA
+PM2:20080211     2132          NA
+PM2:20080218     3570          NA
+PM2:20080225     2943          NA
+PM2:20080303     2194          NA
+PM3:20080107     1910          NA
+PM3:20080108     2049          NA
+PM3:20080114     1978          NA
+PM3:20071211     1331          NA
+PM3:20080121     2120          NA
+PM3:20071217     5777          NA
+PM3:20080128     2747          NA
+PM3:20080204     2104          NA
+PM3:20080211     1897          NA
+PM3:20080218     1379          NA
+PM3:20080225     2472          NA
+PM3:20080303     1791          NA
+PM4:20080107     1692          NA
+PM4:20080108     2149          NA
+PM4:20080114     2245          NA
+PM4:20080121     2096          NA
+PM4:20071217     1871          NA
+PM4:20080128     3058          NA
+PM4:20080204     1789          NA
+PM4:20080211     2144          NA
+PM4:20080218     2341          NA
+PM4:20080225     2343          NA
+PM4:20080303     2828          NA
+PM5:20080107     1861          NA
+PM5:20080108     2492          NA
+PM5:20080114     2376          NA
+PM5:20071211     1533          NA
+PM5:20080121     1764          NA
+PM5:20071217     2126          NA
+PM5:20080128     3071          NA
+PM5:20080204     1999          NA
+PM5:20080211     1557          NA
+PM5:20080218     2528          NA
+PM5:20080225     2281          NA
+PM5:20080303     2325          NA
+PM6:20080107     2796          NA
+PM6:20080108     2803          NA
+PM6:20080114     2187          NA
+PM6:20080121     1837          NA
+PM6:20071217     2282          NA
+PM6:20080128     2152          NA
+PM6:20080204     2274          NA
+PM6:20080211     1723          NA
+PM6:20080218     2196          NA
+PM6:20080225     2256          NA
+PM6:20080303     2620          NA
+PM7:20080114     2455          NA
+PM7:20071211     1130          NA
+PM7:20080121     2120          NA
+PM7:20071217     2151          NA
+PM7:20080128     2802          NA
+PM7:20080204     2367          NA
+PM7:20080211     1996          NA
+PM7:20080218     2245          NA
+PM7:20080225     2527          NA
+PM7:20080303     2431          NA
+PM8:20080107     1985          NA
+PM8:20080108     2731          NA
+PM8:20080114     2162          NA
+PM8:20071211     1478          NA
+PM8:20080121     2000          NA
+PM8:20071217     1765          NA
+PM8:20080128     2007          NA
+PM8:20080204     2322          NA
+PM8:20080211     1892          NA
+PM8:20080218     3691          NA
+PM8:20080225     2524          NA
+PM8:20080303     2417          NA
+PM9:20080107     2098          NA
+PM9:20080108     2326          NA
+PM9:20080114     2055          NA
+PM9:20071211      848          NA
+PM9:20080121     2072          NA
+PM9:20071217     2477          NA
+PM9:20080128     2611          NA
+PM9:20080204     2263          NA
+PM9:20080211     1751          NA
+PM9:20080218     1685          NA
+PM9:20080225     2892          NA
+PM9:20080303     1831          NA
+> 
+> 
+> 
+> cleanEx()
+> nameEx("exportMat")
+> ### * exportMat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: exportMat
+> ### Title: export the normalized eSet dataset as a matrix.
+> ### Aliases: exportMatrix exportMat
+> 
+> ### ** Examples
+> 
+> # see vignette
+> 
+> 
+> 
+> cleanEx()
+> nameEx("exportStats")
+> ### * exportStats
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: exportStats
+> ### Title: Various statistics of the count data.
+> ### Aliases: exportStats
+> 
+> ### ** Examples
+> 
+> # see vignette
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fitZig")
+> ### * fitZig
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fitZig
+> ### Title: Computes the weighted fold-change estimates and t-statistics.
+> ### Aliases: fitZig
+> 
+> ### ** Examples
+> 
+> data(lungData)
+> k = grep("Extraction.Control",pData(lungData)$SampleType)
+> lungTrim = lungData[,-k]
+> cumNorm(lungTrim)
+[1] TRUE
+> k = which(rowSums(MRcounts(lungTrim)>0)<10)
+> lungTrim = lungTrim[-k,]
+> smokingStatus = pData(lungTrim)$SmokingStatus
+> mod = model.matrix(~smokingStatus)
+> settings = zigControl(maxit=1,verbose=FALSE)
+> fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("libSize")
+> ### * libSize
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: libSize
+> ### Title: Access sample depth of coverage from MRexperiment object
+> ### Aliases: libSize,MRexperiment-method libSize
+> 
+> ### ** Examples
+> 
+>    data(lungData)
+>    head(libSize(lungData))
+                                    [,1]
+CHK_6467_E3B11_BRONCH2_PREWASH_V1V2  271
+CHK_6467_E3B11_OW_V1V2              7863
+CHK_6467_E3B08_OW_V1V2              8360
+CHK_6467_E3B07_BAL_A_V1V2           5249
+CHK_6467_E3B11_BAL_A_V1V2           3383
+CHK_6467_E3B09_OP_V1V2              6066
+> 
+> 
+> 
+> cleanEx()
+> nameEx("load_meta")
+> ### * load_meta
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: load_meta
+> ### Title: Load a count dataset associated with a study.
+> ### Aliases: load_meta metagenomicLoader
+> 
+> ### ** Examples
+> 
+> dataDirectory <- system.file("extdata", package="metagenomeSeq")
+> lung = load_meta(file.path(dataDirectory,"CHK_NAME.otus.count.csv"))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("load_metaQ")
+> ### * load_metaQ
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: load_metaQ
+> ### Title: Load a count dataset associated with a study set up in a Qiime
+> ###   format.
+> ### Aliases: load_metaQ qiimeLoader
+> 
+> ### ** Examples
+> 
+> # see vignette
+> 
+> 
+> 
+> cleanEx()
+> nameEx("load_phenoData")
+> ### * load_phenoData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: load_phenoData
+> ### Title: Load a clinical/phenotypic dataset associated with a study.
+> ### Aliases: load_phenoData phenoData
+> 
+> ### ** Examples
+> 
+> # see vignette
+> 
+> 
+> 
+> cleanEx()
+> nameEx("newMRexperiment")
+> ### * newMRexperiment
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: newMRexperiment
+> ### Title: Create a MRexperiment object
+> ### Aliases: newMRexperiment
+> 
+> ### ** Examples
+> 
+> cnts = matrix(abs(rnorm(1000)),nc=10)
+> obj <- newMRexperiment(cnts)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("normFactors")
+> ### * normFactors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: normFactors
+> ### Title: Access the normalization factors in a MRexperiment object
+> ### Aliases: normFactors,MRexperiment-method normFactors
+> 
+> ### ** Examples
+> 
+>    data(lungData)
+>    cumNorm(lungData)
+[1] TRUE
+>    head(normFactors(lungData))
+                                    newMat
+CHK_6467_E3B11_BRONCH2_PREWASH_V1V2     67
+CHK_6467_E3B11_OW_V1V2                2475
+CHK_6467_E3B08_OW_V1V2                2198
+CHK_6467_E3B07_BAL_A_V1V2              836
+CHK_6467_E3B11_BAL_A_V1V2             1008
+CHK_6467_E3B09_OP_V1V2                1820
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotCorr")
+> ### * plotCorr
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotCorr
+> ### Title: Basic correlation plot function for normalized or unnormalized
+> ###   counts.
+> ### Aliases: plotCorr
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> trials = pData(mouseData)$diet
+> plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="none")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotGenus")
+> ### * plotGenus
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotGenus
+> ### Title: Basic plot function of the raw or normalized data.
+> ### Aliases: genusPlot plotGenus
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
+> classIndex$cases=which(pData(mouseData)$diet=="Western")
+> otuIndex = grep("Strep",fData(mouseData)$fdata)
+> otuIndex=otuIndex[order(rowSums(MRcounts(mouseData)[otuIndex,]),decreasing=TRUE)]
+> plotGenus(mouseData,otuIndex,classIndex,xlab="OTU log-normalized counts",no=1:2,xaxt="n",norm=FALSE,ylab="Strep")
+> lablist<-rep(c("Controls","Cases"),times=2)
+> axis(1, at=seq(1,4,by=1), labels = lablist)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotMRheatmap")
+> ### * plotMRheatmap
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotMRheatmap
+> ### Title: Basic heatmap plot function for normalized counts.
+> ### Aliases: plotMRheatmap
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> trials = pData(mouseData)$diet
+> plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,cexCol = 0.4,trace="none")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotOTU")
+> ### * plotOTU
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotOTU
+> ### Title: Basic plot function of the raw or normalized data.
+> ### Aliases: plotOTU
+> 
+> ### ** Examples
+> 
+> data(mouseData)
+> classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
+> classIndex$cases=which(pData(mouseData)$diet=="Western")
+> # you can specify whether or not to normalize, and to what level
+> plotOTU(mouseData,otu=9083,classIndex,xlab="OTU log-normalized counts",norm=FALSE,xaxt="n",main="9083 feature abundances")
+> lablist<- c("Controls","Cases")
+> axis(1, at=seq(1,2,by=1), labels = lablist)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("posterior.probs")
+> ### * posterior.probs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: posterior.probs
+> ### Title: Access the posterior probabilities that results from analysis
+> ### Aliases: posterior.probs,MRexperiment-method posterior.probs
+> 
+> ### ** Examples
+> 
+> # see vignette
+> 
+> 
+> 
+> cleanEx()
+> nameEx("zigControl")
+> ### * zigControl
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: zigControl
+> ### Title: Settings for the fitZig function
+> ### Aliases: settings zigControl
+> 
+> ### ** Examples
+> 
+> control =  zigControl(tol=1e-10,maxit=10,verbose=FALSE)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  20.243 1.908 22.279 0.096 0.014 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
