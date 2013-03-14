@@ -1468,7 +1468,7 @@ CHK_6467_E3B09_OP_V1V2                1820
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  20.243 1.908 22.279 0.096 0.014 
+Time elapsed:  20.249 1.896 22.272 0.097 0.016 
 > grDevices::dev.off()
 null device 
           1 

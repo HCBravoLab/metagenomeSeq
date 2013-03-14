@@ -5,7 +5,7 @@
 \alias{[,MRexperiment-method}
 
 \title{Class "MRexperiment" -- a modified eSet object for the data from high-throughput sequencing experiments}
-\description{	This is the main class for metaR. }
+\description{	This is the main class for metagenomeSeq. }
 \section{Objects from the Class}{
 Objects should be created with calls to \code{\link{newMRexperiment}}.
 }
@@ -17,7 +17,7 @@ Class \code{Versioned} (package 'Biobase'), by class "eSet", distance 3.
 \note{ 
 Note: This is a summary for reference. For an explanation of the actual usage, see the vignette.
 
-MRexperiments are the main class in use by metaR. The class extends eSet and provides additional slots which are populated during the analysis pipeline.
+MRexperiments are the main class in use by metagenomeSeq. The class extends eSet and provides additional slots which are populated during the analysis pipeline.
 
 MRexperiment dataset are created with calls to \code{\link{newMRexperiment}}.
 MRexperiment datasets contain raw count matrices (integers) accessible through \code{\link{counts}}.
