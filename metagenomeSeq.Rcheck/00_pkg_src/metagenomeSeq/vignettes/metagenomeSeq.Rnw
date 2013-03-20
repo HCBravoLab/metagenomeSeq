@@ -140,7 +140,7 @@ Normalized counts can be called easily by \texttt{cumNormMat(MRexperimentObject)
 \subsection{Calculating normalization factors}
 After defining a \texttt{MRexperiment} object, the first step is to calculate the proper percentile by which to normalize counts. There are several options in calculating and visualizing the relative differences in the reference. Figure 1 is an example for the longitudinal gnotobiotic mouse dataset.
 \begin{small}
-<<calculateP>>=
+<<calculateScale>>=
 data(lungData)
 p=cumNormStat(lungData)
 @

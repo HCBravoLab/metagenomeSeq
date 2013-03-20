@@ -109,20 +109,6 @@ The following object(s) are masked from ‘package:stats’:
 > 
 > data(lungData)
 > k = grep("Extraction.Control",pData(lungData)$SampleType)
-Loading required package: metaR
-Warning in .simpleDuplicateClass(def, prev) :
-  A specification for class “MRexperiment” in package ‘metaR’ seems equivalent to one from package ‘metagenomeSeq’ and is not turning on duplicate class definitions for this class
-
-Attaching package: ‘metaR’
-
-The following object(s) are masked from ‘package:metagenomeSeq’:
-
-    MRcoefs, MRcounts, MRfisher, MRfulltable, MRtable, aggregateM,
-    cumNorm, cumNormMat, cumNormStat, expSummary, exportMat,
-    exportStats, fitZig, libSize, load_meta, load_metaQ,
-    load_phenoData, newMRexperiment, normFactors, plotCorr, plotGenus,
-    plotMRheatmap, plotOTU, posterior.probs, zigControl
-
 > lungTrim = lungData[,-k]
 > k = which(rowSums(MRcounts(lungTrim)>0)<10)
 > lungTrim = lungTrim[-k,]
@@ -172,9 +158,6 @@ Bacteroidetes/Chlorobi group;Bacteroidetes;Bacteroidia;Bacteroidales;Porphyromon
 > 
 > 
 > cleanEx()
-
-detaching ‘package:metaR’
-
 > nameEx("MRcounts")
 > ### * MRcounts
 > 
@@ -1468,7 +1451,7 @@ CHK_6467_E3B09_OP_V1V2                1820
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  20.249 1.896 22.272 0.097 0.016 
+Time elapsed:  19.699 1.995 21.829 0.101 0.014 
 > grDevices::dev.off()
 null device 
           1 

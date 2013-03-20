@@ -22,7 +22,6 @@
 }
 \examples{
    data(lungData)
-   cumNorm(lungData)
    head(normFactors(lungData))
 }   
    

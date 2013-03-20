@@ -24,7 +24,6 @@
 \examples{
 data(mouseData)
 p = round(cumNormStat(mouseData,pFlag=FALSE),digits=2)
-s95=cumNorm(mouseData)
 }
 \seealso{
   \code{\link{fitZig}} \code{\link{cumNorm}}

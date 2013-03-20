@@ -44,8 +44,8 @@
 data(lungData)
 k = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-k]
+k = which(rowSums(MRcounts(lungTrim)>0)<30)
 cumNorm(lungTrim)
-k = which(rowSums(MRcounts(lungTrim)>0)<10)
 lungTrim = lungTrim[-k,]
 smokingStatus = pData(lungTrim)$SmokingStatus
 mod = model.matrix(~smokingStatus)

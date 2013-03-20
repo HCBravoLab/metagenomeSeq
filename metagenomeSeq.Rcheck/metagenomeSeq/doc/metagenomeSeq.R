@@ -61,7 +61,7 @@ obj
 
 
 ###################################################
-### code chunk number 8: calculateP
+### code chunk number 8: calculateScale
 ###################################################
 data(lungData)
 p=cumNormStat(lungData)

@@ -4,8 +4,8 @@ This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012)
  restricted \write18 enabled.
 entering extended mode
 
-(/private/var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T/RtmpGuqHW4/Rd2pdf7853
-704ef201/Rd2.tex
+(/private/var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T/RtmpZFVJbb/Rd2pdf80ec
+9b7b7a5/Rd2.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
@@ -210,8 +210,8 @@ This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012)
  restricted \write18 enabled.
 entering extended mode
 
-(/private/var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T/RtmpGuqHW4/Rd2pdf7853
-704ef201/Rd2.tex
+(/private/var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T/RtmpZFVJbb/Rd2pdf80ec
+9b7b7a5/Rd2.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
@@ -423,8 +423,8 @@ This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012)
  restricted \write18 enabled.
 entering extended mode
 
-(/private/var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T/RtmpGuqHW4/Rd2pdf7853
-704ef201/Rd2.tex
+(/private/var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T/RtmpZFVJbb/Rd2pdf80ec
+9b7b7a5/Rd2.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
@@ -623,4 +623,4 @@ Output written on Rd2.pdf (30 pages, 133970 bytes).
 Transcript written on Rd2.log.
 Saving output to 'metagenomeSeq-manual.pdf' ...
 Done
-You may want to clean up by 'rm -rf /var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T//RtmpGuqHW4/Rd2pdf7853704ef201'
+You may want to clean up by 'rm -rf /var/folders/0w/wby94xrj6b972l6lmm9_nxb00000gn/T//RtmpZFVJbb/Rd2pdf80ec9b7b7a5'
