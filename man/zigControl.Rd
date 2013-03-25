@@ -1,0 +1,36 @@
+\name{zigControl}
+\alias{settings}
+\alias{zigControl}
+\title{Settings for the fitZig function}
+\usage{
+  zigControl(tol = 1e-04, maxit = 10, verbose = TRUE)
+}
+\arguments{
+  \item{tol}{The tolerance for the difference in negative
+  log likelihood estimates for a feature to still be
+  active.}
+
+  \item{maxit}{The maximum number of iterations for the
+  expectation-maximization algorithm.}
+
+  \item{verbose}{Whether to display iterative step summary
+  statistics or not.}
+}
+\value{
+  The value for the tolerance, maximum no. of iterations,
+  and the verbose warning.
+}
+\description{
+  Settings for the fitZig function
+}
+\note{
+  \code{\link{fitZig}} makes use of zigControl.
+}
+\examples{
+control =  zigControl(tol=1e-10,maxit=10,verbose=FALSE)
+}
+\seealso{
+  \code{\link{fitZig}} \code{\link{cumNorm}}
+  \code{\link{plotOTU}}
+}
+
