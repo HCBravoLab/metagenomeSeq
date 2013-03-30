@@ -1,10 +1,10 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 0.99.0
-Date: 2012-07-23
-Author: Joseph Nathaniel Paulson, Hector Corrada-Bravo
+Version: 0.99.1
+Date: 2013-03-29
+Author: Joseph Nathaniel Paulson, Mihai Pop,  Hector Corrada-Bravo
 Maintainer: Joseph Paulson <jpaulson@umiacs.umd.edu>
-Description: metaR is designed to determine features (be it Operational Taxanomic Unit (OTU), species, etc.) that are differentially abundant between two or more groups of multiple samples. metaR is designed to address the effects of both normalization and under-sampling of microbial communities on disease association detection and the testing of feature correlations.
+Description: metagenomeSeq is designed to determine features (be it Operational Taxanomic Unit (OTU), species, etc.) that are differentially abundant between two or more groups of multiple samples. metagenomeSeq is designed to address the effects of both normalization and under-sampling of microbial communities on disease association detection and the testing of feature correlations.
 License: Artistic-2.0
 Depends: R(>= 2.10.0), Biobase, limma, matrixStats, methods,
         RColorBrewer, gplots
