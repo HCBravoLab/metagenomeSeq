@@ -15,7 +15,7 @@
 \SweaveOpts{concordance=TRUE}
 \title{{\textbf{Analyzing metagenomic data with \texttt{metagenomeSeq}}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{March 11, 2013}
+\date{Modified: April 4, 2013. Compiled: \today}
 \maketitle
 \tableofcontents
 
