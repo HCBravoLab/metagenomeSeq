@@ -19,4 +19,4 @@ Collate: 'zigControl.R' 'cumNorm.R' 'plotOTU.R' 'fitZig.R'
         'cumNormStat.R' 'plotGenus.R' 'aggregateM.R' 'cumNormMat.R'
         'load_metaQ.R' 'allClasses.R' 'MRtable.R' 'MRcoefs.R'
         'plotMRheatmap.R' 'plotCorr.R' 'MRfisher.R' 'MRfulltable.R'
-URL: http://cbcb.umd.edu/software/metaR
+URL: http://cbcb.umd.edu/software/metagenomeSeq
