@@ -16,11 +16,12 @@ function(obj,p=cumNormStat(obj)){
 		
 	qs=matrixStats::colQuantiles(xx,p=p,na.rm=TRUE)
 		
-	newMat<-sapply(1:ncol(xx), function(i) {
+	normFactors<-sapply(1:ncol(xx), function(i) {
 		   xx=(x[,i]-.Machine$double.eps)
 		   sum(xx[xx<=qs[i]])
 		   })
-	names(newMat)<- colnames(x)
-    pData(obj@expSummary$expSummary)$normFactors = as.data.frame(newMat)
-    validObject(obj)
+	names(normFactors)<- colnames(x)
+        pData(obj@expSummary$expSummary)$normFactors = as.data.frame(normFactors)
+        validObject(obj)
+	return(normFactors)
 }
