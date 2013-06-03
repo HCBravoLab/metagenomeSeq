@@ -23,5 +23,5 @@ function(obj,p=cumNormStat(obj)){
 	names(normFactors)<- colnames(x)
         pData(obj@expSummary$expSummary)$normFactors = as.data.frame(normFactors)
         validObject(obj)
-	return(normFactors)
+	return(obj)
 }

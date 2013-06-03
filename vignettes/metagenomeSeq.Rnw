@@ -15,7 +15,7 @@
 \SweaveOpts{concordance=TRUE}
 \title{{\textbf{Analyzing metagenomic data with \texttt{metagenomeSeq}}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: April 4, 2013. Compiled: \today}
+\date{Modified: June 1, 2013. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -148,7 +148,7 @@ p=cumNormStat(lungData)
 To calculate the scaling factors we simply run \texttt{cumNorm}
 \begin{small}
 <<normalizeData>>=
-cumNorm(lungData,p=p)
+lungData = cumNorm(lungData,p=p)
 @
 \end{small}
 
@@ -220,7 +220,7 @@ k = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-k]
 k = which(rowSums(MRcounts(lungTrim)>0)<10)
 lungTrim = lungTrim[-k,]
-cumNorm(lungTrim)
+lungTrim = cumNorm(lungTrim)
 @
 \end{small}
 
