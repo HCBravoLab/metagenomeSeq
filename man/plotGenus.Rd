@@ -3,7 +3,7 @@
 \alias{plotGenus}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotGenus(obj, otuIndex, classIndex, norm = TRUE, no=1:length(otuIndex), jitter = TRUE, factor = 1,
+  plotGenus(obj, otuIndex, classIndex, norm = TRUE, no=1:length(otuIndex),xlab=NULL,ylab=NULL, jitter = TRUE, factor = 1,
     pch = 21, ret = FALSE, ...)
 }
 \arguments{
@@ -22,6 +22,12 @@
   \item{factor}{Factor value for jitter}
 
   \item{pch}{Standard pch value for the plot command.}
+  
+  \item{labs}{Whether to include group labels or not. (TRUE/FALSE)}
+
+  \item{xlab}{xlabel for the plot.}
+  
+  \item{ylab}{ylabel for the plot.}
 
   \item{jitter}{Boolean to jitter the count data or not.}
 
@@ -45,10 +51,7 @@ classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
 classIndex$cases=which(pData(mouseData)$diet=="Western")
 otuIndex = grep("Strep",fData(mouseData)$fdata)
 otuIndex=otuIndex[order(rowSums(MRcounts(mouseData)[otuIndex,]),decreasing=TRUE)]
-plotGenus(mouseData,otuIndex,classIndex,xlab="OTU log-normalized counts",no=1:2,xaxt="n",norm=FALSE,ylab="Strep")
-lablist<-rep(c("Controls","Cases"),times=2)
-axis(1, at=seq(1,4,by=1), labels = lablist)
-
+plotGenus(mouseData,otuIndex,classIndex,no=1:2,xaxt="n",norm=FALSE,ylab="Strep normalized log(cpt)")
 }
 \seealso{
   \code{\link{cumNorm}}
