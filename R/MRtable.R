@@ -1,10 +1,12 @@
-MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,adjust.method="fdr",group=0,output=NULL){
+MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,output=NULL){
     tb = obj$fit$coefficients
     tx = as.character(taxa);
     
-    for (nm in unique(tx)) {
-        ii=which(tx==nm)
-        tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
+    if(uniqueNames=TRUE){
+        for (nm in unique(tx)) {
+            ii=which(tx==nm)
+            tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
+        }
     }
 
     if(is.null(coef)){coef = 1:ncol(tb);}
@@ -28,6 +30,8 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,adjust.method="fdr"
         srt = order((tb[,by]),decreasing=TRUE)[1:number]
     } else if(group==2){
         srt = order((tb[,by]),decreasing=FALSE)[1:number]
+    } else if(group==3){
+        srt = order(p,decreasing=FALSE)[1:number]
     }
 
     mat = cbind(np0,np1)

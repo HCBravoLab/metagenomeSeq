@@ -27,7 +27,7 @@
 #' plotGenus(obj,otu=12,classIndex,xlab="OTU log-normalized counts")
 
 plotGenus <-
-function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),jitter=TRUE,factor=1,pch=21,ret=FALSE,...){
+function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,factor=1,pch=21,ret=FALSE,...){
 
 	l=lapply(otuIndex[no], function(i) lapply(classIndex, function(j) {
         if(norm==FALSE){ x=log2(MRcounts(obj)[i,j]+1) }
@@ -52,11 +52,14 @@ function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),jitter=TRUE,fac
         col=rgb(blackCol)
     #}
 
-	if(jitter) x=jitter(x,factor)
-	plot(x,y,col=col,pch=pch,...)
+    if(is.null(ylab)){ylab="Normalized log(cpt)"}
+    if(is.null(xlab)){xlab="Groups of comparison"}
+
+    plot(x,y,col=col,pch=pch,bg=col,xlab=xlab,ylab=ylab,xaxt="n",...)
+    if(labs==TRUE){
+        gp = rep(names(classIndex),length(no))
+        axis(1,at=seq(1:length(gp)),gp)
+    }
+
 	if(ret) list(x=x,y=y)
 }
-
-
-
-

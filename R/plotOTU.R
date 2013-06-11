@@ -24,7 +24,7 @@
 #' plotOTU(obj,otu=12,classIndex,xlab="OTU log-normalized counts")
 
 plotOTU <-
-function(obj,otu,classIndex,norm=TRUE,factor=1,pch=21,jitter=TRUE,ret=FALSE,...){
+function(obj,otu,classIndex,norm=TRUE,factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,ret=FALSE,...){
 
 	l=lapply(classIndex, function(j){
         if(norm==FALSE){ 
@@ -55,8 +55,16 @@ function(obj,otu,classIndex,norm=TRUE,factor=1,pch=21,jitter=TRUE,ret=FALSE,...)
     }
     
 	if(jitter) x=jitter(x,factor)
+    
+    if(is.null(ylab)){ylab="Normalized log(cpt)"}
+    if(is.null(xlab)){xlab="Groups of comparison"}
 
-	plot(x,y,col=col,pch=pch,bg=col,...)
+    plot(x,y,col=col,pch=pch,bg=col,xlab=xlab,ylab=ylab,xaxt="n",...)
+    if(labs==TRUE){
+        gp = names(classIndex)
+        axis(1,at=seq(1:length(gp)),gp)
+    }
+    
 	if (ret)
 		list(x=x,y=y)
 }

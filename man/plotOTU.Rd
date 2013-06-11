@@ -3,7 +3,7 @@
 \title{Basic plot function of the raw or normalized data.}
 \usage{
   plotOTU(obj, otu, classIndex, norm = TRUE,
-    factor = 1, pch = 21, jitter = TRUE, ret = FALSE, ...)
+    factor = 1, pch = 21,labs = TRUE,xlab=NULL,ylab=NULL,jitter = TRUE, ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -18,6 +18,12 @@
   \item{factor}{Factor value for jitter.}
 
   \item{pch}{Standard pch value for the plot command.}
+  
+  \item{labs}{Whether to include group labels or not. (TRUE/FALSE)}
+    
+  \item{xlab}{xlabel for the plot.}
+  
+  \item{ylab}{ylabel for the plot.}
 
   \item{jitter}{Boolean to jitter the count data or not.}
 
@@ -39,9 +45,7 @@ data(mouseData)
 classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
 classIndex$cases=which(pData(mouseData)$diet=="Western")
 # you can specify whether or not to normalize, and to what level
-plotOTU(mouseData,otu=9083,classIndex,xlab="OTU log-normalized counts",norm=FALSE,xaxt="n",main="9083 feature abundances")
-lablist<- c("Controls","Cases")
-axis(1, at=seq(1,2,by=1), labels = lablist)
+plotOTU(mouseData,otu=9083,classIndex,norm=FALSE,main="9083 feature abundances")
 }
 \seealso{
   \code{\link{cumNorm}}

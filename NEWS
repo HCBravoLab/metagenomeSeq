@@ -1,7 +1,19 @@
+versions 1.1.5 (2013-06-11) 
+
+Changed thanks to Kasper Daniel Hansen's suggestions the following:
+
+	plotOTU and plotGenus both have much better auto-generated axis
+	MRtable, MRfulltable, MRcoefs have a sort by p-value option now
+	MRtable, MRfulltable, MRcoefs now have an extra option to include unique numbers for OTU features (default would automatically add them previously)
+
+Still need to turn the fitZig output to S3, consider subsetting function address low p-values
+
 versions 1.1.3 (2013-06-01) 
 
-cumNorm.R - now returns the object as well - not just replacing the environment
+Changed thanks to Kasper Daniel Hansen's suggestions the following:
+
+	cumNorm.R - now returns the object as well - not just replacing the environment
 
 version 1.0.0: (2013-03-29)
 
--- release!
+	-- release!

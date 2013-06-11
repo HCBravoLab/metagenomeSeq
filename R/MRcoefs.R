@@ -1,10 +1,12 @@
-MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,adjust.method="fdr",group=0,eff=0,output=NULL){
+MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,output=NULL){
     tb = obj$fit$coefficients
     tx = as.character(taxa);
     
-    for (nm in unique(tx)) {
-        ii=which(tx==nm)
-        tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
+    if(uniqueNames=TRUE){
+        for (nm in unique(tx)) {
+            ii=which(tx==nm)
+            tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
+        }
     }
     if(is.null(coef)){coef = 1:ncol(tb);}
 
@@ -17,7 +19,10 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,adjust.method="fdr"
         srt = order((tb[,by]),decreasing=TRUE)
     } else if(group==2){
         srt = order((tb[,by]),decreasing=FALSE)
+    } else if(group==3){
+        srt = order(p,decreasing=FALSE)[1:number]
     }
+    
     valid = which(rowSums(1-obj$z)>=quantile(rowSums(1-obj$z),p=eff,na.rm=TRUE))
     srt = srt[which(srt%in%valid)][1:number]
     
