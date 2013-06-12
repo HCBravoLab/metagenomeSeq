@@ -1,6 +1,12 @@
+versions 1.1.7 (2013-06-11)
+
+	Changed modified date on vignette
+
 versions 1.1.6 (2013-06-11)
 
-	Re-added plotGenus' jitter, fixed vignette with the new plotOTU and plotGenus calls	
+	Re-added plotGenus' jitter
+	Fixed vignette with the new plotOTU and plotGenus call
+	Fixed uniqueNames call in the MR tables
 
 versions 1.1.5 (2013-06-11)
 
