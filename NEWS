@@ -1,4 +1,8 @@
-versions 1.1.5 (2013-06-11) 
+versions 1.1.6 (2013-06-11)
+
+	Re-added plotGenus' jitter, fixed vignette with the new plotOTU and plotGenus calls	
+
+versions 1.1.5 (2013-06-11)
 
 Changed thanks to Kasper Daniel Hansen's suggestions the following:
 

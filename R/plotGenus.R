@@ -51,7 +51,8 @@ function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=
         blackCol=t(col2rgb("black"))
         col=rgb(blackCol)
     #}
-
+    if(jitter) x=jitter(x,factor)
+    
     if(is.null(ylab)){ylab="Normalized log(cpt)"}
     if(is.null(xlab)){xlab="Groups of comparison"}
 

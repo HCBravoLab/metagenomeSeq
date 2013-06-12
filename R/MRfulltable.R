@@ -3,7 +3,7 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
     tb = obj$fit$coefficients
     tx = as.character(taxa);
     
-    if(uniqueNames=TRUE){
+    if(uniqueNames==TRUE){
         for (nm in unique(tx)) {
             ii=which(tx==nm)
             tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
