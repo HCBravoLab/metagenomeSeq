@@ -4,7 +4,7 @@
 \contentsline {subsection}{\numberline {2.2}Creating a \texttt {MRexperiment} object}{3}{subsection.2.2}
 \contentsline {section}{\numberline {3}Normalization}{5}{section.3}
 \contentsline {subsection}{\numberline {3.1}Calculating normalization factors}{5}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Exporting data}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.2}Exporting data}{6}{subsection.3.2}
 \contentsline {section}{\numberline {4}Zero-inflated Gaussian mixture model}{6}{section.4}
 \contentsline {subsection}{\numberline {4.1}Mathematical model}{6}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Running the statistical analysis}{7}{subsection.4.2}
