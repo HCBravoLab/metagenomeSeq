@@ -107,6 +107,6 @@ function(obj,mod,zeroMod=NULL,useS95offset=TRUE,control=zigControl()){
 
 		eb=limma::ebayes(fit$fit)
 		dat = list(fit=fit$fit,countResiduals=fit$residuals,
-				   z=z,eb=eb,taxa=as.vector(unlist(fData(obj)[1])),counts=y,zeroMod =mmZero,stillActive=stillActive,stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef)
+				   z=z,eb=eb,taxa=rownames(obj),counts=y,zeroMod =mmZero,stillActive=stillActive,stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef)
 		return(dat)
 	}
