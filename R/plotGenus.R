@@ -56,7 +56,7 @@ function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=
     if(is.null(ylab)){ylab="Normalized log(cpt)"}
     if(is.null(xlab)){xlab="Groups of comparison"}
 
-    plot(x,y,col=col,pch=pch,bg=col,xlab=xlab,ylab=ylab,xaxt="n",...)
+    plot(x,y,col=col,pch=pch,xlab=xlab,ylab=ylab,xaxt="n",...)
     if(labs==TRUE){
         gp = rep(names(classIndex),length(no))
         axis(1,at=seq(1:length(gp)),gp)
