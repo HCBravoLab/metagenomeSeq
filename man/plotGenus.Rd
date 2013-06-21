@@ -3,7 +3,7 @@
 \alias{plotGenus}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotGenus(obj, otuIndex, classIndex, norm = TRUE, no=1:length(otuIndex),xlab=NULL,ylab=NULL, jitter = TRUE, factor = 1,
+  plotGenus(obj, otuIndex, classIndex, norm = TRUE, no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL, jitter = TRUE, factor = 1,
     pch = 21, ret = FALSE, ...)
 }
 \arguments{
