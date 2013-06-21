@@ -237,7 +237,7 @@ fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 \end{small}
 
 The result, \texttt{fit}, is a list providing detailed estimates of the fits including a \texttt{limma} fit in \texttt{fit\$fit} and an \texttt{ebayes} statistical fit in \texttt{fit\$eb}. This data can be analyzed like any \texttt{limma} fit and in this example, the column of the fitted coefficients represents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
-Often we're interested in in the fold change of various features with respect to the a condition. Koch's postulates demand an increase in presence and abundance of a particular bacteria. As mentioned above, Fisher's test is implemented in \texttt{MRfisher} as a test for presence / absence test. This tests different assumptions of the 16S count data.
+Often we're interested in the fold change of various features with respect to a phenotypic condition. Koch's (modern) postulates demand an increase in presence and abundance of a particular bacteria. As mentioned above, Fisher's test is implemented in \texttt{MRfisher} as a test for presence / absence test. This tests different assumptions of the 16S count data.
 
 Looking at the particular analysis just performed, there appears to be OTUs representing three \textit{Prevotella}, two \textit{Neisseria}, and a \textit{Porphyromonas} that are differentially abundant.
 
@@ -255,7 +255,7 @@ head(MRcoefs(fit,taxa=taxa,coef=2))
 \end{small}
 
 \section{Visualization of features}
-Reads clustered with high similarity do not represent functional or taxonomic units. It is possible that reads from the same organism get clustered into multiple OTUs. 
+Reads clustered with high similarity represent functional or taxonomic units. However, it is possible that reads from the same organism get clustered into multiple OTUs.
 \texttt{metagenomeSeq} has several plotting functions to visualize abundance differences for a single feature, \texttt{plotOTU}, and multiple features \texttt{plotGenus}. 
 Plotting multiple OTUs with similar annotations allows for additional control of false discoveries. Other functions allow for an understanding of structural composition with heatmaps of feature counts \texttt{plotMRheatmap} and basic feature correlation structures \texttt{plotCorr}.
 
