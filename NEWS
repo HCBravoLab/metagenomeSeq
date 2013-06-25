@@ -1,14 +1,18 @@
-versions 1.1.7 (2013-06-11)
+version 1.1.8 (2103-06-25)
+	
+	Modified load_meta and load_metaQ to be faster/use less memory.
+
+version 1.1.7 (2013-06-11)
 
 	Changed modified date on vignette
 
-versions 1.1.6 (2013-06-11)
+version 1.1.6 (2013-06-11)
 
 	Re-added plotGenus' jitter
 	Fixed vignette with the new plotOTU and plotGenus call
 	Fixed uniqueNames call in the MR tables
 
-versions 1.1.5 (2013-06-11)
+version 1.1.5 (2013-06-11)
 
 Changed thanks to Kasper Daniel Hansen's suggestions the following:
 
@@ -18,7 +22,7 @@ Changed thanks to Kasper Daniel Hansen's suggestions the following:
 
 Still need to turn the fitZig output to S3, consider subsetting function address low p-values
 
-versions 1.1.3 (2013-06-01) 
+version 1.1.3 (2013-06-01) 
 
 Changed thanks to Kasper Daniel Hansen's suggestions the following:
 

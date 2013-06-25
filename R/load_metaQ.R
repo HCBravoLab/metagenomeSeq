@@ -10,28 +10,18 @@
 #' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}}
 #' @examples
 #' obj = load_metaQ("~/Desktop/testFile.tsv")
-load_metaQ <-
-function(file)
-{	
-	dat2 <- read.table(file,header=FALSE,sep="\t");
-# load names 
-	subjects <- array(0,dim=c(ncol(dat2)-1));
-	for(i in 1:length(subjects)) {
-		subjects[i] <- as.character(dat2[1,i+1]);
-	}
-    classes <-c("character",rep("numeric",(length(subjects)-1)),"character");
-	dat3 <- read.table(file,header=TRUE,sep="\t",colClasses=classes);
-	
-	taxa<- dat3[,1+length(subjects)];
+load_metaQ <- function(file) {	
+	dat2 <- read.delim(file,header=FALSE,stringsAsFactors=FALSE,nrows=1,skip=1);
+	len = ncol(dat2)
+	subjects = as.character(dat2[1,-c(1,len)]);
+	classes <-c("character",rep("numeric",(len-2)),"character");
+	dat3 <- read.delim(file,header=TRUE,colClasses=classes,skip=1);
+	taxa<- dat3[,len];
 	taxa<-as.matrix(taxa);
-	
-	matrix <- array(0, dim=c(length(taxa),(length(subjects)-1)));
-	for(i in (1:(length(subjects)-1))){
-		matrix[,i] <- as.numeric(dat3[,i+1]);
-	}	
-	
-	colnames(matrix) = subjects[-length(subjects)];
-	obj <- list(counts=matrix, taxa=as.data.frame(taxa),otus = as.data.frame(dat3[,1]))
-	
+	matrix <- dat3[,-c(1,len)]
+	colnames(matrix) = subjects;
+	otus = dat3[,1];
+	rownames(matrix) = otus;
+	obj <- list(counts=as.data.frame(matrix), taxa=as.data.frame(taxa),otus = as.data.frame(otus))
 	return(obj);
 }
