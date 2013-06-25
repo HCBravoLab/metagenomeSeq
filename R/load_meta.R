@@ -17,6 +17,7 @@ function(file,sep="\t")
 	subjects <- as.character(dat2[1,-1]);
 	classes <-c("character",rep("numeric",length(subjects)));
 	dat3 <- read.table(file,header=FALSE,skip=1,sep=sep,colClasses=classes,row.names=1);
+	colnames(dat3) = subjects
 	taxa<- rownames(dat3);
 	obj <- list(counts=as.data.frame(dat3), taxa=as.data.frame(taxa))
 	return(obj);
