@@ -33,7 +33,7 @@ function(obj,pFlag = FALSE,rel=.1,qFlag = TRUE, ...){
             refS[k:length(refS)] - approx(yy[,i],n=lo)$y
         })
     }
-	diffr2 = matrixStats::rowMedians(abs(diffr))
+	diffr2 = matrixStats::rowMedians(abs(diffr),na.rm=TRUE)
 	if(pFlag ==TRUE){
         plot(abs(diff(diffr2[diffr2>0]))/diffr2[diffr2>0][-1],type="h",ylab="Relative difference for reference",xaxt="n",...)
 		abline(h=rel)
