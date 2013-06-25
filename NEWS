@@ -1,6 +1,7 @@
-version 1.1.8 (2103-06-25)
+version 1.1.9 (2103-06-25)
 	
-	Modified load_meta and load_metaQ to be faster/use less memory.
+	Modified load_meta and load_metaQ to be faster/use less memory
+	Modified cumNormStat to remove NA samples from calculations (example would be samples without any counts)
 
 version 1.1.7 (2013-06-11)
 
