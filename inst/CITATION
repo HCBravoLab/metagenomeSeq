@@ -18,21 +18,17 @@ citEntry(entry="article",
                "Robust statistical methods for differential abundance analysis of marker gene survey data.",
                 "In submission" ) )
 
-citEntry(entry="article",
-         title = "Robust statistical methods for differential abundance analysis of marker gene survey data",
+citEntry(entry="manual",
+         title = "metagenomeSeq: statistical analysis for sparse high-throughput sequncing",
          author = personList( as.person("Joseph N. Paulson"), 
-                              as.person("Oscar Colin Stine"),
-                              as.person("Hector Corrada Bravo"),
-                              as.person("Mihai Pop")),
+                              as.person("Mihai Pop"),
+                              as.person("Hector Corrada Bravo")),
          year = 2013,
-         journal = "In submission",
-         volume = "",
-         pages = "",
-         doi = "",
-         url = "",
+         note = "Bioconductor package",
+         url = "http://www.cbcb.umd.edu/software/metagenomeSeq",
          
          textVersion = 
-         paste("JN Paulson, OC Stine, HC Bravo, M Pop:", 
-               "Robust statistical methods for differential abundance analysis of marker gene survey data.",
-                "In submission" ) )
+         paste("JN Paulson, M Pop, HC Bravo:", 
+               "metagenomeSeq: statistical analysis for sparse high-throughput sequncing",
+                "Bioconductor package:", packageVersion("metagenomeSeq") ) )
 
