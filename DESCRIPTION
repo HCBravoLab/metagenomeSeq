@@ -1,6 +1,6 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.2.0
+Version: 1.2.1
 Date: 2013-06-11
 Author: Joseph Nathaniel Paulson, Mihai Pop,  Hector Corrada Bravo
 Maintainer: Joseph N. Paulson <jpaulson@umiacs.umd.edu>
@@ -11,12 +11,33 @@ Depends: R(>= 3.0), Biobase, limma, matrixStats, methods,
 Suggests: annotate
 biocViews: Bioinformatics, DifferentialExpression, Metagenomics,
         Visualization
-Collate: 'zigControl.R' 'cumNorm.R' 'plotOTU.R' 'fitZig.R'
-        'doCountMStep.R' 'doZeroMStep.R' 'doEStep.R' 'getZ.R' 'getPi.R'
-        'getCountDensity.R' 'getNegativeLogLikelihoods.R'
-        'isItStillActive.R' 'getEpsilon.R' 'load_meta.R'
-        'load_phenoData.R' 'exportMat.R' 'exportStats.R'
-        'cumNormStat.R' 'plotGenus.R' 'aggregateM.R' 'cumNormMat.R'
-        'load_metaQ.R' 'allClasses.R' 'MRtable.R' 'MRcoefs.R'
-        'plotMRheatmap.R' 'plotCorr.R' 'MRfisher.R' 'MRfulltable.R'
+Collate: 'zigControl.R' 
+	'cumNorm.R' 
+	'plotOTU.R' 
+	'fitZig.R'
+        'doCountMStep.R' 
+	'doZeroMStep.R' 
+	'doEStep.R' 
+	'getZ.R' 
+	'getPi.R'
+        'getCountDensity.R' 
+	'getNegativeLogLikelihoods.R'
+        'isItStillActive.R' 
+	'getEpsilon.R' 
+	'load_meta.R'
+        'load_phenoData.R' 
+	'exportMat.R' 
+	'exportStats.R'
+        'cumNormStat.R'
+	'plotGenus.R'
+	'aggregateM.R' 
+	'cumNormMat.R'
+        'load_metaQ.R' 
+	'allClasses.R' 
+	'MRtable.R' 
+	'MRcoefs.R'
+        'plotMRheatmap.R'
+	'plotCorr.R'
+	'MRfisher.R'
+	'MRfulltable.R'
 URL: http://cbcb.umd.edu/software/metagenomeSeq
