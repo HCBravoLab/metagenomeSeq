@@ -30,5 +30,5 @@ citEntry(entry="manual",
          textVersion = 
          paste("JN Paulson, M Pop, HC Bravo:", 
                "metagenomeSeq: statistical analysis for sparse high-throughput sequncing",
-                "Bioconductor package:", packageVersion("metagenomeSeq") ) )
+               "Bioconductor package:", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq" ) )
 
