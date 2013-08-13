@@ -16,7 +16,10 @@
 #' 
 #' data(mouseData)
 #' trials = pData(mouseData)$diet
-#' plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,cexCol = 0.4,trace="none")
+#' heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
+#' heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
+#' plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,cexCol = 0.4,trace="none",
+#'              col = heatmapCols,ColSideColors = heatmapColColors)
 #' 
 plotMRheatmap <- function(obj,n,trials,log=TRUE,norm=TRUE,...) {
   
@@ -35,10 +38,8 @@ plotMRheatmap <- function(obj,n,trials,log=TRUE,norm=TRUE,...) {
   }
   otusToKeep <- which(rowSums(mat)>0);
   otuVars=rowSds(mat[otusToKeep,]);
-	otuIndices=otusToKeep[order(otuVars,decreasing=TRUE)[1:n]];
-	mat2=mat[otuIndices,];
-  heatmapCols=colorRampPalette(brewer.pal(9,"RdBu"))(50);
-  heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
-	heatmap.2(mat2,col=heatmapCols,ColSideColors=heatmapColColors,...);
+  otuIndices=otusToKeep[order(otuVars,decreasing=TRUE)[1:n]];
+  mat2=mat[otuIndices,];
+  heatmap.2(mat2,...);
   invisible()
 }

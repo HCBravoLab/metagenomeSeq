@@ -1,4 +1,8 @@
-version 1.1.9 (2103-06-25)
+version 1.2.2 (2013-07-13)
+	Updated comments (roxygen2) style for all the functions using the Rd2roxygen package
+	Updated plotCorr and plotMRheatmap to allow various colors
+
+version 1.1.9 (2013-06-25)
 	
 	Modified load_meta and load_metaQ to be faster/use less memory
 	Modified cumNormStat to remove NA samples from calculations (example would be samples without any counts)
