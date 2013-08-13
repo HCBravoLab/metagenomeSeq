@@ -1,14 +1,17 @@
-#' Aggregates the counts to a particular classification.
-#'
-#' This function takes an eSet object of data at a particular level with feature information allowing
-#' for aggregation of counts to a particular level. This method assumes taxa begin at the highest level and continue to the current level.
-#'
-#' @param obj An eSet object of count data.
+#' Aggregates counts by a particular classification.
+#' 
+#' This function takes a MRexperiment object of data at a particular level with
+#' feature information allowing for aggregation of counts to a particular
+#' level. This method assumes taxa begin at the highest level and continue to
+#' the current level, reverse assumes taxa begin at the lowest level.
+#' 
+#' 
+#' @param obj A MRexperiment object.
 #' @param lvl The level to go up (numeric, 1,2,3).
+#' @param taxa A vector of taxa annotations with splits
 #' @param split The way character strings in taxa in the obj are split.
-#' @return Updated eSet object with counts aggregated to the various taxanomic levels.
-#'
-#' @name aggregateM
+#' @return Updated object with counts aggregated to the various taxanomic
+#' levels.
 aggregateM <-
 function(obj,taxa,lvl,split=";"){
 

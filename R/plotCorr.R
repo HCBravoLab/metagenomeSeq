@@ -1,3 +1,24 @@
+#' Basic correlation plot function for normalized or unnormalized counts.
+#' 
+#' This function plots a heatmap of the "n" features with greatest variance
+#' across rows.
+#' 
+#' 
+#' @param obj A MRexperiment object with count data.
+#' @param n The number of features to plot
+#' @param log Whether or not to log transform the counts.
+#' @param norm Whether or not to normalize the counts.
+#' @param fun Function to calculate pair-wise relationships. Default is pearson
+#' correlation
+#' @param ... Additional plot arguments.
+#' @return NA
+#' @seealso \code{\link{cumNormMat}}
+#' @examples
+#' 
+#' data(mouseData)
+#' trials = pData(mouseData)$diet
+#' plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="none")
+#' 
 plotCorr <- function(obj,n,log=TRUE,norm=TRUE,fun=cor,...) {
     if (log == TRUE) {
         if (norm == TRUE) {

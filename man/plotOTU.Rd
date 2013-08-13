@@ -2,8 +2,9 @@
 \alias{plotOTU}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotOTU(obj, otu, classIndex, norm = TRUE,
-    factor = 1, pch = 21,labs = TRUE,xlab=NULL,ylab=NULL,jitter = TRUE, ret = FALSE, ...)
+  plotOTU(obj, otu, classIndex, norm = TRUE, factor = 1,
+    pch = 21, labs = TRUE, xlab = NULL, ylab = NULL,
+    jitter = TRUE, ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -18,11 +19,12 @@
   \item{factor}{Factor value for jitter.}
 
   \item{pch}{Standard pch value for the plot command.}
-  
-  \item{labs}{Whether to include group labels or not. (TRUE/FALSE)}
-    
+
+  \item{labs}{Whether to include group labels or not.
+  (TRUE/FALSE)}
+
   \item{xlab}{xlabel for the plot.}
-  
+
   \item{ylab}{ylabel for the plot.}
 
   \item{jitter}{Boolean to jitter the count data or not.}

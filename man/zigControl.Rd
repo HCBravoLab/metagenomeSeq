@@ -1,5 +1,5 @@
 \name{zigControl}
-\alias{settings}
+\alias{settings2}
 \alias{zigControl}
 \title{Settings for the fitZig function}
 \usage{

@@ -1,18 +1,18 @@
 #' export the normalized eSet dataset as a matrix.
-#'
-#' This function allows the user to take the normalized dataset or counts and output
-#' the dataset to the user's workspace as a tab-delimited file, etc.
-#'
-#' @param jobj An eSet object with count data.
-#' @param output Output file name.
+#' 
+#' This function allows the user to take a dataset of counts and output the
+#' dataset to the user's workspace as a tab-delimited file, etc.
+#' 
+#' 
+#' @aliases exportMatrix exportMat
+#' @param mat A matrix of values (normalized, or otherwise)
+#' @param output Output file name
 #' @return NA
-#'
-#' @name export_mat
-#' @aliases exportMatrix
 #' @seealso \code{\link{cumNorm}}
 #' @examples
-#' export_mat(jobj,output="~/Desktop/normMatrix.tsv");
-
+#' 
+#' # see vignette
+#' 
 exportMat <-
 function(mat,output="~/Desktop/matrix.tsv"){
 	matrix = mat;

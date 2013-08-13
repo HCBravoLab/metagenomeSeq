@@ -3,8 +3,10 @@
 \alias{plotGenus}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotGenus(obj, otuIndex, classIndex, norm = TRUE, no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL, jitter = TRUE, factor = 1,
-    pch = 21, ret = FALSE, ...)
+  plotGenus(obj, otuIndex, classIndex, norm = TRUE,
+    no = 1:length(otuIndex), labs = TRUE, xlab = NULL,
+    ylab = NULL, jitter = TRUE, factor = 1, pch = 21,
+    ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{An MRexperiment object with count data.}
@@ -22,11 +24,12 @@
   \item{factor}{Factor value for jitter}
 
   \item{pch}{Standard pch value for the plot command.}
-  
-  \item{labs}{Whether to include group labels or not. (TRUE/FALSE)}
+
+  \item{labs}{Whether to include group labels or not.
+  (TRUE/FALSE)}
 
   \item{xlab}{xlabel for the plot.}
-  
+
   \item{ylab}{ylabel for the plot.}
 
   \item{jitter}{Boolean to jitter the count data or not.}
@@ -44,7 +47,6 @@
   class. The function uses the estimated posterior
   probabilities to make technical zeros transparent.
 }
-
 \examples{
 data(mouseData)
 classIndex=list(controls=which(pData(mouseData)$diet=="BK"))

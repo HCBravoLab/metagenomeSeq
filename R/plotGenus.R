@@ -1,31 +1,35 @@
 #' Basic plot function of the raw or normalized data.
-#'
-#' This function plots the abundance of a particular OTU by class. The function uses
-#' the estimated posterior probabilities to make technical zeros transparent. 
-#'
-#' @param obj An eSet object with count data.
+#' 
+#' This function plots the abundance of a particular OTU by class. The function
+#' uses the estimated posterior probabilities to make technical zeros
+#' transparent.
+#' 
+#' 
+#' @aliases genusPlot plotGenus
+#' @param obj An MRexperiment object with count data.
 #' @param otuIndex A list of the otus with the same annotation.
 #' @param classIndex A list of the samples in their respective groups.
 #' @param norm Whether or not to normalize the counts.
-#' @param normp The value at which to scale the counts by and then log.
 #' @param no Which of the otuIndex to plot.
 #' @param factor Factor value for jitter
 #' @param pch Standard pch value for the plot command.
+#' @param labs Whether to include group labels or not. (TRUE/FALSE)
+#' @param xlab xlabel for the plot.
+#' @param ylab ylabel for the plot.
 #' @param jitter Boolean to jitter the count data or not.
 #' @param ret Boolean to return the observed data that would have been plotted.
 #' @param ... Additional plot arguments.
 #' @return NA
-#' @note \code{\link{detect}} makes use of settings.
-#'
-#' @name plotGenus
-#' @aliases genusPlot
 #' @seealso \code{\link{cumNorm}}
-#' @examples 
-#' classIndex=list(controls=which(type=="Control"))
-#' classIndex$cases=which(type=="Case")
-#' otuIndex = which(taxa == "E-coli")
-#' plotGenus(obj,otu=12,classIndex,xlab="OTU log-normalized counts")
-
+#' @examples
+#' 
+#' data(mouseData)
+#' classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
+#' classIndex$cases=which(pData(mouseData)$diet=="Western")
+#' otuIndex = grep("Strep",fData(mouseData)$fdata)
+#' otuIndex=otuIndex[order(rowSums(MRcounts(mouseData)[otuIndex,]),decreasing=TRUE)]
+#' plotGenus(mouseData,otuIndex,classIndex,no=1:2,xaxt="n",norm=FALSE,ylab="Strep normalized log(cpt)")
+#' 
 plotGenus <-
 function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,factor=1,pch=21,ret=FALSE,...){
 

@@ -23,6 +23,6 @@ cumNorm(mouseData)
 head(normFactors(mouseData))
 }
 \seealso{
-  \code{\link{fitZig}}  \code{\link{cumNormStat}}
+  \code{\link{fitZig}} \code{\link{cumNormStat}}
 }
 

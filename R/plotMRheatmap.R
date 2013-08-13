@@ -1,3 +1,23 @@
+#' Basic heatmap plot function for normalized counts.
+#' 
+#' This function plots a heatmap of the "n" features with greatest variance
+#' across rows.
+#' 
+#' 
+#' @param obj A MRexperiment object with count data.
+#' @param n The number of features to plot
+#' @param trials A vector of clinical information for.
+#' @param log Whether or not to log transform the counts.
+#' @param norm Whether or not to normalize the counts.
+#' @param ... Additional plot arguments.
+#' @return NA
+#' @seealso \code{\link{cumNormMat}}
+#' @examples
+#' 
+#' data(mouseData)
+#' trials = pData(mouseData)$diet
+#' plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,cexCol = 0.4,trace="none")
+#' 
 plotMRheatmap <- function(obj,n,trials,log=TRUE,norm=TRUE,...) {
   
   if(log==TRUE){

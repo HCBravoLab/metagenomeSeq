@@ -2,7 +2,7 @@
 \alias{plotCorr}
 \title{Basic correlation plot function for normalized or unnormalized counts.}
 \usage{
-  plotCorr(obj,n,log=TRUE,norm=TRUE,fun=cor,...)
+  plotCorr(obj, n, log = TRUE, norm = TRUE, fun = cor, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -12,8 +12,9 @@
   \item{log}{Whether or not to log transform the counts.}
 
   \item{norm}{Whether or not to normalize the counts.}
-  
-  \item{fun}{Function to calculate pair-wise relationships. Default is pearson correlation}
+
+  \item{fun}{Function to calculate pair-wise relationships.
+  Default is pearson correlation}
 
   \item{...}{Additional plot arguments.}
 }
@@ -21,7 +22,8 @@
   NA
 }
 \description{
-  This function plots a heatmap of the "n" features with greatest variance across rows.
+  This function plots a heatmap of the "n" features with
+  greatest variance across rows.
 }
 \examples{
 data(mouseData)

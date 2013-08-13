@@ -11,6 +11,33 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
         obj
 })
 
+
+
+#' Create a MRexperiment object
+#' 
+#' This function creates a MRexperiment object from a matrix or data frame of
+#' count data.
+#' 
+#' See \code{\link{MRexperiment-class}} and \code{eSet} (from the Biobase
+#' package) for the meaning of the various slots.
+#' 
+#' @param counts A matrix or data frame of count data. The count data is
+#' representative of the number of reads annotated for a feature (be it gene,
+#' OTU, species, etc). Rows should correspond to features and columns to
+#' samples.
+#' @param phenoData An AnnotatedDataFrame with pertinent sample information.
+#' @param featureData An AnnotatedDataFrame with pertinent feature information.
+#' @param libSize libSize, library size, is the total number of reads for a
+#' particular sample.
+#' @param normFactors normFactors, the normalization factors used in either the
+#' model or as scaling factors of sample counts for each particular sample.
+#' @return an object of class MRexperiment
+#' @author Joseph N Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#' 
+#' cnts = matrix(abs(rnorm(1000)),nc=10)
+#' obj <- newMRexperiment(cnts)
+#' 
 newMRexperiment <- function(counts, phenoData=NULL, featureData=NULL,libSize=NULL, normFactors=NULL) {
     counts= as.matrix(counts)
 
@@ -19,9 +46,46 @@ newMRexperiment <- function(counts, phenoData=NULL, featureData=NULL,libSize=NUL
     if( is.null( phenoData ) )
       phenoData   <- annotatedDataFrameFrom(counts, byrow=FALSE)
     if( is.null( libSize ) )
+
+
+#' Access sample depth of coverage from MRexperiment object
+#' 
+#' The libSize vector represents the column (sample specific) sums of features,
+#' i.e. the total number of reads for a sample. It is used by
+#' \code{\link{fitZig}}.
+#' 
+#' 
+#' @name libSize
+#' @aliases libSize,MRexperiment-method libSize
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#' 
+#'    data(lungData)
+#'    head(libSize(lungData))
+#' 
       libSize <- as.matrix(colSums(counts))
       rownames(libSize) = colnames(counts)
     if( is.null( normFactors ) ){
+
+
+#' Access the normalization factors in a MRexperiment object
+#' 
+#' Function to access the scaling factors, aka the normalization factors, of
+#' samples in a MRexperiment object.
+#' 
+#' 
+#' @name normFactors
+#' @aliases normFactors,MRexperiment-method normFactors
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#' 
+#'    data(lungData)
+#'    head(normFactors(lungData))
+#' 
       normFactors <- as.matrix(rep( NA_real_, length(libSize) ))
       rownames(normFactors) = rownames(libSize)
     }
@@ -45,6 +109,26 @@ setValidity( "MRexperiment", function( object ) {
     TRUE
 } )
 
+
+
+#' Accessor for the counts slot of a MRexperiment object
+#' 
+#' The counts slot holds the raw count data representing (along the rows) the
+#' number of reads annotated for a particular feature and (along the columns)
+#' the sample.
+#' 
+#' 
+#' @name MRcounts
+#' @aliases MRcounts,MRexperiment-method MRcounts
+#' @docType methods
+#' @param cnts a \code{MRexperiment} object.
+#' @param norm logical indicating whether or not to return normalized counts.
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#' 
+#'    data(lungData)
+#'    head(MRcounts(lungData))
+#' 
 MRcounts <- function( obj ,norm=FALSE) {
    stopifnot( is( obj, "MRexperiment" ) )
    if(!norm){
@@ -57,6 +141,23 @@ MRcounts <- function( obj ,norm=FALSE) {
    }
 }
 
+
+
+#' Access the posterior probabilities that results from analysis
+#' 
+#' Accessing the posterior probabilities following a run through
+#' \code{\link{fitZig}}
+#' 
+#' 
+#' @name posterior.probs
+#' @aliases posterior.probs,MRexperiment-method posterior.probs
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#' 
+#' # see vignette
+#' 
 posterior.probs <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )
    assayData(obj)[["z"]]
@@ -74,6 +175,25 @@ libSize<-function(obj){
    ls
 }
 
+
+
+#' Access MRexperiment object experiment data
+#' 
+#' The expSummary vectors represent the column (sample specific) sums of
+#' features, i.e. the total number of reads for a sample, libSize and also the
+#' normalization factors, normFactor.
+#' 
+#' 
+#' @name expSummary
+#' @aliases expSummary,MRexperiment-method expSummary
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#' 
+#' data(mouseData)
+#' expSummary(mouseData)
+#' 
 expSummary<-function(obj){
   stopifnot( is( obj, "MRexperiment" ) )
   pData(obj@expSummary$expSummary)

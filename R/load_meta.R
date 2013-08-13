@@ -1,17 +1,19 @@
 #' Load a count dataset associated with a study.
-#'
+#' 
 #' Load a matrix of OTUs in a tab delimited format
-#'
+#' 
+#' 
+#' @aliases load_meta metagenomicLoader
 #' @param file Path and filename of the actual data file.
+#' @param sep File delimiter.
 #' @return An object of count data.
-#'
-#' @name load_meta
-#' @aliases metagenomicLoader
 #' @seealso \code{\link{load_phenoData}}
 #' @examples
-#' obj = load_meta("~/Desktop/testFile.tsv")
-load_meta <-
-function(file,sep="\t")
+#' 
+#' dataDirectory <- system.file("extdata", package="metagenomeSeq")
+#' lung = load_meta(file.path(dataDirectory,"CHK_NAME.otus.count.csv"))
+#' 
+load_meta <- function(file,sep="\t")
 {
 	dat2 <- read.table(file,header=FALSE,sep=sep,nrows=1,stringsAsFactors=FALSE);
 	subjects <- as.character(dat2[1,-1]);

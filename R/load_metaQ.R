@@ -1,15 +1,16 @@
 #' Load a count dataset associated with a study set up in a Qiime format.
-#'
+#' 
 #' Load a matrix of OTUs in Qiime's format
-#'
+#' 
+#' 
+#' @aliases load_metaQ qiimeLoader
 #' @param file Path and filename of the actual data file.
 #' @return An object of count data.
-#'
-#' @name load_metaQ
-#' @aliases qiimeLoader
 #' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}}
 #' @examples
-#' obj = load_metaQ("~/Desktop/testFile.tsv")
+#' 
+#' # see vignette
+#' 
 load_metaQ <- function(file) {	
 	dat2 <- read.delim(file,header=FALSE,stringsAsFactors=FALSE,nrows=1,skip=1);
 	len = ncol(dat2)

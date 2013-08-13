@@ -1,27 +1,41 @@
 #' Computes the weighted fold-change estimates and t-statistics.
-#'
-#' Wrapper to actually run the Expectation-maximization algorithm and estimate $f_{count}$ fits.
-#' Maximum-likelihood estimates are approximated using the EM algorithm where we treat mixture membership $\deta_{ij}$ = 1 if $y_{ij}$
-#' is generated from the zero point mass as latent indicator variables. The density is defined as $f_zig(y_{ij} = \pi_j(S_j) \cdot f_{0}(y_{ij}) 
-#' +(1-\pi_j (S_j))\cdot f_{count}(y_{ij};\mu_i,\sigma_i^2)$.
-#' The log-likelihood in this extended model is
-#' $(1−\delta_{ij}) \log f_{count}(y;\mu_i,\sigma_i^2 )+\delta_{ij} \log \pi_j(s_j)+(1−\delta_{ij})\log (1−\pi_j (sj))$.
-#' The responsibilities are defined as $z_{ij} = pr(\delta_{ij}=1 | data)$.
-#'
-#' @param obj An eSet object with count data.
+#' 
+#' Wrapper to actually run the Expectation-maximization algorithm and estimate
+#' $f_count$ fits.  Maximum-likelihood estimates are approximated using the EM
+#' algorithm where we treat mixture membership $delta_ij = 1$ if $y_ij$ is
+#' generated from the zero point mass as latent indicator variables. The
+#' density is defined as $f_zig(y_ij = pi_j(S_j)*f_0(y_ij) +(1-pi_j (S_j)) *
+#' f_count(y_ij; mu_i, sigma_i^2)$. The log-likelihood in this extended model
+#' is: $(1-delta_ij) log f_count(y;mu_i,sigma_i^2 )+delta_ij log
+#' pi_j(s_j)+(1-delta_ij) log (1-pi_j (s_j))$. The responsibilities are defined
+#' as $z_ij = pr(delta_ij=1 | data)$.
+#' 
+#' 
+#' @param obj A MRexperiment object with count data.
 #' @param mod The model for the count distribution.
-#' @param s95 A vector of size M of the scaling values to be included in the model.
-#' @param zeroMod The zero model, the model to account for the change in the number of OTUs observed as a linear effect of the depth of coverage.
-#' @param useS95offset Boolean, whether to include the default scaling parameters in the model or not.
-#' @param control The settings for fitZig. 
-#' @param s The raw total counts for the various samples.
-#' @return The fits, posterior probabilities, posterior probabilities used at time of convergence for each feature, ebayes (limma object) fit, among other data. 
-#'
-#' @name fitZig
+#' @param zeroMod The zero model, the model to account for the change in the
+#' number of OTUs observed as a linear effect of the depth of coverage.
+#' @param useS95offset Boolean, whether to include the default scaling
+#' parameters in the model or not.
+#' @param control The settings for fitZig.
+#' @return The fits, posterior probabilities, posterior probabilities used at
+#' time of convergence for each feature, ebayes (limma object) fit, among other
+#' data.
+#' @export
 #' @seealso \code{\link{cumNorm}} \code{\link{zigControl}}
 #' @examples
-#' model = model.matrix(~1+type+log2(s95/1000+1))
-#' res = fitZig(obj = obj,mod=mod,useS95offset=FALSE)
+#' 
+#' data(lungData)
+#' k = grep("Extraction.Control",pData(lungData)$SampleType)
+#' lungTrim = lungData[,-k]
+#' k = which(rowSums(MRcounts(lungTrim)>0)<30)
+#' cumNorm(lungTrim)
+#' lungTrim = lungTrim[-k,]
+#' smokingStatus = pData(lungTrim)$SmokingStatus
+#' mod = model.matrix(~smokingStatus)
+#' settings = zigControl(maxit=1,verbose=FALSE)
+#' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+#' 
 fitZig <-
 function(obj,mod,zeroMod=NULL,useS95offset=TRUE,control=zigControl()){
 

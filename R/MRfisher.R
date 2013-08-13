@@ -1,3 +1,25 @@
+#' Wrapper to run fisher's test on presence/absence of a feature.
+#' 
+#' This function returns a data frame of p-values, odds ratios, lower and upper
+#' confidence limits for every row of a matrix.
+#' 
+#' 
+#' @param obj A MRexperiment object with a count matrix, or a simple count
+#' matrix.
+#' @param cl Group comparison
+#' @param mat logical indicating whether obj is a MRexperiment object or
+#' matrix. Default is a MRexperiment object.
+#' @return NA
+#' @seealso \code{\link{cumNorm}} \code{\link{fitZig}}
+#' @examples
+#' 
+#' data(lungData)
+#' k = grep("Extraction.Control",pData(lungData)$SampleType)
+#' lungTrim = lungData[,-k]
+#' lungTrim = lungTrim[-which(rowSums(MRcounts(lungTrim)>0)<20),]
+#' res = MRfisher(lungTrim,pData(lungTrim)$SmokingStatus);
+#' head(res)
+#' 
 MRfisher<-function(obj,cl,mat=FALSE){
     if(mat==FALSE){
         x = MRcounts(obj)>0;

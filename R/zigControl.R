@@ -11,7 +11,7 @@
 #' @seealso \code{\link{fitZig}} \code{\link{cumNorm}} \code{\link{plotOTU}}
 #' @examples
 #' control =  zigControl(tol=1e-10,maxit=10,verbose=FALSE)
-
+#'
 zigControl <-function(tol=1e-4,maxit=10,verbose=TRUE){
 	set <-list(tol=tol,maxit=maxit,verbose=verbose);
 	return(set)	

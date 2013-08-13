@@ -10,7 +10,8 @@
   \item{p}{The pth quantile.}
 }
 \value{
-  Returns a matrix normalized by scaling counts up to and including the pth quantile.
+  Returns a matrix normalized by scaling counts up to and
+  including the pth quantile.
 }
 \description{
   Calculates each column's quantile and calculates the sum
