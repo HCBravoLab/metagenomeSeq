@@ -1,13 +1,19 @@
 #' Cumulative sum scaling factors.
-#'
-#' Calculates each column's quantile and calculates the sum up to and including that quantile.
-#'
-#' @param jobj An eSet object.
+#' 
+#' Calculates each column's quantile and calculates the sum up to and including
+#' that quantile.
+#' 
+#' 
+#' @param obj An MRexperiment object.
 #' @param p The pth quantile.
 #' @return Vector of the sum up to and including a sample's pth quantile
-#'
-#' @name cumNorm
-#' @seealso \code{\link{fitZig}}
+#' @seealso \code{\link{fitZig}} \code{\link{cumNormStat}}
+#' @examples
+#' 
+#' data(mouseData)
+#' cumNorm(mouseData)
+#' head(normFactors(mouseData))
+#' 
 cumNorm <-
 function(obj,p=cumNormStat(obj)){
 	x = MRcounts(obj)

@@ -1,18 +1,19 @@
 #' Load a clinical/phenotypic dataset associated with a study.
-#'
+#' 
 #' Load a matrix of metadata associated with a study.
-#'
+#' 
+#' 
+#' @aliases load_phenoData phenoData
 #' @param file Path and filename of the actual clinical file.
-#' @param tran Boolean. If the covariates are along the columns and samples along the rows, then tran should equal TRUE.
+#' @param tran Boolean. If the covariates are along the columns and samples
+#' along the rows, then tran should equal TRUE.
 #' @param sep The separator for the file.
 #' @return The metadata as a dataframe.
-#'
-#' @name load_phenoData
-#' @aliases phenoData
 #' @seealso \code{\link{load_meta}}
 #' @examples
-#' clin = load_phenoData("~/Desktop/testFile.tsv")
-
+#' 
+#' # see vignette
+#' 
 load_phenoData <-
 function(file,tran=FALSE,sep="\t")
 {

@@ -12,7 +12,7 @@
 #'
 #' @name isItStillActive
 #' @seealso \code{\link{fitZig}}
-
+#'
 isItStillActive <-
 function(eps, tol,stillActive,stillActiveNLL,nll){
 	stillActive[stillActive]=!is.finite(eps[stillActive]) | eps[stillActive]>tol

@@ -3,11 +3,11 @@
 \alias{metagenomicLoader}
 \title{Load a count dataset associated with a study.}
 \usage{
-  load_meta(file,sep="\t")
+  load_meta(file, sep = "\t")
 }
 \arguments{
   \item{file}{Path and filename of the actual data file.}
-  
+
   \item{sep}{File delimiter.}
 }
 \value{
@@ -21,6 +21,6 @@ dataDirectory <- system.file("extdata", package="metagenomeSeq")
 lung = load_meta(file.path(dataDirectory,"CHK_NAME.otus.count.csv"))
 }
 \seealso{
- \code{\link{load_phenoData}}
+  \code{\link{load_phenoData}}
 }
 

@@ -1,28 +1,32 @@
 #' Basic plot function of the raw or normalized data.
-#'
-#' This function plots the abundance of a particular OTU by class. The function uses
-#' the estimated posterior probabilities to make technical zeros transparent. 
-#'
-#' @param obj An eSet object with count data.
+#' 
+#' This function plots the abundance of a particular OTU by class. The function
+#' uses the estimated posterior probabilities to make technical zeros
+#' transparent.
+#' 
+#' 
+#' @param obj A MRexperiment object with count data.
 #' @param otu The row number/OTU to plot.
 #' @param classIndex A list of the samples in their respective groups.
 #' @param norm Whether or not to normalize the counts.
-#' @param normp The value at which to scale the counts by and then log.
 #' @param factor Factor value for jitter.
 #' @param pch Standard pch value for the plot command.
+#' @param labs Whether to include group labels or not. (TRUE/FALSE)
+#' @param xlab xlabel for the plot.
+#' @param ylab ylabel for the plot.
 #' @param jitter Boolean to jitter the count data or not.
 #' @param ret Boolean to return the observed data that would have been plotted.
 #' @param ... Additional plot arguments.
 #' @return NA
-#'
-#' @name plotOTU
-#' @aliases otuplot
 #' @seealso \code{\link{cumNorm}}
-#' @examples 
-#' classIndex=list(controls=which(type=="Control"))
-#' classIndex$cases=which(type=="Case")
-#' plotOTU(obj,otu=12,classIndex,xlab="OTU log-normalized counts")
-
+#' @examples
+#' 
+#' data(mouseData)
+#' classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
+#' classIndex$cases=which(pData(mouseData)$diet=="Western")
+#' # you can specify whether or not to normalize, and to what level
+#' plotOTU(mouseData,otu=9083,classIndex,norm=FALSE,main="9083 feature abundances")
+#' 
 plotOTU <-
 function(obj,otu,classIndex,norm=TRUE,factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,ret=FALSE,...){
 

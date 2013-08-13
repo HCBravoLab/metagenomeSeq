@@ -1,17 +1,19 @@
 #' Various statistics of the count data.
-#'
-#' A matrix of values for each sample. The matrix consists of sample ids, the sample scaling factor, quantile value, and the number of number of features.
-#'
-#' @param obj An eSet object with count data.
-#' @param p Quantile value to calculate the scaling factor and quantiles for the various samples.
+#' 
+#' A matrix of values for each sample. The matrix consists of sample ids, the
+#' sample scaling factor, quantile value, and the number of number of features.
+#' 
+#' 
+#' @param obj A MRexperiment object with count data.
+#' @param p Quantile value to calculate the scaling factor and quantiles for
+#' the various samples.
 #' @param output Output file name.
 #' @return None.
-#'
-#' @name export_stats
 #' @seealso \code{\link{cumNorm}} \code{\link{quantile}}
 #' @examples
-#' export_stats(obj,p=1,output="~/Desktop/obj-stats.tsv")
-
+#' 
+#' # see vignette
+#' 
 exportStats <-
 function(obj,p= cumNormStat(obj),output="~/Desktop/res.stats.tsv"){
 

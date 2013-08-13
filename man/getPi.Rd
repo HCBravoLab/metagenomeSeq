@@ -1,6 +1,7 @@
 \name{getPi}
 \alias{getPi}
-\title{Calculate the mixture proportions from the zero model / spike mass model residuals.}
+\title{Calculate the mixture proportions from the zero model / spike mass model
+residuals.}
 \usage{
   getPi(residuals)
 }

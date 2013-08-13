@@ -1,12 +1,22 @@
-#' Cumulative normalization statistic.
-#'
-#' @param obj An eSet object.
-#' @param pFlag Whether or not to plot the reference.
-#' @param rel Relative difference of rel percent.
-#' @return P-value for which to cumulative normalize.
-#'
-#' @name cumNormStat
+#' Cumulative sum scaling percentile selection
+#' 
+#' Calculates the percentile for which to sum counts up to and scale by.
+#' 
+#' 
+#' @param obj A list with count data
+#' @param pFlag Plot the median difference quantiles
+#' @param rel Cutoff for the relative difference from one median difference
+#' from the reference to the next
+#' @param qFlag Flag to either calculate the proper percentile using a
+#' step-wise or triangular approximation of the sample count distribution.
+#' @param ... Applicable if pFlag == TRUE. Extra plotting parameters.
+#' @return Percentile for which to scale data
 #' @seealso \code{\link{fitZig}} \code{\link{cumNorm}}
+#' @examples
+#' 
+#' data(mouseData)
+#' p = round(cumNormStat(mouseData,pFlag=FALSE),digits=2)
+#' 
 cumNormStat <-
 function(obj,pFlag = FALSE,rel=.1,qFlag = TRUE, ...){
     

@@ -25,7 +25,6 @@
 # see vignette
 }
 \seealso{
-  \code{\link{cumNorm}}
-  \code{\link{quantile}}
+  \code{\link{cumNorm}} \code{\link{quantile}}
 }
 
