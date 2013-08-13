@@ -28,7 +28,10 @@
 \examples{
 data(mouseData)
 trials = pData(mouseData)$diet
-plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,cexCol = 0.4,trace="none")
+heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
+heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
+plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,cexCol = 0.4,trace="none",
+             col = heatmapCols,ColSideColors = heatmapColColors)
 }
 \seealso{
   \code{\link{cumNormMat}}

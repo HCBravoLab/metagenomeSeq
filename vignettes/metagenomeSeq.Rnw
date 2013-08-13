@@ -264,10 +264,14 @@ Many studies hope to compare biological compositions at a community level. Often
 <<heatmapData,fig=FALSE>>=
 data(mouseData)
 trials = pData(mouseData)$diet
-plotMRheatmap(obj=mouseData,n=200,trials=trials,
-              cexRow = 0.4,cexCol = 0.4,trace="none")
+heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
+heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
+plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,
+              cexCol = 0.4,trace="none",col = heatmapCols,
+              ColSideColors = heatmapColColors)
 plotCorr(obj=mouseData,n=200,
-              cexRow = 0.25,cexCol = 0.25,trace="none",dendrogram="none")
+              cexRow = 0.25,cexCol = 0.25,trace="none",dendrogram="none",
+              col=heatmapCols)
 @
 \end{small}
 

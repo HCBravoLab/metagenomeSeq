@@ -27,8 +27,8 @@
 }
 \examples{
 data(mouseData)
-trials = pData(mouseData)$diet
-plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="none")
+plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="none",
+         col = colorRampPalette(brewer.pal(9, "RdBu"))(50))
 }
 \seealso{
   \code{\link{cumNormMat}}

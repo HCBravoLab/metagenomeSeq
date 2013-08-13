@@ -16,8 +16,8 @@
 #' @examples
 #' 
 #' data(mouseData)
-#' trials = pData(mouseData)$diet
-#' plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="none")
+#' plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="none",
+#'          col = colorRampPalette(brewer.pal(9, "RdBu"))(50))
 #' 
 plotCorr <- function(obj,n,log=TRUE,norm=TRUE,fun=cor,...) {
     if (log == TRUE) {
@@ -44,8 +44,7 @@ plotCorr <- function(obj,n,log=TRUE,norm=TRUE,fun=cor,...) {
     hc = hclust(dist(mat2))
     otuOrder = hc$order
     cc = cc[otuOrder, otuOrder]
-    heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
-    heatmap.2(t(cc), col = heatmapCols, ...)
+    heatmap.2(t(cc),...)
     invisible()
 }
 
