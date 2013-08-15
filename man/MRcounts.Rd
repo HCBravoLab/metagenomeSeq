@@ -7,7 +7,7 @@
   MRcounts(obj, norm = FALSE)
 }
 \arguments{
-  \item{cnts}{a \code{MRexperiment} object.}
+  \item{obj}{a \code{MRexperiment} object.}
 
   \item{norm}{logical indicating whether or not to return
   normalized counts.}
