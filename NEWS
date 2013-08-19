@@ -1,6 +1,8 @@
-version 1.2.2 (2013-07-13)
-	Updated comments (roxygen2) style for all the functions using the Rd2roxygen package
-	Updated plotCorr and plotMRheatmap to allow various colors
+version 1.2.2x (2013-08-16)
+	Updated comments (roxygen2) style for all the functions using the Rd2roxygen package (07-13)
+	Updated plotCorr and plotMRheatmap to allow various colors (07-13)
+	Updated MRfisher to include thresholding for presence-absence testing (08-16)
+	Included Presence-Absence in vignette 
 
 version 1.1.9 (2013-06-25)
 	
