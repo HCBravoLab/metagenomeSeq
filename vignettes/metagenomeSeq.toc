@@ -8,6 +8,7 @@
 \contentsline {section}{\numberline {4}Zero-inflated Gaussian mixture model}{6}{section.4}
 \contentsline {subsection}{\numberline {4.1}Mathematical model}{6}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Running the statistical analysis}{7}{subsection.4.2}
-\contentsline {section}{\numberline {5}Visualization of features}{9}{section.5}
-\contentsline {section}{\numberline {6}Summary}{11}{section.6}
-\contentsline {section}{\numberline {7}Session Info}{11}{section.7}
+\contentsline {section}{\numberline {5}Presence-Absence of a feature}{9}{section.5}
+\contentsline {section}{\numberline {6}Visualization of features}{10}{section.6}
+\contentsline {section}{\numberline {7}Summary}{12}{section.7}
+\contentsline {section}{\numberline {8}Session Info}{12}{section.8}

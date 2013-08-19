@@ -254,6 +254,20 @@ head(MRcoefs(fit,taxa=taxa,coef=2))
 @
 \end{small}
 
+\section{Presence-Absence of a feature}
+The first of Koch's postulates stipulated that the potential pathogenic organism must be found in organisms suffering
+from the disease, but not in healthy organisms. Unfortunately, real data is rarely perfect. Expected pathogenic organisms will not get sequenced and will be absent from a diseased sample and often pathogenic organisms will be found in healthy samples to some degree depending on the population, etc. We provide in \texttt{metagenomeSeq} a method for testing whether a feature is present in greater proportion in one group (e.g. healthy) compared to another (e.g. diseased).
+
+The hypothesis for each test is that the proportion of a given feature present is higher among healthy individuals than among diseased, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{MRfisher} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{MRfisher}. If there is a desire for a more detailed description, please email me.
+
+<<presenceAbsence>>=
+data(mouseData)
+classes = pData(mouseData)$diet
+res = MRfisher(mouseData[1:5,],cl=classes)
+# Warning - the p-value is calculating 1 despite a high odd's ratio.
+head(res)
+@
+
 \section{Visualization of features}
 Reads clustered with high similarity represent functional or taxonomic units. However, it is possible that reads from the same organism get clustered into multiple OTUs.
 \texttt{metagenomeSeq} has several plotting functions to visualize abundance differences for a single feature, \texttt{plotOTU}, and multiple features \texttt{plotGenus}. 
