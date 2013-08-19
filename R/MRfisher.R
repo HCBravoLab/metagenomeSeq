@@ -7,8 +7,7 @@
 #' @param obj A MRexperiment object with a count matrix, or a simple count
 #' matrix.
 #' @param cl Group comparison
-#' @param mat logical indicating whether obj is a MRexperiment object or
-#' matrix. Default is a MRexperiment object.
+#' @param thres Threshold for defining presence/absence.
 #' @return NA
 #' @seealso \code{\link{cumNorm}} \code{\link{fitZig}}
 #' @examples
@@ -20,11 +19,13 @@
 #' res = MRfisher(lungTrim,pData(lungTrim)$SmokingStatus);
 #' head(res)
 #' 
-MRfisher<-function(obj,cl,mat=FALSE){
-    if(mat==FALSE){
-        x = MRcounts(obj)>0;
+MRfisher<-function(obj,cl,thres=0){
+    if(class(obj)=="MRexperiment"){
+        x = MRcounts(obj)>thres;
+    } else if(class(obj) == "matrix") {
+        x = obj>thres;
     } else {
-        x = obj>0;
+        stop("Object needs to be either a MRexperiment object or matrix")
     }
     nrows= nrow(x);
 	if(is.null(rownames(x))){rownames(x)=1:nrows}
@@ -44,6 +45,6 @@ MRfisher<-function(obj,cl,mat=FALSE){
     
     dat = data.frame(as.matrix(t(res)))
     rownames(dat) = rownames(x)
-    colnames(dat) = c("pvalues","oddsratio","lower","upper")
+    colnames(dat) = c("pvalues","oddsRatio","lower","upper")
     return(dat)
 }

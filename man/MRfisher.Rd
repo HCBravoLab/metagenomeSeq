@@ -2,7 +2,7 @@
 \alias{MRfisher}
 \title{Wrapper to run fisher's test on presence/absence of a feature.}
 \usage{
-  MRfisher(obj, cl, mat = FALSE)
+  MRfisher(obj, cl, thres=0)
 }
 \arguments{
   \item{obj}{A MRexperiment object with a count matrix, or
@@ -10,9 +10,7 @@
 
   \item{cl}{Group comparison}
 
-  \item{mat}{logical indicating whether obj is a
-  MRexperiment object or matrix. Default is a MRexperiment
-  object.}
+  \item{thres}{Threshold for defining presence/absence.}
 }
 \value{
   NA
