@@ -66,7 +66,7 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
     cnts = obj$counts;
     yy = cnts>0;
     
-    pa = matrix(unlist(MRfisher(obj$counts,groups,mat=TRUE)),ncol=4)
+    pa = matrix(unlist(MRfisher(obj$counts,groups)),ncol=4)
     
     np0 = rowSums(yy[,groups==unique(groups)[1]]);
     np1 = rowSums(yy[,groups==unique(groups)[2]]);
