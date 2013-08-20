@@ -9,9 +9,9 @@
 
   \item{n}{The number of features to plot}
 
-  \item{log}{Whether or not to log transform the counts.}
+  \item{log}{Whether or not to log transform the counts - if MRexperiment object.}
 
-  \item{norm}{Whether or not to normalize the counts.}
+  \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
 
   \item{fun}{Function to calculate pair-wise relationships.
   Default is pearson correlation}

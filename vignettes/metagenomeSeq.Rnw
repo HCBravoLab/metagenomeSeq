@@ -13,7 +13,7 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
-\title{{\textbf{Analyzing metagenomic data with \texttt{metagenomeSeq}}}}
+\title{{\textbf{Statistical analysis for sparse high-throughput sequencing with \texttt{metagenomeSeq}}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics, Applied Statistics, and Scientific Computing\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
 \date{Modified: August 19, 2013. Compiled: \today}
 \maketitle
@@ -280,7 +280,7 @@ data(mouseData)
 trials = pData(mouseData)$diet
 heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
 heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
-plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,
+plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,
               cexCol = 0.4,trace="none",col = heatmapCols,
               ColSideColors = heatmapColColors)
 plotCorr(obj=mouseData,n=200,

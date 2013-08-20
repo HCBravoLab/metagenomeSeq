@@ -20,21 +20,25 @@
 #'          col = colorRampPalette(brewer.pal(9, "RdBu"))(50))
 #' 
 plotCorr <- function(obj,n,log=TRUE,norm=TRUE,fun=cor,...) {
-    if (log == TRUE) {
-        if (norm == TRUE) {
-            mat = log2(cumNormMat(obj) + 1)
-        }
-        else {
-            mat = log2(MRcounts(obj) + 1)
+    if(class(obj)=="MRexperiment"){
+      if(log==TRUE){
+        if(norm==TRUE){
+          mat = log2(cumNormMat(obj)+1)
+        }else{
+          mat = log2(MRcounts(obj)+1)
+        }        
+      } else{
+        if(norm==TRUE){
+          mat = cumNormMat(obj)    
+        }else{
+          mat = MRcounts(obj)
         }
     }
-    else {
-        if (norm == TRUE) {
-            mat = cumNormMat(obj)
-        }
-        else {
-            mat = MRcounts(obj)
-        }
+    
+    } else if(class(obj) == "matrix") {
+        mat = obj
+    } else {
+        stop("Object needs to be either a MRexperiment object or matrix")
     }
     otusToKeep <- which(rowSums(mat) > 0)
     otuVars = rowSds(mat[otusToKeep, ])
