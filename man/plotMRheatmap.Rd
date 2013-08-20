@@ -2,7 +2,7 @@
 \alias{plotMRheatmap}
 \title{Basic heatmap plot function for normalized counts.}
 \usage{
-  plotMRheatmap(obj, n, trials, log = TRUE, norm = TRUE,
+  plotMRheatmap(obj, n, log = TRUE, norm = TRUE,
     ...)
 }
 \arguments{
@@ -10,11 +10,9 @@
 
   \item{n}{The number of features to plot}
 
-  \item{trials}{A vector of clinical information for.}
+  \item{log}{Whether or not to log transform the counts - if MRexperiment object.}
 
-  \item{log}{Whether or not to log transform the counts.}
-
-  \item{norm}{Whether or not to normalize the counts.}
+  \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
 
   \item{...}{Additional plot arguments.}
 }
@@ -30,7 +28,7 @@ data(mouseData)
 trials = pData(mouseData)$diet
 heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
 heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
-plotMRheatmap(obj=mouseData,n=200,trials=trials,cexRow = 0.4,cexCol = 0.4,trace="none",
+plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",
              col = heatmapCols,ColSideColors = heatmapColColors)
 }
 \seealso{
