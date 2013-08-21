@@ -13,7 +13,7 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
-\title{{\textbf{Statistical analysis for sparse high-throughput sequencing with \texttt{metagenomeSeq}}}}
+\title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics, Applied Statistics, and Scientific Computing\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
 \date{Modified: August 19, 2013. Compiled: \today}
 \maketitle
@@ -328,7 +328,11 @@ axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
 
 \section{Summary}
 
-\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply.
+\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the software, please cite the manual/software!
+
+<<cite>>=
+citation("metagenomeSeq")
+@
 
 \section{Session Info}
 <<sessi>>=
