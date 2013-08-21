@@ -14,12 +14,12 @@ citEntry(entry="article",
          url = "",
          
          textVersion = 
-         paste("JN Paulson, OC Stine, HC Bravo, M Pop:", 
-               "Robust statistical methods for differential abundance analysis of marker gene survey data.",
+         paste("JN Paulson, OC Stine, HC Bravo, M Pop. ", 
+               "Robust methods for differential abundance analysis of marker gene survey data. ",
                 "In submission" ) )
 
 citEntry(entry="manual",
-         title = "Statistical analysis for sparse high-throughput sequncing with metagenomeSeq",
+         title = "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing.",
          author = personList( as.person("Joseph N. Paulson"), 
                               as.person("Mihai Pop"),
                               as.person("Hector Corrada Bravo")),
@@ -28,7 +28,7 @@ citEntry(entry="manual",
          url = "http://www.cbcb.umd.edu/software/metagenomeSeq",
          
          textVersion = 
-         paste("JN Paulson, M Pop, HC Bravo:", 
-               "metagenomeSeq: statistical analysis for sparse high-throughput sequncing",
-               "Bioconductor package:", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq" ) )
+         paste("JN Paulson, M Pop, HC Bravo. ", 
+               "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing. ",
+               "Bioconductor package: ", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq",sep="") )
 
