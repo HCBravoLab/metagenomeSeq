@@ -1,7 +1,7 @@
 citHeader("Please cite the top citation for the software itself and the paper for the original statistical method implemented in metagenomeSeq.")
 
 citEntry(entry="article",
-         title = "Robust statistical methods for differential abundance analysis of marker gene survey data",
+         title = "Robust methods for differential abundance analysis of marker gene survey data",
          author = personList( as.person("Joseph N. Paulson"), 
                               as.person("Oscar Colin Stine"),
                               as.person("Hector Corrada Bravo"),
@@ -19,7 +19,7 @@ citEntry(entry="article",
                 "In submission" ) )
 
 citEntry(entry="manual",
-         title = "metagenomeSeq: statistical analysis for sparse high-throughput sequncing",
+         title = "Statistical analysis for sparse high-throughput sequncing with metagenomeSeq",
          author = personList( as.person("Joseph N. Paulson"), 
                               as.person("Mihai Pop"),
                               as.person("Hector Corrada Bravo")),
