@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{Analyzing metagenomic data with metagenomeSeq}
+%\VignetteIndexEntry{metagenomeSeq: statistical analysis for sparse high-throughput sequencing}
 \documentclass[a4paper,12pt]{article}
 \usepackage{Sweave}
 \usepackage{url}
