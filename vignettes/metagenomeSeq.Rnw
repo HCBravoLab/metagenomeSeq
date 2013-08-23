@@ -280,12 +280,10 @@ data(mouseData)
 trials = pData(mouseData)$diet
 heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
 heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
-plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,
-              cexCol = 0.4,trace="none",col = heatmapCols,
-              ColSideColors = heatmapColColors)
-plotCorr(obj=mouseData,n=200,
-              cexRow = 0.25,cexCol = 0.25,trace="none",dendrogram="none",
-              col=heatmapCols)
+plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",
+                col = heatmapCols,ColSideColors = heatmapColColors)
+plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,trace="none",
+              dendrogram="none",col=heatmapCols)
 @
 \end{small}
 
@@ -299,21 +297,22 @@ Following differential abundance analysis. It is important to confirm differenti
 \begin{small}
 <<plotOTUData,fig=FALSE>>= 
 head(MRtable(fit,coef=2,taxa=1:length(fData(lungTrim)$taxa)))
-patients=sapply(strsplit(rownames(pData(lungTrim)),split="_"),function(i){i[3]})
+patients=sapply(strsplit(rownames(pData(lungTrim)),split="_"),
+                function(i){i[3]
+        })
 pData(lungTrim)$patients=patients
 classIndex=list(smoker=which(pData(lungTrim)$SmokingStatus=="Smoker"))
 classIndex$nonsmoker=which(pData(lungTrim)$SmokingStatus=="NonSmoker")
 otu = 779
 x = fData(lungTrim)$taxa[otu]
-plotOTU(lungTrim,otu=otu,classIndex,
-        main="Neisseria meningitidis")
+plotOTU(lungTrim,otu=otu,classIndex,main="Neisseria meningitidis")
 @
 \texttt{plotGenus} allows the user to plot abundances for several features similarly annotated for the various groups. At the OTU level reads are potentially clustered to multiple cluster centers that represent the same organism. It is possible that reads from one group get assigned to one OTU, and reads from another group are assigned to a different center that represents the same organism simply due to read similarity. Using \texttt{plotGenus} is one basic method to ensure that a feature is more likely to be differentially abundant.
 
 <<plotGenusData,fig=FALSE>>=
 otulist = grep(x,fData(lungTrim)$taxa)
 plotGenus(lungTrim,otulist,classIndex,labs=FALSE,
-          main="Neisseria meningitidis")
+            main="Neisseria meningitidis")
 lablist<- c("S","NS")
 axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
 @
@@ -335,7 +334,7 @@ citation("metagenomeSeq")
 @
 
 \section{Session Info}
-<<sessi>>=
+<<sessionInfo>>=
 sessionInfo()
 @
 \bibliography{metagenomeSeq}
