@@ -9,9 +9,10 @@
 #' @param obj An MRexperiment object with count data.
 #' @param otuIndex A list of the otus with the same annotation.
 #' @param classIndex A list of the samples in their respective groups.
-#' @param norm Whether or not to normalize the counts.
+#' @param log Whether or not to log transform the counts - if MRexperiment object.
+#' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param no Which of the otuIndex to plot.
-#' @param factor Factor value for jitter
+#' @param jitter.factor Factor value for jitter
 #' @param pch Standard pch value for the plot command.
 #' @param labs Whether to include group labels or not. (TRUE/FALSE)
 #' @param xlab xlabel for the plot.
@@ -31,12 +32,18 @@
 #' plotGenus(mouseData,otuIndex,classIndex,no=1:2,xaxt="n",norm=FALSE,ylab="Strep normalized log(cpt)")
 #' 
 plotGenus <-
-function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,factor=1,pch=21,ret=FALSE,...){
+function(obj,otuIndex,classIndex,log=TRUE,norm=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,jitter.factor=1,pch=21,ret=FALSE,...){
+
+    if(class(obj)=="MRexperiment"){
+        mat = MRcounts(obj,norm=norm,log=log)
+    } else if(class(obj) == "matrix") {
+        mat = obj
+    } else {
+       stop("Object needs to be either a MRexperiment object or matrix")
+    }
 
 	l=lapply(otuIndex[no], function(i) lapply(classIndex, function(j) {
-        if(norm==FALSE){ x=log2(MRcounts(obj)[i,j]+1) }
-        else if(norm==TRUE){  x=log2(MRcounts(obj,norm=TRUE)+1)[i,j]; }
-        x 
+        mat[i,j]
         }))
 
 	l=unlist(l,recursive=FALSE)
@@ -55,7 +62,7 @@ function(obj,otuIndex,classIndex,norm=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=
         blackCol=t(col2rgb("black"))
         col=rgb(blackCol)
     #}
-    if(jitter) x=jitter(x,factor)
+    if(jitter) x=jitter(x,jitter.factor)
     
     if(is.null(ylab)){ylab="Normalized log(cpt)"}
     if(is.null(xlab)){xlab="Groups of comparison"}

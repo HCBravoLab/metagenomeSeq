@@ -2,7 +2,7 @@
 \alias{MRfisher}
 \title{Wrapper to run fisher's test on presence/absence of a feature.}
 \usage{
-  MRfisher(obj, cl, thres=0)
+  MRfisher(obj, cl, thres = 0)
 }
 \arguments{
   \item{obj}{A MRexperiment object with a count matrix, or

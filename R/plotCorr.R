@@ -6,8 +6,8 @@
 #' 
 #' @param obj A MRexperiment object with count data.
 #' @param n The number of features to plot
-#' @param log Whether or not to log transform the counts.
-#' @param norm Whether or not to normalize the counts.
+#' @param log Whether or not to log transform the counts - if MRexperiment object.
+#' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param fun Function to calculate pair-wise relationships. Default is pearson
 #' correlation
 #' @param ... Additional plot arguments.
@@ -21,20 +21,7 @@
 #' 
 plotCorr <- function(obj,n,log=TRUE,norm=TRUE,fun=cor,...) {
     if(class(obj)=="MRexperiment"){
-      if(log==TRUE){
-        if(norm==TRUE){
-          mat = log2(cumNormMat(obj)+1)
-        }else{
-          mat = log2(MRcounts(obj)+1)
-        }        
-      } else{
-        if(norm==TRUE){
-          mat = cumNormMat(obj)    
-        }else{
-          mat = MRcounts(obj)
-        }
-    }
-    
+        mat = MRcounts(obj,norm=norm,log=log)
     } else if(class(obj) == "matrix") {
         mat = obj
     } else {

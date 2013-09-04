@@ -3,6 +3,7 @@ version 1.2.2x (2013-08-20)
 	Updated plotCorr and plotMRheatmap to allow various colors/not require trials(07-13)
 	Updated MRfisher to include thresholding for presence-absence testing (08-19)
 	Included Presence-Absence in vignette 
+	Added a new function plotOrd - a function to plot PCA/MDS coordinates (09-04)
 
 version 1.1.9 (2013-06-25)
 	

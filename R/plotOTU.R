@@ -8,8 +8,9 @@
 #' @param obj A MRexperiment object with count data.
 #' @param otu The row number/OTU to plot.
 #' @param classIndex A list of the samples in their respective groups.
-#' @param norm Whether or not to normalize the counts.
-#' @param factor Factor value for jitter.
+#' @param log Whether or not to log transform the counts - if MRexperiment object.
+#' @param norm Whether or not to normalize the counts - if MRexperiment object.
+#' @param jitter.factor Factor value for jitter.
 #' @param pch Standard pch value for the plot command.
 #' @param labs Whether to include group labels or not. (TRUE/FALSE)
 #' @param xlab xlabel for the plot.
@@ -28,19 +29,17 @@
 #' plotOTU(mouseData,otu=9083,classIndex,norm=FALSE,main="9083 feature abundances")
 #' 
 plotOTU <-
-function(obj,otu,classIndex,norm=TRUE,factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,ret=FALSE,...){
+function(obj,otu,classIndex,log=TRUE,norm=TRUE,jitter.factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,ret=FALSE,...){
+    if(class(obj)=="MRexperiment"){
+        mat = MRcounts(obj,norm=norm,log=log)
+    } else if(class(obj) == "matrix") {
+        mat = obj
+    } else {
+       stop("Object needs to be either a MRexperiment object or matrix")
+    }
 
 	l=lapply(classIndex, function(j){
-        if(norm==FALSE){ 
-            log2(MRcounts(obj)[otu,j]+1) 
-        }
-        else if(norm==TRUE){
-            if(any(is.na(normFactors(obj)))){
-                log2(cumNormMat(obj)[otu,j]+1)
-            } else{ 
-                log2(MRcounts(obj,norm=TRUE)[otu,j]+1)
-            }
-        }
+        mat[otu,j]
         })
 
 	z = posterior.probs(obj)
@@ -58,7 +57,7 @@ function(obj,otu,classIndex,norm=TRUE,factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=N
         col=rgb(blackCol)
     }
     
-	if(jitter) x=jitter(x,factor)
+	if(jitter) x=jitter(x,jitter.factor)
     
     if(is.null(ylab)){ylab="Normalized log(cpt)"}
     if(is.null(xlab)){xlab="Groups of comparison"}

@@ -2,17 +2,18 @@
 \alias{plotMRheatmap}
 \title{Basic heatmap plot function for normalized counts.}
 \usage{
-  plotMRheatmap(obj, n, log = TRUE, norm = TRUE,
-    ...)
+  plotMRheatmap(obj, n, log = TRUE, norm = TRUE, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
 
   \item{n}{The number of features to plot}
 
-  \item{log}{Whether or not to log transform the counts - if MRexperiment object.}
+  \item{log}{Whether or not to log transform the counts -
+  if MRexperiment object.}
 
-  \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
+  \item{norm}{Whether or not to normalize the counts - if
+  MRexperiment object.}
 
   \item{...}{Additional plot arguments.}
 }

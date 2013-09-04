@@ -3,10 +3,10 @@
 \alias{plotGenus}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotGenus(obj, otuIndex, classIndex, norm = TRUE,
-    no = 1:length(otuIndex), labs = TRUE, xlab = NULL,
-    ylab = NULL, jitter = TRUE, factor = 1, pch = 21,
-    ret = FALSE, ...)
+  plotGenus(obj, otuIndex, classIndex, log = TRUE,
+    norm = TRUE, no = 1:length(otuIndex), labs = TRUE,
+    xlab = NULL, ylab = NULL, jitter = TRUE,
+    jitter.factor = 1, pch = 21, ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{An MRexperiment object with count data.}
@@ -17,11 +17,15 @@
   \item{classIndex}{A list of the samples in their
   respective groups.}
 
-  \item{norm}{Whether or not to normalize the counts.}
+  \item{log}{Whether or not to log transform the counts -
+  if MRexperiment object.}
+
+  \item{norm}{Whether or not to normalize the counts - if
+  MRexperiment object.}
 
   \item{no}{Which of the otuIndex to plot.}
 
-  \item{factor}{Factor value for jitter}
+  \item{jitter.factor}{Factor value for jitter}
 
   \item{pch}{Standard pch value for the plot command.}
 

@@ -2,12 +2,14 @@
 \alias{cumNormMat}
 \title{Cumulative sum scaling factors.}
 \usage{
-  cumNormMat(obj, p = cumNormStat(obj))
+  cumNormMat(obj, p = cumNormStat(obj), sl = 1000)
 }
 \arguments{
   \item{obj}{A MRexperiment object.}
 
   \item{p}{The pth quantile.}
+
+  \item{sl}{The value to scale by (default=1000).}
 }
 \value{
   Returns a matrix normalized by scaling counts up to and
