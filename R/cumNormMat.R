@@ -22,7 +22,7 @@ function(obj,p= cumNormStat(obj),sl = 1000){
 #    and calculated the sum up to and
 #    including that quantile.
 ####################################################################################
-    x=MRcounts(obj)
+    x=MRcounts(obj,norm=FALSE,log=FALSE)
     xx=x
 	xx[x==0] <- NA
 	
