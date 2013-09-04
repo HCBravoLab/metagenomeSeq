@@ -20,7 +20,7 @@
 cumNormStat <-
 function(obj,pFlag = FALSE,rel=.1,qFlag = TRUE, ...){
     
-	mat = MRcounts(obj);
+	mat = MRcounts(obj,norm=FALSE,log=FALSE);
 	smat = sapply(1:ncol(mat),function(i){sort(mat[,i],decreasing=FALSE)})
 	ref  = rowMeans(smat);
 	
