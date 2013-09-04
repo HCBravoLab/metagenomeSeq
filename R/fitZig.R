@@ -45,9 +45,10 @@ function(obj,mod,zeroMod=NULL,useS95offset=TRUE,control=zigControl()){
 	verbose   = control$verbose;
 	
     stopifnot( is( obj, "MRexperiment" ) )
-    if(any(is.na(normFactors(obj)))){return("At least one NA normalization factors")}
+    if(any(is.na(normFactors(obj)))) stop("At least one NA normalization factors")
+    if(any(is.na(libSize(obj)))) stop("Calculate the library size first!")
 	
-	y = MRcounts(obj)
+	y = MRcounts(obj,norm=FALSE,log=FALSE)
 	nc = ncol(y) #nsamples
 	nr = nrow(y) #nfeatures
 
@@ -68,12 +69,18 @@ function(obj,mod,zeroMod=NULL,useS95offset=TRUE,control=zigControl()){
 		
 # Initializing the model matrix
 	if(useS95offset==TRUE){
+		if(any(is.na(normFactors(obj)))){
+			stop("Calculate the normalization factors first!")
+		}
 		mmCount=cbind(mod,log2(as.matrix(normFactors(obj))/1000 +1))}
 	else{ 
         mmCount=mod
     }
 
 	if(is.null(zeroMod)){
+		if(any(is.na(libSize(obj)))){
+			stop("Calculate the library size first!")
+		}
         mmZero=model.matrix(~1+log(libSize(obj)))
     } else{ 
         mmZero=zeroMod 

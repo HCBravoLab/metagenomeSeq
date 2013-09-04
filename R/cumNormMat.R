@@ -6,6 +6,7 @@
 #' 
 #' @param obj A MRexperiment object.
 #' @param p The pth quantile.
+#' @param sl The value to scale by (default=1000).
 #' @return Returns a matrix normalized by scaling counts up to and including
 #' the pth quantile.
 #' @seealso \code{\link{fitZig}} \code{\link{cumNorm}}
@@ -15,7 +16,7 @@
 #' head(cumNormMat(mouseData))
 #' 
 cumNormMat <-
-function(obj,p= cumNormStat(obj)){
+function(obj,p= cumNormStat(obj),sl = 1000){
 ####################################################################################
 #   Calculates each column's quantile
 #    and calculated the sum up to and
@@ -31,6 +32,6 @@ function(obj,p= cumNormStat(obj)){
 				   xx=(x[,i]-.Machine$double.eps)
 				   sum(xx[xx<=qs[i]])
 				   })
-	x<-sweep(x,2,newMat/1000,"/")
+	x<-sweep(x,2,newMat/sl,"/")
 	return(x)
 }

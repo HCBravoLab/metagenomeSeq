@@ -2,9 +2,9 @@
 \alias{plotOTU}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotOTU(obj, otu, classIndex, norm = TRUE, factor = 1,
-    pch = 21, labs = TRUE, xlab = NULL, ylab = NULL,
-    jitter = TRUE, ret = FALSE, ...)
+  plotOTU(obj, otu, classIndex, log = TRUE, norm = TRUE,
+    jitter.factor = 1, pch = 21, labs = TRUE, xlab = NULL,
+    ylab = NULL, jitter = TRUE, ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -14,9 +14,13 @@
   \item{classIndex}{A list of the samples in their
   respective groups.}
 
-  \item{norm}{Whether or not to normalize the counts.}
+  \item{log}{Whether or not to log transform the counts -
+  if MRexperiment object.}
 
-  \item{factor}{Factor value for jitter.}
+  \item{norm}{Whether or not to normalize the counts - if
+  MRexperiment object.}
+
+  \item{jitter.factor}{Factor value for jitter.}
 
   \item{pch}{Standard pch value for the plot command.}
 

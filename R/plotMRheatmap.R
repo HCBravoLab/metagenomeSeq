@@ -22,25 +22,13 @@
 #' 
 plotMRheatmap <- function(obj,n,log=TRUE,norm=TRUE,...) {
     if(class(obj)=="MRexperiment"){
-      if(log==TRUE){
-        if(norm==TRUE){
-          mat = log2(cumNormMat(obj)+1)
-        }else{
-          mat = log2(MRcounts(obj)+1)
-        }        
-      } else{
-        if(norm==TRUE){
-          mat = cumNormMat(obj)    
-        }else{
-          mat = MRcounts(obj)
-        }
-    }
-
+        mat = MRcounts(obj,norm=norm,log=log)
     } else if(class(obj) == "matrix") {
         mat = obj
     } else {
-        stop("Object needs to be either a MRexperiment object or matrix")
+       stop("Object needs to be either a MRexperiment object or matrix")
     }
+    
   otusToKeep <- which(rowSums(mat)>0);
   otuVars=rowSds(mat[otusToKeep,]);
   otuIndices=otusToKeep[order(otuVars,decreasing=TRUE)[1:n]];
