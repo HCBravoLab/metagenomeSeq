@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  23 AUG 2013 12:10
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  4 SEP 2013 17:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -545,7 +545,7 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2012/tex
 mf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2012/texmf-dist/
 fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/ty
 pe1/urw/courier/ucrro8a.pfb>
-Output written on metagenomeSeq.pdf (13 pages, 477507 bytes).
+Output written on metagenomeSeq.pdf (13 pages, 477529 bytes).
 PDF statistics:
  224 PDF objects out of 1000 (max. 8388607)
  185 compressed objects within 2 object streams

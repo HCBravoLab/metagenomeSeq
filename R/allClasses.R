@@ -121,7 +121,7 @@ setValidity( "MRexperiment", function( object ) {
 #' @name MRcounts
 #' @aliases MRcounts,MRexperiment-method MRcounts
 #' @docType methods
-#' @param cnts a \code{MRexperiment} object.
+#' @param obj a \code{MRexperiment} object.
 #' @param norm logical indicating whether or not to return normalized counts.
 #' @param log TRUE/FALSE whether or not to log_2 transform scale.
 #' @param sl The value to scale by (default=1000).
@@ -137,18 +137,17 @@ MRcounts <- function(obj,norm=FALSE,log=FALSE,sl=1000) {
     x=assayData(obj)[["counts"]]
    }
    else{
-    x=cumNormMat(obj,sl=sl)
+    if(any(is.na(normFactors(obj)))){
+      x=cumNormMat(obj,sl=sl)
+    } else{
+      x=sweep(assayData(obj)[["counts"]],2,as.vector(unlist(normFactors(obj)))/sl,"/")
+    }
    }
    if(!log){
     return(x)
    } else{
     return(log2(x+1))
    }
-   #if(any(is.na(normFactors(obj)))){
-   # return("Calculate the normalization factors first!")
-   #} else{
-   # sweep(assayData(obj)[["counts"]],2,as.vector(unlist(normFactors(obj)))/sl,"/")
-   #}
 }
 
 
