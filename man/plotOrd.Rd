@@ -2,8 +2,8 @@
 \alias{plotOrd}
 \title{Plot of either PCA or MDS coordinates for the distances of normalized or unnormalized counts.}
 \usage{
-  plotOrd(obj, tran = FALSE, log = TRUE, norm = TRUE,
-    usePCA = TRUE, useDist = FALSE,
+  plotOrd(obj, tran = FALSE, comp = 1:2, log = TRUE,
+    norm = TRUE, usePCA = TRUE, useDist = FALSE,
     dist.method = "euclidian", ret = FALSE, ntop = NULL,
     ...)
 }
@@ -12,6 +12,8 @@
   matrix.}
 
   \item{tran}{If you're interested in displaying samples.}
+
+  \item{comp}{Which components to display (when using PCA)}
 
   \item{usePCA}{TRUE/FALSE whether to use PCA or MDS
   coordinates (TRUE is PCA).}
