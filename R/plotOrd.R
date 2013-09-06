@@ -6,6 +6,7 @@
 #' 
 #' @param obj A MRexperiment object with count data or matrix.
 #' @param tran If you're interested in displaying samples.
+#' @param comp Which components to display (when using PCA)
 #' @param usePCA TRUE/FALSE whether to use PCA  or MDS coordinates (TRUE is PCA).
 #' @param useDist TRUE/FALSE whether to calculate distances.
 #' @param dist.method If useDist==TRUE, what method to calculate distances.
@@ -22,7 +23,7 @@
 #' cl = pData(mouseData)[,3]
 #' plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),norm=FALSE)
 #' 
-plotOrd<-function(obj,tran=FALSE,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=FALSE,dist.method="euclidian",ret=FALSE,ntop=NULL,...){
+plotOrd<-function(obj,tran=FALSE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=FALSE,dist.method="euclidian",ret=FALSE,ntop=NULL,...){
     if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=norm,log=log)
     } else if(class(obj) == "matrix") {
@@ -32,6 +33,8 @@ plotOrd<-function(obj,tran=FALSE,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=FALSE,di
     }
     if(useDist==FALSE & usePCA==FALSE) stop("Classical MDS requires distances")
     if(is.null(ntop)) ntop = min(nrow(mat),1000)
+    if(length(comp)>2) stop("Can't display more than two components")
+    if(usePCA==FALSE & sum(comp%in%1:2)!=2) warning("Only first two components for CMDS"); comp=1:2;
 
     otusToKeep <- which(rowSums(mat)>0)
     otuVars<-rowSds(mat[otusToKeep,])
@@ -52,7 +55,7 @@ plotOrd<-function(obj,tran=FALSE,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=FALSE,di
     }
     main = paste(ifelse(usePCA,"PCA","MDS"),ifelse(useDist,"distances of features","features"),sep=" on ")
 
-	plot(ord[,1:2],xlab="First coordinate",ylab="Second coordinate",main=main,...)
+	plot(ord[,comp],main=main,...)
     if(ret==TRUE) return(ord[,1:2])
     else invisible()
 }
