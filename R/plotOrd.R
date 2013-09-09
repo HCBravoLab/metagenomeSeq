@@ -34,7 +34,6 @@ plotOrd<-function(obj,tran=FALSE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist
     if(useDist==FALSE & usePCA==FALSE) stop("Classical MDS requires distances")
     if(is.null(ntop)) ntop = min(nrow(mat),1000)
     if(length(comp)>2) stop("Can't display more than two components")
-    if(usePCA==FALSE & sum(comp%in%1:2)!=2) warning("Only first two components for CMDS"); comp=1:2;
 
     otusToKeep <- which(rowSums(mat)>0)
     otuVars<-rowSds(mat[otusToKeep,])
@@ -49,7 +48,7 @@ plotOrd<-function(obj,tran=FALSE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist
     } else{ d = mat }
     
     if(usePCA==FALSE){
-	   ord = cmdscale(d)
+	   ord = cmdscale(d,k = max(comp))
     } else{
        ord = prcomp(d)$x
     }
