@@ -4,9 +4,9 @@
 #' effects or feature relationships.
 #' 
 #' 
-#' @param obj A MRexperiment object with count data or matrix.
-#' @param tran If you're interested in displaying samples.
-#' @param comp Which components to display (when using PCA)
+#' @param obj A MRexperiment object or count matrix.
+#' @param tran Transpose the matrix.
+#' @param comp Which components to display
 #' @param usePCA TRUE/FALSE whether to use PCA  or MDS coordinates (TRUE is PCA).
 #' @param useDist TRUE/FALSE whether to calculate distances.
 #' @param dist.method If useDist==TRUE, what method to calculate distances.
@@ -21,7 +21,7 @@
 #' 
 #' data(mouseData)
 #' cl = pData(mouseData)[,3]
-#' plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),norm=FALSE)
+#' plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),usePCA=FALSE)
 #' 
 plotOrd<-function(obj,tran=FALSE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=FALSE,dist.method="euclidian",ret=FALSE,ntop=NULL,...){
     if(class(obj)=="MRexperiment"){
@@ -55,6 +55,6 @@ plotOrd<-function(obj,tran=FALSE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist
     main = paste(ifelse(usePCA,"PCA","MDS"),ifelse(useDist,"distances of features","features"),sep=" on ")
 
 	plot(ord[,comp],main=main,...)
-    if(ret==TRUE) return(ord[,1:2])
+    if(ret==TRUE) return(ord[,comp])
     else invisible()
 }

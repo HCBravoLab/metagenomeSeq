@@ -8,12 +8,11 @@
     ...)
 }
 \arguments{
-  \item{obj}{A MRexperiment object with count data or
-  matrix.}
+  \item{obj}{A MRexperiment object or count matrix.}
 
-  \item{tran}{If you're interested in displaying samples.}
+  \item{tran}{Transpose the matrix.}
 
-  \item{comp}{Which components to display (when using PCA)}
+  \item{comp}{Which components to display}
 
   \item{usePCA}{TRUE/FALSE whether to use PCA or MDS
   coordinates (TRUE is PCA).}
@@ -48,7 +47,7 @@
 \examples{
 data(mouseData)
 cl = pData(mouseData)[,3]
-plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),norm=FALSE)
+plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),usePCA=FALSE)
 }
 \seealso{
   \code{\link{cumNormMat}}
