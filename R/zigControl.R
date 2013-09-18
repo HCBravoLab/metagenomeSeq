@@ -1,6 +1,6 @@
 #' Settings for the fitZig function
 #'
-#' @param tol The tolerance for the difference in negative log likelihood estimates for a feature to still be active.
+#' @param tol The tolerance for the difference in negative log likelihood estimates for a feature to remain active.
 #' @param maxit The maximum number of iterations for the expectation-maximization algorithm.
 #' @param verbose Whether to display iterative step summary statistics or not.
 #' @return The value for the tolerance, maximum no. of iterations, and the verbose warning.
