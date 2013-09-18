@@ -7,8 +7,7 @@
 }
 \arguments{
   \item{tol}{The tolerance for the difference in negative
-  log likelihood estimates for a feature to still be
-  active.}
+  log likelihood estimates for a feature to remain active.}
 
   \item{maxit}{The maximum number of iterations for the
   expectation-maximization algorithm.}
