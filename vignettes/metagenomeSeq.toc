@@ -10,5 +10,7 @@
 \contentsline {subsection}{\numberline {4.2}Running the statistical analysis}{7}{subsection.4.2}
 \contentsline {section}{\numberline {5}Presence-Absence of a feature}{9}{section.5}
 \contentsline {section}{\numberline {6}Visualization of features}{10}{section.6}
+\contentsline {subsection}{\numberline {6.1}Structural overview}{10}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}OTU/family/gene specific}{10}{subsection.6.2}
 \contentsline {section}{\numberline {7}Summary}{12}{section.7}
-\contentsline {section}{\numberline {8}Session Info}{12}{section.8}
+\contentsline {section}{\numberline {8}Session Info}{13}{section.8}

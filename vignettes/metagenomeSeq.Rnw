@@ -156,7 +156,7 @@ There are other functions, including \texttt{normFactors}, \texttt{cumNormMat}, 
 
 \begin{figure}
 \centerline{\includegraphics[width=.55\textwidth]{metagenomeSeq_figure1.png}\label{fig1}}
-\caption{Relative difference for the median difference in counts from the reference. Samples came from the lung dataset (and all were used except the extraction.controls \texttt{pData(lungData)\$SampleType}). }
+\caption{\footnotesize{Relative difference for the median difference in counts from the reference. Samples came from the lung dataset (and all were used except the extraction.controls \texttt{pData(lungData)\$SampleType}).}}
 \end{figure}
 
 \subsection{Exporting data}
@@ -207,7 +207,7 @@ confounding covariates in a straightforward manner. \texttt{fitZig} output inclu
 
 \begin{figure}
 \centerline{\includegraphics[width=.55\textwidth]{metagenomeSeq_figure2.png}}
-\caption{The number of unique features is plotted against depth of coverage for samples from the Human Microbiome Project \cite{hmp}. Including the depth of coverage and the interaction of body site and sequencing site we are able to acheive an adjusted $\mathrm{R}^2$ of .94. The zero-inflated Gaussian mixture was developed to account for missing features.}\label{fig2}
+\caption{\footnotesize{The number of unique features is plotted against depth of coverage for samples from the Human Microbiome Project \cite{hmp}. Including the depth of coverage and the interaction of body site and sequencing site we are able to acheive an adjusted $\mathrm{R}^2$ of .94. The zero-inflated Gaussian mixture was developed to account for missing features.}}\label{fig2}
 \end{figure}
 
 \subsection{Running the statistical analysis}
@@ -270,10 +270,19 @@ head(res)
 
 \section{Visualization of features}
 Reads clustered with high similarity represent functional or taxonomic units. However, it is possible that reads from the same organism get clustered into multiple OTUs.
-\texttt{metagenomeSeq} has several plotting functions to visualize abundance differences for a single feature, \texttt{plotOTU}, and multiple features \texttt{plotGenus}. 
-Plotting multiple OTUs with similar annotations allows for additional control of false discoveries. Other functions allow for an understanding of structural composition with heatmaps of feature counts \texttt{plotMRheatmap} and basic feature correlation structures \texttt{plotCorr}.
+\texttt{metagenomeSeq} has several plotting functions to visualize and gain insight into the overall structural composition of the data with with heatmaps of feature counts \texttt{plotMRheatmap}, basic feature correlation structures \texttt{plotCorr}, PCA/MDS coordinates of samples or features \texttt{plotOrd}, or even the rarefaction effect in your data \texttt{plotRare}. Other plotting functions include plotting the the abundance differences for a single feature, \texttt{plotOTU} or multiple features \texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for additional control of false discoveries.
 
-Many studies hope to compare biological compositions at a community level. Often a first step of data analysis is a heatmap or some other data exploratory tool, followed by a correlation or co-occurence heatmap.
+\subsection{Structural overview}
+Many studies hope to compare biological compositions at a community level. Often a first step of data analysis is a heatmap or some other data exploratory tool, followed by a correlation or co-occurence heatmap. The following functions have been implemented to provide a first step overview of the data:\\
+
+\noindent
+\texttt{plotMRheatmap} - heatmap of abundance estimates (see fig. 3) \\
+\texttt{plotCorr} - heatmap of pairwise correlations (see fig. 3)\\
+\texttt{plotOrd} - PCA/CMDS plots of various co-ordinates\\
+\texttt{plotRare} - Plotting the rarefaction effect\\
+
+\noindent
+Each of the above can include phenotypic information in helping to explore the data.\\
 \begin{small}
 <<heatmapData,fig=FALSE>>=
 data(mouseData)
@@ -289,10 +298,15 @@ plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,trace="none",
 
 \begin{figure}
 \centerline{\includegraphics[width=.55\textwidth]{metagenomeSeq_figure3.png}\includegraphics[width=.55\textwidth]{metagenomeSeq_figure4.png}\label{fig3}}
-\caption{Left) Heatmaps and hierarchical clustering of log2 transformed counts for the 200 OTUs with the largest overall variance. Red values indicate counts close to zero. Row color labels indicate OTU taxonomic class; column color labels indicate diet (green = high fat, yellow = low fat). Notice the samples cluster by diet in these cases and there are obvious clusters. Right) Correlation matrix for the same features.}
+\caption{\footnotesize{Left) Heatmaps and hierarchical clustering of log2 transformed counts for the 200 OTUs with the largest overall variance. Red values indicate counts close to zero. Row color labels indicate OTU taxonomic class; column color labels indicate diet (green = high fat, yellow = low fat). Notice the samples cluster by diet in these cases and there are obvious clusters. Right) Correlation matrix for the same features.}}
 \end{figure}
 
-Following differential abundance analysis. It is important to confirm differential abundance. One way to limit false positives is ensure that the feature is actually abundant (enough positive samples). Another way is to plot the abundances of features similarly annotated. \texttt{plotOTU} allows the user to plot the abundances of one feature separately for one group versus another.
+\subsection{OTU/family/gene specific}
+Following differential abundance analysis. It is important to confirm differential abundance. One way to limit false positives is ensure that the feature is actually abundant (enough positive samples). Another way is to plot the abundances of features similarly annotated. \\
+
+\noindent
+\texttt{plotOTU} - abundances of a particular feature by group (see fig. 4)\\
+\texttt{plotGenus} - abundances for several features similarly annotated by group (see fig. 4)\\
 
 \begin{small}
 <<plotOTUData,fig=FALSE>>= 
@@ -307,7 +321,10 @@ otu = 779
 x = fData(lungTrim)$taxa[otu]
 plotOTU(lungTrim,otu=otu,classIndex,main="Neisseria meningitidis")
 @
-\texttt{plotGenus} allows the user to plot abundances for several features similarly annotated for the various groups. At the OTU level reads are potentially clustered to multiple cluster centers that represent the same organism. It is possible that reads from one group get assigned to one OTU, and reads from another group are assigned to a different center that represents the same organism simply due to read similarity. Using \texttt{plotGenus} is one basic method to ensure that a feature is more likely to be differentially abundant.
+
+
+
+At the OTU level reads are potentially clustered to multiple cluster centers that represent the same organism. It is possible that reads from one group get assigned to one OTU, and reads from another group are assigned to a different center that represents the same organism simply due to read similarity. Using \texttt{plotGenus} is one basic method to ensure that a feature is more likely to be differentially abundant.
 
 <<plotGenusData,fig=FALSE>>=
 otulist = grep(x,fData(lungTrim)$taxa)
@@ -320,7 +337,7 @@ axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
 
 \begin{figure}
 \centerline{\includegraphics[width=.55\textwidth]{metagenomeSeq_figure5.png}\includegraphics[width=.55\textwidth]{metagenomeSeq_figure6.png}\label{fig4}}
-\caption{Left) Plot of the normalized log(cpt) of \textit{Neisseria meningitidis}, in particular the 779th row of lungTrim's count matrix. Right) Plot of the normalized log(cpt) of all OTUs annotated as \textit{Neisseria meningitidis}. According to this it would appear that \textit{Neisseria meningitidis} is differentially abundant and more abundant in nonsmokers.}
+\caption{\footnotesize{Left) Plot of the normalized log(cpt) of \textit{Neisseria meningitidis}, in particular the 779th row of lungTrim's count matrix. Right) Plot of the normalized log(cpt) of all OTUs annotated as \textit{Neisseria meningitidis}. According to this it would appear that \textit{Neisseria meningitidis} is differentially abundant and more abundant in nonsmokers.}}
 \end{figure}
 
 \end{small}
