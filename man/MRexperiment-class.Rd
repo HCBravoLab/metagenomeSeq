@@ -20,8 +20,8 @@ Note: This is a summary for reference. For an explanation of the actual usage, s
 MRexperiments are the main class in use by metagenomeSeq. The class extends eSet and provides additional slots which are populated during the analysis pipeline.
 
 MRexperiment dataset are created with calls to \code{\link{newMRexperiment}}.
-MRexperiment datasets contain raw count matrices (integers) accessible through \code{\link{counts}}.
-Similarly, normalized count matrices can be accessed (following normalization) through \code{\link{counts}} by calling norm=TRUE.
+MRexperiment datasets contain raw count matrices (integers) accessible through \code{\link{MRcounts}}.
+Similarly, normalized count matrices can be accessed (following normalization) through \code{\link{MRcounts}} by calling norm=TRUE.
 Following an analysis, a matrix of posterior probabilities for counts is accessible through \code{\link{posterior.probs}}.
 
 The normalization factors used in analysis can be recovered by \code{\link{normFactors}}, as can the library sizes of samples (depths of coverage), \code{\link{libSize}}.

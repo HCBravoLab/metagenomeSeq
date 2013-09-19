@@ -1,25 +1,25 @@
-\name{libSize}
-\Rdversion{1.0}
 \docType{methods}
-\alias{libSize,MRexperiment-method}
+\name{libSize}
 \alias{libSize}
-\title{
-    Access sample depth of coverage from MRexperiment object
-}
-\description{
-    The libSize vector  represents the column (sample specific) sums of features, i.e. the total number of reads for a sample. It is used by \code{\link{fitZig}}. 
-}
+\alias{libSize,MRexperiment-method}
+\title{Access sample depth of coverage from MRexperiment object}
 \usage{
-\S4method{libSize}{MRexperiment}(obj)
+  libSize(obj)
 }
 \arguments{
   \item{obj}{a \code{MRexperiment} object.}
 }
-
+\description{
+  The libSize vector represents the column (sample
+  specific) sums of features, i.e. the total number of
+  reads for a sample or depth of coverage. It is used by
+  \code{\link{fitZig}}.
+}
 \examples{
-   data(lungData)
-   head(libSize(lungData))
+data(lungData)
+head(libSize(lungData))
 }
 \author{
-   Joseph N. Paulson, jpaulson@umiacs.umd.edu
+  Joseph N. Paulson, jpaulson@umiacs.umd.edu
 }
+
