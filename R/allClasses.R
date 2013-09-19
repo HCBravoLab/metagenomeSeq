@@ -11,8 +11,6 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
         obj
 })
 
-
-
 #' Create a MRexperiment object
 #' 
 #' This function creates a MRexperiment object from a matrix or data frame of
@@ -41,51 +39,17 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
 newMRexperiment <- function(counts, phenoData=NULL, featureData=NULL,libSize=NULL, normFactors=NULL) {
     counts= as.matrix(counts)
 
-    if( is.null( featureData ) )
+    if( is.null( featureData ) ){
       featureData <- annotatedDataFrameFrom(counts, byrow=TRUE)
-    if( is.null( phenoData ) )
+    }
+    if( is.null( phenoData ) ){
       phenoData   <- annotatedDataFrameFrom(counts, byrow=FALSE)
-    if( is.null( libSize ) )
-
-
-#' Access sample depth of coverage from MRexperiment object
-#' 
-#' The libSize vector represents the column (sample specific) sums of features,
-#' i.e. the total number of reads for a sample. It is used by
-#' \code{\link{fitZig}}.
-#' 
-#' 
-#' @name libSize
-#' @aliases libSize,MRexperiment-method libSize
-#' @docType methods
-#' @param obj a \code{MRexperiment} object.
-#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
-#' @examples
-#' 
-#'    data(lungData)
-#'    head(libSize(lungData))
-#' 
+    }
+    if( is.null( libSize ) ){
       libSize <- as.matrix(colSums(counts))
       rownames(libSize) = colnames(counts)
+    }
     if( is.null( normFactors ) ){
-
-
-#' Access the normalization factors in a MRexperiment object
-#' 
-#' Function to access the scaling factors, aka the normalization factors, of
-#' samples in a MRexperiment object.
-#' 
-#' 
-#' @name normFactors
-#' @aliases normFactors,MRexperiment-method normFactors
-#' @docType methods
-#' @param obj a \code{MRexperiment} object.
-#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
-#' @examples
-#' 
-#'    data(lungData)
-#'    head(normFactors(lungData))
-#' 
       normFactors <- as.matrix(rep( NA_real_, length(libSize) ))
       rownames(normFactors) = rownames(libSize)
     }
@@ -94,10 +58,9 @@ newMRexperiment <- function(counts, phenoData=NULL, featureData=NULL,libSize=NUL
     obj@expSummary$expSummary$libSize = libSize;
     obj@expSummary$expSummary$normFactors=normFactors;
         
-    validObject( obj )
+    validObject(obj)
     obj
 }
-
 
 setValidity( "MRexperiment", function( object ) {
     if( is.null(assayData(object)$counts))
@@ -150,8 +113,6 @@ MRcounts <- function(obj,norm=FALSE,log=FALSE,sl=1000) {
    }
 }
 
-
-
 #' Access the posterior probabilities that results from analysis
 #' 
 #' Accessing the posterior probabilities following a run through
@@ -170,21 +131,52 @@ MRcounts <- function(obj,norm=FALSE,log=FALSE,sl=1000) {
 posterior.probs <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )
    assayData(obj)[["z"]]
-}   
+}
 
+#' Access the normalization factors in a MRexperiment object
+#'
+#' Function to access the scaling factors, aka the normalization factors, of
+#' samples in a MRexperiment object.
+#'
+#'
+#' @name normFactors
+#' @aliases normFactors,MRexperiment-method normFactors
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#'
+#' data(lungData)
+#' head(normFactors(lungData))
+#'
 normFactors <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )
    nf <- pData(obj@expSummary$expSummary)[["normFactors"]]
    nf
-}   
+}
 
+#' Access sample depth of coverage from MRexperiment object
+#'
+#' The libSize vector represents the column (sample specific) sums of features,
+#' i.e. the total number of reads for a sample or depth of coverage. It is used by
+#' \code{\link{fitZig}}.
+#'
+#'
+#' @name libSize
+#' @aliases libSize,MRexperiment-method libSize
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#'
+#' data(lungData)
+#' head(libSize(lungData))
+#'
 libSize<-function(obj){
    stopifnot( is( obj, "MRexperiment" ) )
    ls <- pData(obj@expSummary$expSummary)[["libSize"]]
    ls
 }
-
-
 
 #' Access MRexperiment object experiment data
 #' 

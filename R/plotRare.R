@@ -13,11 +13,12 @@
 #' data(mouseData)
 #' cl = factor(pData(mouseData)[,3])
 #' res = plotRare(mouseData,cl=cl,ret=TRUE,pch=21,bg=cl)
-#' tmp=lapply(levels(cl), function(lv) lm(res[,"ident"]~res[,"total"]-1, subset=cl==lv))
+#' tmp=lapply(levels(cl), function(lv) lm(res[,"ident"]~res[,"libSize"]-1, subset=cl==lv))
 #' for(i in 1:length(levels(cl))){
 #'    abline(tmp[[i]], col=i)
 #' }
 #' legend("topleft", c("Diet 1","Diet 2"), text.col=c(1,2),box.col=NA)
+#'
 plotRare<-function(obj,cl=NULL,ret=FALSE,...){
     if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=FALSE,log=FALSE)
@@ -38,7 +39,7 @@ plotRare<-function(obj,cl=NULL,ret=FALSE,...){
     
     if(ret==TRUE){
         dat = cbind(totalCounts,numFeatures);
-        colnames(dat) = c("total","ident")
+        colnames(dat) = c("libSize","ident")
         return(dat);
     }
     else{
