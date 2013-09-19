@@ -14,7 +14,7 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
-\author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics & Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
+\author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
 \date{Modified: September 18, 2013. Compiled: \today}
 \maketitle
 \tableofcontents
@@ -269,20 +269,35 @@ head(res)
 @
 
 \section{Visualization of features}
-Reads clustered with high similarity represent functional or taxonomic units. However, it is possible that reads from the same organism get clustered into multiple OTUs.
-\texttt{metagenomeSeq} has several plotting functions to visualize and gain insight into the overall structural composition of the data with with heatmaps of feature counts \texttt{plotMRheatmap}, basic feature correlation structures \texttt{plotCorr}, PCA/MDS coordinates of samples or features \texttt{plotOrd}, or even the rarefaction effect in your data \texttt{plotRare}. Other plotting functions include plotting the the abundance differences for a single feature, \texttt{plotOTU} or multiple features \texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for additional control of false discoveries.
+
+\texttt{metagenomeSeq} has several plotting functions tovisualize and gain insight into the overall structural composition of the 
+data. Heatmaps of feature counts: \texttt{plotMRheatmap}. Basic feature correlation structures: \texttt{plotCorr}. PCA/MDS coordinates of 
+samples or features: \texttt{plotOrd}. And rarefaction effects in your data: \texttt{plotRare}. 
+
+Other plotting functions include plotting the abundance
+differences for a single feature, \texttt{plotOTU} or multiple features
+\texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for
+additional control of false discoveries.
 
 \subsection{Structural overview}
-Many studies hope to compare the abundance composition with various sample/feature phenotypes. Often a first step of data analysis is a heatmap or some other data exploratory tool, followed by a correlation or co-occurence heatmap. The following functions have been implemented to provide a first step overview of the data:\\
+Many studies begin by comparing the abundance composition across 
+sample or feature phenotypes. Often a first step of data analysis is a 
+heatmap, correlation or co-occurence plot or some other data exploratory method. 
+The following functions have been implemented to provide a first step overview 
+of the data:
+
+
+\begin{enumerate}
+\item \texttt{plotMRheatmap} - heatmap of abundance estimates (see fig. 3 right)
+\item \texttt{plotCorr} - heatmap of pairwise correlations (see fig. 3 left)
+\item \texttt{plotOrd} - PCA/CMDS components
+\item \texttt{plotRare} - rarefaction effect
+\end{enumerate}
 
 \noindent
-\texttt{plotMRheatmap} - heatmap of abundance estimates (see fig. 3 right) \\
-\texttt{plotCorr} - heatmap of pairwise correlations (see fig. 3 left)\\
-\texttt{plotOrd} - PCA/CMDS components\\
-\texttt{plotRare} - rarefaction effect\\
+Each of the above can include phenotypic information in helping to explore the data.
 
-\noindent
-Each of the above can include phenotypic information in helping to explore the data.\\
+
 \begin{small}
 <<heatmapData,fig=FALSE>>=
 data(mouseData)
@@ -298,15 +313,26 @@ plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,trace="none",
 
 \begin{figure}
 \centerline{\includegraphics[width=.55\textwidth]{metagenomeSeq_figure3.png}\includegraphics[width=.55\textwidth]{metagenomeSeq_figure4.png}\label{fig3}}
-\caption{\footnotesize{Left) Heatmaps and hierarchical clustering of log2 transformed counts for the 200 OTUs with the largest overall variance. Red values indicate counts close to zero. Row color labels indicate OTU taxonomic class; column color labels indicate diet (green = high fat, yellow = low fat). Notice the samples cluster by diet in these cases and there are obvious clusters. Right) Correlation matrix for the same features.}}
+\caption{\footnotesize{Left) Heatmaps and hierarchical clustering of $\log_2$ 
+transformed counts for the 200 OTUs with the largest overall variance. 
+Red values indicate counts close to zero. Row color labels indicate OTU 
+taxonomic class; column color labels indicate diet (green = high fat, 
+yellow = low fat). Notice the samples cluster by diet in these cases 
+and there are obvious clusters. Right) Correlation matrix for the same features.}}
 \end{figure}
 
 \subsection{OTU/family/gene specific}
-Following differential abundance analysis. It is important to confirm differential abundance. One way to limit false positives is ensure that the feature is actually abundant (enough positive samples). Another way is to plot the abundances of features similarly annotated. \\
+Reads clustered with high similarity represent functional or taxonomic units. 
+However, it is possible that reads from the same organism get clustered into
+multiple OTUs.Following differential abundance analysis. 
+It is important to confirm differential abundance. 
+One way to limit false positives is ensure that the feature is actually abundant (enough positive samples). 
+Another way is to plot the abundances of features similarly annotated.
 
-\noindent
-\texttt{plotOTU} - abundances of a particular feature by group (see fig. 4 left)\\
-\texttt{plotGenus} - abundances for several features similarly annotated by group (see fig. 4 right)\\
+\begin{enumerate}
+\item \texttt{plotOTU} - abundances of a particular feature by group (see fig. 4 left)
+\item \texttt{plotGenus} - abundances for several features similarly annotated by group (see fig. 4 right)
+\end{enumerate}
 
 \begin{small}
 <<plotOTUData,fig=FALSE>>= 
