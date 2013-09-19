@@ -14,8 +14,8 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
-\author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics, Applied Statistics, and Scientific Computing\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: August 19, 2013. Compiled: \today}
+\author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics & Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
+\date{Modified: September 18, 2013. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -273,13 +273,13 @@ Reads clustered with high similarity represent functional or taxonomic units. Ho
 \texttt{metagenomeSeq} has several plotting functions to visualize and gain insight into the overall structural composition of the data with with heatmaps of feature counts \texttt{plotMRheatmap}, basic feature correlation structures \texttt{plotCorr}, PCA/MDS coordinates of samples or features \texttt{plotOrd}, or even the rarefaction effect in your data \texttt{plotRare}. Other plotting functions include plotting the the abundance differences for a single feature, \texttt{plotOTU} or multiple features \texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for additional control of false discoveries.
 
 \subsection{Structural overview}
-Many studies hope to compare biological compositions at a community level. Often a first step of data analysis is a heatmap or some other data exploratory tool, followed by a correlation or co-occurence heatmap. The following functions have been implemented to provide a first step overview of the data:\\
+Many studies hope to compare the abundance composition with various sample/feature phenotypes. Often a first step of data analysis is a heatmap or some other data exploratory tool, followed by a correlation or co-occurence heatmap. The following functions have been implemented to provide a first step overview of the data:\\
 
 \noindent
-\texttt{plotMRheatmap} - heatmap of abundance estimates (see fig. 3) \\
-\texttt{plotCorr} - heatmap of pairwise correlations (see fig. 3)\\
-\texttt{plotOrd} - PCA/CMDS plots of various co-ordinates\\
-\texttt{plotRare} - Plotting the rarefaction effect\\
+\texttt{plotMRheatmap} - heatmap of abundance estimates (see fig. 3 right) \\
+\texttt{plotCorr} - heatmap of pairwise correlations (see fig. 3 left)\\
+\texttt{plotOrd} - PCA/CMDS components\\
+\texttt{plotRare} - rarefaction effect\\
 
 \noindent
 Each of the above can include phenotypic information in helping to explore the data.\\
@@ -305,8 +305,8 @@ plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,trace="none",
 Following differential abundance analysis. It is important to confirm differential abundance. One way to limit false positives is ensure that the feature is actually abundant (enough positive samples). Another way is to plot the abundances of features similarly annotated. \\
 
 \noindent
-\texttt{plotOTU} - abundances of a particular feature by group (see fig. 4)\\
-\texttt{plotGenus} - abundances for several features similarly annotated by group (see fig. 4)\\
+\texttt{plotOTU} - abundances of a particular feature by group (see fig. 4 left)\\
+\texttt{plotGenus} - abundances for several features similarly annotated by group (see fig. 4 right)\\
 
 \begin{small}
 <<plotOTUData,fig=FALSE>>= 
@@ -344,7 +344,7 @@ axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
 
 \section{Summary}
 
-\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the software, please cite the manual/software!
+\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
 
 <<cite>>=
 citation("metagenomeSeq")
