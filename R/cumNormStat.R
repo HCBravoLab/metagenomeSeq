@@ -4,11 +4,11 @@
 #' 
 #' 
 #' @param obj A list with count data
+#' @param qFlag Flag to either calculate the proper percentile using a
+#' step-wise or triangular approximation of the sample count distribution (default step-wise).
 #' @param pFlag Plot the median difference quantiles
 #' @param rel Cutoff for the relative difference from one median difference
 #' from the reference to the next
-#' @param qFlag Flag to either calculate the proper percentile using a
-#' step-wise or triangular approximation of the sample count distribution.
 #' @param ... Applicable if pFlag == TRUE. Extra plotting parameters.
 #' @return Percentile for which to scale data
 #' @seealso \code{\link{fitZig}} \code{\link{cumNorm}}
@@ -18,7 +18,7 @@
 #' p = round(cumNormStat(mouseData,pFlag=FALSE),digits=2)
 #' 
 cumNormStat <-
-function(obj,pFlag = FALSE,rel=.1,qFlag = TRUE, ...){
+function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
     
 	mat = MRcounts(obj,norm=FALSE,log=FALSE);
 	smat = sapply(1:ncol(mat),function(i){sort(mat[,i],decreasing=FALSE)})
