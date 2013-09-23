@@ -5,7 +5,9 @@
 #' 
 #' 
 #' @aliases exportMatrix exportMat
-#' @param mat A matrix of values (normalized, or otherwise)
+#' @param obj A MRexperiment object with count data or matrix.
+#' @param log Whether or not to log transform the counts - if MRexperiment object.
+#' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param output Output file name
 #' @return NA
 #' @seealso \code{\link{cumNorm}}
@@ -13,14 +15,19 @@
 #' 
 #' # see vignette
 #' 
-exportMat <-
-function(mat,output="~/Desktop/matrix.tsv"){
-	matrix = mat;
+exportMat <-function(obj,log=TRUE,norm=TRUE,output="~/Desktop/matrix.tsv"){
+	if(class(obj)=="MRexperiment"){
+        mat = MRcounts(obj,norm=norm,log=log)
+    } else if(class(obj) == "matrix") {
+        mat = obj
+    } else {
+        stop("Object needs to be either a MRexperiment object or matrix")
+    }
 	
-	mat = array(NA,dim=c((nrow(matrix)+1),(ncol(matrix)+1)));
-	mat[1,2:ncol(mat)] = colnames(matrix);
-	mat[2:nrow(mat),2:ncol(mat)] = matrix;
-    mat[2:nrow(mat),1] = rownames(matrix);
-    mat[1,1] = "Taxa and Samples"
-	write(t(mat),file=output,sep="\t",ncolumns=ncol(mat))	
+	oMat = array(NA,dim=c((nrow(mat)+1),(ncol(mat)+1)));
+	oMat[1,2:ncol(oMat)] = colnames(mat);
+	oMat[2:nrow(oMat),2:ncol(oMat)] = mat;
+    oMat[2:nrow(oMat),1] = rownames(mat);
+    oMat[1,1] = "Taxa and Samples";
+	write(t(oMat),file=output,sep="\t",ncolumns=ncol(oMat));
 }
