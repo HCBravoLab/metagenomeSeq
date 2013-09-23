@@ -3,10 +3,18 @@
 \alias{exportMatrix}
 \title{export the normalized eSet dataset as a matrix.}
 \usage{
-  exportMat(mat, output = "~/Desktop/matrix.tsv")
+  exportMat(obj, log = TRUE, norm = TRUE,
+    output = "~/Desktop/matrix.tsv")
 }
 \arguments{
-  \item{mat}{A matrix of values (normalized, or otherwise)}
+  \item{obj}{A MRexperiment object with count data or
+  matrix.}
+
+  \item{log}{Whether or not to log transform the counts -
+  if MRexperiment object.}
+
+  \item{norm}{Whether or not to normalize the counts - if
+  MRexperiment object.}
 
   \item{output}{Output file name}
 }

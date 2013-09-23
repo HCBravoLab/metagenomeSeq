@@ -32,6 +32,6 @@ function(obj,p= cumNormStat(obj),sl = 1000){
 				   xx=(x[,i]-.Machine$double.eps)
 				   sum(xx[xx<=qs[i]])
 				   })
-	x<-sweep(x,2,newMat/sl,"/")
-	return(x)
+	nmat<-sweep(x,2,newMat/sl,"/")
+	return(nmat)
 }
