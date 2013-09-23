@@ -392,7 +392,8 @@ f_{zig}(y_{ij}; \theta ) = \pi_{j}(S_{j}) \cdot I_{\{0\}}(y_{ij})
 
 Maximum-likelihood estimates are approximated using an EM algorithm,
 where we treat mixture membership $\Delta_{ij}=1$ if $y_{ij}$ is
-generated from the zero point mass as latent indicator variables\cite{EM}. See Figure 6 for the graphical model.
+generated from the zero point mass as latent indicator variables\cite{EM}. We make use of an EM algorithm to account for the linear relationship between sparsity and depth of coverage. The user can specify within the \texttt{fitZig} function a non-default zero model that accounts for more than simply the depth of coverage (e.g. country, age, any metadata associated with sparsity, etc.).
+See Figure 6 for the graphical model.
 
 \begin{figure}
 \centerline{\includegraphics[width=.7\textwidth]{metagenomeSeq_figure2.png}}
