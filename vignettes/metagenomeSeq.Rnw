@@ -274,7 +274,7 @@ head(res)
 
 \texttt{metagenomeSeq} has several plotting functions to visualize and gain insight into the overall structural composition of the 
 data. Heatmaps of feature counts: \texttt{plotMRheatmap}. Basic feature correlation structures: \texttt{plotCorr}. PCA/MDS coordinates of 
-samples or features: \texttt{plotOrd}. And rarefaction effects in your data: \texttt{plotRare}. 
+samples or features: \texttt{plotOrd}. And rarefaction effects: \texttt{plotRare}. 
 
 Other plotting functions include plotting the abundance
 differences for a single feature, \texttt{plotOTU} or multiple features
@@ -361,7 +361,7 @@ axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
 
 \texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
 
-\subsection{Citation}
+\subsection{Citing metagenomeSeq}
 <<cite>>=
 citation("metagenomeSeq")
 @
