@@ -51,17 +51,18 @@ The software was designed to determine features (be it Operational Taxanomic Uni
 The software was also designed to address the effects of both normalization and undersampling of microbial communities on disease association detection and testing of feature correlations.
 
 \newpage
-\section{Data structure}
+\section{Preparing data}
 Microbial marker gene sequence data is preprocessed and counts are algorithmically defined from project-specific sequence data by clustering reads according to read similarity. 
 Given $m$ features and $n$ samples, the elements in a count matrix \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular feature $i$ (whether it be OTU, species, genus, etc.) in sample $j$.
 
+\subsection{Internal structure}
 The S4 class system in R allows for object oriented definitions. \texttt{metagenomeSeq} makes use of the \texttt{Biobase} package in Bioconductor and their virtual-class, \texttt{eSet}. Building off of \texttt{eSet}, the main S4 class in \texttt{metagenomeSeq} is termed \texttt{MRexperiment}. \texttt{MRexperiment} is a simple extension of \texttt{eSet}, adding a single slot, \texttt{expSummary}.
 
 The experiment summary slot is a data frame that includes the depth of coverage and the normalization factors for each sample. Future datasets can be formated as MRexperiment objects and analyzed with relative ease. A \texttt{MRexperiment} object is created by calling \texttt{newMRexperiment}, passing the counts, phenotype and feature data as parameters.
 
 We do not include normalization factors or library size in the currently available slot specified for the sample specific phenotype data. All matrices are organized in the \texttt{assayData} slot. All phenotype data (disease status, age, etc.) is stored in \texttt{phenoData} and feature data (OTUs, taxanomic assignment to varying levels, etc.) in \texttt{featureData}. Additional slots are available for reproducibility and annotation. To understand a function's usage better simply enter ?functionName.
 
-\subsection{Loading count and meta data}
+\subsection{Loading count data}
 Following preprocessing and annotation of sequencing data \texttt{metagenomeSeq} requires a count matrix with features along rows and samples along the columns.
 \texttt{metagenomeSeq} includes functions for loading delimited files of counts 
 \texttt{load$\_$meta} and phenodata \texttt{load$\_$phenoData}.
@@ -80,6 +81,9 @@ dataDirectory <- system.file("extdata", package="metagenomeSeq")
 lung = load_meta(file.path(dataDirectory,"CHK_NAME.otus.count.csv")) 
 dim(lung$counts)
 @
+
+
+\subsection{Loading taxonomy}
 Next we want to load the annotated taxonomy. Check to make sure that your taxa annotations and OTUs are in the same order as your matrix rows.
 
 <<loadTaxa>>=
@@ -88,7 +92,12 @@ otu  = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFact
 @
 
 
-As our OTUs appear to be in order with the count matrix we loaded earlier, the next step is to load phenodata. Phenotype data can be optionally loaded into \texttt{R} with \texttt{load\_phenoData}. This function loads the data as a list.
+As our OTUs appear to be in order with the count matrix we loaded earlier, the next step is to load phenodata. 
+
+Warning: features need to have the same names as the rows of the count matrix when we create the MRexperiment object for provenance purposes. 
+
+\subsection{Loading metadata}
+Phenotype data can be optionally loaded into \texttt{R} with \texttt{load\_phenoData}. This function loads the data as a list.
 
 <<loadClin>>=
 clin = load_phenoData(file.path(dataDirectory,"CHK_clinical.csv"),tran=TRUE)
@@ -98,7 +107,7 @@ head(clin[1:2,])
 @
 
 
-Both the phenotype and feature data frames need to have the same column or row names as the count matrix when we create the MRexperiment object for provenance purposes. 
+Warning: phenotypes must have the same names as the columns on the count matrix when we create the MRexperiment object for provenance purposes. 
 
 \subsection{Creating a \texttt{MRexperiment} object}
 
