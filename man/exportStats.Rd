@@ -19,7 +19,8 @@
 \description{
   A matrix of values for each sample. The matrix consists
   of sample ids, the sample scaling factor, quantile value,
-  and the number of number of features.
+  the number identified features, and library size (depth
+  of coverage).
 }
 \examples{
 # see vignette
