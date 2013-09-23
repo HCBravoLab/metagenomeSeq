@@ -50,17 +50,46 @@ Additionally, visualization functions are provided to examine discoveries.
 The software was designed to determine features (be it Operational Taxanomic Unit (OTU), species, etc.) that are differentially abundant between two or more groups of multiple samples. 
 The software was also designed to address the effects of both normalization and undersampling of microbial communities on disease association detection and testing of feature correlations.
 
+\begin{figure}
+\centerline{\includegraphics[width=.55\textwidth]{overview.pdf}}
+\caption{General overview. metagenomeSeq requires the user to convert their data into MRexperiment objects. Using those MRexperiment objects, one can normalize their data, run statistical tests (abundance or presence-absence), and visualize or save results.}
+\end{figure}
+
 \newpage
-\section{Preparing data}
+\section{Data preparation}
 Microbial marker gene sequence data is preprocessed and counts are algorithmically defined from project-specific sequence data by clustering reads according to read similarity. 
 Given $m$ features and $n$ samples, the elements in a count matrix \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular feature $i$ (whether it be OTU, species, genus, etc.) in sample $j$.
 
-\subsection{Internal structure}
-The S4 class system in R allows for object oriented definitions. \texttt{metagenomeSeq} makes use of the \texttt{Biobase} package in Bioconductor and their virtual-class, \texttt{eSet}. Building off of \texttt{eSet}, the main S4 class in \texttt{metagenomeSeq} is termed \texttt{MRexperiment}. \texttt{MRexperiment} is a simple extension of \texttt{eSet}, adding a single slot, \texttt{expSummary}.
+Data is prepared and formatted as a MRexperiment object. For an overview of the internal structure please see Appendix A.
 
-The experiment summary slot is a data frame that includes the depth of coverage and the normalization factors for each sample. Future datasets can be formated as MRexperiment objects and analyzed with relative ease. A \texttt{MRexperiment} object is created by calling \texttt{newMRexperiment}, passing the counts, phenotype and feature data as parameters.
+\subsection{Example datasets}
+There are two datasets included as examples in the \texttt{metagenomeSeq} package. Data needs to be in a \texttt{MRexperiment} object format to normalize, run statistical tests, and visualize. As an example, throughout the vignette we'll use the following datasets. 
+To understand a function's usage or included data simply enter ?functionName.
 
-We do not include normalization factors or library size in the currently available slot specified for the sample specific phenotype data. All matrices are organized in the \texttt{assayData} slot. All phenotype data (disease status, age, etc.) is stored in \texttt{phenoData} and feature data (OTUs, taxanomic assignment to varying levels, etc.) in \texttt{featureData}. Additional slots are available for reproducibility and annotation. To understand a function's usage better simply enter ?functionName.
+<<requireMetagenomeSeq,warning=FALSE,message=FALSE>>=
+library(metagenomeSeq)
+@
+
+\begin{enumerate}
+\item Human lung microbiome \cite{charlson}:
+The lung microbiome consists of respiratory flora sampled from six healthy individuals. Three healthy nonsmokers and three healthy smokers. The upper lung tracts were sampled by oral wash and oro-/nasopharyngeal swabs. Samples were taken using two bronchoscopes, serial bronchoalveolar lavage and lower airway protected brushes.
+\end{enumerate}
+<<dataset1,tidy=FALSE>>=
+data(lungData)
+lungData
+@
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item Humanized gnotobiotic mouse gut \cite{ts_mouse}:
+Twelve germ-free adult male C57BL/6J mice were fed a low-fat, plant polysaccharide-rich diet. Each mouse was gavaged with healthy adult human fecal material. Following the fecal transplant, mice remained on the low-fat, plant polysacchaaride-rich diet for four weeks, following which a subset of 6 were switched to a high-fat and high-sugar diet for eight weeks. Fecal samples for each mouse went through PCR amplification of the bacterial 16S rRNA gene V2 region weekly. Details of experimental protocols and further details of the data can be found in Turnbaugh et. al. Sequences and further information can be found at:
+\url{http://gordonlab.wustl.edu/TurnbaughSE_10_09/STM_2009.html}
+
+\end{enumerate}
+<<dataset2,tidy=FALSE>>=
+data(mouseData)
+mouseData
+@
 
 \subsection{Loading count data}
 Following preprocessing and annotation of sequencing data \texttt{metagenomeSeq} requires a count matrix with features along rows and samples along the columns.
@@ -71,10 +100,6 @@ As an example, a portion of the lung microbiome \cite{charlson}
 OTU matrix is provided in \texttt{metagenomeSeq}'s library "extdata" folder. 
 The OTU matrix is stored as a tab delimited file.
 \texttt{load\_meta} loads the taxa and counts into a list.
-
-<<requireMetagenomeSeq,warning=FALSE,message=FALSE>>=
-library(metagenomeSeq)
-@
 
 <<loadData>>=
 dataDirectory <- system.file("extdata", package="metagenomeSeq")
@@ -137,35 +162,15 @@ obj = newMRexperiment(lung$counts,phenoData=phenotypeData,featureData=OTUdata)
 obj
 @
 
-\subsection{Included datasets}
-There are two datasets already included in the \texttt{metagenomeSeq} package as MRexperiment objects.
-
-\begin{enumerate}
-\item Human lung microbiome \cite{charlson}
-\end{enumerate}
-<<dataset1,tidy=FALSE>>=
-data(lungData)
-lungData
-@
-
-\begin{enumerate}
-\setcounter{enumi}{1}
-\item Mouse gut microbiome \cite{ts_mouse}
-\end{enumerate}
-<<dataset2,tidy=FALSE>>=
-data(mouseData)
-mouseData
-@
 \newpage
-
 \section{Normalization}
-Normalization is required due to varying depths of coverage across samples. We have implemented in \texttt{cumNorm} a normalization method that calculates normalization factors automatically calculated as the sum of counts less than the percentile that the majority of sample counts deviate from a reference. These normalization factors are stored in the experiment summary slot. Functions to determine the proper percentile \texttt{cumNormStat}, save normalized counts \texttt{exportMat}, or save various sample statistics \texttt{exportStats} are also provided.
+Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates normalization factors automatically calculated as the sum of counts less than the percentile that the majority of sample counts deviate from a reference. These normalization factors are stored in the experiment summary slot. Functions to determine the proper percentile \texttt{cumNormStat}, save normalized counts \texttt{exportMat}, or save various sample statistics \texttt{exportStats} are also provided.
 Normalized counts can be called easily by \texttt{cumNormMat(MRexperimentObject)} or \texttt{MRcounts(MRexperimentObject,norm=TRUE,log=FALSE)}.
 
 \subsection{Calculating normalization factors}
 After defining a \texttt{MRexperiment} object, the first step is to calculate the proper percentile by which to normalize counts. There are several options in calculating and visualizing the relative differences in the reference. Figure 3 is an example from the lung dataset.
 
-<<calculateScale>>=
+<<calculateNormFactors>>=
 data(lungData)
 p=cumNormStat(lungData)
 @
@@ -189,7 +194,7 @@ exportMat(mat,output=file.path(dataDirectory,"temp.tsv"))
 
 \noindent
 To save sample statistics (sample scaling factor, quantile value, number of identified features and library size):
-<<saveData2>>=
+<<exportStats>>=
 exportStats(lungData[,1:5],output=file.path(dataDirectory,"temp.tsv"))
 head(read.csv(file=file.path(dataDirectory,"temp.tsv"),sep="\t"))
 @
@@ -200,61 +205,37 @@ system(paste("rm",file.path(dataDirectory,"temp.tsv")))
 @
 
 \newpage
-\section{Zero-inflated Gaussian mixture model}
+\section{Statistical testing}
 
-The depth of coverage in a sample is directly related to how many features are detected in a sample motivating our zero-inflated Gaussian (ZIG) mixture model. Figure 1 is representative of the linear relationship between depth of coverage and OTU identification ubiquitous in marker-gene survey datasets currently available. 
+\subsection{Zero-inflated Gaussian mixture model}
+The depth of coverage in a sample is directly related to how many features are detected in a sample motivating our zero-inflated Gaussian (ZIG) mixture model. Figure 2 is representative of the linear relationship between depth of coverage and OTU identification ubiquitous in marker-gene survey datasets currently available. For a quick overview of the mathematical model see Appendix B.
 
 \begin{figure}
 \centerline{\includegraphics[width=.55\textwidth]{metagenomeSeq_figure1.png}}
 \caption{\footnotesize{The number of unique features is plotted against depth of coverage for samples from the Human Microbiome Project \cite{hmp}. Including the depth of coverage and the interaction of body site and sequencing site we are able to acheive an adjusted $\mathrm{R}^2$ of .94. The zero-inflated Gaussian mixture was developed to account for missing features.}}\label{fig1}
 \end{figure}
 
-Function \texttt{fitZig} performs a complex mathematical optimization routine to estimate probabilities that a zero for a particular feature in a sample is a technical zero or not. The function relies heavily on the \texttt{limma} package \cite{limma}.
-
-Design matrices can be created in R by using the \texttt{model.matrix} function and are inputs for \texttt{fitZig}.
+Function \texttt{fitZig} performs a complex mathematical optimization routine to estimate probabilities that a zero for a particular feature in a sample is a technical zero or not. The function relies heavily on the \texttt{limma} package \cite{limma}. Design matrices can be created in R by using the \texttt{model.matrix} function and are inputs for \texttt{fitZig}. 
 
 For large survey studies it is often pertinent to include phenotype information or confounders into a design matrix when testing the association between the abundance of taxonomic features and a phenotype phenotype of interest (disease, for
 instance). Our linear model methodology can easily incorporate these
 confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
 
-\subsection{Mathematical model}
-
-Defining the class comparison of interest as $k(j)=I\{j \in \mathrm{ group } A\}$. The zero-inflated model is defined for the continuity-corrected $\log_2$ of the count data $y_{ij} = \log_2(c_{ij}+1)$ as a mixture of a point mass at zero $I_{\{0\}}(y_{ij})$ and a count distribution $f_{count}(y_{ij};\mu_i, \sigma_i^2) \sim N(\mu_i, \sigma_i^2)$.
-Given mixture parameters $\pi_{j}$, we have that the density of the zero-inflated Gaussian distribution for feature $i$, in sample $j$ with $S_{j}$ total counts is:
-
-\begin{equation}
-f_{zig}(y_{ij}; \theta ) = \pi_{j}(S_{j}) \cdot I_{\{0\}}(y_{ij})
-+ (1-\pi_{j}(S_{j})) \cdot f_{count}(y_{ij};\theta)
-\end{equation}
-
-Maximum-likelihood estimates are approximated using an EM algorithm,
-where we treat mixture membership $\Delta_{ij}=1$ if $y_{ij}$ is
-generated from the zero point mass as latent indicator variables\cite{EM}. See Figure 2 for the graphical model.
-
-\begin{figure}
-\centerline{\includegraphics[width=.7\textwidth]{metagenomeSeq_figure2.png}}
-\caption{\footnotesize{Graphical model. Green nodes represent observed variables: $S_j$ is the
-total number of reads in sample $j$; $k_j$ the case-control status
-of sample $j$; and $y_{ij}$ the logged normalized counts for feature $i$ in sample $j$. Yellow nodes represent counts obtained from each mixture component: counts come from either a spike-mass at zero,
-$y_{ij}^0$, or the ``count'' distribution, $y_{ij}^1$. Grey nodes $b_{0i}$, $b_{1i}$ and $\sigma_{i}^2$ represent the
-estimated overall mean, fold-change and variance of the count distribution component for feature $i$. $\pi_j$, is the mixture proportion for sample $j$ which depends on sequencing depth via a linear model defined by parameters $\beta_0$ and $\beta_1$. The expected value of latent indicator variables $\Delta_{ij}$ give the posterior  probability of a count being generated from a spike-mass at zero, i.e. $y_{ij}^0$. We assume $M$ features and $N$ samples.}}
-\end{figure}
-
-\subsection{Running the statistical analysis}
+\subsection{Example running fitZig}
 In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
 
 <<preprocess,dev='pdf',out.width='.55\\linewidth',out.height='.55\\linewidth',fig.cap='Relative difference for the median difference in counts from the reference.',fig.align='center'>>=
-k = grep("Extraction.Control",pData(lungData)$SampleType)
-lungTrim = lungData[,-k]
-k = which(rowSums(MRcounts(lungTrim)>0)<10)
-lungTrim = lungTrim[-k,]
+controls = grep("Extraction.Control",pData(lungData)$SampleType)
+lungTrim = lungData[,-controls]
+sparseFeatures = which(rowSums(MRcounts(lungTrim)>0)<10)
+lungTrim = lungTrim[-sparseFeatures,]
 lungp = cumNormStat(lungTrim,pFlag=TRUE,main="Trimmed lung data")
 lungTrim = cumNorm(lungTrim,p=lungp)
 @
 
-User defines an appropriate model matrix for hypothesis testing. There are optional inputs to \texttt{fitZig}, including the settings found in \texttt{zigControl} and we ask the user to review the help files for both \texttt{fitZig} and \texttt{zigControl}. For this example we include body site as covariates and want to test for the bacteria differentially abundant between smokers and non-smokers.
+After the user defines an appropriate model matrix for hypothesis testing there are optional inputs to \texttt{fitZig}, including settings determined by \texttt{zigControl}. We ask the user to review the help files for both \texttt{fitZig} and \texttt{zigControl}. For this example we include body site as covariates and want to test for the bacteria differentially abundant between smokers and non-smokers.
 
-<<Model>>=
+<<zigTesting>>=
 smokingStatus = pData(lungTrim)$SmokingStatus
 bodySite = pData(lungTrim)$SampleType
 mod = model.matrix(~smokingStatus+bodySite)
@@ -264,9 +245,7 @@ fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 
 The result, \texttt{fit}, is a list providing detailed estimates of the fits including a \texttt{limma} fit in \texttt{fit\$fit} and an \texttt{ebayes} statistical fit in \texttt{fit\$eb}. This data can be analyzed like any \texttt{limma} fit and in this example, the column of the fitted coefficients represents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
 
-Looking at the particular analysis just performed, there appears to be OTUs representing three \textit{Prevotella}, two \textit{Neisseria}, and a \textit{Porphyromonas} that are differentially abundant.
-
-It is important to check that similarly annotated OTUs are not equally differentially abundant in controls. 
+Looking at the particular analysis just performed, there appears to be OTUs representing three \textit{Prevotella}, two \textit{Neisseria}, and a \textit{Porphyromonas} that are differentially abundant. One should check that similarly annotated OTUs are not equally differentially abundant in controls. 
 
 \subsection{Exporting fits}
 Currently functions are being developed to wrap and output results more neatly, but \texttt{MRcoefs}, \texttt{MRtable}, \texttt{MRfulltable} can be used to view coefficient fits and related statistics and export the data with optional output values - see help files to learn how they differ.
@@ -278,12 +257,8 @@ taxa =
 head(MRcoefs(fit,taxa=taxa,coef=2))
 @
 
-\newpage
-\section{Presence-Absence of a feature}
-The first of Koch's postulates stipulated that the potential pathogenic organism must be found in organisms suffering
-from the disease, but not in healthy organisms. Unfortunately, real data is rarely perfect. Expected pathogenic organisms will not get sequenced and will be absent from a diseased sample and often pathogenic organisms will be found in healthy samples to some degree depending on the population, etc. We provide in \texttt{metagenomeSeq} a method for testing whether a feature is present in greater proportion in one group (e.g. healthy) compared to another (e.g. diseased).
-
-The hypothesis for each test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{MRfisher} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{MRfisher}. If there is a desire for a more detailed description, please email me.
+\subsection{Testing presence-absence}
+The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{MRfisher} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{MRfisher}. If there is a desire for a more detailed description, please email me.
 
 
 <<presenceAbsence>>=
@@ -395,6 +370,40 @@ citation("metagenomeSeq")
 <<sessionInfo>>=
 sessionInfo()
 @
+
+\newpage
+\section{Appendix}
+\subsection{Appendix A: MRexperiment internals}
+The S4 class system in R allows for object oriented definitions. \texttt{metagenomeSeq} makes use of the \texttt{Biobase} package in Bioconductor and their virtual-class, \texttt{eSet}. Building off of \texttt{eSet}, the main S4 class in \texttt{metagenomeSeq} is termed \texttt{MRexperiment}. \texttt{MRexperiment} is a simple extension of \texttt{eSet}, adding a single slot, \texttt{expSummary}.
+
+The experiment summary slot is a data frame that includes the depth of coverage and the normalization factors for each sample. Future datasets can be formated as MRexperiment objects and analyzed with relative ease. A \texttt{MRexperiment} object is created by calling \texttt{newMRexperiment}, passing the counts, phenotype and feature data as parameters.
+
+We do not include normalization factors or library size in the currently available slot specified for the sample specific phenotype data. All matrices are organized in the \texttt{assayData} slot. All phenotype data (disease status, age, etc.) is stored in \texttt{phenoData} and feature data (OTUs, taxanomic assignment to varying levels, etc.) in \texttt{featureData}. Additional slots are available for reproducibility and annotation.
+
+\subsection{Appendix B: Mathematical model}
+
+Defining the class comparison of interest as $k(j)=I\{j \in \mathrm{ group } A\}$. The zero-inflated model is defined for the continuity-corrected $\log_2$ of the count data $y_{ij} = \log_2(c_{ij}+1)$ as a mixture of a point mass at zero $I_{\{0\}}(y_{ij})$ and a count distribution $f_{count}(y_{ij};\mu_i, \sigma_i^2) \sim N(\mu_i, \sigma_i^2)$.
+Given mixture parameters $\pi_{j}$, we have that the density of the zero-inflated Gaussian distribution for feature $i$, in sample $j$ with $S_{j}$ total counts is:
+
+\begin{equation}
+f_{zig}(y_{ij}; \theta ) = \pi_{j}(S_{j}) \cdot I_{\{0\}}(y_{ij})
++ (1-\pi_{j}(S_{j})) \cdot f_{count}(y_{ij};\theta)
+\end{equation}
+
+Maximum-likelihood estimates are approximated using an EM algorithm,
+where we treat mixture membership $\Delta_{ij}=1$ if $y_{ij}$ is
+generated from the zero point mass as latent indicator variables\cite{EM}. See Figure 6 for the graphical model.
+
+\begin{figure}
+\centerline{\includegraphics[width=.7\textwidth]{metagenomeSeq_figure2.png}}
+\caption{\footnotesize{Graphical model. Green nodes represent observed variables: $S_j$ is the
+total number of reads in sample $j$; $k_j$ the case-control status
+of sample $j$; and $y_{ij}$ the logged normalized counts for feature $i$ in sample $j$. Yellow nodes represent counts obtained from each mixture component: counts come from either a spike-mass at zero,
+$y_{ij}^0$, or the ``count'' distribution, $y_{ij}^1$. Grey nodes $b_{0i}$, $b_{1i}$ and $\sigma_{i}^2$ represent the
+estimated overall mean, fold-change and variance of the count distribution component for feature $i$. $\pi_j$, is the mixture proportion for sample $j$ which depends on sequencing depth via a linear model defined by parameters $\beta_0$ and $\beta_1$. The expected value of latent indicator variables $\Delta_{ij}$ give the posterior  probability of a count being generated from a spike-mass at zero, i.e. $y_{ij}^0$. We assume $M$ features and $N$ samples.}}
+\end{figure}
+
+\subsection{Appendix C: Calculating the proper percentile} To be included: an overview of the two methods implemented for the data driven percentile calculation.
 
 \newpage
 \bibliography{metagenomeSeq}
