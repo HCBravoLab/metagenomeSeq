@@ -290,10 +290,10 @@ of the data:
 
 
 \begin{enumerate}
-\item \texttt{plotMRheatmap} - heatmap of abundance estimates (see fig. 3 right)
-\item \texttt{plotCorr} - heatmap of pairwise correlations (see fig. 3 left)
-\item \texttt{plotOrd} - PCA/CMDS components
-\item \texttt{plotRare} - rarefaction effect
+\item \texttt{plotMRheatmap} - heatmap of abundance estimates (Fig. 4 right)
+\item \texttt{plotCorr} - heatmap of pairwise correlations (Fig. 4 left)
+\item \texttt{plotOrd} - PCA/CMDS components (Fig. 5 left)
+\item \texttt{plotRare} - rarefaction effect (Fig. 5 right)
 \end{enumerate}
 
 \noindent
@@ -317,6 +317,18 @@ plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,trace="none",
               dendrogram="none",col=heatmapCols)
 @
 
+Below is an example of plotting CMDS plots of the data and the rarefaction effect at the OTU level. None of the data is removed (we recommend removing outliers typically).
+<<MDSandRareplots,fig.cap='Left) CMDS of features (plotOrd). Right) Rarefaction effect (plotRare).',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth'>>=
+data(mouseData)
+cl = factor(pData(mouseData)$diet)
+plotOrd(mouseData,tran=TRUE,usePCA=FALSE,useDist=TRUE,bg=cl,pch=21,xlab="1st coordinate",ylab="2nd coordinate")
+res = plotRare(mouseData,cl=cl,ret=TRUE,pch=21,bg=cl)
+tmp=lapply(levels(cl), function(lv) lm(res[,"ident"]~res[,"libSize"]-1, subset=cl==lv))
+for(i in 1:length(levels(cl))){
+   abline(tmp[[i]], col=i)
+}
+legend("topleft", c("Diet 1","Diet 2"), text.col=c(1,2),box.col=NA)
+@
 
 \subsection{Feature specific}
 Reads clustered with high similarity represent functional or taxonomic units. 
@@ -327,8 +339,8 @@ One way to limit false positives is ensure that the feature is actually abundant
 Another way is to plot the abundances of features similarly annotated.
 
 \begin{enumerate}
-\item \texttt{plotOTU} - abundances of a particular feature by group (see fig. 4 left)
-\item \texttt{plotGenus} - abundances for several features similarly annotated by group (see fig. 4 right)
+\item \texttt{plotOTU} - abundances of a particular feature by group (Fig. 6 left)
+\item \texttt{plotGenus} - abundances for several features similarly annotated by group (Fig. 6 right)
 \end{enumerate}
 
 
@@ -393,7 +405,7 @@ f_{zig}(y_{ij}; \theta ) = \pi_{j}(S_{j}) \cdot I_{\{0\}}(y_{ij})
 Maximum-likelihood estimates are approximated using an EM algorithm,
 where we treat mixture membership $\Delta_{ij}=1$ if $y_{ij}$ is
 generated from the zero point mass as latent indicator variables\cite{EM}. We make use of an EM algorithm to account for the linear relationship between sparsity and depth of coverage. The user can specify within the \texttt{fitZig} function a non-default zero model that accounts for more than simply the depth of coverage (e.g. country, age, any metadata associated with sparsity, etc.).
-See Figure 6 for the graphical model.
+See Figure 7 for the graphical model.
 
 \begin{figure}
 \centerline{\includegraphics[width=.7\textwidth]{metagenomeSeq_figure2.png}}
