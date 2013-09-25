@@ -2,7 +2,11 @@ import(Biobase)
 exportClasses( "MRexperiment" )
 
 exportMethods(
-"["
+"[",
+"colSums",
+"rowSums",
+"colMeans",
+"rowMeans"
 )
 
 export(
