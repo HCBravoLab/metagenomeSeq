@@ -4,11 +4,28 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
         obj= callNextMethod()
         if(!missing(j)){
             obj@expSummary = new("environment",expSummary=as(expSummary(x)[j,1:2,...,drop=drop],"AnnotatedDataFrame"),cumNormStat=x@expSummary$cumNormStat)
-            for(i in 1:length(pData(obj))){
-                pData(obj)[,i] = factor(pData(obj)[,i])
+            if(length(pData(obj))>0){
+              for(i in 1:length(pData(obj))){
+                  pData(obj)[,i] = factor(pData(obj)[,i])
+              }
             }
         }
         obj
+})
+
+setMethod("colSums", signature ="MRexperiment", function (x, ...) {
+    callNextMethod(MRcounts(x,...))
+})
+
+setMethod("rowSums", signature="MRexperiment", function (x, ...) {
+    callNextMethod(MRcounts(x,...))
+})
+setMethod("rowMeans", signature="MRexperiment", function (x, ...) {
+    callNextMethod(MRcounts(x,...))
+})
+
+setMethod("colMeans", signature="MRexperiment", function (x, ...) {
+    callNextMethod(MRcounts(x,...))
 })
 
 #' Create a MRexperiment object

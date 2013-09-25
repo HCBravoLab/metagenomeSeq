@@ -3,6 +3,10 @@
 \docType{class}
 \alias{MRexperiment-class}
 \alias{[,MRexperiment-method}
+\alias{colSums,MRexperiment-method}
+\alias{rowSums,MRexperiment-method}
+\alias{colMeans,MRexperiment-method}
+\alias{rowMeans,MRexperiment-method}
 
 \title{Class "MRexperiment" -- a modified eSet object for the data from high-throughput sequencing experiments}
 \description{	This is the main class for metagenomeSeq. }
