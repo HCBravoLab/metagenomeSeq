@@ -14,18 +14,18 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
 })
 
 setMethod("colSums", signature ="MRexperiment", function (x, ...) {
-    callNextMethod(MRcounts(x,...))
+    callNextMethod(MRcounts(x),...)
 })
 
 setMethod("rowSums", signature="MRexperiment", function (x, ...) {
-    callNextMethod(MRcounts(x,...))
+    callNextMethod(MRcounts(x),...)
 })
 setMethod("rowMeans", signature="MRexperiment", function (x, ...) {
-    callNextMethod(MRcounts(x,...))
+    callNextMethod(MRcounts(x),...)
 })
 
 setMethod("colMeans", signature="MRexperiment", function (x, ...) {
-    callNextMethod(MRcounts(x,...))
+    callNextMethod(MRcounts(x),...)
 })
 
 #' Create a MRexperiment object
