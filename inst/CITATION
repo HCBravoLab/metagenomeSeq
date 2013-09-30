@@ -1,22 +1,21 @@
-citHeader("Please cite the bottom citation for the software/vignette guide and the paper (top) for the original statistical method and normalization method implemented in metagenomeSeq.")
+citHeader("Please cite the top for the original statistical method and normalization method implemented in metagenomeSeq and the bottom for the software/vignette guide.")
 
 citEntry(entry="article",
-         title = "Robust methods for differential abundance analysis of marker gene survey data",
+         title = "Differential abundance analysis for microbial marker-gene surveys",
          author = personList( as.person("Joseph N. Paulson"), 
                               as.person("Oscar Colin Stine"),
                               as.person("Hector Corrada Bravo"),
                               as.person("Mihai Pop")),
          year = 2013,
-         journal = "In submission",
-         volume = "",
+         journal = "Nat Meth",
+         volume = "advance online publication",
          pages = "",
-         doi = "",
-         url = "",
-         
+         doi = "10.1038/nmeth.2658",
+         url = "http://www.nature.com/nmeth/journal/vaop/ncurrent/abs/nmeth.2658.html",
          textVersion = 
          paste("JN Paulson, OC Stine, HC Bravo, M Pop. ", 
-               "Robust methods for differential abundance analysis of marker gene survey data. ",
-                "In submission" ) )
+               "Differential abundance analysis for microbial marker-gene surveys.",
+	"Nat Meth", "Accepted" ) )
 
 citEntry(entry="manual",
          title = "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing.",
@@ -31,4 +30,6 @@ citEntry(entry="manual",
          paste("JN Paulson, M Pop, HC Bravo. ", 
                "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing. ",
                "Bioconductor package: ", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq",sep="") )
+
+
 
