@@ -164,7 +164,7 @@ obj
 
 \newpage
 \section{Normalization}
-Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates the sum of counts less than the percentile that the majority of sample counts deviate from a reference.
+Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates scaling factors equal to the sum of counts up to a particular quantile.
 
 Denote the $l$th quantile of sample $j$ as $q_j^l$, that is, in sample $j$ there are $l$ taxonomic features with counts smaller than $q_j^l$. For $l= \lfloor .95m \rfloor$ then $q_j^l$ corresponds to the 95th percentile of the count distribution for sample $j$. 
 
@@ -430,7 +430,7 @@ http://www.nature.com/nmeth/journal/vaop/ncurrent/full/nmeth.2658.html
 \subsection{Appendix C: Calculating the proper percentile} To be included: an overview of the two methods implemented for the data driven percentile calculation and more description below.
 
 
-The choice of the appropriate quantile given is crucial for ensuring that the normalization approach does not introduce normalization-related artifacts in the data. At a high level, the count distribution of samples should all be roughly equivalent and independent of each other up to this quantile under the assumption that, at this range, counts are derived from a common distribution. 
+The choice of the appropriate quantile given is crucial for ensuring that the normalization approach does not introduce normalization-related artifacts in the data. At a high level, the count distribution of samples should all be roughly equivalent and independent of each other up to this quantile under the assumption that, at this range, counts are derived from a common distribution.
 
 
 More information will be included later. For now, please see the online methods in: 
