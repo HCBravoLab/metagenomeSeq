@@ -164,7 +164,14 @@ obj
 
 \newpage
 \section{Normalization}
-Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates normalization factors automatically calculated as the sum of counts less than the percentile that the majority of sample counts deviate from a reference. These normalization factors are stored in the experiment summary slot. Functions to determine the proper percentile \texttt{cumNormStat}, save normalized counts \texttt{exportMat}, or save various sample statistics \texttt{exportStats} are also provided.
+Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates the sum of counts less than the percentile that the majority of sample counts deviate from a reference.
+
+Denote the $l$th quantile of sample $j$ as $q_j^l$, that is, in sample $j$ there are $l$ taxonomic features with counts smaller than $q_j^l$. For $l= \lfloor .95m \rfloor$ then $q_j^l$ corresponds to the 95th percentile of the count distribution for sample $j$. 
+
+
+Denote $s_j^l= \sum_{(i|c_{ij}\leq q_j^l)}c_{ij}$  as the sum of counts for sample $j$ up to the $l$th quantile. Our normalization chooses a value  $\hat{l}\leq m$ to define a normalization scaling factor for each sample to produce normalized counts $\tilde{c_{ij}}$  = $\frac{c_{ij}}{s_j^{\hat{l}}}N$ where $N$ is an appropriately chosen normalization constant. See Appendix C for more information on how our method calculates the proper percentile.
+
+These normalization factors are stored in the experiment summary slot. Functions to determine the proper percentile \texttt{cumNormStat}, save normalized counts \texttt{exportMat}, or save various sample statistics \texttt{exportStats} are also provided.
 Normalized counts can be called easily by \texttt{cumNormMat(MRexperimentObject)} or \texttt{MRcounts(MRexperimentObject,norm=TRUE,log=FALSE)}.
 
 \subsection{Calculating normalization factors}
@@ -416,7 +423,19 @@ $y_{ij}^0$, or the ``count'' distribution, $y_{ij}^1$. Grey nodes $b_{0i}$, $b_{
 estimated overall mean, fold-change and variance of the count distribution component for feature $i$. $\pi_j$, is the mixture proportion for sample $j$ which depends on sequencing depth via a linear model defined by parameters $\beta_0$ and $\beta_1$. The expected value of latent indicator variables $\Delta_{ij}$ give the posterior  probability of a count being generated from a spike-mass at zero, i.e. $y_{ij}^0$. We assume $M$ features and $N$ samples.}}
 \end{figure}
 
-\subsection{Appendix C: Calculating the proper percentile} To be included: an overview of the two methods implemented for the data driven percentile calculation.
+More information will be included later.  For now, please see the online methods in: 
+
+http://www.nature.com/nmeth/journal/vaop/ncurrent/full/nmeth.2658.html
+
+\subsection{Appendix C: Calculating the proper percentile} To be included: an overview of the two methods implemented for the data driven percentile calculation and more description below.
+
+
+The choice of the appropriate quantile given is crucial for ensuring that the normalization approach does not introduce normalization-related artifacts in the data. At a high level, the count distribution of samples should all be roughly equivalent and independent of each other up to this quantile under the assumption that, at this range, counts are derived from a common distribution. 
+
+
+More information will be included later. For now, please see the online methods in: 
+
+http://www.nature.com/nmeth/journal/vaop/ncurrent/full/nmeth.2658.html
 
 \newpage
 \bibliography{metagenomeSeq}
