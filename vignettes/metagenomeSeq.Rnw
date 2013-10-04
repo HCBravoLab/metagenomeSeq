@@ -58,7 +58,15 @@ The software was also designed to address the effects of both normalization and 
 \newpage
 \section{Data preparation}
 Microbial marker gene sequence data is preprocessed and counts are algorithmically defined from project-specific sequence data by clustering reads according to read similarity. 
-Given $m$ features and $n$ samples, the elements in a count matrix \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular feature $i$ (whether it be OTU, species, genus, etc.) in sample $j$.
+Given $m$ features and $n$ samples, the elements in a count matrix \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular feature $i$ (whether it be OTU, species, genus, etc.) in sample $j$. \\
+
+
+\begin{center}
+$\bordermatrix{ &sample_1&sample_2&\ldots &sample_n\cr feature_1&c_{11} &  c_{12}  & \ldots & c_{1n}\cr feature_2& c_{21}  &  c_{22} & \ldots & c_{2n}\cr \vdots & \vdots & \vdots & \ddots & \vdots\cr feature_m & c_{m1}  &   c_{m2} &\ldots & c_{mn}}$
+\end{center}
+
+Count data should be stored in a delimited (tab by default) file with sample names
+along the first row and feature names along the first column.
 
 Data is prepared and formatted as a MRexperiment object. For an overview of the internal structure please see Appendix A.
 
@@ -196,14 +204,14 @@ There are other functions, including \texttt{normFactors}, \texttt{cumNormMat}, 
 To export normalized count matrices:
 <<saveData>>=
 mat = MRcounts(lungData,norm=TRUE,log=TRUE)[1:5,1:5]
-exportMat(mat,output=file.path(dataDirectory,"temp.tsv"))
+exportMat(mat,output=file.path(dataDirectory,"tmp.tsv"))
 @
 
 \noindent
 To save sample statistics (sample scaling factor, quantile value, number of identified features and library size):
 <<exportStats>>=
-exportStats(lungData[,1:5],output=file.path(dataDirectory,"temp.tsv"))
-head(read.csv(file=file.path(dataDirectory,"temp.tsv"),sep="\t"))
+exportStats(lungData[,1:5],output=file.path(dataDirectory,"tmp.tsv"))
+head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\t"))
 @
 
 
@@ -318,19 +326,30 @@ data(mouseData)
 trials = pData(mouseData)$diet
 heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
 heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
+
+# plotMRheatmap
 plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",
                 col = heatmapCols,ColSideColors = heatmapColColors)
-plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,trace="none",
-              dendrogram="none",col=heatmapCols)
+
+# plotCorr
+plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,
+         trace="none",dendrogram="none",col=heatmapCols)
 @
 
 Below is an example of plotting CMDS plots of the data and the rarefaction effect at the OTU level. None of the data is removed (we recommend removing outliers typically).
 <<MDSandRareplots,fig.cap='Left) CMDS of features (plotOrd). Right) Rarefaction effect (plotRare).',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth'>>=
 data(mouseData)
 cl = factor(pData(mouseData)$diet)
+
+# plotOrd
 plotOrd(mouseData,tran=TRUE,usePCA=FALSE,useDist=TRUE,bg=cl,pch=21,xlab="1st coordinate",ylab="2nd coordinate")
+
+# plotRare
 res = plotRare(mouseData,cl=cl,ret=TRUE,pch=21,bg=cl)
-tmp=lapply(levels(cl), function(lv) lm(res[,"ident"]~res[,"libSize"]-1, subset=cl==lv))
+
+# Linear fits for plotRare / legend
+tmp=lapply(levels(cl), function(lv) 
+  lm(res[,"ident"]~res[,"libSize"]-1, subset=cl==lv))
 for(i in 1:length(levels(cl))){
    abline(tmp[[i]], col=i)
 }
@@ -364,13 +383,18 @@ pData(lungTrim)$patients=patients
 classIndex=list(smoker=which(pData(lungTrim)$SmokingStatus=="Smoker"))
 classIndex$nonsmoker=which(pData(lungTrim)$SmokingStatus=="NonSmoker")
 otu = 779
+
+# plotOTU
 plotOTU(lungTrim,otu=otu,classIndex,main="Neisseria meningitidis")
 
 # Now multiple OTUs annotated similarly
 x = fData(lungTrim)$taxa[otu]
 otulist = grep(x,fData(lungTrim)$taxa)
+
+# plotGenus
 plotGenus(lungTrim,otulist,classIndex,labs=FALSE,
             main="Neisseria meningitidis")
+
 lablist<- c("S","NS")
 axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
 @
