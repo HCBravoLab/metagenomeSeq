@@ -16,6 +16,6 @@ Paulson, JN <jpaulson@umiacs.umd.edu>; Pop, M; Corrada Bravo, H
 }
 
 \references{
-Paulson, Joseph N., O. Colin Stine, Héctor Corrada Bravo, and Mihai Pop. "Differential   abundance analysis for microbial marker-gene surveys." Nature methods (2013).
+Paulson, Joseph N., O. Colin Stine, Hector Corrada Bravo, and Mihai Pop. "Differential   abundance analysis for microbial marker-gene surveys." Nature methods (2013).
 }
 \keyword{package}
