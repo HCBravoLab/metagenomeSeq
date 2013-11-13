@@ -170,6 +170,8 @@ obj = newMRexperiment(lung$counts,phenoData=phenotypeData,featureData=OTUdata)
 obj
 @
 
+Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load_biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
+
 \newpage
 \section{Normalization}
 Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates scaling factors equal to the sum of counts up to a particular quantile.
