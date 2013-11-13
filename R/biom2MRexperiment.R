@@ -4,7 +4,7 @@
 #' 
 #' @param obj The biome object file.
 #' @return A MRexperiment object.
-#' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}}
+#' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{load_biom}}
 #' @examples
 #' 
 #' #library(biom)
@@ -12,6 +12,7 @@
 #' #x = read_biom(rich_dense_file)
 #' #biom2MRexperiment(x)
 biom2MRexperiment <- function(obj){
+	library(biom)
 	mat = as(biom_data(obj),"matrix")
 	taxa = as(observation_metadata(obj),"AnnotatedDataFrame")
 	pd = as(sample_metadata(obj),"AnnotatedDataFrame")
