@@ -8,7 +8,7 @@
 #' @param obj A MRexperiment object with count data.
 #' @param otu The row number/OTU to plot.
 #' @param classIndex A list of the samples in their respective groups.
-#' @param log Whether or not to log transform the counts - if MRexperiment object.
+#' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param jitter.factor Factor value for jitter.
 #' @param pch Standard pch value for the plot command.

@@ -9,7 +9,7 @@
 #' @param obj An MRexperiment object with count data.
 #' @param otuIndex A list of the otus with the same annotation.
 #' @param classIndex A list of the samples in their respective groups.
-#' @param log Whether or not to log transform the counts - if MRexperiment object.
+#' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param no Which of the otuIndex to plot.
 #' @param jitter.factor Factor value for jitter

@@ -10,7 +10,7 @@
   \item{n}{The number of features to plot. This chooses the
   "n" features with greatest variance.}
 
-  \item{log}{Whether or not to log transform the counts -
+  \item{log}{Whether or not to log2 transform the counts -
   if MRexperiment object.}
 
   \item{norm}{Whether or not to normalize the counts - if

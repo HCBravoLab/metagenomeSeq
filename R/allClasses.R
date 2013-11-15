@@ -103,7 +103,7 @@ setValidity( "MRexperiment", function( object ) {
 #' @docType methods
 #' @param obj a \code{MRexperiment} object.
 #' @param norm logical indicating whether or not to return normalized counts.
-#' @param log TRUE/FALSE whether or not to log_2 transform scale.
+#' @param log TRUE/FALSE whether or not to log2 transform scale.
 #' @param sl The value to scale by (default=1000).
 #' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
 #' @examples
