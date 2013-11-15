@@ -23,7 +23,7 @@
   \item{dist.method}{If useDist==TRUE, what method to
   calculate distances.}
 
-  \item{log}{Whether or not to log the counts - if
+  \item{log}{Whether or not to log2 the counts - if
   MRexperiment object.}
 
   \item{norm}{Whether or not to normalize the counts - if

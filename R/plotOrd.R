@@ -10,7 +10,7 @@
 #' @param usePCA TRUE/FALSE whether to use PCA  or MDS coordinates (TRUE is PCA).
 #' @param useDist TRUE/FALSE whether to calculate distances.
 #' @param dist.method If useDist==TRUE, what method to calculate distances.
-#' @param log Whether or not to log the counts - if MRexperiment object.
+#' @param log Whether or not to log2 the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param ret Whether or not to output the coordinates.
 #' @param ntop Number of features to make use of in calculating your distances.

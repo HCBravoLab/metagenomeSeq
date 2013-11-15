@@ -12,7 +12,7 @@
   \item{norm}{logical indicating whether or not to return
   normalized counts.}
 
-  \item{log}{TRUE/FALSE whether or not to log_2 transform
+  \item{log}{TRUE/FALSE whether or not to log2 transform
   scale.}
 
   \item{sl}{The value to scale by (default=1000).}

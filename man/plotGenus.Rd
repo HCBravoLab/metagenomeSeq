@@ -17,7 +17,7 @@
   \item{classIndex}{A list of the samples in their
   respective groups.}
 
-  \item{log}{Whether or not to log transform the counts -
+  \item{log}{Whether or not to log2 transform the counts -
   if MRexperiment object.}
 
   \item{norm}{Whether or not to normalize the counts - if
