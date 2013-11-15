@@ -199,6 +199,7 @@ To calculate the scaling factors we simply run \texttt{cumNorm}
 lungData = cumNorm(lungData,p=p)
 @
 
+The user can alternatively choose different percentiles for the normalization scheme by specifying $p$.
 
 There are other functions, including \texttt{normFactors}, \texttt{cumNormMat}, that return the normalization factors or a normalized matrix for a specified percentile. To see a full list of functions please refer to the manual and help pages. 
 
