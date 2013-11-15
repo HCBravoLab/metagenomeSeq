@@ -7,7 +7,8 @@
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
 
-  \item{n}{The number of features to plot}
+  \item{n}{The number of features to plot. This chooses the
+  "n" features with greatest variance.}
 
   \item{log}{Whether or not to log transform the counts -
   if MRexperiment object.}

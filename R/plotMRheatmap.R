@@ -5,7 +5,7 @@
 #' 
 #' 
 #' @param obj A MRexperiment object with count data.
-#' @param n The number of features to plot
+#' @param n The number of features to plot. This chooses the "n" features with greatest variance.
 #' @param log Whether or not to log transform the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param ... Additional plot arguments.
