@@ -169,6 +169,8 @@ posterior.probs <- function( obj ) {
 normFactors <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )
    nf <- pData(obj@expSummary$expSummary)[["normFactors"]]
+   nf <- unlist(nf)
+   names(nf) <- sampleNames(obj)
    nf
 }
 
@@ -192,6 +194,8 @@ normFactors <- function( obj ) {
 libSize<-function(obj){
    stopifnot( is( obj, "MRexperiment" ) )
    ls <- pData(obj@expSummary$expSummary)[["libSize"]]
+   ls <- unlist(ls)
+   names(ls) <- sampleNames(obj)
    ls
 }
 

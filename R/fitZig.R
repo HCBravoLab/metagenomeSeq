@@ -15,7 +15,7 @@
 #' @param mod The model for the count distribution.
 #' @param zeroMod The zero model, the model to account for the change in the
 #' number of OTUs observed as a linear effect of the depth of coverage.
-#' @param useS95offset Boolean, whether to include the default scaling
+#' @param useCSSoffset Boolean, whether to include the default scaling
 #' parameters in the model or not.
 #' @param control The settings for fitZig.
 #' @return The fits, posterior probabilities, posterior probabilities used at
@@ -37,16 +37,16 @@
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' 
 fitZig <-
-function(obj,mod,zeroMod=NULL,useS95offset=TRUE,control=zigControl()){
+function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
 
 # Initialization
 	tol = control$tol;
 	maxit     = control$maxit;
 	verbose   = control$verbose;
 	
-    stopifnot( is( obj, "MRexperiment" ) )
-    if(any(is.na(normFactors(obj)))) stop("At least one NA normalization factors")
-    if(any(is.na(libSize(obj)))) stop("Calculate the library size first!")
+	stopifnot( is( obj, "MRexperiment" ) )
+	if(any(is.na(normFactors(obj)))) stop("At least one NA normalization factors")
+	if(any(is.na(libSize(obj)))) stop("Calculate the library size first!")
 	
 	y = MRcounts(obj,norm=FALSE,log=FALSE)
 	nc = ncol(y) #nsamples
@@ -64,70 +64,65 @@ function(obj,mod,zeroMod=NULL,useS95offset=TRUE,control=zigControl()){
 	stillActiveNLL=rep(1, nr)
 	
 # Normalization step
-		Nmatrix = log2(y+1)
-		
+	Nmatrix = log2(y+1)
 		
 # Initializing the model matrix
-	if(useS95offset==TRUE){
-		if(any(is.na(normFactors(obj)))){
-			stop("Calculate the normalization factors first!")
-		}
-		mmCount=cbind(mod,log2(as.matrix(normFactors(obj))/1000 +1))}
+	if(useCSSoffset==TRUE){
+		if(any(is.na(normFactors(obj)))){stop("Calculate the normalization factors first!")}
+		mmCount=cbind(mod,log2(normFactors(obj)/1000 +1))}
 	else{ 
-        mmCount=mod
-    }
+        	mmCount=mod
+   	}
 
 	if(is.null(zeroMod)){
-		if(any(is.na(libSize(obj)))){
-			stop("Calculate the library size first!")
-		}
-        mmZero=model.matrix(~1+log(libSize(obj)))
-    } else{ 
-        mmZero=zeroMod 
-    }
+		if(any(is.na(libSize(obj)))){ stop("Calculate the library size first!") }
+	        mmZero=model.matrix(~1+log(libSize(obj)))
+    	} else{ 
+        	mmZero=zeroMod 
+    	}
 	
 	modRank=ncol(mmCount);
 # E-M Algorithm
-		while(any(stillActive) && curIt<maxit) {
+	while(any(stillActive) && curIt<maxit) {
 	
 # M-step for count density (each feature independently)
-			if(curIt==0){
-				fit=doCountMStep(z, Nmatrix, mmCount, stillActive);
-			} else {
-				fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit)
-			}
+		if(curIt==0){
+			fit=doCountMStep(z, Nmatrix, mmCount, stillActive);
+		} else {
+			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit)
+		}
 
 # M-step for zero density (all features together)
-			zeroCoef = doZeroMStep(z, zeroIndices, mmZero)
+		zeroCoef = doZeroMStep(z, zeroIndices, mmZero)
 			
 # E-step
-			z = doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
-			zzdata<-getZ(z,zUsed,stillActive,nll,nllUSED);
-			zUsed = zzdata$zUsed;
+		z = doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
+		zzdata<-getZ(z,zUsed,stillActive,nll,nllUSED);
+		zUsed = zzdata$zUsed;
 # NLL 
-			nll = getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals)
-			eps = getEpsilon(nll, nllOld)
-			active = isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
-			stillActive = active$stillActive;
-			stillActiveNLL = active$stillActiveNLL;
-			if(verbose==TRUE){
-				cat(sprintf("it=%2d, nll=%0.2f, log10(eps+1)=%0.2f, stillActive=%d\n", curIt, mean(nll,na.rm=TRUE), log10(max(eps,na.rm=TRUE)+1), sum(stillActive)))
-			}
-			nllOld=nll
-			curIt=curIt+1
-    
-			if(sum(rowSums((1-z)>0)<=modRank,na.rm=TRUE)>0){
-				k = which(rowSums((1-z)>0)<=modRank)
-				stillActive[k] = FALSE;
-				stillActiveNLL[k] = nll[k]
-			}
+		nll = getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals)
+		eps = getEpsilon(nll, nllOld)
+		active = isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
+		stillActive = active$stillActive;
+		stillActiveNLL = active$stillActiveNLL;
+		if(verbose==TRUE){
+			cat(sprintf("it=%2d, nll=%0.2f, log10(eps+1)=%0.2f, stillActive=%d\n", curIt, mean(nll,na.rm=TRUE), log10(max(eps,na.rm=TRUE)+1), sum(stillActive)))
 		}
+		nllOld=nll
+		curIt=curIt+1
+    
+		if(sum(rowSums((1-z)>0)<=modRank,na.rm=TRUE)>0){
+			k = which(rowSums((1-z)>0)<=modRank)
+			stillActive[k] = FALSE;
+			stillActiveNLL[k] = nll[k]
+		}
+	}
 	
         assayData(obj)[["z"]] <- z
         assayData(obj)[["zUsed"]] <- zUsed
 
-		eb=limma::ebayes(fit$fit)
-		dat = list(fit=fit$fit,countResiduals=fit$residuals,
-				   z=z,eb=eb,taxa=rownames(obj),counts=y,zeroMod =mmZero,stillActive=stillActive,stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef)
-		return(dat)
-	}
+	eb=limma::ebayes(fit$fit)
+	dat = list(fit=fit$fit,countResiduals=fit$residuals,
+		   z=z,eb=eb,taxa=rownames(obj),counts=y,zeroMod =mmZero,stillActive=stillActive,stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef)
+	return(dat)
+}

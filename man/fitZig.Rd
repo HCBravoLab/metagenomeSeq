@@ -2,7 +2,7 @@
 \alias{fitZig}
 \title{Computes the weighted fold-change estimates and t-statistics.}
 \usage{
-  fitZig(obj, mod, zeroMod = NULL, useS95offset = TRUE,
+  fitZig(obj, mod, zeroMod = NULL, useCSSoffset = TRUE,
     control = zigControl())
 }
 \arguments{
@@ -14,7 +14,7 @@
   the change in the number of OTUs observed as a linear
   effect of the depth of coverage.}
 
-  \item{useS95offset}{Boolean, whether to include the
+  \item{useCSSoffset}{Boolean, whether to include the
   default scaling parameters in the model or not.}
 
   \item{control}{The settings for fitZig.}

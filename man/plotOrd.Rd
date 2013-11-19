@@ -4,8 +4,8 @@
 \usage{
   plotOrd(obj, tran = FALSE, comp = 1:2, log = TRUE,
     norm = TRUE, usePCA = TRUE, useDist = FALSE,
-    dist.method = "euclidian", ret = FALSE, ntop = NULL,
-    ...)
+    distfun = stats::dist, dist.method = "euclidian",
+    ret = FALSE, n = NULL, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object or count matrix.}
@@ -20,6 +20,8 @@
   \item{useDist}{TRUE/FALSE whether to calculate
   distances.}
 
+  \item{distfun}{Distance function, default is stats::dist}
+
   \item{dist.method}{If useDist==TRUE, what method to
   calculate distances.}
 
@@ -31,8 +33,8 @@
 
   \item{ret}{Whether or not to output the coordinates.}
 
-  \item{ntop}{Number of features to make use of in
-  calculating your distances.}
+  \item{n}{Number of features to make use of in calculating
+  your distances.}
 
   \item{...}{Additional plot arguments.}
 }
