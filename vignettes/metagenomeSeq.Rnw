@@ -12,7 +12,6 @@
 \bibliographystyle{unsrt}
 
 \begin{document}
-
 <<include=FALSE>>=
 require(knitr)
 opts_chunk$set(concordance=TRUE,tidy=TRUE)
@@ -20,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: September 22, 2013. Compiled: \today}
+\date{Modified: November 19, 2013. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -57,8 +56,11 @@ The software was also designed to address the effects of both normalization and 
 
 \newpage
 \section{Data preparation}
-Microbial marker gene sequence data is preprocessed and counts are algorithmically defined from project-specific sequence data by clustering reads according to read similarity. 
-Given $m$ features and $n$ samples, the elements in a count matrix \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular feature $i$ (whether it be OTU, species, genus, etc.) in sample $j$. \\
+Microbial marker gene sequence data is preprocessed and counts are algorithmically defined 
+from project-specific sequence data by clustering reads according to read similarity. 
+Given $m$ features and $n$ samples, the elements in a count matrix 
+\textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular 
+feature $i$ (whether it be OTU, species, genus, etc.) in sample $j$. \\
 
 
 \begin{center}
@@ -170,7 +172,7 @@ obj = newMRexperiment(lung$counts,phenoData=phenotypeData,featureData=OTUdata)
 obj
 @
 
-Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load_biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
+Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load$\_$biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
 
 \newpage
 \section{Normalization}
@@ -263,9 +265,17 @@ settings = zigControl(maxit=10,verbose=TRUE)
 fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 @
 
-The result, \texttt{fit}, is a list providing detailed estimates of the fits including a \texttt{limma} fit in \texttt{fit\$fit} and an \texttt{ebayes} statistical fit in \texttt{fit\$eb}. This data can be analyzed like any \texttt{limma} fit and in this example, the column of the fitted coefficients represents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
+The result, \texttt{fit}, is a list providing detailed estimates of the fits including a 
+\texttt{limma} fit in \texttt{fit\$fit} and an \texttt{ebayes} statistical fit in \texttt{fit\$eb}.
+This data can be analyzed like any \texttt{limma} fit and in this example, the column of 
+the fitted coefficientsrepresents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
 
-Looking at the particular analysis just performed, there appears to be OTUs representing three \textit{Prevotella}, two \textit{Neisseria}, and a \textit{Porphyromonas} that are differentially abundant. One should check that similarly annotated OTUs are not equally differentially abundant in controls. 
+Looking at the particular analysis just performed, there appears to be OTUs representing three
+\textit{Prevotella}, two \textit{Neisseria}, and a \textit{Porphyromonas} that are differentially
+abundant. One should check that similarly annotated OTUs are not equally differentially 
+abundant in controls. 
+
+Alternatively, the user can input a model with their own normalization factors including them directly in the model matrix and specifying the option \texttt{useCSSoffset = FALSE} in fitZig.
 
 \subsection{Exporting fits}
 Currently functions are being developed to wrap and output results more neatly, but \texttt{MRcoefs}, \texttt{MRtable}, \texttt{MRfulltable} can be used to view coefficient fits and related statistics and export the data with optional output values - see help files to learn how they differ. 
@@ -348,7 +358,7 @@ Below is an example of plotting CMDS plots of the data and the rarefaction effec
 data(mouseData)
 cl = factor(pData(mouseData)$diet)
 
-# plotOrd
+# plotOrd - can load vegan and set distfun = vegdist and use dist.method="bray"
 plotOrd(mouseData,tran=TRUE,usePCA=FALSE,useDist=TRUE,bg=cl,pch=21,xlab="1st coordinate",ylab="2nd coordinate")
 
 # plotRare
