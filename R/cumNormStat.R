@@ -35,13 +35,13 @@ function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
 
     if(qFlag == TRUE){
         diffr = sapply(1:ncols,function(i){
-            refS[k:length(refS)] - quantile(yy[,i],p=seq(0,1,length.out=lo),na.rm=TRUE)
-        })
+                refS[k:length(refS)] - quantile(yy[,i],p=seq(0,1,length.out=lo),na.rm=TRUE)
+                })
     }
     if(qFlag == FALSE){
         diffr = sapply(1:ncols,function(i){
-            refS[k:length(refS)] - approx(yy[,i],n=lo)$y
-        })
+                refS[k:length(refS)] - approx(yy[,i],n=lo)$y
+                })
     }
 	diffr2 = matrixStats::rowMedians(abs(diffr),na.rm=TRUE)
 	if(pFlag ==TRUE){
