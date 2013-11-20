@@ -1,0 +1,59 @@
+\name{plotOTU}
+\alias{plotOTU}
+\title{Basic plot function of the raw or normalized data.}
+\usage{
+  plotOTU(obj, otu, classIndex, log = TRUE, norm = TRUE,
+    jitter.factor = 1, pch = 21, labs = TRUE, xlab = NULL,
+    ylab = NULL, jitter = TRUE, ret = FALSE, ...)
+}
+\arguments{
+  \item{obj}{A MRexperiment object with count data.}
+
+  \item{otu}{The row number/OTU to plot.}
+
+  \item{classIndex}{A list of the samples in their
+  respective groups.}
+
+  \item{log}{Whether or not to log2 transform the counts -
+  if MRexperiment object.}
+
+  \item{norm}{Whether or not to normalize the counts - if
+  MRexperiment object.}
+
+  \item{jitter.factor}{Factor value for jitter.}
+
+  \item{pch}{Standard pch value for the plot command.}
+
+  \item{labs}{Whether to include group labels or not.
+  (TRUE/FALSE)}
+
+  \item{xlab}{xlabel for the plot.}
+
+  \item{ylab}{ylabel for the plot.}
+
+  \item{jitter}{Boolean to jitter the count data or not.}
+
+  \item{ret}{Boolean to return the observed data that would
+  have been plotted.}
+
+  \item{...}{Additional plot arguments.}
+}
+\value{
+  NA
+}
+\description{
+  This function plots the abundance of a particular OTU by
+  class. The function uses the estimated posterior
+  probabilities to make technical zeros transparent.
+}
+\examples{
+data(mouseData)
+classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
+classIndex$cases=which(pData(mouseData)$diet=="Western")
+# you can specify whether or not to normalize, and to what level
+plotOTU(mouseData,otu=9083,classIndex,norm=FALSE,main="9083 feature abundances")
+}
+\seealso{
+  \code{\link{cumNorm}}
+}
+

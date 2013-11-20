@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/bioconductor/!svn/ver/74804/trunk/madman/Rpacks/metagenomeSeq/data
+END
+lungData.rda
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/bioconductor/!svn/ver/74804/trunk/madman/Rpacks/metagenomeSeq/data/lungData.rda
+END
+mouseData.rda
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/bioconductor/!svn/ver/74804/trunk/madman/Rpacks/metagenomeSeq/data/mouseData.rda
+END

@@ -1,0 +1,35 @@
+\name{getCountDensity}
+\alias{getCountDensity}
+\title{Compute the value of the count density function from the count model
+residuals.}
+\usage{
+  getCountDensity(residuals, log = FALSE)
+}
+\arguments{
+  \item{residuals}{Residuals from the count model.}
+
+  \item{log}{Whether or not we are calculating from a
+  log-normal distribution.}
+}
+\value{
+  Density values from the count model residuals.
+}
+\description{
+  Calculate density values from a normal: $f(x) = 1/(sqrt
+  (2 pi ) sigma ) e^-((x - mu )^2/(2 sigma^2))$.
+  Maximum-likelihood estimates are approximated using the
+  EM algorithm where we treat mixture membership $deta_ij$
+  = 1 if $y_ij$ is generated from the zero point mass as
+  latent indicator variables. The density is defined as
+  $f_zig(y_ij = pi_j(S_j) cdot f_0(y_ij) +(1-pi_j
+  (S_j))cdot f_count(y_ij;mu_i,sigma_i^2)$. The
+  log-likelihood in this extended model is $(1-delta_ij)
+  log f_count(y;mu_i,sigma_i^2 )+delta_ij log
+  pi_j(s_j)+(1-delta_ij)log (1-pi_j (sj))$. The
+  responsibilities are defined as $z_ij = pr(delta_ij=1 |
+  data)$.
+}
+\seealso{
+  \code{\link{fitZig}}
+}
+

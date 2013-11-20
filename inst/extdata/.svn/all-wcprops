@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/bioconductor/!svn/ver/74804/trunk/madman/Rpacks/metagenomeSeq/inst/extdata
+END
+CHK_NAME.otus.count.csv
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/bioconductor/!svn/ver/74804/trunk/madman/Rpacks/metagenomeSeq/inst/extdata/CHK_NAME.otus.count.csv
+END
+CHK_otus.taxonomy.csv
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/bioconductor/!svn/ver/74804/trunk/madman/Rpacks/metagenomeSeq/inst/extdata/CHK_otus.taxonomy.csv
+END
+CHK_clinical.csv
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/bioconductor/!svn/ver/74804/trunk/madman/Rpacks/metagenomeSeq/inst/extdata/CHK_clinical.csv
+END

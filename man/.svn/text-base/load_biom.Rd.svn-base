@@ -1,0 +1,27 @@
+\name{load_biom}
+\alias{load_biom}
+\title{Load objects organized in the Biome format.}
+\usage{
+  load_biom(file)
+}
+\arguments{
+  \item{file}{The biome object filepath.}
+}
+\value{
+  A MRexperiment object.
+}
+\description{
+  Wrapper to load Biome formatted object.
+}
+\examples{
+#library(biom)
+#rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biom")
+#x = load_biome(rich_dense_file)
+#x
+}
+\seealso{
+  \code{\link{load_meta}} \code{\link{load_phenoData}}
+  \code{\link{newMRexperiment}}
+  \code{\link{biom2MRexperiment}}
+}
+
