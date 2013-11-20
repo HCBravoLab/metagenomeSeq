@@ -1,19 +1,13 @@
-\name{cumNormStat}
-\alias{cumNormStat}
+\name{cumNormStatFast}
+\alias{cumNormStatFast}
 \title{Cumulative sum scaling percentile selection}
 \usage{
-  cumNormStat(obj, qFlag = TRUE, pFlag = FALSE, rel = 0.1,
-    ...)
+  cumNormStatFast(obj, pFlag = FALSE, rel = 0.1, ...)
 }
 \arguments{
   \item{obj}{A list with count data}
 
-  \item{qFlag}{Flag to either calculate the proper
-  percentile using R's step-wise quantile function or
-  approximate function.}
-
-  \item{pFlag}{Plot the relative difference of the median
-  deviance from the reference.}
+  \item{pFlag}{Plot the median difference quantiles}
 
   \item{rel}{Cutoff for the relative difference from one
   median difference from the reference to the next}
@@ -26,14 +20,15 @@
 }
 \description{
   Calculates the percentile for which to sum counts up to
-  and scale by. cumNormStat might be deprecated one day.
+  and scale by. Faster version than available in
+  cumNormStat.
 }
 \examples{
 data(mouseData)
-p = round(cumNormStat(mouseData,pFlag=FALSE),digits=2)
+p = round(cumNormStatFast(mouseData,pFlag=FALSE),digits=2)
 }
 \seealso{
   \code{\link{fitZig}} \code{\link{cumNorm}}
-  \code{\link{cumNormStatFast}}
+  \code{\link{cumNormStat}}
 }
 
