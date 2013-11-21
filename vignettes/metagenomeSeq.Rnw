@@ -226,6 +226,7 @@ system(paste("rm",file.path(dataDirectory,"temp.tsv")))
 
 \newpage
 \section{Statistical testing}
+Now that we have taken care of normalization we can address the effects of under sampling on the detecting differentially abundant features (OTUs, genes, etc).
 
 \subsection{Zero-inflated Gaussian mixture model}
 The depth of coverage in a sample is directly related to how many features are detected in a sample motivating our zero-inflated Gaussian (ZIG) mixture model. Figure 2 is representative of the linear relationship between depth of coverage and OTU identification ubiquitous in marker-gene survey datasets currently available. For a quick overview of the mathematical model see Appendix B.
@@ -241,7 +242,7 @@ For large survey studies it is often pertinent to include phenotype information 
 instance). Our linear model methodology can easily incorporate these
 confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
 
-\subsection{Example running fitZig}
+\subsection{Example using fitZig for differential abundance testing}
 \textbf{Warning: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question. See exporting fits on how to do this.}
 
 In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
