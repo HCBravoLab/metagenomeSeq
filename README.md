@@ -15,4 +15,4 @@ branch.
 
 Author: Joseph Nathaniel Paulson, Mihai Pop, Hector Corrada Bravo
 
-Maintainer: Joseph N. Paulson <jpaulson at umiacs.umd.edu>
+Maintainer: Joseph N. Paulson : jpaulson at umiacs.umd.edu
