@@ -2,7 +2,7 @@
 \alias{cumNorm}
 \title{Cumulative sum scaling factors.}
 \usage{
-  cumNorm(obj, p = cumNormStat(obj))
+  cumNorm(obj, p = cumNormStatFast(obj))
 }
 \arguments{
   \item{obj}{An MRexperiment object.}

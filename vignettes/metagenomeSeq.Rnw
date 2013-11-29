@@ -191,7 +191,7 @@ After defining a \texttt{MRexperiment} object, the first step is to calculate th
 
 <<calculateNormFactors>>=
 data(lungData)
-p=cumNormStat(lungData)
+p=cumNormStatFast(lungData)
 @
 
 \noindent
