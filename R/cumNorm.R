@@ -15,7 +15,7 @@
 #' head(normFactors(mouseData))
 #' 
 cumNorm <-
-function(obj,p=cumNormStat(obj)){
+function(obj,p=cumNormStatFast(obj)){
 	x = MRcounts(obj,norm=FALSE,log=FALSE)
 	xx=x
 	xx[x==0] <- NA
