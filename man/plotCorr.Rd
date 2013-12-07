@@ -2,7 +2,7 @@
 \alias{plotCorr}
 \title{Basic correlation plot function for normalized or unnormalized counts.}
 \usage{
-  plotCorr(obj, n, log = TRUE, norm = TRUE, fun = cor, ...)
+plotCorr(obj, n, log = TRUE, norm = TRUE, fun = cor, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -22,11 +22,11 @@
   \item{...}{Additional plot arguments.}
 }
 \value{
-  NA
+NA
 }
 \description{
-  This function plots a heatmap of the "n" features with
-  greatest variance across rows.
+This function plots a heatmap of the "n" features with
+greatest variance across rows.
 }
 \examples{
 data(mouseData)
@@ -34,6 +34,6 @@ plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="
          col = colorRampPalette(brewer.pal(9, "RdBu"))(50))
 }
 \seealso{
-  \code{\link{cumNormMat}}
+\code{\link{cumNormMat}}
 }
 

@@ -2,16 +2,16 @@
 \alias{load_biom}
 \title{Load objects organized in the Biome format.}
 \usage{
-  load_biom(file)
+load_biom(file)
 }
 \arguments{
   \item{file}{The biome object filepath.}
 }
 \value{
-  A MRexperiment object.
+A MRexperiment object.
 }
 \description{
-  Wrapper to load Biome formatted object.
+Wrapper to load Biome formatted object.
 }
 \examples{
 #library(biom)
@@ -20,8 +20,8 @@
 #x
 }
 \seealso{
-  \code{\link{load_meta}} \code{\link{load_phenoData}}
-  \code{\link{newMRexperiment}}
-  \code{\link{biom2MRexperiment}}
+\code{\link{load_meta}} \code{\link{load_phenoData}}
+\code{\link{newMRexperiment}}
+\code{\link{biom2MRexperiment}}
 }
 

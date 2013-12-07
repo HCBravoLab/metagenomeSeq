@@ -4,22 +4,22 @@
 \alias{expSummary,MRexperiment-method}
 \title{Access MRexperiment object experiment data}
 \usage{
-  expSummary(obj)
+expSummary(obj)
 }
 \arguments{
   \item{obj}{a \code{MRexperiment} object.}
 }
 \description{
-  The expSummary vectors represent the column (sample
-  specific) sums of features, i.e. the total number of
-  reads for a sample, libSize and also the normalization
-  factors, normFactor.
+The expSummary vectors represent the column (sample
+specific) sums of features, i.e. the total number of reads
+for a sample, libSize and also the normalization factors,
+normFactor.
 }
 \examples{
 data(mouseData)
 expSummary(mouseData)
 }
 \author{
-  Joseph N. Paulson, jpaulson@umiacs.umd.edu
+Joseph N. Paulson, jpaulson@umiacs.umd.edu
 }
 

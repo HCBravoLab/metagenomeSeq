@@ -2,10 +2,9 @@
 \alias{plotOrd}
 \title{Plot of either PCA or MDS coordinates for the distances of normalized or unnormalized counts.}
 \usage{
-  plotOrd(obj, tran = FALSE, comp = 1:2, log = TRUE,
-    norm = TRUE, usePCA = TRUE, useDist = FALSE,
-    distfun = stats::dist, dist.method = "euclidian",
-    ret = FALSE, n = NULL, ...)
+plotOrd(obj, tran = FALSE, comp = 1:2, log = TRUE, norm = TRUE,
+  usePCA = TRUE, useDist = FALSE, distfun = stats::dist,
+  dist.method = "euclidian", ret = FALSE, n = NULL, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object or count matrix.}
@@ -39,12 +38,12 @@
   \item{...}{Additional plot arguments.}
 }
 \value{
-  NA
+NA
 }
 \description{
-  This function plots the PCA / MDS coordinates for the "n"
-  features of interest. Potentially uncovering batch
-  effects or feature relationships.
+This function plots the PCA / MDS coordinates for the "n"
+features of interest. Potentially uncovering batch effects
+or feature relationships.
 }
 \examples{
 data(mouseData)
@@ -52,6 +51,6 @@ cl = pData(mouseData)[,3]
 plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),usePCA=FALSE)
 }
 \seealso{
-  \code{\link{cumNormMat}}
+\code{\link{cumNormMat}}
 }
 

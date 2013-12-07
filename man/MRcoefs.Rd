@@ -2,10 +2,9 @@
 \alias{MRcoefs}
 \title{Table of top-ranked microbial marker gene from linear model fit}
 \usage{
-  MRcoefs(obj, by = 2, coef = NULL, number = 10,
-    taxa = obj$taxa, uniqueNames = FALSE,
-    adjust.method = "fdr", group = 0, eff = 0,
-    output = NULL)
+MRcoefs(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
+  uniqueNames = FALSE, adjust.method = "fdr", group = 0, eff = 0,
+  output = NULL)
 }
 \arguments{
   \item{obj}{A list containing the linear model fit
@@ -46,13 +45,13 @@
   save the table.}
 }
 \value{
-  Table of the top-ranked features determined by the linear
-  fit's coefficient.
+Table of the top-ranked features determined by the linear
+fit's coefficient.
 }
 \description{
-  Extract a table of the top-ranked features from a linear
-  model fit. This function will be updated soon to provide
-  better flexibility similar to limma's topTable.
+Extract a table of the top-ranked features from a linear
+model fit. This function will be updated soon to provide
+better flexibility similar to limma's topTable.
 }
 \examples{
 data(lungData)
@@ -68,6 +67,6 @@ fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 head(MRcoefs(fit))
 }
 \seealso{
-  \code{\link{fitZig}} \code{\link{MRtable}}
+\code{\link{fitZig}} \code{\link{MRtable}}
 }
 

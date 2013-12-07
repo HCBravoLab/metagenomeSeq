@@ -2,7 +2,7 @@
 \alias{plotMRheatmap}
 \title{Basic heatmap plot function for normalized counts.}
 \usage{
-  plotMRheatmap(obj, n, log = TRUE, norm = TRUE, ...)
+plotMRheatmap(obj, n, log = TRUE, norm = TRUE, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -19,11 +19,11 @@
   \item{...}{Additional plot arguments.}
 }
 \value{
-  NA
+NA
 }
 \description{
-  This function plots a heatmap of the "n" features with
-  greatest variance across rows.
+This function plots a heatmap of the "n" features with
+greatest variance across rows.
 }
 \examples{
 data(mouseData)
@@ -34,6 +34,6 @@ plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",
              col = heatmapCols,ColSideColors = heatmapColColors)
 }
 \seealso{
-  \code{\link{cumNormMat}}
+\code{\link{cumNormMat}}
 }
 

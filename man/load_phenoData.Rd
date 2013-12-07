@@ -3,7 +3,7 @@
 \alias{phenoData}
 \title{Load a clinical/phenotypic dataset associated with a study.}
 \usage{
-  load_phenoData(file, tran = FALSE, sep = "\t")
+load_phenoData(file, tran = FALSE, sep = "\\t")
 }
 \arguments{
   \item{file}{Path and filename of the actual clinical
@@ -16,15 +16,15 @@
   \item{sep}{The separator for the file.}
 }
 \value{
-  The metadata as a dataframe.
+The metadata as a dataframe.
 }
 \description{
-  Load a matrix of metadata associated with a study.
+Load a matrix of metadata associated with a study.
 }
 \examples{
 # see vignette
 }
 \seealso{
-  \code{\link{load_meta}}
+\code{\link{load_meta}}
 }
 

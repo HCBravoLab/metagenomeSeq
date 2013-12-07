@@ -2,9 +2,9 @@
 \alias{plotOTU}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotOTU(obj, otu, classIndex, log = TRUE, norm = TRUE,
-    jitter.factor = 1, pch = 21, labs = TRUE, xlab = NULL,
-    ylab = NULL, jitter = TRUE, ret = FALSE, ...)
+plotOTU(obj, otu, classIndex, log = TRUE, norm = TRUE, jitter.factor = 1,
+  pch = 21, labs = TRUE, xlab = NULL, ylab = NULL, jitter = TRUE,
+  ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -39,12 +39,12 @@
   \item{...}{Additional plot arguments.}
 }
 \value{
-  NA
+NA
 }
 \description{
-  This function plots the abundance of a particular OTU by
-  class. The function uses the estimated posterior
-  probabilities to make technical zeros transparent.
+This function plots the abundance of a particular OTU by
+class. The function uses the estimated posterior
+probabilities to make technical zeros transparent.
 }
 \examples{
 data(mouseData)
@@ -54,6 +54,6 @@ classIndex$cases=which(pData(mouseData)$diet=="Western")
 plotOTU(mouseData,otu=9083,classIndex,norm=FALSE,main="9083 feature abundances")
 }
 \seealso{
-  \code{\link{cumNorm}}
+\code{\link{cumNorm}}
 }
 

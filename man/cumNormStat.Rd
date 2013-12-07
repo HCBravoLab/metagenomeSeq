@@ -2,8 +2,7 @@
 \alias{cumNormStat}
 \title{Cumulative sum scaling percentile selection}
 \usage{
-  cumNormStat(obj, qFlag = TRUE, pFlag = FALSE, rel = 0.1,
-    ...)
+cumNormStat(obj, qFlag = TRUE, pFlag = FALSE, rel = 0.1, ...)
 }
 \arguments{
   \item{obj}{A list with count data}
@@ -22,18 +21,18 @@
   plotting parameters.}
 }
 \value{
-  Percentile for which to scale data
+Percentile for which to scale data
 }
 \description{
-  Calculates the percentile for which to sum counts up to
-  and scale by. cumNormStat might be deprecated one day.
+Calculates the percentile for which to sum counts up to and
+scale by. cumNormStat might be deprecated one day.
 }
 \examples{
 data(mouseData)
 p = round(cumNormStat(mouseData,pFlag=FALSE),digits=2)
 }
 \seealso{
-  \code{\link{fitZig}} \code{\link{cumNorm}}
-  \code{\link{cumNormStatFast}}
+\code{\link{fitZig}} \code{\link{cumNorm}}
+\code{\link{cumNormStatFast}}
 }
 

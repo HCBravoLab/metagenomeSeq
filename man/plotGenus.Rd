@@ -3,10 +3,9 @@
 \alias{plotGenus}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-  plotGenus(obj, otuIndex, classIndex, log = TRUE,
-    norm = TRUE, no = 1:length(otuIndex), labs = TRUE,
-    xlab = NULL, ylab = NULL, jitter = TRUE,
-    jitter.factor = 1, pch = 21, ret = FALSE, ...)
+plotGenus(obj, otuIndex, classIndex, log = TRUE, norm = TRUE,
+  no = 1:length(otuIndex), labs = TRUE, xlab = NULL, ylab = NULL,
+  jitter = TRUE, jitter.factor = 1, pch = 21, ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{An MRexperiment object with count data.}
@@ -44,12 +43,12 @@
   \item{...}{Additional plot arguments.}
 }
 \value{
-  NA
+NA
 }
 \description{
-  This function plots the abundance of a particular OTU by
-  class. The function uses the estimated posterior
-  probabilities to make technical zeros transparent.
+This function plots the abundance of a particular OTU by
+class. The function uses the estimated posterior
+probabilities to make technical zeros transparent.
 }
 \examples{
 data(mouseData)
@@ -60,6 +59,6 @@ otuIndex=otuIndex[order(rowSums(MRcounts(mouseData)[otuIndex,]),decreasing=TRUE)
 plotGenus(mouseData,otuIndex,classIndex,no=1:2,xaxt="n",norm=FALSE,ylab="Strep normalized log(cpt)")
 }
 \seealso{
-  \code{\link{cumNorm}}
+\code{\link{cumNorm}}
 }
 

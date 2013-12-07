@@ -4,19 +4,19 @@
 \alias{posterior.probs,MRexperiment-method}
 \title{Access the posterior probabilities that results from analysis}
 \usage{
-  posterior.probs(obj)
+posterior.probs(obj)
 }
 \arguments{
   \item{obj}{a \code{MRexperiment} object.}
 }
 \description{
-  Accessing the posterior probabilities following a run
-  through \code{\link{fitZig}}
+Accessing the posterior probabilities following a run
+through \code{\link{fitZig}}
 }
 \examples{
 # see vignette
 }
 \author{
-  Joseph N. Paulson, jpaulson@umiacs.umd.edu
+Joseph N. Paulson, jpaulson@umiacs.umd.edu
 }
 

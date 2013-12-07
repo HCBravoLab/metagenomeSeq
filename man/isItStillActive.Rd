@@ -2,8 +2,7 @@
 \alias{isItStillActive}
 \title{Function to determine if a feature is still active.}
 \usage{
-  isItStillActive(eps, tol, stillActive, stillActiveNLL,
-    nll)
+isItStillActive(eps, tol, stillActive, stillActiveNLL, nll)
 }
 \arguments{
   \item{eps}{Vector of size M (features) representing the
@@ -22,16 +21,16 @@
   log-likelihoods.}
 }
 \value{
-  None.
+None.
 }
 \description{
-  In the Expectation Maximization routine features
-  posterior probabilities routinely converge based on a
-  tolerance threshold. This function checks whether or not
-  the feature's negative log-likelihood (measure of the
-  fit) has changed or not.
+In the Expectation Maximization routine features posterior
+probabilities routinely converge based on a tolerance
+threshold. This function checks whether or not the
+feature's negative log-likelihood (measure of the fit) has
+changed or not.
 }
 \seealso{
-  \code{\link{fitZig}}
+\code{\link{fitZig}}
 }
 

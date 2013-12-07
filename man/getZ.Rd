@@ -2,7 +2,7 @@
 \alias{getZ}
 \title{Calculate the current Z estimate responsibilities (posterior probabilities)}
 \usage{
-  getZ(z, zUsed, stillActive, nll, nllUSED)
+getZ(z, zUsed, stillActive, nll, nllUSED)
 }
 \arguments{
   \item{z}{Matrix (m x n) of estimate responsibilities
@@ -24,13 +24,13 @@
   negative log-likelihoods.}
 }
 \value{
-  A list of updated zUsed and nllUSED.
+A list of updated zUsed and nllUSED.
 }
 \description{
-  Calculate the current Z estimate responsibilities
-  (posterior probabilities)
+Calculate the current Z estimate responsibilities
+(posterior probabilities)
 }
 \seealso{
-  \code{\link{fitZig}}
+\code{\link{fitZig}}
 }
 
