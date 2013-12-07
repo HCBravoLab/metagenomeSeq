@@ -2,7 +2,7 @@
 \alias{plotRare}
 \title{Plot of rarefaction effect}
 \usage{
-  plotRare(obj, cl = NULL, ret = FALSE, ...)
+plotRare(obj, cl = NULL, ret = FALSE, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data or
@@ -16,11 +16,11 @@
   \item{...}{Additional plot arguments.}
 }
 \value{
-  NA
+NA
 }
 \description{
-  This function plots the number of observed features vs.
-  the depth of coverage.
+This function plots the number of observed features vs. the
+depth of coverage.
 }
 \examples{
 data(mouseData)
@@ -33,8 +33,8 @@ for(i in 1:length(levels(cl))){
 legend("topleft", c("Diet 1","Diet 2"), text.col=c(1,2),box.col=NA)
 }
 \seealso{
-  \code{\link{plotOrd}}, \code{\link{plotMRheatmap}},
-  \code{\link{plotCorr}}, \code{\link{plotOTU}},
-  \code{\link{plotGenus}}
+\code{\link{plotOrd}}, \code{\link{plotMRheatmap}},
+\code{\link{plotCorr}}, \code{\link{plotOTU}},
+\code{\link{plotGenus}}
 }
 

@@ -2,8 +2,7 @@
 \alias{exportStats}
 \title{Various statistics of the count data.}
 \usage{
-  exportStats(obj, p = cumNormStat(obj),
-    output = "~/Desktop/res.stats.tsv")
+exportStats(obj, p = cumNormStat(obj), output = "~/Desktop/res.stats.tsv")
 }
 \arguments{
   \item{obj}{A MRexperiment object with count data.}
@@ -14,18 +13,18 @@
   \item{output}{Output file name.}
 }
 \value{
-  None.
+None.
 }
 \description{
-  A matrix of values for each sample. The matrix consists
-  of sample ids, the sample scaling factor, quantile value,
-  the number identified features, and library size (depth
-  of coverage).
+A matrix of values for each sample. The matrix consists of
+sample ids, the sample scaling factor, quantile value, the
+number identified features, and library size (depth of
+coverage).
 }
 \examples{
 # see vignette
 }
 \seealso{
-  \code{\link{cumNorm}} \code{\link{quantile}}
+\code{\link{cumNorm}} \code{\link{quantile}}
 }
 

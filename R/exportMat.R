@@ -1,4 +1,4 @@
-#' export the normalized eSet dataset as a matrix.
+#' Export the normalized MRexperiment dataset as a matrix.
 #' 
 #' This function allows the user to take a dataset of counts and output the
 #' dataset to the user's workspace as a tab-delimited file, etc.
@@ -8,6 +8,7 @@
 #' @param obj A MRexperiment object with count data or matrix.
 #' @param log Whether or not to log transform the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
+#' @param sep Separator for writing out the count matrix
 #' @param output Output file name
 #' @return NA
 #' @seealso \code{\link{cumNorm}}
@@ -15,7 +16,7 @@
 #' 
 #' # see vignette
 #' 
-exportMat <-function(obj,log=TRUE,norm=TRUE,output="~/Desktop/matrix.tsv"){
+exportMat <-function(obj,log=TRUE,norm=TRUE,sep="\t",output="~/Desktop/matrix.tsv"){
 	if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=norm,log=log)
     } else if(class(obj) == "matrix") {
@@ -29,5 +30,5 @@ exportMat <-function(obj,log=TRUE,norm=TRUE,output="~/Desktop/matrix.tsv"){
 	oMat[2:nrow(oMat),2:ncol(oMat)] = mat;
     oMat[2:nrow(oMat),1] = rownames(mat);
     oMat[1,1] = "Taxa and Samples";
-	write(t(oMat),file=output,sep="\t",ncolumns=ncol(oMat));
+	write(t(oMat),file=output,sep=sep,ncolumns=ncol(oMat));
 }

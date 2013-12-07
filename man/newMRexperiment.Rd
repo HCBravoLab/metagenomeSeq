@@ -2,8 +2,8 @@
 \alias{newMRexperiment}
 \title{Create a MRexperiment object}
 \usage{
-  newMRexperiment(counts, phenoData = NULL,
-    featureData = NULL, libSize = NULL, normFactors = NULL)
+newMRexperiment(counts, phenoData = NULL, featureData = NULL,
+  libSize = NULL, normFactors = NULL)
 }
 \arguments{
   \item{counts}{A matrix or data frame of count data. The
@@ -26,22 +26,21 @@
   counts for each particular sample.}
 }
 \value{
-  an object of class MRexperiment
+an object of class MRexperiment
 }
 \description{
-  This function creates a MRexperiment object from a matrix
-  or data frame of count data.
+This function creates a MRexperiment object from a matrix
+or data frame of count data.
 }
 \details{
-  See \code{\link{MRexperiment-class}} and \code{eSet}
-  (from the Biobase package) for the meaning of the various
-  slots.
+See \code{\link{MRexperiment-class}} and \code{eSet} (from
+the Biobase package) for the meaning of the various slots.
 }
 \examples{
 cnts = matrix(abs(rnorm(1000)),nc=10)
 obj <- newMRexperiment(cnts)
 }
 \author{
-  Joseph N Paulson, jpaulson@umiacs.umd.edu
+Joseph N Paulson, jpaulson@umiacs.umd.edu
 }
 

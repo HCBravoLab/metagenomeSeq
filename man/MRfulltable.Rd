@@ -3,10 +3,9 @@
 \title{Table of top microbial marker gene from linear model fit including sequence
 information}
 \usage{
-  MRfulltable(obj, by = 2, coef = NULL, number = 10,
-    taxa = obj$taxa, uniqueNames = FALSE,
-    adjust.method = "fdr", group = 0, eff = 0,
-    output = NULL)
+MRfulltable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
+  uniqueNames = FALSE, adjust.method = "fdr", group = 0, eff = 0,
+  output = NULL)
 }
 \arguments{
   \item{obj}{A list containing the linear model fit
@@ -47,17 +46,17 @@ information}
   save the table.}
 }
 \value{
-  Table of the top-ranked features determined by the linear
-  fit's coefficient.
+Table of the top-ranked features determined by the linear
+fit's coefficient.
 }
 \description{
-  Extract a table of the top-ranked features from a linear
-  model fit. This function will be updated soon to provide
-  better flexibility similar to limma's topTable. This
-  function differs from \code{link{MRcoefs}} in that it
-  provides other information about the presence or absence
-  of features to help ensure significant features called
-  are moderately present.
+Extract a table of the top-ranked features from a linear
+model fit. This function will be updated soon to provide
+better flexibility similar to limma's topTable. This
+function differs from \code{link{MRcoefs}} in that it
+provides other information about the presence or absence of
+features to help ensure significant features called are
+moderately present.
 }
 \examples{
 data(lungData)
@@ -73,7 +72,7 @@ fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 head(MRfulltable(fit))
 }
 \seealso{
-  \code{\link{fitZig}} \code{\link{MRcoefs}}
-  \code{\link{MRtable}} \code{\link{MRfisher}}
+\code{\link{fitZig}} \code{\link{MRcoefs}}
+\code{\link{MRtable}} \code{\link{MRfisher}}
 }
 

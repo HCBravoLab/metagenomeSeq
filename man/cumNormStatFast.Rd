@@ -2,7 +2,7 @@
 \alias{cumNormStatFast}
 \title{Cumulative sum scaling percentile selection}
 \usage{
-  cumNormStatFast(obj, pFlag = FALSE, rel = 0.1, ...)
+cumNormStatFast(obj, pFlag = FALSE, rel = 0.1, ...)
 }
 \arguments{
   \item{obj}{A list with count data}
@@ -16,19 +16,18 @@
   plotting parameters.}
 }
 \value{
-  Percentile for which to scale data
+Percentile for which to scale data
 }
 \description{
-  Calculates the percentile for which to sum counts up to
-  and scale by. Faster version than available in
-  cumNormStat.
+Calculates the percentile for which to sum counts up to and
+scale by. Faster version than available in cumNormStat.
 }
 \examples{
 data(mouseData)
 p = round(cumNormStatFast(mouseData,pFlag=FALSE),digits=2)
 }
 \seealso{
-  \code{\link{fitZig}} \code{\link{cumNorm}}
-  \code{\link{cumNormStat}}
+\code{\link{fitZig}} \code{\link{cumNorm}}
+\code{\link{cumNormStat}}
 }
 

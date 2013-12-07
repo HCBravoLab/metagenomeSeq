@@ -4,7 +4,7 @@
 \alias{MRcounts,MRexperiment-method}
 \title{Accessor for the counts slot of a MRexperiment object}
 \usage{
-  MRcounts(obj, norm = FALSE, log = FALSE, sl = 1000)
+MRcounts(obj, norm = FALSE, log = FALSE, sl = 1000)
 }
 \arguments{
   \item{obj}{a \code{MRexperiment} object.}
@@ -18,15 +18,15 @@
   \item{sl}{The value to scale by (default=1000).}
 }
 \description{
-  The counts slot holds the raw count data representing
-  (along the rows) the number of reads annotated for a
-  particular feature and (along the columns) the sample.
+The counts slot holds the raw count data representing
+(along the rows) the number of reads annotated for a
+particular feature and (along the columns) the sample.
 }
 \examples{
 data(lungData)
 head(MRcounts(lungData))
 }
 \author{
-  Joseph N. Paulson, jpaulson@umiacs.umd.edu
+Joseph N. Paulson, jpaulson@umiacs.umd.edu
 }
 

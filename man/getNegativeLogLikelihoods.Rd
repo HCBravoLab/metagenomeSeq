@@ -3,8 +3,7 @@
 \title{Calculate the negative log-likelihoods for the various features given the
 residuals.}
 \usage{
-  getNegativeLogLikelihoods(z, countResiduals,
-    zeroResiduals)
+getNegativeLogLikelihoods(z, countResiduals, zeroResiduals)
 }
 \arguments{
   \item{z}{Matrix (m x n) of estimate responsibilities
@@ -16,21 +15,20 @@ residuals.}
   \item{zeroResiduals}{Residuals from the zero model.}
 }
 \value{
-  Vector of size M of the negative log-likelihoods for the
-  various features.
+Vector of size M of the negative log-likelihoods for the
+various features.
 }
 \description{
-  Maximum-likelihood estimates are approximated using the
-  EM algorithm where we treat mixture membership $delta_ij$
-  = 1 if $y_ij$ is generated from the zero point mass as
-  latent indicator variables. The log-likelihood in this
-  extended model is $(1-delta_ij) log
-  f_count(y;mu_i,sigma_i^2 )+delta_ij log
-  pi_j(s_j)+(1-delta_ij)log (1-pi_j (sj))$. The
-  responsibilities are defined as $z_ij = pr(delta_ij=1 |
-  data and current values)$.
+Maximum-likelihood estimates are approximated using the EM
+algorithm where we treat mixture membership $delta_ij$ = 1
+if $y_ij$ is generated from the zero point mass as latent
+indicator variables. The log-likelihood in this extended
+model is $(1-delta_ij) log f_count(y;mu_i,sigma_i^2
+)+delta_ij log pi_j(s_j)+(1-delta_ij)log (1-pi_j (sj))$.
+The responsibilities are defined as $z_ij = pr(delta_ij=1 |
+data and current values)$.
 }
 \seealso{
-  \code{\link{fitZig}}
+\code{\link{fitZig}}
 }
 
