@@ -1,0 +1,30 @@
+\name{load_phenoData}
+\alias{load_phenoData}
+\alias{phenoData}
+\title{Load a clinical/phenotypic dataset associated with a study.}
+\usage{
+  load_phenoData(file, tran = FALSE, sep = "\t")
+}
+\arguments{
+  \item{file}{Path and filename of the actual clinical
+  file.}
+
+  \item{tran}{Boolean. If the covariates are along the
+  columns and samples along the rows, then tran should
+  equal TRUE.}
+
+  \item{sep}{The separator for the file.}
+}
+\value{
+  The metadata as a dataframe.
+}
+\description{
+  Load a matrix of metadata associated with a study.
+}
+\examples{
+# see vignette
+}
+\seealso{
+  \code{\link{load_meta}}
+}
+
