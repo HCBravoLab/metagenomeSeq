@@ -7,6 +7,7 @@
 #' @param present Features with at least 'present' postive samples.
 #' @param depth Sampls with at least this much depth of coverage
 #' @return A MRexperiment object.
+#' @export
 #' @examples
 #' 
 #' data(mouseData)
