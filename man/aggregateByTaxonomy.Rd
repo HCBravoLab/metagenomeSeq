@@ -1,10 +1,16 @@
 \name{aggregateByTaxonomy}
 \alias{aggTax}
 \alias{aggregateByTaxonomy}
-\alias{aggregateTax,}
-\title{Aggregates a MRexperiment object by a particular taxonomic level.}
+\title{Aggregates a MRexperiment object by a particular taxonomic level.
+
+Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
+MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
+to the desired level by with the aggfun function (default colSums). Possible aggfun alternatives
+include colMeans and colMedians.}
 \usage{
 aggregateByTaxonomy(obj, lvl, norm = TRUE, aggfun = colSums)
+
+aggTax(obj, lvl, norm = TRUE, aggfun = colSums)
 }
 \arguments{
   \item{obj}{A MRexperiment object.}
@@ -21,6 +27,9 @@ aggregateByTaxonomy(obj, lvl, norm = TRUE, aggfun = colSums)
 An aggregated count matrix.
 }
 \description{
+Aggregates a MRexperiment object by a particular taxonomic
+level.
+
 Using the featureData information in the MRexperiment,
 calling aggregateByTaxonomy on a MRexperiment and a
 particular featureData column (i.e. 'genus') will aggregate
