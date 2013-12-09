@@ -11,6 +11,7 @@ exportMethods(
 
 export(
 aggregateM,
+aggregateByTaxonomy,
 biom2MRexperiment,
 cumNorm,
 cumNormMat,

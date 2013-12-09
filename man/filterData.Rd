@@ -5,7 +5,7 @@
 filterData(obj, present = 1, depth = 1000)
 }
 \arguments{
-  \item{obj}{A MRexperiment object.}
+  \item{obj}{A MRexperiment object or count matrix.}
 
   \item{present}{Features with at least 'present' postive
   samples.}

@@ -3,10 +3,10 @@
 #' Calculates the percentile for which to sum counts up to and scale by. Faster
 #' version than available in cumNormStat.
 #' 
-#' @param obj A list with count data
-#' @param pFlag Plot the median difference quantiles
+#' @param obj A MRexperiment object or count matrix.
+#' @param pFlag Plot the median difference quantiles.
 #' @param rel Cutoff for the relative difference from one median difference
-#' from the reference to the next
+#' from the reference to the next.
 #' @param ... Applicable if pFlag == TRUE. Additional plotting parameters.
 #' @return Percentile for which to scale data
 #' @seealso \code{\link{fitZig}} \code{\link{cumNorm}} \code{\link{cumNormStat}}
@@ -16,8 +16,13 @@
 #' p = round(cumNormStatFast(mouseData,pFlag=FALSE),digits=2)
 #' 
 cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
-    
-	mat = MRcounts(obj,norm=FALSE,log=FALSE);
+    if(class(obj)=="MRexperiment"){
+        mat = MRcounts(obj,norm=FALSE,log=FALSE)
+    } else if(class(obj) == "matrix") {
+        mat = obj
+    } else {
+        stop("Object needs to be either a MRexperiment object or matrix.")
+    }
 	smat = lapply(1:ncol(mat), function(i) {
 	    sort(mat[which(mat[, i]>0),i], decreasing = TRUE)
 	})
