@@ -5,12 +5,12 @@
 cumNormStatFast(obj, pFlag = FALSE, rel = 0.1, ...)
 }
 \arguments{
-  \item{obj}{A list with count data}
+  \item{obj}{A MRexperiment object or count matrix.}
 
-  \item{pFlag}{Plot the median difference quantiles}
+  \item{pFlag}{Plot the median difference quantiles.}
 
   \item{rel}{Cutoff for the relative difference from one
-  median difference from the reference to the next}
+  median difference from the reference to the next.}
 
   \item{...}{Applicable if pFlag == TRUE. Additional
   plotting parameters.}

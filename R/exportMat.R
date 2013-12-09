@@ -22,7 +22,7 @@ exportMat <-function(obj,log=TRUE,norm=TRUE,sep="\t",output="~/Desktop/matrix.ts
     } else if(class(obj) == "matrix") {
         mat = obj
     } else {
-        stop("Object needs to be either a MRexperiment object or matrix")
+        stop("Object needs to be either a MRexperiment object or matrix.")
     }
 	
 	oMat = array(NA,dim=c((nrow(mat)+1),(ncol(mat)+1)));
