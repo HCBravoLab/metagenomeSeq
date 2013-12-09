@@ -1,4 +1,5 @@
-#' Aggregates a MRexperiment object by a particular taxonomic level.
+#' @name aggregateByTaxonomy
+#' @title Aggregates a MRexperiment object by a particular taxonomic level.
 #' 
 #' Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
 #' MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
@@ -10,7 +11,8 @@
 #' @param norm Whether to aggregate normalized counts or not.
 #' @param aggfun Aggregation function.
 #' @return An aggregated count matrix.
-#' @aliases aggregateTax, aggTax
+#' @aliases aggTax
+#' @rdname aggregateByTaxonomy
 #' @export
 #' @examples
 #' 
@@ -34,4 +36,9 @@ aggregateByTaxonomy<-function(obj,lvl,norm=TRUE,aggfun = colSums){
 	rownames(newMat) = names(grps)
 	colnames(newMat) = sampleNames(obj)
 	newMat
+}
+#' @rdname aggregateByTaxonomy
+#' @export
+aggTax<-function(obj,lvl,norm=TRUE,aggfun = colSums){
+    aggregateByTaxonomy(obj,lvl,norm=TRUE,aggfun = colSums)
 }
