@@ -5,7 +5,7 @@
 #' 
 #' 
 #' @aliases exportMatrix exportMat
-#' @param obj A MRexperiment object with count data or matrix.
+#' @param obj A MRexperiment object or count matrix.
 #' @param log Whether or not to log transform the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param sep Separator for writing out the count matrix

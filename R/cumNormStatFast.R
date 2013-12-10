@@ -3,7 +3,7 @@
 #' Calculates the percentile for which to sum counts up to and scale by. Faster
 #' version than available in cumNormStat.
 #' 
-#' @param obj A MRexperiment object or count matrix.
+#' @param obj A MRexperiment object.
 #' @param pFlag Plot the median difference quantiles.
 #' @param rel Cutoff for the relative difference from one median difference
 #' from the reference to the next.
@@ -18,10 +18,8 @@
 cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
     if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=FALSE,log=FALSE)
-    } else if(class(obj) == "matrix") {
-        mat = obj
     } else {
-        stop("Object needs to be either a MRexperiment object or matrix.")
+        stop("Object needs to be a MRexperiment object.")
     }
 	smat = lapply(1:ncol(mat), function(i) {
 	    sort(mat[which(mat[, i]>0),i], decreasing = TRUE)
