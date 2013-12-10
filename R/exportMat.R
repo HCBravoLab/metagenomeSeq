@@ -17,7 +17,7 @@
 #' # see vignette
 #' 
 exportMat <-function(obj,log=TRUE,norm=TRUE,sep="\t",output="~/Desktop/matrix.tsv"){
-	if(class(obj)=="MRexperiment"){
+    if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=norm,log=log)
     } else if(class(obj) == "matrix") {
         mat = obj
