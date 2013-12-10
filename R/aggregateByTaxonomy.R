@@ -20,10 +20,10 @@
 #' # aggregateByTaxonomy(mouseData,lvl="genus",norm=TRUE,aggfun=colMedians)
 #' 
 aggregateByTaxonomy<-function(obj,lvl,norm=TRUE,aggfun = colSums){
-    if(class(obj)=="MRexperiment"){
-        mat = MRcounts(obj,norm=norm,log=FALSE)
+	if(class(obj)=="MRexperiment"){
+		mat = MRcounts(obj,norm=norm,log=FALSE)
     } else {
-        stop("Object needs to be a MRexperiment object. If it's a matrix, see aggregateM.")
+		stop("Object needs to be a MRexperiment object. If it's a matrix, see aggregateM.")
     }
     
 	levels = fData(obj)[,lvl]
