@@ -16,13 +16,17 @@
 #' head(cumNormMat(mouseData))
 #' 
 cumNormMat <-
-function(obj,p= cumNormStat(obj),sl = 1000){
+function(obj,p= cumNormStatFast(obj),sl = 1000){
 ####################################################################################
 #   Calculates each column's quantile
 #    and calculated the sum up to and
 #    including that quantile.
 ####################################################################################
-    x=MRcounts(obj,norm=FALSE,log=FALSE)
+    if(class(obj)=="MRexperiment"){
+        x = MRcounts(obj,norm=FALSE,log=FALSE)
+    } else {
+        stop("Object needs to be a MRexperiment object.")
+    }
     xx=x
 	xx[x==0] <- NA
 	
