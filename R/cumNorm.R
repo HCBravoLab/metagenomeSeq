@@ -16,22 +16,22 @@
 #' 
 cumNorm <-
 function(obj,p=cumNormStatFast(obj)){
-    if(class(obj)=="MRexperiment"){
-        x = MRcounts(obj,norm=FALSE,log=FALSE)
-    } else {
-        stop("Object needs to be a MRexperiment object")
-    }
+	if(class(obj)=="MRexperiment"){
+		x = MRcounts(obj,norm=FALSE,log=FALSE)
+	} else {
+		stop("Object needs to be a MRexperiment object")
+	}
 	xx=x
 	xx[x==0] <- NA
 		
 	qs=matrixStats::colQuantiles(xx,p=p,na.rm=TRUE)
 		
 	normFactors<-sapply(1:ncol(xx), function(i) {
-		   xx=(x[,i]-.Machine$double.eps)
-		   sum(xx[xx<=qs[i]])
-		   })
+			xx=(x[,i]-.Machine$double.eps)
+			sum(xx[xx<=qs[i]])
+			})
 	names(normFactors)<- colnames(x)
-        pData(obj@expSummary$expSummary)$normFactors = as.data.frame(normFactors)
-        validObject(obj)
+		pData(obj@expSummary$expSummary)$normFactors = as.data.frame(normFactors)
+		validObject(obj)
 	return(obj)
 }

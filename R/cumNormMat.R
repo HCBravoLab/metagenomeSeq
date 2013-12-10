@@ -22,10 +22,10 @@ function(obj,p= cumNormStatFast(obj),sl = 1000){
 #    and calculated the sum up to and
 #    including that quantile.
 ####################################################################################
-    if(class(obj)=="MRexperiment"){
-        x = MRcounts(obj,norm=FALSE,log=FALSE)
+	if(class(obj)=="MRexperiment"){
+		x = MRcounts(obj,norm=FALSE,log=FALSE)
     } else {
-        stop("Object needs to be a MRexperiment object.")
+		stop("Object needs to be a MRexperiment object.")
     }
     xx=x
 	xx[x==0] <- NA

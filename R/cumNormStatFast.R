@@ -16,10 +16,10 @@
 #' p = round(cumNormStatFast(mouseData,pFlag=FALSE),digits=2)
 #' 
 cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
-    if(class(obj)=="MRexperiment"){
-        mat = MRcounts(obj,norm=FALSE,log=FALSE)
-    } else {
-        stop("Object needs to be a MRexperiment object.")
+	if(class(obj)=="MRexperiment"){
+		mat = MRcounts(obj,norm=FALSE,log=FALSE)
+	} else {
+		stop("Object needs to be a MRexperiment object.")
     }
 	smat = lapply(1:ncol(mat), function(i) {
 	    sort(mat[which(mat[, i]>0),i], decreasing = TRUE)
@@ -38,13 +38,13 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 
 	ncols = ncol(rmat2)
 	diffr = sapply(1:ncols, function(i) {
-	    ref1 - rmat2[,i]
+		ref1 - rmat2[,i]
 	})
 	diffr1=rowMedians(abs(diffr))
 	if(pFlag==TRUE){
 		plot(abs(diff(diffr1))/diffr1[-1],type="h",...)
-                abline(h=rel)
-                axis(1,at=seq(0,length(diffr1),length.out=5),labels = seq(0,1,length.out=5))
+		abline(h=rel)
+		axis(1,at=seq(0,length(diffr1),length.out=5),labels = seq(0,1,length.out=5))
 	}
 	x= which(abs(diff(diffr1))/diffr1[-1] > rel)[1]/length(diffr1)
 	obj@expSummary$cumNormStat = x;

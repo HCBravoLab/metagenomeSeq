@@ -19,10 +19,10 @@
 #' 
 cumNormStat <-
 function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
-    if(class(obj)=="MRexperiment"){
-        mat = MRcounts(obj,norm=FALSE,log=FALSE)
+	if(class(obj)=="MRexperiment"){
+		mat = MRcounts(obj,norm=FALSE,log=FALSE)
     } else {
-        stop("Object needs to be a MRexperiment object.")
+		stop("Object needs to be a MRexperiment object.")
     }
 	smat = sapply(1:ncol(mat),function(i){sort(mat[,i],decreasing=FALSE)})
 	ref  = rowMeans(smat);
@@ -37,18 +37,18 @@ function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
 	lo = (length(refS)-k+1)
 
 	if(qFlag == TRUE){
-        	diffr = sapply(1:ncols,function(i){
-                	refS[k:length(refS)] - quantile(yy[,i],p=seq(0,1,length.out=lo),na.rm=TRUE)
-                })
+		diffr = sapply(1:ncols,function(i){
+		refS[k:length(refS)] - quantile(yy[,i],p=seq(0,1,length.out=lo),na.rm=TRUE)
+	})
 	}
 	if(qFlag == FALSE){
-        	diffr = sapply(1:ncols,function(i){
+       	diffr = sapply(1:ncols,function(i){
 			refS[k:length(refS)] - approx(yy[,i],n=lo)$y
 		})
 	}
 	diffr2 = matrixStats::rowMedians(abs(diffr),na.rm=TRUE)
 	if(pFlag ==TRUE){
-        	plot(abs(diff(diffr2[diffr2>0]))/diffr2[diffr2>0][-1],type="h",ylab="Relative difference for reference",xaxt="n",...)
+        plot(abs(diff(diffr2[diffr2>0]))/diffr2[diffr2>0][-1],type="h",ylab="Relative difference for reference",xaxt="n",...)
 		abline(h=rel)
 		axis(1,at=seq(0,length(diffr2),length.out=5),labels = seq(0,1,length.out=5))
 	}
