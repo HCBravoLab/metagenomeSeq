@@ -5,7 +5,7 @@
 cumNormStatFast(obj, pFlag = FALSE, rel = 0.1, ...)
 }
 \arguments{
-  \item{obj}{A MRexperiment object or count matrix.}
+  \item{obj}{A MRexperiment object.}
 
   \item{pFlag}{Plot the median difference quantiles.}
 

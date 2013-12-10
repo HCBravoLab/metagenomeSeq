@@ -2,7 +2,7 @@
 \alias{cumNormMat}
 \title{Cumulative sum scaling factors.}
 \usage{
-cumNormMat(obj, p = cumNormStat(obj), sl = 1000)
+cumNormMat(obj, p = cumNormStatFast(obj), sl = 1000)
 }
 \arguments{
   \item{obj}{A MRexperiment object.}

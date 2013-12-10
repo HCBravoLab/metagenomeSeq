@@ -3,7 +3,7 @@
 #' Calculates the percentile for which to sum counts up to and scale by.
 #' cumNormStat might be deprecated one day.
 #' 
-#' @param obj A list with count data
+#' @param obj A MRexperiment object.
 #' @param qFlag Flag to either calculate the proper percentile using
 #' R's step-wise quantile function or approximate function. 
 #' @param pFlag Plot the relative difference of the median deviance from the reference.
@@ -19,8 +19,11 @@
 #' 
 cumNormStat <-
 function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
-    
-	mat = MRcounts(obj,norm=FALSE,log=FALSE);
+    if(class(obj)=="MRexperiment"){
+        mat = MRcounts(obj,norm=FALSE,log=FALSE)
+    } else {
+        stop("Object needs to be a MRexperiment object.")
+    }
 	smat = sapply(1:ncol(mat),function(i){sort(mat[,i],decreasing=FALSE)})
 	ref  = rowMeans(smat);
 	

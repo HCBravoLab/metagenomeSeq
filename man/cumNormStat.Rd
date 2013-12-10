@@ -5,7 +5,7 @@
 cumNormStat(obj, qFlag = TRUE, pFlag = FALSE, rel = 0.1, ...)
 }
 \arguments{
-  \item{obj}{A list with count data}
+  \item{obj}{A MRexperiment object.}
 
   \item{qFlag}{Flag to either calculate the proper
   percentile using R's step-wise quantile function or

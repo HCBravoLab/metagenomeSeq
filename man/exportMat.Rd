@@ -7,8 +7,7 @@ exportMat(obj, log = TRUE, norm = TRUE, sep = "\\t",
   output = "~/Desktop/matrix.tsv")
 }
 \arguments{
-  \item{obj}{A MRexperiment object with count data or
-  matrix.}
+  \item{obj}{A MRexperiment object or count matrix.}
 
   \item{log}{Whether or not to log transform the counts -
   if MRexperiment object.}
