@@ -1,8 +1,8 @@
-\name{MRfisher}
-\alias{MRfisher}
+\name{fitPA}
+\alias{fitPA}
 \title{Wrapper to run fisher's test on presence/absence of a feature.}
 \usage{
-MRfisher(obj, cl, thres = 0)
+fitPA(obj, cl, thres = 0)
 }
 \arguments{
   \item{obj}{A MRexperiment object with a count matrix, or
@@ -25,7 +25,7 @@ data(lungData)
 k = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-k]
 lungTrim = lungTrim[-which(rowSums(MRcounts(lungTrim)>0)<20),]
-res = MRfisher(lungTrim,pData(lungTrim)$SmokingStatus);
+res = fitPA(lungTrim,pData(lungTrim)$SmokingStatus);
 head(res)
 }
 \seealso{

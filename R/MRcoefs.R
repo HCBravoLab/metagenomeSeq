@@ -63,11 +63,12 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     } else if(group==2){
         srt = order((tb[,by]),decreasing=FALSE)
     } else if(group==3){
-        srt = order(p,decreasing=FALSE)[1:number]
+        srt = order(p,decreasing=FALSE)
     }
     
-    valid = which(rowSums(1-obj$z)>=quantile(rowSums(1-obj$z),p=eff,na.rm=TRUE))
-    srt = srt[which(srt%in%valid)][1:number]
+    effectiveSamples = calculateEffectiveSamples(obj);
+    valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
+    srt = srt[which(srt%in%valid)][1:number];
     
     mat = cbind(tb[,coef],p)
     mat = cbind(mat,padj)

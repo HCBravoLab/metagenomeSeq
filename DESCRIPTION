@@ -1,6 +1,6 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.5.25
+Version: 1.5.26
 Date: 2013-11-20
 Author: Joseph Nathaniel Paulson, Mihai Pop,  Hector Corrada Bravo
 Maintainer: Joseph N. Paulson <jpaulson@umiacs.umd.edu>
@@ -28,10 +28,10 @@ biocViews: Bioinformatics, DifferentialExpression, Metagenomics,
     Visualization
 Collate:
     'aggregateByTaxonomy.R'
-    'load_biom.R'
-    'biom2MRexperiment.R'
     'aggregateM.R'
     'allClasses.R'
+    'biom2MRexperiment.R'
+    'calculateEffectiveSamples.R'
     'cumNorm.R'
     'cumNormStat.R'
     'cumNormStatFast.R'
@@ -42,6 +42,7 @@ Collate:
     'exportMat.R'
     'exportStats.R'
     'fitZig.R'
+    'fitPA.R'
     'filterData.R'
     'getEpsilon.R'
     'getCountDensity.R'
@@ -49,12 +50,12 @@ Collate:
     'getPi.R'
     'getZ.R'
     'isItStillActive.R'
+    'load_biom.R'
     'load_meta.R'
     'load_metaQ.R'
     'load_phenoData.R'
     'MRtable.R'
     'MRcoefs.R'
-    'MRfisher.R'
     'MRfulltable.R'
     'plotMRheatmap.R'
     'plotCorr.R'

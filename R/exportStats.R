@@ -15,26 +15,25 @@
 #' # see vignette
 #' 
 exportStats <-function(obj,p= cumNormStat(obj),output="~/Desktop/res.stats.tsv"){
+	xx=MRcounts(obj)
+	xx[xx==0]=NA
+	qs=matrixStats::colQuantiles(xx,p=p,na.rm=TRUE)
 
-			xx=MRcounts(obj)
-			xx[xx==0]=NA
-			qs=matrixStats::colQuantiles(xx,p=p,na.rm=TRUE)
-
-			xx[xx>0] = 1;
-			xx[is.na(xx)]=0
+	xx[xx>0] = 1;
+	xx[is.na(xx)]=0
 			
-			newMat <- array(NA,dim=c(5,ncol(xx)+1));
-			newMat[1,1] = "Subject"
-			newMat[2,1] = "Scaling factor"
-			newMat[3,1] = "Quantile value"
-			newMat[4,1] = "Number of identified features"
-			newMat[5,1] = "Library size"
+	newMat <- array(NA,dim=c(5,ncol(xx)+1));
+	newMat[1,1] = "Subject"
+	newMat[2,1] = "Scaling factor"
+	newMat[3,1] = "Quantile value"
+	newMat[4,1] = "Number of identified features"
+	newMat[5,1] = "Library size"
 
-			newMat[1,2:ncol(newMat)]<-sampleNames(obj);
-			newMat[2,2:ncol(newMat)]<-unlist(normFactors(obj));
-			newMat[3,2:ncol(newMat)]<-qs;
-			newMat[4,2:ncol(newMat)]<-colSums(xx);
-			newMat[5,2:ncol(newMat)]<-unlist(libSize(obj));
+	newMat[1,2:ncol(newMat)]<-sampleNames(obj);
+	newMat[2,2:ncol(newMat)]<-unlist(normFactors(obj));
+	newMat[3,2:ncol(newMat)]<-qs;
+	newMat[4,2:ncol(newMat)]<-colSums(xx);
+	newMat[5,2:ncol(newMat)]<-unlist(libSize(obj));
 
-			write((newMat),file = output,sep = "\t",ncolumns = 5);
+	write((newMat),file = output,sep = "\t",ncolumns = 5);
 }
