@@ -12,6 +12,7 @@
 \bibliographystyle{unsrt}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 <<include=FALSE>>=
 require(knitr)
 opts_chunk$set(concordance=TRUE,tidy=TRUE)
@@ -243,7 +244,8 @@ instance). Our linear model methodology can easily incorporate these
 confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
 
 \subsection{Example using fitZig for differential abundance testing}
-\textbf{Warning: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question. See exporting fits on how to do this.}
+\textbf{Warning: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question.}
+\textbf{We recommend the user remove features based on the number of estimated effective samples. We recommend removing features with less than the average number of effective samples in all features. See exporting fits (MRfulltable) on how to do this.}
 
 In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
 
@@ -291,13 +293,13 @@ head(MRcoefs(fit,taxa=taxa,coef=2))
 @
 
 \subsection{Testing presence-absence}
-The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{MRfisher} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{MRfisher}. If there is a desire for a more detailed description, please email me.
+The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitPA} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{fitPA}. If there is a desire for a more detailed description, please email me.
 
 
 <<presenceAbsence>>=
 data(mouseData)
 classes = pData(mouseData)$diet
-res = MRfisher(mouseData[1:5,],cl=classes)
+res = fitPA(mouseData[1:5,],cl=classes)
 # Warning - the p-value is calculating 1 despite a high odd's ratio.
 head(res)
 @

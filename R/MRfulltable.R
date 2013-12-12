@@ -20,17 +20,17 @@
 #' @param adjust.method Method to adjust p-values by. Default is "FDR". Options
 #' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 #' "none". See \code{\link{p.adjust}} for more details.
-#' @param group One of three choices, 0,1,2. 0: the sort is ordered by a
+#' @param group One of four choices: 0,1,2,3. 0: the sort is ordered by a
 #' decreasing absolute value coefficient fit. 1: the sort is ordered by the raw
 #' coefficient fit in decreasing order. 2: the sort is ordered by the raw
 #' coefficient fit in increasing order. 3: the sort is ordered by the p-value
 #' of the coefficient fit in increasing order.
-#' @param eff Restrict samples to have at least eff quantile effective samples.
+#' @param eff Restrict samples to have at least a "eff" quantile effective samples.
 #' @param output Name of output file, including location, to save the table.
 #' @return Table of the top-ranked features determined by the linear fit's
 #' coefficient.
 #' @seealso \code{\link{fitZig}} \code{\link{MRcoefs}} \code{\link{MRtable}}
-#' \code{\link{MRfisher}}
+#' \code{\link{fitPA}}
 #' @examples
 #' 
 #' data(lungData)
@@ -66,7 +66,7 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
     cnts = obj$counts;
     yy = cnts>0;
     
-    pa = matrix(unlist(MRfisher(obj$counts,groups)),ncol=4)
+    pa = matrix(unlist(fitPA(obj$counts,groups)),ncol=4)
     
     np0 = rowSums(yy[,groups==unique(groups)[1]]);
     np1 = rowSums(yy[,groups==unique(groups)[2]]);
@@ -81,10 +81,11 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
     } else if(group==2){
         srt = order((tb[,by]),decreasing=FALSE)
     } else if(group==3){
-        srt = order(p,decreasing=FALSE)[1:number]
+        srt = order(p,decreasing=FALSE)
     }
-    valid = which(rowSums(1-obj$z)>=quantile(rowSums(1-obj$z),p=eff,na.rm=TRUE))
-    srt = srt[which(srt%in%valid)][1:number]
+    effectiveSamples = calculateEffectiveSamples(obj);
+    valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
+    srt = srt[which(srt%in%valid)][1:number];
 
     mat = cbind(np0,np1)
     mat = cbind(mat,nc0)

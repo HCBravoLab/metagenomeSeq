@@ -16,10 +16,10 @@
 #' k = grep("Extraction.Control",pData(lungData)$SampleType)
 #' lungTrim = lungData[,-k]
 #' lungTrim = lungTrim[-which(rowSums(MRcounts(lungTrim)>0)<20),]
-#' res = MRfisher(lungTrim,pData(lungTrim)$SmokingStatus);
+#' res = fitPA(lungTrim,pData(lungTrim)$SmokingStatus);
 #' head(res)
 #' 
-MRfisher<-function(obj,cl,thres=0){
+fitPA<-function(obj,cl,thres=0){
     if(class(obj)=="MRexperiment"){
         x = MRcounts(obj)>thres;
     } else if(class(obj) == "matrix") {

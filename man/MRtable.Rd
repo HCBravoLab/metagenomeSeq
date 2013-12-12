@@ -4,7 +4,8 @@
 information}
 \usage{
 MRtable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
-  uniqueNames = FALSE, adjust.method = "fdr", group = 0, output = NULL)
+  uniqueNames = FALSE, adjust.method = "fdr", group = 0, eff = 0,
+  output = NULL)
 }
 \arguments{
   \item{obj}{A list containing the linear model fit
@@ -37,6 +38,9 @@ MRtable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
   coefficient fit in increasing order. 3: the sort is
   ordered by the p-value of the coefficient fit in
   increasing order.}
+
+  \item{eff}{Restrict samples to have at least a "eff"
+  quantile effective samples.}
 
   \item{output}{Name of output file, including location, to
   save the table.}
