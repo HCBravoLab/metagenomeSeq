@@ -25,6 +25,7 @@
 #' coefficient fit in decreasing order. 2: the sort is ordered by the raw
 #' coefficient fit in increasing order. 3: the sort is ordered by the p-value
 #' of the coefficient fit in increasing order.
+#' @param eff Restrict samples to have at least a "eff" quantile effective samples.
 #' @param output Name of output file, including location, to save the table.
 #' @return Table of the top-ranked features determined by the linear fit's
 #' coefficient.
@@ -43,14 +44,14 @@
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' head(MRtable(fit))
 #' 
-MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,output=NULL){
+MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,output=NULL){
     tb = obj$fit$coefficients
     tx = as.character(taxa);
     
     if(uniqueNames==TRUE){
         for (nm in unique(tx)) {
             ii=which(tx==nm)
-            tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
+        tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
         }
     }
 
@@ -70,28 +71,32 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     nc1 = rowSums(cnts[,groups==unique(groups)[2]]);
 
     if(group==0){
-        srt = order(abs(tb[,by]),decreasing=TRUE)[1:number]
+        srt = order(abs(tb[,by]),decreasing=TRUE)
     } else if(group==1){
-        srt = order((tb[,by]),decreasing=TRUE)[1:number]
+        srt = order((tb[,by]),decreasing=TRUE)
     } else if(group==2){
-        srt = order((tb[,by]),decreasing=FALSE)[1:number]
+        srt = order((tb[,by]),decreasing=FALSE)
     } else if(group==3){
-        srt = order(p,decreasing=FALSE)[1:number]
+        srt = order(p,decreasing=FALSE)
     }
 
-    mat = cbind(np0,np1)
-    mat = cbind(mat,nc0)
-    mat = cbind(mat,nc1)
-    mat = cbind(mat,tb[,coef])
-    mat = cbind(mat,p)
-    mat = cbind(mat,padj)
+    effectiveSamples = calculateEffectiveSamples(obj);
+    valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
+    srt = srt[which(srt%in%valid)][1:number];
+
+    mat = cbind(np0,np1);
+    mat = cbind(mat,nc0);
+    mat = cbind(mat,nc1);
+    mat = cbind(mat,tb[,coef]);
+    mat = cbind(mat,p);
+    mat = cbind(mat,padj);
     rownames(mat) = tx;
-    mat = mat[srt,]
+    mat = mat[srt,];
 
     nm = c(paste("+samples in group",unique(groups)[1]),paste("+samples in group",unique(groups)[2]),
     paste("counts in group",unique(groups)[1]),paste("counts in group",unique(groups)[2]),
-    colnames(tb)[coef],"pValue","adjPvalue")
-    colnames(mat) = nm
+    colnames(tb)[coef],"pValue","adjPvalue");
+    colnames(mat) = nm;
 
     if(!is.null(output)){
         nm = c("Taxa",nm)
