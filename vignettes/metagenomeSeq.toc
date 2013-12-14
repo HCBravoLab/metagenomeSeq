@@ -1,25 +1,26 @@
-\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
-\contentsline {section}{\numberline {2}Data preparation}{3}{section.2}
-\contentsline {subsection}{\numberline {2.1}Example datasets}{3}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Loading count data}{4}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Loading taxonomy}{5}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Loading metadata}{5}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Creating a \texttt {MRexperiment} object}{5}{subsection.2.5}
-\contentsline {section}{\numberline {3}Normalization}{7}{section.3}
-\contentsline {subsection}{\numberline {3.1}Calculating normalization factors}{7}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Exporting data}{7}{subsection.3.2}
-\contentsline {section}{\numberline {4}Statistical testing}{9}{section.4}
-\contentsline {subsection}{\numberline {4.1}Zero-inflated Gaussian mixture model}{9}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Example running fitZig}{9}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Exporting fits}{11}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}Testing presence-absence}{11}{subsection.4.4}
-\contentsline {section}{\numberline {5}Visualization of features}{13}{section.5}
-\contentsline {subsection}{\numberline {5.1}Structural overview}{13}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Feature specific}{14}{subsection.5.2}
-\contentsline {section}{\numberline {6}Summary}{16}{section.6}
-\contentsline {subsection}{\numberline {6.1}Citing metagenomeSeq}{16}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Session Info}{16}{subsection.6.2}
-\contentsline {section}{\numberline {7}Appendix}{18}{section.7}
-\contentsline {subsection}{\numberline {7.1}Appendix A: MRexperiment internals}{18}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Appendix B: Mathematical model}{18}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Appendix C: Calculating the proper percentile}{18}{subsection.7.3}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {section}{\numberline {2}Data preparation}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}Example datasets}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Loading count data}{5}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Loading taxonomy}{6}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Loading metadata}{6}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Creating a \texttt {MRexperiment} object}{6}{subsection.2.5}
+\contentsline {section}{\numberline {3}Normalization}{8}{section.3}
+\contentsline {subsection}{\numberline {3.1}Calculating normalization factors}{8}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Exporting data}{8}{subsection.3.2}
+\contentsline {section}{\numberline {4}Statistical testing}{10}{section.4}
+\contentsline {subsection}{\numberline {4.1}Zero-inflated Gaussian mixture model}{10}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Example using fitZig for differential abundance testing}{10}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Exporting fits}{12}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Testing presence-absence}{13}{subsection.4.4}
+\contentsline {section}{\numberline {5}Aggregating features}{14}{section.5}
+\contentsline {section}{\numberline {6}Visualization of features}{15}{section.6}
+\contentsline {subsection}{\numberline {6.1}Structural overview}{15}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Feature specific}{16}{subsection.6.2}
+\contentsline {section}{\numberline {7}Summary}{19}{section.7}
+\contentsline {subsection}{\numberline {7.1}Citing metagenomeSeq}{19}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Session Info}{19}{subsection.7.2}
+\contentsline {section}{\numberline {8}Appendix}{21}{section.8}
+\contentsline {subsection}{\numberline {8.1}Appendix A: MRexperiment internals}{21}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Appendix B: Mathematical model}{21}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Appendix C: Calculating the proper percentile}{21}{subsection.8.3}

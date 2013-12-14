@@ -67,7 +67,7 @@
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: September 22, 2013. Compiled: \today}
+\date{Modified: November 19, 2013. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -77,6 +77,7 @@
 
 
 \section{Introduction}
+\textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function.}
 
 Metagenomics is the study of genetic material targeted directly from an environmental community. 
 Originally focused on exploratory and validation projects, these studies now focus on understanding the differences in microbial communities caused by phenotypic differences. 
@@ -241,7 +242,7 @@ Next we want to load the annotated taxonomy. Check to make sure that your taxa a
 
 As our OTUs appear to be in order with the count matrix we loaded earlier, the next step is to load phenodata. 
 
-Warning: features need to have the same names as the rows of the count matrix when we create the MRexperiment object for provenance purposes. 
+\textbf{Warning}: features need to have the same names as the rows of the count matrix when we create the MRexperiment object for provenance purposes. 
 
 \subsection{Loading metadata}
 Phenotype data can be optionally loaded into \texttt{R} with \texttt{load\_phenoData}. This function loads the data as a list.
@@ -271,7 +272,7 @@ Phenotype data can be optionally loaded into \texttt{R} with \texttt{load\_pheno
 
 
 
-Warning: phenotypes must have the same names as the columns on the count matrix when we create the MRexperiment object for provenance purposes. 
+\textbf{Warning}: phenotypes must have the same names as the columns on the count matrix when we create the MRexperiment object for provenance purposes. 
 
 \subsection{Creating a \texttt{MRexperiment} object}
 
@@ -369,7 +370,7 @@ After defining a \texttt{MRexperiment} object, the first step is to calculate th
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{data}\hlstd{(lungData)}
-\hlstd{p} \hlkwb{=} \hlkwd{cumNormStat}\hlstd{(lungData)}
+\hlstd{p} \hlkwb{=} \hlkwd{cumNormStatFast}\hlstd{(lungData)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -435,6 +436,7 @@ To save sample statistics (sample scaling factor, quantile value, number of iden
 
 \newpage
 \section{Statistical testing}
+Now that we have taken care of normalization we can address the effects of under sampling on the detecting differentially abundant features (OTUs, genes, etc).
 
 \subsection{Zero-inflated Gaussian mixture model}
 The depth of coverage in a sample is directly related to how many features are detected in a sample motivating our zero-inflated Gaussian (ZIG) mixture model. Figure 2 is representative of the linear relationship between depth of coverage and OTU identification ubiquitous in marker-gene survey datasets currently available. For a quick overview of the mathematical model see Appendix B.
@@ -450,8 +452,11 @@ For large survey studies it is often pertinent to include phenotype information 
 instance). Our linear model methodology can easily incorporate these
 confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
 
-\subsection{Example running fitZig}
-\textbf{Warning: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question. See exporting fits on how to do this.}
+\subsection{Example using fitZig for differential abundance testing}
+\textbf{Warning}: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question.
+
+
+We recommend the user remove features based on the number of estimated effective samples, please see \texttt{calculateEffectiveSamples}. We recommend removing features with less than the average number of effective samples in all features. In essence, setting eff = .5 when using \texttt{MRcoefs}, \texttt{MRfulltable}, or \texttt{MRtable}.
 
 In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
 
@@ -518,7 +523,7 @@ Looking at the particular analysis just performed, there appears to be OTUs repr
 abundant. One should check that similarly annotated OTUs are not equally differentially 
 abundant in controls. 
 
-Alternatively, the user can input a model with their own normalization factors including them directly in the model matrix and specifying the option \texttt{useCSSoffset = FALSE}.
+Alternatively, the user can input a model with their own normalization factors including them directly in the model matrix and specifying the option \texttt{useCSSoffset = FALSE} in fitZig.
 
 \subsection{Exporting fits}
 Currently functions are being developed to wrap and output results more neatly, but \texttt{MRcoefs}, \texttt{MRtable}, \texttt{MRfulltable} can be used to view coefficient fits and related statistics and export the data with optional output values - see help files to learn how they differ. 
@@ -555,7 +560,7 @@ To only consider features that are found in a large percentage of effectively po
 
 
 \subsection{Testing presence-absence}
-The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{MRfisher} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{MRfisher}. If there is a desire for a more detailed description, please email me.
+The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitPA} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{fitPA}. If there is a desire for a more detailed description, please email me.
 
 
 \begin{knitrout}
@@ -563,7 +568,7 @@ The hypothesis for the implemented presence-absence test is that the proportion/
 \begin{alltt}
 \hlkwd{data}\hlstd{(mouseData)}
 \hlstd{classes} \hlkwb{=} \hlkwd{pData}\hlstd{(mouseData)}\hlopt{$}\hlstd{diet}
-\hlstd{res} \hlkwb{=} \hlkwd{MRfisher}\hlstd{(mouseData[}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{, ],} \hlkwc{cl} \hlstd{= classes)}
+\hlstd{res} \hlkwb{=} \hlkwd{fitPA}\hlstd{(mouseData[}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{, ],} \hlkwc{cl} \hlstd{= classes)}
 \hlcom{# Warning - the p-value is calculating 1 despite a high odd's}
 \hlcom{# ratio.}
 \hlkwd{head}\hlstd{(res)}
@@ -578,6 +583,14 @@ The hypothesis for the implemented presence-absence test is that the proportion/
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
+
+
+\newpage
+\section{Aggregating features}
+Normalization is recommended at the OTU level. However, functions are in place to aggregate 
+the count matrix (normalized or not), based on a particular user defined level. Using the
+featureData information in the MRexperiment object, calling \texttt{aggregateByTaxonomy} or \texttt{aggTax} on a MRexperiment object and declaring particular featureData column name (i.e.
+'genus') will aggregate counts to the desired level with the aggfun function (default colSums). Possible aggfun alternatives include colMeans and colMedians.
 
 
 \newpage
@@ -624,9 +637,11 @@ and there are obvious clusters. We then plot a correlation matrix for the same f
 \hlstd{trials} \hlkwb{=} \hlkwd{pData}\hlstd{(mouseData)}\hlopt{$}\hlstd{diet}
 \hlstd{heatmapColColors} \hlkwb{=} \hlkwd{brewer.pal}\hlstd{(}\hlnum{12}\hlstd{,} \hlstr{"Set3"}\hlstd{)[}\hlkwd{as.integer}\hlstd{(}\hlkwd{factor}\hlstd{(trials))]}
 \hlstd{heatmapCols} \hlkwb{=} \hlkwd{colorRampPalette}\hlstd{(}\hlkwd{brewer.pal}\hlstd{(}\hlnum{9}\hlstd{,} \hlstr{"RdBu"}\hlstd{))(}\hlnum{50}\hlstd{)}
+
 \hlcom{# plotMRheatmap}
 \hlkwd{plotMRheatmap}\hlstd{(}\hlkwc{obj} \hlstd{= mouseData,} \hlkwc{n} \hlstd{=} \hlnum{200}\hlstd{,} \hlkwc{cexRow} \hlstd{=} \hlnum{0.4}\hlstd{,} \hlkwc{cexCol} \hlstd{=} \hlnum{0.4}\hlstd{,}
     \hlkwc{trace} \hlstd{=} \hlstr{"none"}\hlstd{,} \hlkwc{col} \hlstd{= heatmapCols,} \hlkwc{ColSideColors} \hlstd{= heatmapColColors)}
+
 \hlcom{# plotCorr}
 \hlkwd{plotCorr}\hlstd{(}\hlkwc{obj} \hlstd{= mouseData,} \hlkwc{n} \hlstd{=} \hlnum{200}\hlstd{,} \hlkwc{cexRow} \hlstd{=} \hlnum{0.25}\hlstd{,} \hlkwc{cexCol} \hlstd{=} \hlnum{0.25}\hlstd{,} \hlkwc{trace} \hlstd{=} \hlstr{"none"}\hlstd{,}
     \hlkwc{dendrogram} \hlstd{=} \hlstr{"none"}\hlstd{,} \hlkwc{col} \hlstd{= heatmapCols)}
@@ -647,11 +662,15 @@ Below is an example of plotting CMDS plots of the data and the rarefaction effec
 \begin{alltt}
 \hlkwd{data}\hlstd{(mouseData)}
 \hlstd{cl} \hlkwb{=} \hlkwd{factor}\hlstd{(}\hlkwd{pData}\hlstd{(mouseData)}\hlopt{$}\hlstd{diet)}
-\hlcom{# plotOrd}
+
+\hlcom{# plotOrd - can load vegan and set distfun = vegdist and use}
+\hlcom{# dist.method='bray'}
 \hlkwd{plotOrd}\hlstd{(mouseData,} \hlkwc{tran} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{usePCA} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{useDist} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{bg} \hlstd{= cl,}
     \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{xlab} \hlstd{=} \hlstr{"1st coordinate"}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{"2nd coordinate"}\hlstd{)}
+
 \hlcom{# plotRare}
 \hlstd{res} \hlkwb{=} \hlkwd{plotRare}\hlstd{(mouseData,} \hlkwc{cl} \hlstd{= cl,} \hlkwc{ret} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{bg} \hlstd{= cl)}
+
 \hlcom{# Linear fits for plotRare / legend}
 \hlstd{tmp} \hlkwb{=} \hlkwd{lapply}\hlstd{(}\hlkwd{levels}\hlstd{(cl),} \hlkwa{function}\hlstd{(}\hlkwc{lv}\hlstd{)} \hlkwd{lm}\hlstd{(res[,} \hlstr{"ident"}\hlstd{]} \hlopt{~} \hlstd{res[,} \hlstr{"libSize"}\hlstd{]} \hlopt{-}
     \hlnum{1}\hlstd{,} \hlkwc{subset} \hlstd{= cl} \hlopt{==} \hlstd{lv))}
@@ -718,13 +737,17 @@ It would appear that \textit{Neisseria meningitidis} is differentially more abun
     \hlstr{"Smoker"}\hlstd{))}
 \hlstd{classIndex}\hlopt{$}\hlstd{nonsmoker} \hlkwb{=} \hlkwd{which}\hlstd{(}\hlkwd{pData}\hlstd{(lungTrim)}\hlopt{$}\hlstd{SmokingStatus} \hlopt{==} \hlstr{"NonSmoker"}\hlstd{)}
 \hlstd{otu} \hlkwb{=} \hlnum{779}
+
 \hlcom{# plotOTU}
 \hlkwd{plotOTU}\hlstd{(lungTrim,} \hlkwc{otu} \hlstd{= otu, classIndex,} \hlkwc{main} \hlstd{=} \hlstr{"Neisseria meningitidis"}\hlstd{)}
+
 \hlcom{# Now multiple OTUs annotated similarly}
 \hlstd{x} \hlkwb{=} \hlkwd{fData}\hlstd{(lungTrim)}\hlopt{$}\hlstd{taxa[otu]}
 \hlstd{otulist} \hlkwb{=} \hlkwd{grep}\hlstd{(x,} \hlkwd{fData}\hlstd{(lungTrim)}\hlopt{$}\hlstd{taxa)}
+
 \hlcom{# plotGenus}
 \hlkwd{plotGenus}\hlstd{(lungTrim, otulist, classIndex,} \hlkwc{labs} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{main} \hlstd{=} \hlstr{"Neisseria meningitidis"}\hlstd{)}
+
 \hlstd{lablist} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"S"}\hlstd{,} \hlstr{"NS"}\hlstd{)}
 \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{6}\hlstd{,} \hlkwc{by} \hlstd{=} \hlnum{1}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{rep}\hlstd{(lablist,} \hlkwc{times} \hlstd{=} \hlnum{3}\hlstd{))}
 \end{alltt}
@@ -751,14 +774,18 @@ It would appear that \textit{Neisseria meningitidis} is differentially more abun
 \end{alltt}
 \begin{verbatim}
 ## 
-##   JN Paulson, M Pop, HC Bravo. metagenomeSeq: Statistical
-##   analysis for sparse high-throughput sequncing.
-##   Bioconductor package: 1.5.17.
-##   http://cbcb.umd.edu/software/metagenomeSeq
+## Please cite the top for the original statistical method
+## and normalization method implemented in metagenomeSeq and
+## the bottom for the software/vignette guide.
 ## 
 ##   JN Paulson, OC Stine, HC Bravo, M Pop.  Differential
 ##   abundance analysis for microbial marker-gene surveys.
 ##   Nat Meth Accepted
+## 
+##   JN Paulson, M Pop, HC Bravo. metagenomeSeq: Statistical
+##   analysis for sparse high-throughput sequncing.
+##   Bioconductor package: 1.5.27.
+##   http://cbcb.umd.edu/software/metagenomeSeq
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -771,29 +798,27 @@ It would appear that \textit{Neisseria meningitidis} is differentially more abun
 \hlkwd{sessionInfo}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## R version 3.0.0 (2013-04-03)
+## R version 3.0.2 (2013-09-25)
 ## Platform: x86_64-apple-darwin10.8.0 (64-bit)
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
-## [1] grid      parallel  stats     graphics  grDevices utils    
-## [7] datasets  methods   base     
+## [1] parallel  stats     graphics  grDevices utils     datasets 
+## [7] methods   base     
 ## 
 ## other attached packages:
-##  [1] metagenomeSeq_1.5.17 gplots_2.11.3       
-##  [3] MASS_7.3-27          KernSmooth_2.23-10  
-##  [5] caTools_1.14         gdata_2.13.2        
-##  [7] gtools_3.0.0         RColorBrewer_1.0-5  
-##  [9] matrixStats_0.8.1    limma_3.17.22       
-## [11] Biobase_2.20.1       BiocGenerics_0.6.0  
-## [13] knitr_1.4.1         
+## [1] metagenomeSeq_1.5.27 gplots_2.12.1       
+## [3] RColorBrewer_1.0-5   matrixStats_0.8.12  
+## [5] limma_3.18.4         Biobase_2.22.0      
+## [7] BiocGenerics_0.8.0   knitr_1.5           
 ## 
 ## loaded via a namespace (and not attached):
-## [1] bitops_1.0-5      digest_0.6.3      evaluate_0.4.7   
-## [4] formatR_0.9       highr_0.2.1       R.methodsS3_1.4.4
-## [7] stringr_0.6.2     tools_3.0.0
+##  [1] bitops_1.0-6       caTools_1.16       evaluate_0.5.1    
+##  [4] formatR_0.10       gdata_2.13.2       gtools_3.1.1      
+##  [7] highr_0.3          KernSmooth_2.23-10 R.methodsS3_1.5.2 
+## [10] stringr_0.6.2      tools_3.0.2
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
