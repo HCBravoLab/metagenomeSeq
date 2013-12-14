@@ -9,7 +9,8 @@ load_metaQ(file)
   \item{file}{Path and filename of the actual data file.}
 }
 \value{
-An object of count data.
+An list with 'counts' containing the count data, 'taxa'
+containing the otu annotation, and 'otus'.
 }
 \description{
 Load a matrix of OTUs in Qiime's format

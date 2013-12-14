@@ -6,7 +6,7 @@
 #' @aliases load_meta metagenomicLoader
 #' @param file Path and filename of the actual data file.
 #' @param sep File delimiter.
-#' @return An object of count data.
+#' @return A list with objects 'counts' and 'taxa'.
 #' @seealso \code{\link{load_phenoData}}
 #' @examples
 #' 

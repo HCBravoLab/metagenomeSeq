@@ -3,12 +3,12 @@
 #' 
 #' Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
 #' MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
-#' to the desired level by with the aggfun function (default colSums). Possible aggfun alternatives
+#' to the desired level using the aggfun function (default colSums). Possible aggfun alternatives
 #' include colMeans and colMedians.
 #' 
 #' @param obj A MRexperiment object.
 #' @param lvl featureData column name from the MRexperiment object.
-#' @param alternatelabel Use the rowname for undefined OTUs instead of aggregating to others.
+#' @param alternate Use the rowname for undefined OTUs instead of aggregating to "no_match".
 #' @param norm Whether to aggregate normalized counts or not.
 #' @param aggfun Aggregation function.
 #' @return An aggregated count matrix.
