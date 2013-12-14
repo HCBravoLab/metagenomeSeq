@@ -5,7 +5,7 @@
 
 Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
 MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
-to the desired level by with the aggfun function (default colSums). Possible aggfun alternatives
+to the desired level using the aggfun function (default colSums). Possible aggfun alternatives
 include colMeans and colMedians.}
 \usage{
 aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = TRUE,
@@ -19,8 +19,8 @@ aggTax(obj, lvl, alternate = FALSE, norm = TRUE, aggfun = colSums)
   \item{lvl}{featureData column name from the MRexperiment
   object.}
 
-  \item{alternatelabel}{Use the rowname for undefined OTUs
-  instead of aggregating to others.}
+  \item{alternate}{Use the rowname for undefined OTUs
+  instead of aggregating to "no_match".}
 
   \item{norm}{Whether to aggregate normalized counts or
   not.}
@@ -37,7 +37,7 @@ level.
 Using the featureData information in the MRexperiment,
 calling aggregateByTaxonomy on a MRexperiment and a
 particular featureData column (i.e. 'genus') will aggregate
-counts to the desired level by with the aggfun function
+counts to the desired level using the aggfun function
 (default colSums). Possible aggfun alternatives include
 colMeans and colMedians.
 }

@@ -12,7 +12,6 @@
 \bibliographystyle{unsrt}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 <<include=FALSE>>=
 require(knitr)
 opts_chunk$set(concordance=TRUE,tidy=TRUE)
@@ -20,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: November 19, 2013. Compiled: \today}
+\date{Modified: December 13, 2013. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -34,6 +33,7 @@ set.seed(42)
 @
 
 \section{Introduction}
+\textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function.}
 
 Metagenomics is the study of genetic material targeted directly from an environmental community. 
 Originally focused on exploratory and validation projects, these studies now focus on understanding the differences in microbial communities caused by phenotypic differences. 
@@ -130,7 +130,7 @@ otu  = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFact
 
 As our OTUs appear to be in order with the count matrix we loaded earlier, the next step is to load phenodata. 
 
-Warning: features need to have the same names as the rows of the count matrix when we create the MRexperiment object for provenance purposes. 
+\textbf{Warning}: features need to have the same names as the rows of the count matrix when we create the MRexperiment object for provenance purposes. 
 
 \subsection{Loading metadata}
 Phenotype data can be optionally loaded into \texttt{R} with \texttt{load\_phenoData}. This function loads the data as a list.
@@ -143,7 +143,7 @@ head(clin[1:2,])
 @
 
 
-Warning: phenotypes must have the same names as the columns on the count matrix when we create the MRexperiment object for provenance purposes. 
+\textbf{Warning}: phenotypes must have the same names as the columns on the count matrix when we create the MRexperiment object for provenance purposes. 
 
 \subsection{Creating a \texttt{MRexperiment} object}
 
@@ -244,8 +244,10 @@ instance). Our linear model methodology can easily incorporate these
 confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
 
 \subsection{Example using fitZig for differential abundance testing}
-\textbf{Warning: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question.}
-\textbf{We recommend the user remove features based on the number of estimated effective samples. We recommend removing features with less than the average number of effective samples in all features. See exporting fits (MRfulltable) on how to do this.}
+\textbf{Warning}: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question.
+
+
+We recommend the user remove features based on the number of estimated effective samples, please see \texttt{calculateEffectiveSamples}. We recommend removing features with less than the average number of effective samples in all features. In essence, setting eff = .5 when using \texttt{MRcoefs}, \texttt{MRfulltable}, or \texttt{MRtable}.
 
 In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
 
@@ -303,6 +305,14 @@ res = fitPA(mouseData[1:5,],cl=classes)
 # Warning - the p-value is calculating 1 despite a high odd's ratio.
 head(res)
 @
+
+\newpage
+\section{Aggregating features}
+Normalization is recommended at the OTU level. However, functions are in place to aggregate 
+the count matrix (normalized or not), based on a particular user defined level. Using the
+featureData information in the MRexperiment object, calling \texttt{aggregateByTaxonomy} or \texttt{aggTax} on a MRexperiment object and declaring particular featureData column name (i.e.
+'genus') will aggregate counts to the desired level with the aggfun function (default colSums). Possible aggfun alternatives include colMeans and colMedians.
+
 
 \newpage
 \section{Visualization of features}

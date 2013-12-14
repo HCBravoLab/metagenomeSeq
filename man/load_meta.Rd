@@ -11,7 +11,7 @@ load_meta(file, sep = "\\t")
   \item{sep}{File delimiter.}
 }
 \value{
-An object of count data.
+A list with objects 'counts' and 'taxa'.
 }
 \description{
 Load a matrix of OTUs in a tab delimited format

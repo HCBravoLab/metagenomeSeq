@@ -5,7 +5,7 @@
 #' 
 #' @aliases load_metaQ qiimeLoader
 #' @param file Path and filename of the actual data file.
-#' @return An object of count data.
+#' @return An list with 'counts' containing the count data, 'taxa' containing the otu annotation, and 'otus'.
 #' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}}
 #' @examples
 #' 
