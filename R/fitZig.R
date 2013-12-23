@@ -122,7 +122,7 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
         assayData(obj)[["zUsed"]] <- zUsed
 
 	eb=limma::ebayes(fit$fit)
-	dat = list(fit=fit$fit,countResiduals=fit$residuals,
+	dat = list(call=match.call(),fit=fit$fit,countResiduals=fit$residuals,
 		   z=z,eb=eb,taxa=rownames(obj),counts=y,zeroMod =mmZero,stillActive=stillActive,stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef)
 	return(dat)
 }
