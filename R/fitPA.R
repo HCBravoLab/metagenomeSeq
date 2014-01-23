@@ -29,15 +29,18 @@ fitPA<-function(obj,cl,thres=0){
     }
     nrows= nrow(x);
 	if(is.null(rownames(x))){rownames(x)=1:nrows}
-    
+
+    nClass1 = sum(cl==unique(cl)[1])
+    nClass2 = sum(cl==unique(cl)[2])
+
     res = sapply(1:nrows,function(i){
         tbl = table(1-x[i,],cl)
         if(sum(dim(tbl))!=4){
             tbl = array(0,dim=c(2,2));
             tbl[1,1] = sum(x[i,cl==unique(cl)[1]])
             tbl[1,2] = sum(x[i,cl==unique(cl)[2]])
-            tbl[2,1] = sum(cl==unique(cl)[1])-tbl[1,1]
-            tbl[2,2] = sum(cl==unique(cl)[2])-tbl[1,2]
+            tbl[2,1] = nClass1-tbl[1,1]
+            tbl[2,2] = nClass2-tbl[1,2]
         }
         ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = T)
         list(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])

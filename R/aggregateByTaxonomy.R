@@ -10,6 +10,7 @@
 #' @param lvl featureData column name from the MRexperiment object.
 #' @param alternate Use the rowname for undefined OTUs instead of aggregating to "no_match".
 #' @param norm Whether to aggregate normalized counts or not.
+#' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param aggfun Aggregation function.
 #' @return An aggregated count matrix.
 #' @aliases aggTax
@@ -20,9 +21,9 @@
 #' # not run
 #' # aggregateByTaxonomy(mouseData,lvl="genus",norm=TRUE,aggfun=colMedians)
 #' 
-aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=TRUE,aggfun = colSums){
+aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=TRUE,log=FALSE,aggfun = colSums){
 	if(class(obj)=="MRexperiment"){
-		mat = MRcounts(obj,norm=norm,log=FALSE)
+		mat = MRcounts(obj,norm=norm,log=log)
     } else {
 		stop("Object needs to be a MRexperiment object. If it's a matrix, see aggregateM.")
     }
@@ -48,6 +49,6 @@ aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=TRUE,aggfun = colSums
 }
 #' @rdname aggregateByTaxonomy
 #' @export
-aggTax<-function(obj,lvl,alternate=FALSE,norm=TRUE,aggfun = colSums){
-    aggregateByTaxonomy(obj,lvl,alternate=alternate,norm=norm,aggfun = aggfun)
+aggTax<-function(obj,lvl,alternate=FALSE,norm=TRUE,log=FALSE,aggfun = colSums){
+    aggregateByTaxonomy(obj,lvl,alternate=alternate,norm=norm,log=log,aggfun = aggfun)
 }
