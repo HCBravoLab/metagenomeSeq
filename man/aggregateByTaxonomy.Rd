@@ -8,10 +8,11 @@ MRexperiment and a particular featureData column (i.e. 'genus') will aggregate c
 to the desired level using the aggfun function (default colSums). Possible aggfun alternatives
 include colMeans and colMedians.}
 \usage{
-aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = TRUE,
+aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
   aggfun = colSums)
 
-aggTax(obj, lvl, alternate = FALSE, norm = TRUE, aggfun = colSums)
+aggTax(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
+  aggfun = colSums)
 }
 \arguments{
   \item{obj}{A MRexperiment object.}
@@ -24,6 +25,9 @@ aggTax(obj, lvl, alternate = FALSE, norm = TRUE, aggfun = colSums)
 
   \item{norm}{Whether to aggregate normalized counts or
   not.}
+
+  \item{log}{Whether or not to log2 transform the counts -
+  if MRexperiment object.}
 
   \item{aggfun}{Aggregation function.}
 }
