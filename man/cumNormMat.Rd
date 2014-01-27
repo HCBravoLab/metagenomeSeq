@@ -1,0 +1,29 @@
+\name{cumNormMat}
+\alias{cumNormMat}
+\title{Cumulative sum scaling factors.}
+\usage{
+cumNormMat(obj, p = cumNormStatFast(obj), sl = 1000)
+}
+\arguments{
+  \item{obj}{A MRexperiment object.}
+
+  \item{p}{The pth quantile.}
+
+  \item{sl}{The value to scale by (default=1000).}
+}
+\value{
+Returns a matrix normalized by scaling counts up to and
+including the pth quantile.
+}
+\description{
+Calculates each column's quantile and calculates the sum up
+to and including that quantile.
+}
+\examples{
+data(mouseData)
+head(cumNormMat(mouseData))
+}
+\seealso{
+\code{\link{fitZig}} \code{\link{cumNorm}}
+}
+

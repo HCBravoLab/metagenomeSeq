@@ -1,0 +1,113 @@
+#' Table of top microbial marker gene from linear model fit including sequence
+#' information
+#' 
+#' Extract a table of the top-ranked features from a linear model fit. This
+#' function will be updated soon to provide better flexibility similar to
+#' limma's topTable. This function differs from \code{link{MRcoefs}} in that it
+#' provides other information about the presence or absence of features to help
+#' ensure significant features called are moderately present.
+#' 
+#' 
+#' @param obj A list containing the linear model fit produced by lmFit through
+#' fitZig.
+#' @param by Column number or column name specifying which coefficient or
+#' contrast of the linear model is of interest.
+#' @param coef Column number(s) or column name(s) specifying which coefficient
+#' or contrast of the linear model to display.
+#' @param number The number of bacterial features to pick out.
+#' @param taxa Taxa list.
+#' @param uniqueNames Number the various taxa.
+#' @param adjust.method Method to adjust p-values by. Default is "FDR". Options
+#' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
+#' "none". See \code{\link{p.adjust}} for more details.
+#' @param group One of four choices: 0,1,2,3. 0: the sort is ordered by a
+#' decreasing absolute value coefficient fit. 1: the sort is ordered by the raw
+#' coefficient fit in decreasing order. 2: the sort is ordered by the raw
+#' coefficient fit in increasing order. 3: the sort is ordered by the p-value
+#' of the coefficient fit in increasing order.
+#' @param eff Restrict samples to have at least a "eff" quantile effective samples.
+#' @param output Name of output file, including location, to save the table.
+#' @return Table of the top-ranked features determined by the linear fit's
+#' coefficient.
+#' @seealso \code{\link{fitZig}} \code{\link{MRcoefs}} \code{\link{MRtable}}
+#' \code{\link{fitPA}}
+#' @examples
+#' 
+#' data(lungData)
+#' k = grep("Extraction.Control",pData(lungData)$SampleType)
+#' lungTrim = lungData[,-k]
+#' k = which(rowSums(MRcounts(lungTrim)>0)<10)
+#' lungTrim = lungTrim[-k,]
+#' cumNorm(lungTrim)
+#' smokingStatus = pData(lungTrim)$SmokingStatus
+#' mod = model.matrix(~smokingStatus)
+#' settings = zigControl(maxit=1,verbose=FALSE)
+#' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+#' head(MRfulltable(fit))
+#' 
+MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,output=NULL){
+    
+    tb = obj$fit$coefficients
+    tx = as.character(taxa);
+    
+    if(uniqueNames==TRUE){
+        for (nm in unique(tx)) {
+            ii=which(tx==nm)
+            tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
+        }
+    }
+
+    if(is.null(coef)){coef = 1:ncol(tb);}
+
+    p=obj$eb$p[,by];
+    padj = p.adjust(p,method=adjust.method);
+    
+    groups = factor(obj$fit$design[,by])
+    cnts = obj$counts;
+    yy = cnts>0;
+    
+    pa = matrix(unlist(fitPA(obj$counts,groups)),ncol=4)
+    
+    np0 = rowSums(yy[,groups==unique(groups)[1]]);
+    np1 = rowSums(yy[,groups==unique(groups)[2]]);
+
+    nc0 = rowSums(cnts[,groups==unique(groups)[1]]);
+    nc1 = rowSums(cnts[,groups==unique(groups)[2]]);
+
+    if(group==0){
+        srt = order(abs(tb[,by]),decreasing=TRUE)
+    } else if(group==1){
+        srt = order((tb[,by]),decreasing=TRUE)
+    } else if(group==2){
+        srt = order((tb[,by]),decreasing=FALSE)
+    } else if(group==3){
+        srt = order(p,decreasing=FALSE)
+    }
+    effectiveSamples = calculateEffectiveSamples(obj);
+    valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
+    srt = srt[which(srt%in%valid)][1:number];
+
+    mat = cbind(np0,np1)
+    mat = cbind(mat,nc0)
+    mat = cbind(mat,nc1)
+    mat = cbind(mat,pa)
+    mat = cbind(mat,tb[,coef])
+    mat = cbind(mat,p)
+    mat = cbind(mat,padj)
+    rownames(mat) = tx;
+    mat = mat[srt,]
+
+    nm = c(paste("+samples in group",unique(groups)[1]),paste("+samples in group",unique(groups)[2]),
+    paste("counts in group",unique(groups)[1]),paste("counts in group",unique(groups)[2]),c("fisher.p","oddsRatio","lower","upper"),
+    colnames(tb)[coef],"pValue","adjPvalue")
+    colnames(mat) = nm
+
+    if(!is.null(output)){
+        nm = c("Taxa",nm)
+        mat2 = cbind(rownames(mat),mat)
+        mat2 = rbind(nm,mat2)
+        write(t(mat2),ncolumns=ncol(mat2),file=output,sep="\t")
+    } else{
+        return(as.data.frame(mat))
+    }
+}
