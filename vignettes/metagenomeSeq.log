@@ -1,0 +1,748 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 DEC 2013 18:40
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**metagenomeSeq.tex
+(./metagenomeSeq.tex
+LaTeX2e <2011/06/27>
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip43
+\fb@frw=\dimen105
+\fb@frh=\dimen106
+\FrameRule=\dimen107
+\FrameSep=\dimen108
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/alltt.sty
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/tools/afterpage.sty
+Package: afterpage 1995/10/27 v1.08 After-Page Package (DPC)
+\AP@output=\toks15
+\AP@partial=\box26
+\AP@footins=\box27
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \AP@enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen109
+\Hy@linkcounter=\count88
+\Hy@pagecounter=\count89
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count90
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count91
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen110
+\Fld@menulength=\count92
+\Field@Width=\dimen111
+\Fld@charsize=\dimen112
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count93
+\c@Item=\count94
+\c@Hfootnote=\count95
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count96
+\c@bookmark@seq@number=\count97
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip44
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+\Gm@cnth=\count98
+\Gm@cntv=\count99
+\c@Gm@tempcnt=\count100
+\Gm@bindingoffset=\dimen113
+\Gm@wd@mp=\dimen114
+\Gm@odd@mp=\dimen115
+\Gm@even@mp=\dimen116
+\Gm@layoutwidth=\dimen117
+\Gm@layoutheight=\dimen118
+\Gm@layouthoffset=\dimen119
+\Gm@layoutvoffset=\dimen120
+\Gm@dimlist=\toks16
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 373.
+Package: cite 2010/09/10  v 5.3
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/courier.sty
+Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+)
+LaTeX Info: Redefining \oldstylenums on input line 266.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 281.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 282.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 283.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 284.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 285.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 286.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 287.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 288.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 289.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 290.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 291.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 292.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 293.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 294.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 295.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 296.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 297.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 298.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 299.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 300.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 301.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 302.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 303.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 304.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 305.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 306.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 307.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 308.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 309.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 310.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 311.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 312.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 313.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 314.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 315.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 316.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 317.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 318.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 319.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 320.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 321.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 322.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 323.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 324.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 325.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 326.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 327.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 328.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 329.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 330.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 331.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 332.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 333.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 334.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 335.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 336.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 337.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
+))
+(./metagenomeSeq.aux)
+\openout1 = `metagenomeSeq.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 64.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 64.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 64.
+
+(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count101
+\scratchdimen=\dimen121
+\scratchbox=\box28
+\nofMPsegments=\count102
+\nofMParguments=\count103
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count104
+\MPscratchDim=\dimen122
+\MPnumerator=\count105
+\makeMPintoPDFobject=\count106
+\everyMPtoPDFconversion=\toks18
+) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\AtBeginShipoutBox=\box29
+Package hyperref Info: Link coloring OFF on input line 64.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count107
+)
+LaTeX Info: Redefining \ref on input line 64.
+LaTeX Info: Redefining \pageref on input line 64.
+LaTeX Info: Redefining \nameref on input line 64.
+
+(./metagenomeSeq.out) (./metagenomeSeq.out)
+\@outlinefile=\write3
+\openout3 = `metagenomeSeq.out'.
+
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-38.1381pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=11.0pt
+* \footskip=30.0pt
+* \marginparwidth=50.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 72.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <17.28> not available
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 72.
+
+(./metagenomeSeq.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 3.
+ [1
+
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+\tf@toc=\write4
+\openout4 = `metagenomeSeq.toc'.
+
+ [2] <overview.pdf, id=150, 467.7475pt x 438.63875pt>
+File: overview.pdf Graphic file (type pdf)
+
+<use overview.pdf>
+Package pdftex.def Info: overview.pdf used on input line 98.
+(pdftex.def)             Requested size: 250.38564pt x 234.80661pt.
+ [3 <./overview.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 104--109
+
+ []
+
+Package color Info: Redefining color shadecolor on input line 125.
+LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 127.
+Package color Info: Redefining color shadecolor on input line 138.
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 161.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+) [4]
+Package color Info: Redefining color shadecolor on input line 174.
+
+Overfull \hbox (24.27095pt too wide) in paragraph at lines 207--211
+[]\OT1/cmr/m/n/10.95 As an ex-am-ple, a por-tion of the lung mi-cro-biome [[]1[
+]] OTU ma-trix is pro-vided in \OT1/pcr/m/n/10.95 metagenomeSeq\OT1/cmr/m/n/10.
+95 's
+ []
+
+Package color Info: Redefining color shadecolor on input line 213.
+Package color Info: Redefining color shadecolor on input line 231.
+[5]
+Package color Info: Redefining color shadecolor on input line 251.
+LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <12> not available
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 277.
+Package color Info: Redefining color shadecolor on input line 285.
+ [6]
+Package color Info: Redefining color shadecolor on input line 305.
+Package color Info: Redefining color shadecolor on input line 323.
+
+Overfull \hbox (57.21527pt too wide) in paragraph at lines 325--325
+[][]\OT1/pcr/m/n/10.95 obj[] []=[] []\OT1/pcr/b/n/10.95 newMRexperiment[][]\OT1
+/pcr/m/n/10.95 (lung[][]$[][]counts,[][]phenoData[][]=phenotypeData,[][]feature
+Data[][]=OTUdata)[][] 
+ []
+
+LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <10.95> not available
+(Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 326.
+
+Overfull \hbox (17.79532pt too wide) in paragraph at lines 326--326
+[][]\OT1/pcr/m/sl/10.95 # Links to a paper providing further details can be inc
+luded optionally.[][] 
+ []
+
+[7]
+Overfull \hbox (74.88737pt too wide) in paragraph at lines 363--365
+\OT1/pcr/m/n/10.95 cumNormMat(MRexperimentObject) \OT1/cmr/m/n/10.95 or \OT1/pc
+r/m/n/10.95 MRcounts(MRexperimentObject,norm=TRUE,log=FALSE)\OT1/cmr/m/n/10.95 
+. 
+ []
+
+Package color Info: Redefining color shadecolor on input line 370.
+Package color Info: Redefining color shadecolor on input line 383.
+Package color Info: Redefining color shadecolor on input line 398.
+Package color Info: Redefining color shadecolor on input line 410.
+
+Overfull \hbox (30.9353pt too wide) in paragraph at lines 412--412
+[][]\OT1/pcr/b/n/10.95 exportStats[][]\OT1/pcr/m/n/10.95 (lungData[,[] []1[][]:
+[][]5[][]],[] []output[] []=[] []\OT1/pcr/b/n/10.95 file.path[][]\OT1/pcr/m/n/1
+0.95 (dataDirectory,[] []"tmp.tsv"[][]))[][] 
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+pcr on input line 413.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omspcr.fd
+File: omspcr.fd 
+)
+LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 413.
+
+Overfull \hbox (3.56035pt too wide) in paragraph at lines 413--413
+[][]\OT1/pcr/b/n/10.95 head[][]\OT1/pcr/m/n/10.95 ([][]\OT1/pcr/b/n/10.95 read.
+csv[][]\OT1/pcr/m/n/10.95 ([][]file[] []=[] []\OT1/pcr/b/n/10.95 file.path[][]\
+OT1/pcr/m/n/10.95 (dataDirectory,[] []"tmp.tsv"[][]),[] []sep[] []=[] []"\OMS/c
+msy/m/n/10.95 n\OT1/pcr/m/n/10.95 t"[][]))[][] 
+ []
+
+[8] [9] <metagenomeSeq_figure1.png, id=244, 216.81pt x 216.81pt>
+File: metagenomeSeq_figure1.png Graphic file (type png)
+
+<use metagenomeSeq_figure1.png>
+Package pdftex.def Info: metagenomeSeq_figure1.png used on input line 445.
+(pdftex.def)             Requested size: 250.38564pt x 250.39812pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 446.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 446.
+ [10 <./metagenomeSeq_figure1.png>]
+Package color Info: Redefining color shadecolor on input line 464.
+
+Overfull \hbox (11.22533pt too wide) in paragraph at lines 470--470
+[][]\OT1/pcr/m/n/10.95 lungp[] []=[] []\OT1/pcr/b/n/10.95 cumNormStat[][]\OT1/p
+cr/m/n/10.95 (lungTrim,[] []pFlag[] []=[] []TRUE[][],[] []main[] []=[] []"Trimm
+ed lung data"[][])[][] 
+ []
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 472.
+
+<figure/preprocess.pdf, id=256, 505.89pt x 505.89pt>
+File: figure/preprocess.pdf Graphic file (type pdf)
+
+<use figure/preprocess.pdf>
+Package pdftex.def Info: figure/preprocess.pdf used on input line 475.
+(pdftex.def)             Requested size: 250.3893pt x 250.3893pt.
+Package color Info: Redefining color shadecolor on input line 492.
+ [11 <./figure/preprocess.pdf>]
+Package color Info: Redefining color shadecolor on input line 534.
+
+Overfull \hbox (17.79532pt too wide) in paragraph at lines 536--536
+[][]\OT1/pcr/m/n/10.95 taxa[] []=[] []\OT1/pcr/b/n/10.95 sapply[][]\OT1/pcr/m/n
+/10.95 ([][]\OT1/pcr/b/n/10.95 strsplit[][]\OT1/pcr/m/n/10.95 ([][]\OT1/pcr/b/n
+/10.95 as.character[][]\OT1/pcr/m/n/10.95 ([][]\OT1/pcr/b/n/10.95 fData[][]\OT1
+/pcr/m/n/10.95 (lungTrim)[][]$[][]taxa),[] []split[] []=[] []";"[][]),[][] 
+ []
+
+[12]
+Package color Info: Redefining color shadecolor on input line 567.
+LaTeX Font Info:    Font shape `TS1/pcr/m/it' in size <10.95> not available
+(Font)              Font shape `TS1/pcr/m/sl' tried instead on input line 572.
+ [13] [14]
+Package color Info: Redefining color shadecolor on input line 634.
+
+Overfull \hbox (17.79532pt too wide) in paragraph at lines 643--643
+[]    []\OT1/pcr/m/n/10.95 trace[] []=[] []"none"[][],[] []col[] []= heatmapCol
+s,[] []ColSideColors[] []= heatmapColColors)[][] 
+ []
+
+
+Overfull \hbox (70.35526pt too wide) in paragraph at lines 646--646
+[][]\OT1/pcr/b/n/10.95 plotCorr[][]\OT1/pcr/m/n/10.95 ([][]obj[] []= mouseData,
+[] []n[] []=[] []200[][],[] []cexRow[] []=[] []0.25[][],[] []cexCol[] []=[] []0
+.25[][],[] []trace[] []=[] []"none"[][],[][] 
+ []
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 649.
+
+<figure/heatmapData1.pdf, id=281, 505.89pt x 505.89pt>
+File: figure/heatmapData1.pdf Graphic file (type pdf)
+
+<use figure/heatmapData1.pdf>
+Package pdftex.def Info: figure/heatmapData1.pdf used on input line 651.
+(pdftex.def)             Requested size: 227.62523pt x 227.62523pt.
+
+<figure/heatmapData2.pdf, id=282, 505.89pt x 505.89pt>
+File: figure/heatmapData2.pdf Graphic file (type pdf)
+
+<use figure/heatmapData2.pdf>
+Package pdftex.def Info: figure/heatmapData2.pdf used on input line 652.
+(pdftex.def)             Requested size: 227.62523pt x 227.62523pt.
+
+Overfull \hbox (2.43968pt too wide) in paragraph at lines 651--652
+[][] [] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 661.
+
+Overfull \hbox (17.79532pt too wide) in paragraph at lines 668--668
+[][]\OT1/pcr/b/n/10.95 plotOrd[][]\OT1/pcr/m/n/10.95 (mouseData,[] []tran[] []=
+[] []TRUE[][],[] []usePCA[] []=[] []FALSE[][],[] []useDist[] []=[] []TRUE[][],[
+] []bg[] []= cl,[][] 
+ []
+
+
+Overfull \hbox (44.07529pt too wide) in paragraph at lines 675--675
+[][]\OT1/pcr/m/n/10.95 tmp[] []=[] []\OT1/pcr/b/n/10.95 lapply[][]\OT1/pcr/m/n/
+10.95 ([][]\OT1/pcr/b/n/10.95 levels[][]\OT1/pcr/m/n/10.95 (cl),[] []\OT1/pcr/b
+/n/10.95 function[][]\OT1/pcr/m/n/10.95 ([][]lv[][])[] []\OT1/pcr/b/n/10.95 lm[
+][]\OT1/pcr/m/n/10.95 (res[,[] []"ident"[][]][] []~[] []res[,[] []"libSize"[][]
+][] []-[][] 
+ []
+
+
+Overfull \hbox (30.9353pt too wide) in paragraph at lines 680--680
+[][]\OT1/pcr/b/n/10.95 legend[][]\OT1/pcr/m/n/10.95 ([][]"topleft"[][],[] []\OT
+1/pcr/b/n/10.95 c[][]\OT1/pcr/m/n/10.95 ([][]"Diet 1"[][],[] []"Diet 2"[][]),[]
+ []text.col[] []=[] []\OT1/pcr/b/n/10.95 c[][]\OT1/pcr/m/n/10.95 ([][]1[][],[] 
+[]2[][]),[] []box.col[] []=[] []NA[][])[][] 
+ []
+
+[15]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 682.
+
+<figure/MDSandRareplots1.pdf, id=291, 505.89pt x 505.89pt>
+File: figure/MDSandRareplots1.pdf Graphic file (type pdf)
+
+<use figure/MDSandRareplots1.pdf>
+Package pdftex.def Info: figure/MDSandRareplots1.pdf used on input line 684.
+(pdftex.def)             Requested size: 227.62523pt x 227.62523pt.
+
+<figure/MDSandRareplots2.pdf, id=292, 505.89pt x 505.89pt>
+File: figure/MDSandRareplots2.pdf Graphic file (type pdf)
+
+<use figure/MDSandRareplots2.pdf>
+Package pdftex.def Info: figure/MDSandRareplots2.pdf used on input line 685.
+(pdftex.def)             Requested size: 227.62523pt x 227.62523pt.
+
+Overfull \hbox (2.43968pt too wide) in paragraph at lines 684--685
+[][] [] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 710.
+[16 <./figure/heatmapData1.pdf> <./figure/heatmapData2.pdf>]
+Overfull \hbox (30.9353pt too wide) in paragraph at lines 738--738
+[][]\OT1/pcr/m/n/10.95 classIndex[][]$[][]nonsmoker[] []=[] []\OT1/pcr/b/n/10.9
+5 which[][]\OT1/pcr/m/n/10.95 ([][]\OT1/pcr/b/n/10.95 pData[][]\OT1/pcr/m/n/10.
+95 (lungTrim)[][]$[][]SmokingStatus[] []==[] []"NonSmoker"[][])[][] 
+ []
+
+
+Overfull \hbox (24.36531pt too wide) in paragraph at lines 742--742
+[][]\OT1/pcr/b/n/10.95 plotOTU[][]\OT1/pcr/m/n/10.95 (lungTrim,[] []otu[] []= o
+tu, classIndex,[] []main[] []=[] []"Neisseria meningitidis"[][])[][] 
+ []
+
+
+Overfull \hbox (116.3452pt too wide) in paragraph at lines 749--749
+[][]\OT1/pcr/b/n/10.95 plotGenus[][]\OT1/pcr/m/n/10.95 (lungTrim, otulist, clas
+sIndex,[] []labs[] []=[] []FALSE[][],[] []main[] []=[] []"Neisseria meningitidi
+s"[][])[][] 
+ []
+
+[17 <./figure/MDSandRareplots1.pdf> <./figure/MDSandRareplots2.pdf>]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 754.
+
+<figure/plotOTUData1.pdf, id=329, 505.89pt x 505.89pt>
+File: figure/plotOTUData1.pdf Graphic file (type pdf)
+
+<use figure/plotOTUData1.pdf>
+Package pdftex.def Info: figure/plotOTUData1.pdf used on input line 756.
+(pdftex.def)             Requested size: 227.62523pt x 227.62523pt.
+
+<figure/plotOTUData2.pdf, id=330, 505.89pt x 505.89pt>
+File: figure/plotOTUData2.pdf Graphic file (type pdf)
+
+<use figure/plotOTUData2.pdf>
+Package pdftex.def Info: figure/plotOTUData2.pdf used on input line 757.
+(pdftex.def)             Requested size: 227.62523pt x 227.62523pt.
+
+Overfull \hbox (2.43968pt too wide) in paragraph at lines 756--757
+[][] [] 
+ []
+
+[18 <./figure/plotOTUData1.pdf> <./figure/plotOTUData2.pdf>]
+Package color Info: Redefining color shadecolor on input line 771.
+Package color Info: Redefining color shadecolor on input line 796.
+ [19] [20]
+<metagenomeSeq_figure2.png, id=423, 987.69pt x 867.24pt>
+File: metagenomeSeq_figure2.png Graphic file (type png)
+
+<use metagenomeSeq_figure2.png>
+Package pdftex.def Info: metagenomeSeq_figure2.png used on input line 852.
+(pdftex.def)             Requested size: 318.66948pt x 279.79855pt.
+ [21] [22 <./metagenomeSeq_figure2.png>]
+(./metagenomeSeq.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 876.
+ [23]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 876.
+ (./metagenomeSeq.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 876.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 876.
+Package rerunfilecheck Info: File `metagenomeSeq.out' has not changed.
+(rerunfilecheck)             Checksum: 14D2707158DA8F2D8B40F74A72E2440E;1747.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 876.
+ ) 
+Here is how much of TeX's memory you used:
+ 6451 strings out of 493315
+ 96675 string characters out of 6137904
+ 184329 words of memory out of 5000000
+ 9735 multiletter control sequences out of 15000+600000
+ 14173 words of font info for 50 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 29i,9n,28p,1484b,375s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/tex
+live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texli
+ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/201
+3/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2013/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2013/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2013/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-dist/font
+s/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/
+urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/cour
+ier/ucrro8a.pfb>
+Output written on metagenomeSeq.pdf (23 pages, 962162 bytes).
+PDF statistics:
+ 519 PDF objects out of 1000 (max. 8388607)
+ 438 compressed objects within 5 object streams
+ 73 named destinations out of 1000 (max. 500000)
+ 259 words of extra memory for PDF output out of 10000 (max. 10000000)
+
