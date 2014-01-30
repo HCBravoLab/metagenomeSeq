@@ -2,7 +2,6 @@ metagenomeSeq
 =============
 
 Statistical analysis for sparse high-throughput sequencing
--------------
 
 metagenomeSeq is designed to determine features (be it Operational Taxanomic Unit (OTU), species, etc.) 
 that are differentially abundant between two or more groups of multiple samples. metagenomeSeq is designed 
