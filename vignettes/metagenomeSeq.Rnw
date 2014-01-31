@@ -222,7 +222,7 @@ head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\t"))
 
 
 <<removeData, echo=FALSE>>=
-system(paste("rm",file.path(dataDirectory,"temp.tsv")))
+system(paste("rm",file.path(dataDirectory,"tmp.tsv")))
 @
 
 \newpage
