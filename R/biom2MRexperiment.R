@@ -14,8 +14,26 @@
 biom2MRexperiment <- function(obj){
 	library(biom)
 	mat = as(biom_data(obj),"matrix")
-	taxa = as(observation_metadata(obj),"AnnotatedDataFrame")
-	pd = as(sample_metadata(obj),"AnnotatedDataFrame")
-	mrobj = newMRexperiment(counts = mat, phenoData = pd, featureData = taxa);
-	return(mrobj);
+
+	if(! is.null(observation_metadata(obj))){
+		# taxa = as(observation_metadata(obj),"AnnotatedDataFrame")
+		# Check if the metadata is always the same length? Biom should be consistent...
+		len = length(observation_metadata(obj)[[1]])
+		taxa = as.matrix(sapply(observation_metadata(obj),function(i){ i[1:len]}))
+		if(dim(taxa)[1]!=dim(mat)[1]){
+			taxa = t(taxa)
+		}
+		taxa = as(data.frame(taxa),"AnnotatedDataFrame")
+	} else{
+		taxa = NULL
+	}
+
+	if(! is.null(sample_metadata(obj))) {
+		pd = as(sample_metadata(obj),"AnnotatedDataFrame")
+	} else{
+		pd = NULL
+	}
+	
+	mrobj = newMRexperiment(counts = mat, phenoData = pd, featureData = taxa)
+	return(mrobj)
 }
