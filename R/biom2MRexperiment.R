@@ -20,6 +20,7 @@ biom2MRexperiment <- function(obj){
 		# Check if the metadata is always the same length? Biom should be consistent...
 		len = length(observation_metadata(obj)[[1]])
 		taxa = as.matrix(sapply(observation_metadata(obj),function(i){ i[1:len]}))
+		rownames(taxa) = rownames(obj)
 		if(dim(taxa)[1]!=dim(mat)[1]){
 			taxa = t(taxa)
 		}
