@@ -24,7 +24,7 @@ biom2MRexperiment <- function(obj){
 		if(dim(taxa)[1]!=dim(mat)[1]){
 			taxa = t(taxa)
 		}
-		rownames(taxa) = rownames(obj)
+		rownames(taxa) = rownames(mat)
 		taxa = as(data.frame(taxa),"AnnotatedDataFrame")
 	} else{
 		taxa = NULL
