@@ -11,7 +11,7 @@
 #' #rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biom")
 #' #x = read_biom(rich_dense_file)
 #' #biom2MRexperiment(x)
-biom2MRexperiment1 <- function(obj){
+biom2MRexperiment <- function(obj){
 	library(biom)
 	mat = as(biom_data(obj),"matrix")
 
