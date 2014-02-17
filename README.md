@@ -8,10 +8,20 @@ that are differentially abundant between two or more groups of multiple samples.
 to address the effects of both normalization and under-sampling of microbial communities on disease 
 association detection and the testing of feature correlations.
 
-This will soon be the official bioconductor devel branch for users to contribute code
-or grab the package using 'devtools'.
+To install the latest release version of metagenomeSeq:
+```S
+source("http://bioconductor.org/biocLite.R")
+biocLite("metagenomeSeq")
+```
 
-Author: Joseph Nathaniel Paulson, Mihai Pop, Hector Corrada Bravo
+To install the latest development version of metagenomeSeq:
+```S
+install.packages("devtools")
+library("devtools")
+install_github("metagenomeSeq","nosson")
+```
+
+Author: [Joseph Nathaniel Paulson](http://www.cbcb.umd.edu/~jpaulson), [Mihai Pop](http://www.cbcb.umd.edu/~mpop), [Hector Corrada Bravo](http://www.cbcb.umd.edu/~hcorrada)
 
 Maintainer: Joseph N. Paulson : jpaulson at umiacs.umd.edu
 
