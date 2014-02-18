@@ -69,8 +69,9 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
 # Initializing the model matrix
 	if(useCSSoffset==TRUE){
 		if(any(is.na(normFactors(obj)))){stop("Calculate the normalization factors first!")}
-		mmCount=cbind(mod,log2(normFactors(obj)/1000 +1))}
+		mmCount=cbind(mod,log2(normFactors(obj)/1000 +1))
 		colnames(mmCount)[ncol(mmCount)] = "scalingFactor"
+	}
 	else{ 
         mmCount=mod
    	}
