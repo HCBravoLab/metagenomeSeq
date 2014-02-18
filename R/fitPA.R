@@ -43,7 +43,7 @@ fitPA<-function(obj,cl,thres=0){
             tbl[2,2] = nClass2-tbl[1,2]
         }
         ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = T)
-        list(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
+        cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
     })
     
     dat = data.frame(as.matrix(t(res)))
