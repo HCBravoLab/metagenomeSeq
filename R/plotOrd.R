@@ -24,7 +24,7 @@
 #' cl = pData(mouseData)[,3]
 #' plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),usePCA=FALSE)
 #' 
-plotOrd<-function(obj,tran=FALSE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=FALSE,distfun=stats::dist,dist.method="euclidian",ret=FALSE,n=NULL,...){
+plotOrd<-function(obj,tran=TRUE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=FALSE,distfun=stats::dist,dist.method="euclidian",ret=FALSE,n=NULL,...){
     if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=norm,log=log)
     } else if(class(obj) == "matrix") {
@@ -49,13 +49,20 @@ plotOrd<-function(obj,tran=FALSE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist
     } else{ d = mat }
     
     if(usePCA==FALSE){
-	   ord = cmdscale(d,k = max(comp))
+        ord = cmdscale(d,k = max(comp))
+        yl = ""
+        xl = ""
     } else{
-       ord = prcomp(d)$x
+        pcaRes <- prcomp(d)
+        ord <- pcaRes$x
+        vars <- pcaRes$sdev^2
+        vars <- round(vars/sum(vars),5)*100
+        xl <- sprintf("%s: %.2f%% variance",colnames(ord)[comp[1]], vars[comp[1]])
+        yl <- sprintf("%s: %.2f%% variance",colnames(ord)[comp[2]], vars[comp[2]])
     }
     main = paste(ifelse(usePCA,"PCA","MDS"),ifelse(useDist,"distances of features","features"),sep=" on ")
 
-	plot(ord[,comp],main=main,...)
+	plot(ord[,comp],main=main,ylab=yl,xlab=xl,...)
     if(ret==TRUE) return(ord[,comp])
     else invisible()
 }
