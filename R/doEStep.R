@@ -27,6 +27,7 @@ function(countResiduals,  zeroResiduals, zeroIndices)
 	countDensity=getCountDensity(countResiduals)
 	w2=sweep(countDensity, 2, 1-pi_prop, FUN="*")
 	z=w1/(w1+w2)
+	z[z>1-1e-6]=1-1e-6
 	z[!zeroIndices]=0
 	z
 }
