@@ -2,7 +2,7 @@
 \alias{plotOrd}
 \title{Plot of either PCA or MDS coordinates for the distances of normalized or unnormalized counts.}
 \usage{
-plotOrd(obj, tran = FALSE, comp = 1:2, log = TRUE, norm = TRUE,
+plotOrd(obj, tran = TRUE, comp = 1:2, log = TRUE, norm = TRUE,
   usePCA = TRUE, useDist = FALSE, distfun = stats::dist,
   dist.method = "euclidian", ret = FALSE, n = NULL, ...)
 }
