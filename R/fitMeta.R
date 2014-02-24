@@ -19,7 +19,7 @@
 fitMeta <- function(obj,mod,useCSSoffset=TRUE,B=1000,coef=2,sl=1000){
     if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=FALSE,log=FALSE)
-        mat = log2(mat/sl + 1)
+        mat = log2(mat + 1)
     } else if(class(obj) == "matrix") {
         mat = obj
     } else {
@@ -54,6 +54,6 @@ fitMeta <- function(obj,mod,useCSSoffset=TRUE,B=1000,coef=2,sl=1000){
     })
     p = rowMeans(abs(tobs)>=abs(tt))
 
-	dat = list(call=match.call(),fit=fitRes,t = tt,p = p)
+	dat = list(call=match.call(),fit=fitRes,t = tt,p = p,type="perm")
 	return(dat)
 }
