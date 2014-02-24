@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: December 13, 2013. Compiled: \today}
+\date{Modified: February 24, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -265,9 +265,14 @@ After the user defines an appropriate model matrix for hypothesis testing there 
 <<zigTesting>>=
 smokingStatus = pData(lungTrim)$SmokingStatus
 bodySite = pData(lungTrim)$SampleType
-mod = model.matrix(~smokingStatus+bodySite)
+normFactor = normFactors(lungTrim)
+normFactor = log2(normFactor/median(normFactor) + 1)
+mod = model.matrix(~smokingStatus+bodySite + normFactor)
 settings = zigControl(maxit=10,verbose=TRUE)
-fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+fit = fitZig(obj = lungTrim,mod=mod,useCSSoffset = FALSE, 
+             control=settings) 
+
+# The default, useCSSoffset = TRUE, automatically includes the CSS scaling normalization factor.
 @
 
 The result, \texttt{fit}, is a list providing detailed estimates of the fits including a 
@@ -275,10 +280,8 @@ The result, \texttt{fit}, is a list providing detailed estimates of the fits inc
 This data can be analyzed like any \texttt{limma} fit and in this example, the column of 
 the fitted coefficientsrepresents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
 
-Looking at the particular analysis just performed, there appears to be OTUs representing three
-\textit{Prevotella}, two \textit{Neisseria}, and a \textit{Porphyromonas} that are differentially
-abundant. One should check that similarly annotated OTUs are not equally differentially 
-abundant in controls. 
+Looking at the particular analysis just performed, there appears to be OTUs representing two
+\textit{Prevotella}, two \textit{Neisseria}, a \textit{Porphyromonas} and a \textit{Leptotrichia} that are differentially abundant. One should check that similarly annotated OTUs are not equally differentially abundant in controls. 
 
 Alternatively, the user can input a model with their own normalization factors including them directly in the model matrix and specifying the option \texttt{useCSSoffset = FALSE} in fitZig.
 
@@ -292,6 +295,28 @@ taxa =
   sapply(strsplit(as.character(fData(lungTrim)$taxa),split=";"),
          function(i){i[length(i)]})
 head(MRcoefs(fit,taxa=taxa,coef=2))
+@
+
+\subsection{Testing using a permutation test}
+Included is a standard permutation test as developed by Metastats. Below we show the fit for the same model as above using 100 permutations providing p-value resolution to the hundredth. The \texttt{coef} parameter refers to the coefficient of interest to test. In the below we first generate the list of significant features. We observe two \textit{Prevotella}, two \textit{Veillonella}, a \textit{Streptococcus} and a \textit{Neisseria}.
+
+<<metastats>>=
+coeffOfInterest = 2
+res = fitMeta(obj = lungTrim, mod = mod, useCSSoffset = FALSE, B = 100, coef = coeffOfInterest)
+
+# extract p.values and adjust for multiple testing
+# res$p are the p-values calculated through permutation
+adjustedPvalues = p.adjust(res$p,method="fdr")
+
+# extract the absolute fold-change estimates
+foldChange = abs(res$fit$coef[,coeffOfInterest])
+
+# determine features still significant and order by the 
+sigList = which(adjustedPvalues <= .05)
+sigList = sigList[order(foldChange[sigList])]
+
+# view the top taxa associated with the coefficient of interest.
+head(taxa[sigList])
 @
 
 \subsection{Testing presence-absence}
