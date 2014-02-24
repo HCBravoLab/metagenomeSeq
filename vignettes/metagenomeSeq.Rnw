@@ -331,13 +331,22 @@ res = fitPA(mouseData[1:5,],cl=classes)
 head(res)
 @
 
+\subsection{Testing the discovery odds}
+The hypothesis for the implemented discovery test is that the proportion of observed counts for a feature of all counts are comparable between groups. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitDO} calculates the proportion of counts for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix.
+
+<<discOdds>>=
+data(mouseData)
+classes = pData(mouseData)$diet
+res = fitDO(mouseData[1:100,],cl=classes,norm=FALSE,log=FALSE)
+head(res)
+@
+
 \newpage
 \section{Aggregating features}
 Normalization is recommended at the OTU level. However, functions are in place to aggregate 
 the count matrix (normalized or not), based on a particular user defined level. Using the
 featureData information in the MRexperiment object, calling \texttt{aggregateByTaxonomy} or \texttt{aggTax} on a MRexperiment object and declaring particular featureData column name (i.e.
 'genus') will aggregate counts to the desired level with the aggfun function (default colSums). Possible aggfun alternatives include colMeans and colMedians.
-
 
 \newpage
 \section{Visualization of features}
