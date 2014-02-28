@@ -9,10 +9,10 @@ to the desired level using the aggfun function (default colSums). Possible aggfu
 include colMeans and colMedians.}
 \usage{
 aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
-  aggfun = colSums)
+  aggfun = colSums, sl = 1000)
 
 aggTax(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
-  aggfun = colSums)
+  aggfun = colSums, sl = 1000)
 }
 \arguments{
   \item{obj}{A MRexperiment object.}
@@ -30,6 +30,8 @@ aggTax(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
   if MRexperiment object.}
 
   \item{aggfun}{Aggregation function.}
+
+  \item{sl}{scaling value, default is 1000.}
 }
 \value{
 An aggregated count matrix.
