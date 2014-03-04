@@ -1,71 +1,32 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.5.42
+Version: 1.5.43
 Date: 2013-02-28
-Author: Joseph Nathaniel Paulson, Mihai Pop,  Hector Corrada Bravo
+Author: Joseph Nathaniel Paulson, Mihai Pop, Hector Corrada Bravo
 Maintainer: Joseph N. Paulson <jpaulson@umiacs.umd.edu>
-Description: metagenomeSeq is designed to determine features (be it Operational
-    Taxanomic Unit (OTU), species, etc.) that are differentially abundant
-    between two or more groups of multiple samples. metagenomeSeq is designed
-    to address the effects of both normalization and under-sampling of
-    microbial communities on disease association detection and the testing of
-    feature correlations.
+Description: metagenomeSeq is designed to determine features (be it
+        Operational Taxanomic Unit (OTU), species, etc.) that are
+        differentially abundant between two or more groups of multiple
+        samples. metagenomeSeq is designed to address the effects of
+        both normalization and under-sampling of microbial communities
+        on disease association detection and the testing of feature
+        correlations.
 License: Artistic-2.0
-Depends:
-    R(>= 3.0),
-    Biobase,
-    limma,
-    matrixStats,
-    methods,
-    RColorBrewer,
-    gplots
-Suggests:
-    annotate,
-    biom,
-    vegan,
-    knitr
-biocViews: Bioinformatics, DifferentialExpression, Metagenomics,
-    Visualization
-Collate:
-    'aggregateByTaxonomy.R'
-    'aggregateM.R'
-    'allClasses.R'
-    'biom2MRexperiment.R'
-    'calculateEffectiveSamples.R'
-    'cumNorm.R'
-    'cumNormStat.R'
-    'cumNormStatFast.R'
-    'cumNormMat.R'
-    'doCountMStep.R'
-    'doZeroMStep.R'
-    'doEStep.R'
-    'exportMat.R'
-    'exportStats.R'
-    'fitDO.R'
-    'fitMeta.R'
-    'fitPA.R'
-    'fitZig.R'
-    'filterData.R'
-    'getEpsilon.R'
-    'getCountDensity.R'
-    'getNegativeLogLikelihoods.R'
-    'getPi.R'
-    'getZ.R'
-    'isItStillActive.R'
-    'load_biom.R'
-    'load_meta.R'
-    'load_metaQ.R'
-    'load_phenoData.R'
-    'MRtable.R'
-    'MRcoefs.R'
-    'MRfulltable.R'
-    'MRexperiment2biom.R'
-    'plotMRheatmap.R'
-    'plotCorr.R'
-    'plotOTU.R'
-    'plotOrd.R'
-    'plotRare.R'
-    'plotGenus.R'
-    'zigControl.R'
-VignetteBuilder: knitr 
+Depends: R(>= 3.0), Biobase, limma, matrixStats, methods, RColorBrewer,
+        gplots
+Suggests: annotate, biom, vegan, knitr
+Collate: 'aggregateByTaxonomy.R' 'aggregateM.R' 'allClasses.R'
+        'biom2MRexperiment.R' 'calculateEffectiveSamples.R' 'cumNorm.R'
+        'cumNormStat.R' 'cumNormStatFast.R' 'cumNormMat.R'
+        'doCountMStep.R' 'doZeroMStep.R' 'doEStep.R' 'exportMat.R'
+        'exportStats.R' 'fitDO.R' 'fitMeta.R' 'fitPA.R' 'fitZig.R'
+        'filterData.R' 'getEpsilon.R' 'getCountDensity.R'
+        'getNegativeLogLikelihoods.R' 'getPi.R' 'getZ.R'
+        'isItStillActive.R' 'load_biom.R' 'load_meta.R' 'load_metaQ.R'
+        'load_phenoData.R' 'MRtable.R' 'MRcoefs.R' 'MRfulltable.R'
+        'MRexperiment2biom.R' 'plotMRheatmap.R' 'plotCorr.R'
+        'plotOTU.R' 'plotOrd.R' 'plotRare.R' 'plotGenus.R'
+        'zigControl.R'
+VignetteBuilder: knitr
 URL: http://cbcb.umd.edu/software/metagenomeSeq
+biocViews: DifferentialExpression, Metagenomics, Visualization
