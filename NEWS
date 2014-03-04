@@ -1,6 +1,6 @@
 version 1.5.xx (2013-11-12)
-	+ Incorporating biome format support with the biom2MRexperiment and load_biome function.
-	+ Added filterData, aggregateByTaxonomy(aggTax), calculateEffectiveSamples, functions.
+	+ Incorporating biom-format support with the biom2MRexperiment, MRexperiment2biom and load_biome function.
+	+ Added filterData, aggregateByTaxonomy / aggTax and calculateEffectiveSamples functions.
 	+ Renamed MRfisher to fitPA (presence-absence fisher test).
 	+ Added fitDO (Discovery odds ratio test) and fitMeta (original metastats).
 	+ Added match.call() info to fitZig output
