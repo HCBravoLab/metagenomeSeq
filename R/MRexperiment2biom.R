@@ -9,7 +9,7 @@
 MRexperiment2biom <- function(obj,id=NULL){
 	library(biom)
 	id = id
-	format = "Biological Observation Matrix 0.9.1-dev"
+	format = "Biological Observation Matrix 1.0.0-dev"
 	format_url = "http://biom-format.org/documentation/format_versions/biom-1.0.html"
 	type = "OTU table"
 	generated_by = sprintf("metagenomeSeq %s",packageVersion("metagenomeSeq"))
@@ -20,17 +20,24 @@ MRexperiment2biom <- function(obj,id=NULL){
 	data = MRcounts(obj)
 	shape = dim(data)
 
-	# Eventually we will provide options for users to input their metadata.
-	# Probably not that difficult, maybe metadata = lapply(1:ncol(pData(obj)),function(j)){pData(obj)[i,j]})
-	rows = lapply(1:nrow(data),function(i){list(
+	fdatanames = colnames(fData(obj))
+	rows = lapply(1:nrow(data),function(i){
+			ll = list(
 				id=rownames(data)[i],
 				metadata=lapply(1:ncol(fData(obj)),function(j){
 					as.character(fData(obj)[i,j])}))
+			names(ll$metadata) = fdatanames
+			ll
 			})
-	columns  = lapply(1:ncol(data),function(i){list(
+
+	sdatanames = colnames(pData(obj))
+	columns  = lapply(1:ncol(data),function(i){
+			ll = list(
 				id=colnames(data)[i],
 				metadata=lapply(1:ncol(pData(obj)),function(j){
 					as.character(pData(obj)[i,j])}))
+			names(ll$metadata) = sdatanames
+			ll
 			})
 	data = as.list(as.data.frame(t(data)))
 	names(data) <- NULL
