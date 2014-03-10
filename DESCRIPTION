@@ -1,6 +1,6 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.5.44
+Version: 1.5.45
 Date: 2013-03-09
 Author: Joseph Nathaniel Paulson, Mihai Pop, Hector Corrada Bravo
 Maintainer: Joseph N. Paulson <jpaulson@umiacs.umd.edu>
@@ -15,7 +15,7 @@ License: Artistic-2.0
 Depends: R(>= 3.0), Biobase, limma, matrixStats, methods, RColorBrewer,
         gplots
 Suggests: annotate, biom, vegan, knitr
-Collate: 'aggregateByTaxonomy.R' 'aggregateM.R' 'allClasses.R'
+Collate: 'aggregateByTaxonomy.R' 'allClasses.R'
         'biom2MRexperiment.R' 'calculateEffectiveSamples.R' 'cumNorm.R'
         'cumNormStat.R' 'cumNormStatFast.R' 'cumNormMat.R'
         'doCountMStep.R' 'doZeroMStep.R' 'doEStep.R' 'exportMat.R'
