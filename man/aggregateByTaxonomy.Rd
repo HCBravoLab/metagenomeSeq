@@ -9,16 +9,16 @@ to the desired level using the aggfun function (default colSums). Possible aggfu
 include colMeans and colMedians.}
 \usage{
 aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
-  aggfun = colSums, sl = 1000)
+  aggfun = colSums, sl = 1000, out = "MRexperiment")
 
 aggTax(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
-  aggfun = colSums, sl = 1000)
+  aggfun = colSums, sl = 1000, out = "MRexperiment")
 }
 \arguments{
-  \item{obj}{A MRexperiment object.}
+  \item{obj}{A MRexperiment object or count matrix.}
 
   \item{lvl}{featureData column name from the MRexperiment
-  object.}
+  object or if count matrix object a vector of labels.}
 
   \item{alternate}{Use the rowname for undefined OTUs
   instead of aggregating to "no_match".}
@@ -32,6 +32,8 @@ aggTax(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
   \item{aggfun}{Aggregation function.}
 
   \item{sl}{scaling value, default is 1000.}
+
+  \item{out}{Either 'MRexperiment' or 'matrix'}
 }
 \value{
 An aggregated count matrix.
