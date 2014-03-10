@@ -1,5 +1,5 @@
 #' @name aggregateByTaxonomy
-#' @title Aggregates a MRexperiment object by a particular taxonomic level.
+#' @title Aggregates a MRexperiment object or counts matrix to a particular level.
 #' 
 #' Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
 #' MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
@@ -22,8 +22,9 @@
 #' 
 #' # not run
 #' # aggregateByTaxonomy(mouseData,lvl="genus",norm=TRUE,aggfun=colMedians)
+#' # aggTax(mouseData,lvl='phylum',norm=FALSE,aggfun=colSums)
 #' 
-aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=TRUE,log=FALSE,aggfun = colSums,sl=1000,out="MRexperiment"){
+aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfun = colSums,sl=1000,out="MRexperiment"){
 	if(class(obj)=="MRexperiment"){
 		mat = MRcounts(obj,norm=norm,log=log,sl=sl)
 		levels = as.character(fData(obj)[,lvl])
@@ -64,13 +65,13 @@ aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=TRUE,log=FALSE,aggfun
 		} else {
 			newObj = newMRexperiment(newMat,featureData=taxa)
 		}
-		warning("\n\nThe output here are aggregated (normalized?) counts.\n
-			Check default parameters for all metagenomeSeq functions so as not to renormalize.")
+		warning("\n\nThe output here are aggregated counts.\n
+			Check default parameters for all metagenomeSeq functions and consider normalization.")
 		return(newObj)
 	}
 }
 #' @rdname aggregateByTaxonomy
 #' @export
-aggTax<-function(obj,lvl,alternate=FALSE,norm=TRUE,log=FALSE,aggfun = colSums,sl=1000,out='MRexperiment'){
+aggTax<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfun = colSums,sl=1000,out='MRexperiment'){
 	aggregateByTaxonomy(obj,lvl,alternate=alternate,norm=norm,log=log,aggfun = aggfun,sl=sl,out=out)
 }
