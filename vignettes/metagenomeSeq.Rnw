@@ -341,6 +341,17 @@ res = fitDO(mouseData[1:100,],cl=classes,norm=FALSE,log=FALSE)
 head(res)
 @
 
+\subsection{Testing feature correlations}
+To test the correlations of abundance features, or samples, in a pairwise fashion we have implemented \texttt{correlationTest} and \texttt{correctIndices}. The \texttt{correlationTest} function will calculate basic pearson, spearman, kendall correlation statistics for the rows of the input and report the associated p-values.
+
+<<corTest>>=
+data(mouseData)
+cors = correlationTest(mouseData[55:60,],norm=FALSE,log=FALSE)
+head(cors)
+@
+
+\textbf{Caution:} http://www.ncbi.nlm.nih.gov/pubmed/23028285
+
 \newpage
 \section{Aggregating features}
 Normalization is recommended at the OTU level. However, functions are in place to aggregate 
