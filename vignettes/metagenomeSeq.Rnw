@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: February 24, 2014. Compiled: \today}
+\date{Modified: March 09, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -347,6 +347,21 @@ Normalization is recommended at the OTU level. However, functions are in place t
 the count matrix (normalized or not), based on a particular user defined level. Using the
 featureData information in the MRexperiment object, calling \texttt{aggregateByTaxonomy} or \texttt{aggTax} on a MRexperiment object and declaring particular featureData column name (i.e.
 'genus') will aggregate counts to the desired level with the aggfun function (default colSums). Possible aggfun alternatives include colMeans and colMedians.
+
+<<aggTax>>=
+data(mouseData)
+
+# first featureData column as 'chr' vector
+taxa = as.character(fData(mouseData)[,1])
+
+# 2nd item of each taxonomy if delimited by ';'
+phylum = sapply(strsplit(taxa,split=";"),function(i){i[2]}) 
+
+obj = aggTax(MRcounts(mouseData),lvl=phylum,out='matrix')
+head(obj[1:5,1:5])
+@
+
+The \texttt{aggregateByTaxonomy} and \texttt{aggTax} functions are flexible enough to put in either 1) a matrix with a vector of labels or 2) a MRexperiment object with a vector of labels or featureData column name. The function can also output either a matrix or MRexperiment object.
 
 \newpage
 \section{Visualization of features}
