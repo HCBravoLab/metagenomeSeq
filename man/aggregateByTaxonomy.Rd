@@ -1,17 +1,17 @@
 \name{aggregateByTaxonomy}
 \alias{aggTax}
 \alias{aggregateByTaxonomy}
-\title{Aggregates a MRexperiment object by a particular taxonomic level.
+\title{Aggregates a MRexperiment object or counts matrix to a particular level.
 
 Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
 MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
 to the desired level using the aggfun function (default colSums). Possible aggfun alternatives
 include colMeans and colMedians.}
 \usage{
-aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
-  aggfun = colSums, sl = 1000, out = "MRexperiment")
+aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = FALSE,
+  log = FALSE, aggfun = colSums, sl = 1000, out = "MRexperiment")
 
-aggTax(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
+aggTax(obj, lvl, alternate = FALSE, norm = FALSE, log = FALSE,
   aggfun = colSums, sl = 1000, out = "MRexperiment")
 }
 \arguments{
@@ -39,8 +39,8 @@ aggTax(obj, lvl, alternate = FALSE, norm = TRUE, log = FALSE,
 An aggregated count matrix.
 }
 \description{
-Aggregates a MRexperiment object by a particular taxonomic
-level.
+Aggregates a MRexperiment object or counts matrix to a
+particular level.
 
 Using the featureData information in the MRexperiment,
 calling aggregateByTaxonomy on a MRexperiment and a
@@ -52,5 +52,6 @@ colMeans and colMedians.
 \examples{
 # not run
 # aggregateByTaxonomy(mouseData,lvl="genus",norm=TRUE,aggfun=colMedians)
+# aggTax(mouseData,lvl='phylum',norm=FALSE,aggfun=colSums)
 }
 
