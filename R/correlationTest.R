@@ -31,7 +31,7 @@ correlationTest <- function(obj,method="pearson",alternative="two.sided",norm=TR
 	nr = nrow(mat)
 	if(nr > 1000){
 		if(override){
-			warning("Good luck! This might take some time.")
+			show("Good luck! This might take some time.")
 		} else {
 			stop("Many features being considered - to proceed set override to TRUE")
 		}
