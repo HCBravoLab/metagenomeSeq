@@ -1,6 +1,6 @@
 version 1.5.xx (2014-04-17)
 	+ Incorporating biom-format support with the biom2MRexperiment, MRexperiment2biom and load_biome function.
-	+ Added filterData, aggregateByTaxonomy / aggTax and calculateEffectiveSamples functions.
+	+ Added uniqueFeatures, filterData, aggregateByTaxonomy / aggTax, plotFeature and calculateEffectiveSamples functions.
 	+ Renamed MRfisher to fitPA (presence-absence fisher test).
 	+ Added warnings for normalization 
 	+ Added fitDO (Discovery odds ratio test) and fitMeta (original metastats).

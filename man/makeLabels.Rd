@@ -1,0 +1,22 @@
+\name{makeLabels}
+\alias{makeLabels}
+\title{Function to make labels simpler}
+\usage{
+makeLabels(x = "samples", y = "abundance", norm, log)
+}
+\arguments{
+  \item{x}{string for the x-axis}
+
+  \item{y}{string for the y-axis}
+
+  \item{norm}{is the data normalized?}
+
+  \item{log}{is the data logged?}
+}
+\value{
+vector of x,y labels
+}
+\description{
+Beginning to transition to better axes for plots
+}
+
