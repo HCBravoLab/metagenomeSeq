@@ -47,6 +47,10 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 		axis(1,at=seq(0,length(diffr1),length.out=5),labels = seq(0,1,length.out=5))
 	}
 	x= which(abs(diff(diffr1))/diffr1[-1] > rel)[1]/length(diffr1)
+	if(x<=0.25){
+		warning("Low quantile estimate. Default value being used.")
+		x = 0.75
+	}
 	obj@expSummary$cumNormStat = x;
 	return(x)
 }
