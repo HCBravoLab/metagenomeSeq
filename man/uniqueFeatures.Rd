@@ -1,0 +1,30 @@
+\name{uniqueFeatures}
+\alias{uniqueFeatures}
+\title{Table of features unique to a group}
+\usage{
+uniqueFeatures(obj, cl, nsamples = 0, nreads = 0)
+}
+\arguments{
+  \item{obj}{Either a MRexperiment object or matrix.}
+
+  \item{cl}{A vector representing assigning samples to a
+  group.}
+
+  \item{nsamples}{The minimum number of positive samples.}
+
+  \item{nreads}{The minimum number of raw reads.}
+}
+\value{
+Table of features unique to a group
+}
+\description{
+Creates a table of features, their index, number of
+positive samples in a group, and the number of reads in a
+group. Can threshold features by a minimum no. of reads or
+no. of samples.
+}
+\examples{
+data(mouseData)
+head(uniqueFeatures(mouseData[1:100,],cl=pData(mouseData)[,3]))
+}
+

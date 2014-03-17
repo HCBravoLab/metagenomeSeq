@@ -13,8 +13,8 @@ correlationTest(obj, method = "pearson", alternative = "two.sided",
   \item{method}{One of 'pearson','spearman', or 'kendall'.}
 
   \item{alternative}{Indicates the alternative hypothesis
-  and must be one of 'two.sided', 'greater' (positive) or
-  'less'(negative). You can specify just the initial
+  and must be one of ‘two.sided’, ‘greater’ (positive) or
+  ‘less’(negative). You can specify just the initial
   letter.}
 
   \item{norm}{Whether to aggregate normalized counts or not

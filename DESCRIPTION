@@ -1,6 +1,6 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.5.48
+Version: 1.5.49
 Date: 2013-03-17
 Author: Joseph Nathaniel Paulson, Mihai Pop, Hector Corrada Bravo
 Maintainer: Joseph N. Paulson <jpaulson@umiacs.umd.edu>
@@ -23,9 +23,9 @@ Collate: 'aggregateByTaxonomy.R' 'allClasses.R'
         'filterData.R' 'getEpsilon.R' 'getCountDensity.R'
         'getNegativeLogLikelihoods.R' 'getPi.R' 'getZ.R'
         'isItStillActive.R' 'load_biom.R' 'load_meta.R' 'load_metaQ.R'
-        'load_phenoData.R' 'MRtable.R' 'MRcoefs.R' 'MRfulltable.R'
+        'load_phenoData.R' 'misc.R' 'MRtable.R' 'MRcoefs.R' 'MRfulltable.R'
         'MRexperiment2biom.R' 'plotMRheatmap.R' 'plotCorr.R'
-        'plotOTU.R' 'plotOrd.R' 'plotRare.R' 'plotGenus.R'
+        'plotOTU.R' 'plotOrd.R' 'plotRare.R' 'plotGenus.R' 'plotFeature.R'
         'zigControl.R'
 VignetteBuilder: knitr
 URL: http://cbcb.umd.edu/software/metagenomeSeq
