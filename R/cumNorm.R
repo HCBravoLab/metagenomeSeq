@@ -24,7 +24,7 @@ function(obj,p=cumNormStatFast(obj)){
 	xx=x
 	xx[x==0] <- NA
 		
-	qs=matrixStats::colQuantiles(xx,p=p,na.rm=TRUE)
+	qs=colQuantiles(xx,p=p,na.rm=TRUE)
 		
 	normFactors<-sapply(1:ncol(xx), function(i) {
 			xx=(x[,i]-.Machine$double.eps)
