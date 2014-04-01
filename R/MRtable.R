@@ -20,13 +20,14 @@
 #' @param adjust.method Method to adjust p-values by. Default is "FDR". Options
 #' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 #' "none". See \code{\link{p.adjust}} for more details.
-#' @param group One of three choices, 0,1,2. 0: the sort is ordered by a
+#' @param group One of three choices, 0,1,2,3,4. 0: the sort is ordered by a
 #' decreasing absolute value coefficient fit. 1: the sort is ordered by the raw
 #' coefficient fit in decreasing order. 2: the sort is ordered by the raw
 #' coefficient fit in increasing order. 3: the sort is ordered by the p-value
-#' of the coefficient fit in increasing order.
-#' @param eff Restrict samples to have at least a "eff" quantile effective samples.
-#' @param output Name of output file, including location, to save the table.
+#' of the coefficient fit in increasing order. 4: no sorting.
+#' @param eff Restrict samples to have at least a "eff" quantile or number of effective samples.
+#' @param numberEff Boolean, whether eff should represent quantile (default/FALSE) or number.
+#' @param file Name of file, including location, to save the table.
 #' @return Table of the top-ranked features determined by the linear fit's
 #' coefficient.
 #' @seealso \code{\link{fitZig}} \code{\link{MRcoefs}}
@@ -44,7 +45,7 @@
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' head(MRtable(fit))
 #' 
-MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,output=NULL){
+MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,numberEff=FALSE,file=NULL){
     tb = obj$fit$coefficients
     tx = as.character(taxa);
     
@@ -78,10 +79,16 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
         srt = order((tb[,by]),decreasing=FALSE)
     } else if(group==3){
         srt = order(p,decreasing=FALSE)
+    } else {
+        srt = 1:length(np0);
     }
 
     effectiveSamples = calculateEffectiveSamples(obj);
-    valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
+    if(numberEff == FALSE){
+        valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
+    } else {
+        valid = which(effectiveSamples>=eff);
+    }
     srt = srt[which(srt%in%valid)][1:number];
 
     mat = cbind(np0,np1);
@@ -98,11 +105,11 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     colnames(tb)[coef],"pValue","adjPvalue");
     colnames(mat) = nm;
 
-    if(!is.null(output)){
+    if(!is.null(file)){
         nm = c("Taxa",nm)
         mat2 = cbind(rownames(mat),mat)
         mat2 = rbind(nm,mat2)
-        write(t(mat2),ncolumns=ncol(mat2),file=output,sep="\t")
+        write(t(mat2),ncolumns=ncol(mat2),file=file,sep="\t")
     } else{
         return(as.data.frame(mat))
     }

@@ -7,14 +7,14 @@
 #' @param obj A MRexperiment object with count data.
 #' @param p Quantile value to calculate the scaling factor and quantiles for
 #' the various samples.
-#' @param output Output file name.
+#' @param file Output file name.
 #' @return None.
 #' @seealso \code{\link{cumNorm}} \code{\link{quantile}}
 #' @examples
 #' 
 #' # see vignette
 #' 
-exportStats <-function(obj,p= cumNormStat(obj),output="~/Desktop/res.stats.tsv"){
+exportStats <-function(obj,p= cumNormStat(obj),file="~/Desktop/res.stats.tsv"){
 	xx=MRcounts(obj)
 	xx[xx==0]=NA
 	qs=colQuantiles(xx,p=p,na.rm=TRUE)
@@ -35,5 +35,5 @@ exportStats <-function(obj,p= cumNormStat(obj),output="~/Desktop/res.stats.tsv")
 	newMat[4,2:ncol(newMat)]<-colSums(xx);
 	newMat[5,2:ncol(newMat)]<-unlist(libSize(obj));
 
-	write((newMat),file = output,sep = "\t",ncolumns = 5);
+	write((newMat),file = file,sep = "\t",ncolumns = 5);
 }
