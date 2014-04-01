@@ -5,7 +5,7 @@ information}
 \usage{
 MRfulltable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
   uniqueNames = FALSE, adjust.method = "fdr", group = 0, eff = 0,
-  output = NULL)
+  numberEff = FALSE, file = NULL)
 }
 \arguments{
   \item{obj}{A list containing the linear model fit
@@ -31,18 +31,21 @@ MRfulltable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
   "hommel", "bonferroni", "BH", "BY", "fdr", "none". See
   \code{\link{p.adjust}} for more details.}
 
-  \item{group}{One of four choices: 0,1,2,3. 0: the sort is
-  ordered by a decreasing absolute value coefficient fit.
-  1: the sort is ordered by the raw coefficient fit in
+  \item{group}{One of four choices: 0,1,2,3,4. 0: the sort
+  is ordered by a decreasing absolute value coefficient
+  fit. 1: the sort is ordered by the raw coefficient fit in
   decreasing order. 2: the sort is ordered by the raw
   coefficient fit in increasing order. 3: the sort is
   ordered by the p-value of the coefficient fit in
-  increasing order.}
+  increasing order. 4: no sorting.}
 
   \item{eff}{Restrict samples to have at least a "eff"
-  quantile effective samples.}
+  quantile or number of effective samples.}
 
-  \item{output}{Name of output file, including location, to
+  \item{numberEff}{Boolean, whether eff should represent
+  quantile (default/FALSE) or number.}
+
+  \item{file}{Name of output file, including location, to
   save the table.}
 }
 \value{

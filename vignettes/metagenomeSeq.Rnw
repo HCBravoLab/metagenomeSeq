@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: March 09, 2014. Compiled: \today}
+\date{Modified: April 01, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -210,13 +210,13 @@ There are other functions, including \texttt{normFactors}, \texttt{cumNormMat}, 
 To export normalized count matrices:
 <<saveData>>=
 mat = MRcounts(lungData,norm=TRUE,log=TRUE)[1:5,1:5]
-exportMat(mat,output=file.path(dataDirectory,"tmp.tsv"))
+exportMat(mat,file=file.path(dataDirectory,"tmp.tsv"))
 @
 
 \noindent
 To save sample statistics (sample scaling factor, quantile value, number of identified features and library size):
 <<exportStats>>=
-exportStats(lungData[,1:5],output=file.path(dataDirectory,"tmp.tsv"))
+exportStats(lungData[,1:5],file=file.path(dataDirectory,"tmp.tsv"))
 head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\t"))
 @
 
@@ -382,7 +382,7 @@ data. Heatmaps of feature counts: \texttt{plotMRheatmap}. Basic feature correlat
 samples or features: \texttt{plotOrd}. And rarefaction effects: \texttt{plotRare}. 
 
 Other plotting functions include plotting the abundance
-differences for a single feature, \texttt{plotOTU} or multiple features
+differences for a single feature, \texttt{plotOTU}, \texttt{plotFeature} or multiple features
 \texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for
 additional control of false discoveries.
 
@@ -457,6 +457,7 @@ Another way is to plot the abundances of features similarly annotated.
 \begin{enumerate}
 \item \texttt{plotOTU} - abundances of a particular feature by group (Fig. 6 left)
 \item \texttt{plotGenus} - abundances for several features similarly annotated by group (Fig. 6 right)
+\item \texttt{plotFeature} - abundances of a particular feature by group (similar to plotOTU, Fig. 7)
 \end{enumerate}
 
 
@@ -487,6 +488,17 @@ plotGenus(lungTrim,otulist,classIndex,labs=FALSE,
 
 lablist<- c("S","NS")
 axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
+@
+
+<<plotFeatureData,fig.cap='Plot of raw abundances',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth',tidy=TRUE>>=
+classIndex=list(Western=which(pData(mouseData)$diet=="Western"))
+classIndex$BK=which(pData(mouseData)$diet=="BK")
+otuIndex = 8770
+
+# par(mfrow=c(1,2))
+dates = pData(mouseData)$date
+plotFeature(mouseData,norm=FALSE,log=FALSE,otuIndex,classIndex,
+            col=dates,sortby=dates,ylab="Raw reads")
 @
 
 \newpage
