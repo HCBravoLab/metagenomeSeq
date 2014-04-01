@@ -4,7 +4,7 @@
 #'
 #' @param obj A MRexperiment object or count matrix.
 #' @param method One of 'pearson','spearman', or 'kendall'.
-#' @param alternative Indicates the alternative hypothesis and must be one of ‘two.sided’, ‘greater’ (positive) or ‘less’(negative). You can specify just the initial letter.
+#' @param alternative Indicates the alternative hypothesis and must be one of 'two.sided', 'greater' (positive) or 'less'(negative). You can specify just the initial letter.
 #' @param norm Whether to aggregate normalized counts or not - if MRexperiment object.
 #' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param parallel Parallelize the correlation testing?
