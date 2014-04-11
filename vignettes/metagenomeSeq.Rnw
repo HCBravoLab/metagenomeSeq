@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: April 01, 2014. Compiled: \today}
+\date{Modified: April 10, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -297,8 +297,8 @@ taxa =
 head(MRcoefs(fit,taxa=taxa,coef=2))
 @
 
-\subsection{Testing using a permutation test}
-Included is a standard permutation test as developed by Metastats. Below we show the fit for the same model as above using 100 permutations providing p-value resolution to the hundredth. The \texttt{coef} parameter refers to the coefficient of interest to test. In the below we first generate the list of significant features. We observe two \textit{Prevotella}, two \textit{Veillonella}, a \textit{Streptococcus} and a \textit{Neisseria}.
+\subsection{Permutation test}
+Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 100 permutations providing p-value resolution to the hundredth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features. We observe two \textit{Prevotella}, two \textit{Veillonella}, a \textit{Streptococcus} and a \textit{Neisseria}.
 
 <<metastats>>=
 coeffOfInterest = 2
@@ -319,7 +319,7 @@ sigList = sigList[order(foldChange[sigList])]
 head(taxa[sigList])
 @
 
-\subsection{Testing presence-absence}
+\subsection{Presence-absence testing}
 The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitPA} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{fitPA}. If there is a desire for a more detailed description, please email me.
 
 
@@ -331,7 +331,7 @@ res = fitPA(mouseData[1:5,],cl=classes)
 head(res)
 @
 
-\subsection{Testing the discovery odds}
+\subsection{Discovery odds ratio testing}
 The hypothesis for the implemented discovery test is that the proportion of observed counts for a feature of all counts are comparable between groups. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitDO} calculates the proportion of counts for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix.
 
 <<discOdds>>=
@@ -341,7 +341,7 @@ res = fitDO(mouseData[1:100,],cl=classes,norm=FALSE,log=FALSE)
 head(res)
 @
 
-\subsection{Testing feature correlations}
+\subsection{Feature correlations}
 To test the correlations of abundance features, or samples, in a pairwise fashion we have implemented \texttt{correlationTest} and \texttt{correctIndices}. The \texttt{correlationTest} function will calculate basic pearson, spearman, kendall correlation statistics for the rows of the input and report the associated p-values.
 
 <<corTest>>=
