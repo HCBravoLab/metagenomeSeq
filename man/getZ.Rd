@@ -1,0 +1,36 @@
+\name{getZ}
+\alias{getZ}
+\title{Calculate the current Z estimate responsibilities (posterior probabilities)}
+\usage{
+getZ(z, zUsed, stillActive, nll, nllUSED)
+}
+\arguments{
+  \item{z}{Matrix (m x n) of estimate responsibilities
+  (probabilities that a count comes from a spike
+  distribution at 0).}
+
+  \item{zUsed}{Matrix (m x n) of estimate responsibilities
+  (probabilities that a count comes from a spike
+  distribution at 0) that are actually used (following
+  convergence).}
+
+  \item{stillActive}{A vector of size M booleans saying if
+  a feature is still active or not.}
+
+  \item{nll}{Vector of size M with the current negative
+  log-likelihoods.}
+
+  \item{nllUSED}{Vector of size M with the converged
+  negative log-likelihoods.}
+}
+\value{
+A list of updated zUsed and nllUSED.
+}
+\description{
+Calculate the current Z estimate responsibilities
+(posterior probabilities)
+}
+\seealso{
+\code{\link{fitZig}}
+}
+

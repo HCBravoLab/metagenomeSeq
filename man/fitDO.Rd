@@ -1,0 +1,42 @@
+\name{fitDO}
+\alias{fitDO}
+\title{Wrapper to calculate Discovery Odds Ratios on feature values.}
+\usage{
+fitDO(obj, cl, norm = TRUE, log = TRUE)
+}
+\arguments{
+  \item{obj}{A MRexperiment object with a count matrix, or
+  a simple count matrix.}
+
+  \item{cl}{Group comparison}
+
+  \item{norm}{Whether or not to normalize the counts - if
+  MRexperiment object.}
+
+  \item{log}{Whether or not to log2 transform the counts -
+  if MRexperiment object.}
+}
+\value{
+NA
+}
+\description{
+This function returns a data frame of p-values, odds
+ratios, lower and upper confidence limits for every row of
+a matrix. The discovery odds ratio is calculated as using
+Fisher's exact test on actual counts. The test's hypothesis
+is whether or not the discovery of counts for a feature (of
+all counts) is found in greater proportion in a particular
+group.
+}
+\examples{
+data(lungData)
+k = grep("Extraction.Control",pData(lungData)$SampleType)
+lungTrim = lungData[,-k]
+lungTrim = lungTrim[-which(rowSums(MRcounts(lungTrim)>0)<20),]
+res = fitDO(lungTrim,pData(lungTrim)$SmokingStatus);
+head(res)
+}
+\seealso{
+\code{\link{cumNorm}} \code{\link{fitZig}}
+}
+

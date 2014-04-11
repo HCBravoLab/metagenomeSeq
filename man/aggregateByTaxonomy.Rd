@@ -1,0 +1,57 @@
+\name{aggregateByTaxonomy}
+\alias{aggTax}
+\alias{aggregateByTaxonomy}
+\title{Aggregates a MRexperiment object or counts matrix to a particular level.
+
+Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
+MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
+to the desired level using the aggfun function (default colSums). Possible aggfun alternatives
+include colMeans and colMedians.}
+\usage{
+aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = FALSE,
+  log = FALSE, aggfun = colSums, sl = 1000, out = "MRexperiment")
+
+aggTax(obj, lvl, alternate = FALSE, norm = FALSE, log = FALSE,
+  aggfun = colSums, sl = 1000, out = "MRexperiment")
+}
+\arguments{
+  \item{obj}{A MRexperiment object or count matrix.}
+
+  \item{lvl}{featureData column name from the MRexperiment
+  object or if count matrix object a vector of labels.}
+
+  \item{alternate}{Use the rowname for undefined OTUs
+  instead of aggregating to "no_match".}
+
+  \item{norm}{Whether to aggregate normalized counts or
+  not.}
+
+  \item{log}{Whether or not to log2 transform the counts -
+  if MRexperiment object.}
+
+  \item{aggfun}{Aggregation function.}
+
+  \item{sl}{scaling value, default is 1000.}
+
+  \item{out}{Either 'MRexperiment' or 'matrix'}
+}
+\value{
+An aggregated count matrix.
+}
+\description{
+Aggregates a MRexperiment object or counts matrix to a
+particular level.
+
+Using the featureData information in the MRexperiment,
+calling aggregateByTaxonomy on a MRexperiment and a
+particular featureData column (i.e. 'genus') will aggregate
+counts to the desired level using the aggfun function
+(default colSums). Possible aggfun alternatives include
+colMeans and colMedians.
+}
+\examples{
+# not run
+# aggregateByTaxonomy(mouseData,lvl="genus",norm=TRUE,aggfun=colMedians)
+# aggTax(mouseData,lvl='phylum',norm=FALSE,aggfun=colSums)
+}
+

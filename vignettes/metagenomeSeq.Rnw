@@ -1,0 +1,568 @@
+%\VignetteIndexEntry{metagenomeSeq: statistical analysis for sparse high-throughput sequencing}
+%\VignetteEngine{knitr::knitr}
+\documentclass[a4paper,11pt]{article}
+\usepackage{url}
+\usepackage{afterpage}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{cite}
+\geometry{hmargin=2.5cm, vmargin=2.5cm}
+\usepackage{graphicx}
+\usepackage{courier}
+\bibliographystyle{unsrt}
+
+\begin{document}
+<<include=FALSE>>=
+require(knitr)
+opts_chunk$set(concordance=TRUE,tidy=TRUE)
+@
+
+\title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
+\author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
+\date{Modified: April 10, 2014. Compiled: \today}
+\maketitle
+\tableofcontents
+
+\newpage
+
+<<config,echo=FALSE>>=
+options(width = 65)
+options(continue=" ")
+options(warn=-1)
+set.seed(42)
+@
+
+\section{Introduction}
+\textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function.}
+
+Metagenomics is the study of genetic material targeted directly from an environmental community. 
+Originally focused on exploratory and validation projects, these studies now focus on understanding the differences in microbial communities caused by phenotypic differences. 
+Analyzing high-throughput sequencing data has been a challenge to researchers due to the unique biological and technological biases that are present in marker-gene survey data.
+
+ We present a R package, \texttt{metagenomeSeq}, that implements methods developed to account for previously unaddressed biases specific to high-throughput sequencing microbial marker-gene survey data. Our method implements a novel normalization technique and method to account for sparsity due to undersampling. Other methods include
+ White \textit{et al.}'s Metastats and Segata \textit{et al.}'s LEfSe. The first is a non-parametric permutation test on $t$-statistics and the second is a non-parametric Kruskal-Wallis test followed by subsequent wilcox rank-sum tests on subgroups to guard against positive discoveries of differential abundance driven by potential confounders - neither address normalization nor sparsity.
+
+This vignette describes the basic protocol when using \texttt{metagenomeSeq}. 
+A normalization method able to control for biases in measurements across taxanomic features and a mixture model that implements a zero-inflated Gaussian distribution to account for varying depths of coverage are implemented.
+Using a linear model methodology, it is easy to include confounding sources of variability and interpret results. 
+Additionally, visualization functions are provided to examine discoveries. 
+
+The software was designed to determine features (be it Operational Taxanomic Unit (OTU), species, etc.) that are differentially abundant between two or more groups of multiple samples. 
+The software was also designed to address the effects of both normalization and undersampling of microbial communities on disease association detection and testing of feature correlations.
+
+\begin{figure}
+\centerline{\includegraphics[width=.55\textwidth]{overview.pdf}}
+\caption{General overview. metagenomeSeq requires the user to convert their data into MRexperiment objects. Using those MRexperiment objects, one can normalize their data, run statistical tests (abundance or presence-absence), and visualize or save results.}
+\end{figure}
+
+\newpage
+\section{Data preparation}
+Microbial marker gene sequence data is preprocessed and counts are algorithmically defined 
+from project-specific sequence data by clustering reads according to read similarity. 
+Given $m$ features and $n$ samples, the elements in a count matrix 
+\textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular 
+feature $i$ (whether it be OTU, species, genus, etc.) in sample $j$. \\
+
+
+\begin{center}
+$\bordermatrix{ &sample_1&sample_2&\ldots &sample_n\cr feature_1&c_{11} &  c_{12}  & \ldots & c_{1n}\cr feature_2& c_{21}  &  c_{22} & \ldots & c_{2n}\cr \vdots & \vdots & \vdots & \ddots & \vdots\cr feature_m & c_{m1}  &   c_{m2} &\ldots & c_{mn}}$
+\end{center}
+
+Count data should be stored in a delimited (tab by default) file with sample names
+along the first row and feature names along the first column.
+
+Data is prepared and formatted as a MRexperiment object. For an overview of the internal structure please see Appendix A.
+
+\subsection{Example datasets}
+There are two datasets included as examples in the \texttt{metagenomeSeq} package. Data needs to be in a \texttt{MRexperiment} object format to normalize, run statistical tests, and visualize. As an example, throughout the vignette we'll use the following datasets. 
+To understand a function's usage or included data simply enter ?functionName.
+
+<<requireMetagenomeSeq,warning=FALSE,message=FALSE>>=
+library(metagenomeSeq)
+@
+
+\begin{enumerate}
+\item Human lung microbiome \cite{charlson}:
+The lung microbiome consists of respiratory flora sampled from six healthy individuals. Three healthy nonsmokers and three healthy smokers. The upper lung tracts were sampled by oral wash and oro-/nasopharyngeal swabs. Samples were taken using two bronchoscopes, serial bronchoalveolar lavage and lower airway protected brushes.
+\end{enumerate}
+<<dataset1,tidy=FALSE>>=
+data(lungData)
+lungData
+@
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item Humanized gnotobiotic mouse gut \cite{ts_mouse}:
+Twelve germ-free adult male C57BL/6J mice were fed a low-fat, plant polysaccharide-rich diet. Each mouse was gavaged with healthy adult human fecal material. Following the fecal transplant, mice remained on the low-fat, plant polysacchaaride-rich diet for four weeks, following which a subset of 6 were switched to a high-fat and high-sugar diet for eight weeks. Fecal samples for each mouse went through PCR amplification of the bacterial 16S rRNA gene V2 region weekly. Details of experimental protocols and further details of the data can be found in Turnbaugh et. al. Sequences and further information can be found at:
+\url{http://gordonlab.wustl.edu/TurnbaughSE_10_09/STM_2009.html}
+
+\end{enumerate}
+<<dataset2,tidy=FALSE>>=
+data(mouseData)
+mouseData
+@
+
+\subsection{Loading count data}
+Following preprocessing and annotation of sequencing data \texttt{metagenomeSeq} requires a count matrix with features along rows and samples along the columns.
+\texttt{metagenomeSeq} includes functions for loading delimited files of counts 
+\texttt{load$\_$meta} and phenodata \texttt{load$\_$phenoData}.
+
+As an example, a portion of the lung microbiome \cite{charlson} 
+OTU matrix is provided in \texttt{metagenomeSeq}'s library "extdata" folder. 
+The OTU matrix is stored as a tab delimited file.
+\texttt{load\_meta} loads the taxa and counts into a list.
+
+<<loadData>>=
+dataDirectory <- system.file("extdata", package="metagenomeSeq")
+lung = load_meta(file.path(dataDirectory,"CHK_NAME.otus.count.csv")) 
+dim(lung$counts)
+@
+
+
+\subsection{Loading taxonomy}
+Next we want to load the annotated taxonomy. Check to make sure that your taxa annotations and OTUs are in the same order as your matrix rows.
+
+<<loadTaxa>>=
+taxa = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=F)[,2]
+otu  = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=F)[,1]
+@
+
+
+As our OTUs appear to be in order with the count matrix we loaded earlier, the next step is to load phenodata. 
+
+\textbf{Warning}: features need to have the same names as the rows of the count matrix when we create the MRexperiment object for provenance purposes. 
+
+\subsection{Loading metadata}
+Phenotype data can be optionally loaded into \texttt{R} with \texttt{load\_phenoData}. This function loads the data as a list.
+
+<<loadClin>>=
+clin = load_phenoData(file.path(dataDirectory,"CHK_clinical.csv"),tran=TRUE)
+ord = match(colnames(lung$counts),rownames(clin)) 
+clin = clin[ord,]
+head(clin[1:2,])
+@
+
+
+\textbf{Warning}: phenotypes must have the same names as the columns on the count matrix when we create the MRexperiment object for provenance purposes. 
+
+\subsection{Creating a \texttt{MRexperiment} object}
+
+Function \texttt{newMRexperiment} takes a count matrix, phenoData (annotated data frame), and featureData (annotated data frame) as input. 
+\texttt{Biobase} provides functions to create annotated data frames. 
+Library sizes (depths of coverage) and normalization factors are also optional inputs.
+
+
+<<createMRexperiment1>>=
+phenotypeData = as(clin,"AnnotatedDataFrame")
+phenotypeData
+@
+
+A feature annotated data frame. In this example it is simply the OTU numbers, but it can as easily be the annotated taxonomy at multiple levels.
+
+<<createMRexperiment2>>=
+OTUdata = as(lung$taxa,"AnnotatedDataFrame")
+varLabels(OTUdata) = "taxa"
+OTUdata
+@
+
+
+<<createMRexperiment3,tidy=FALSE>>=
+obj = newMRexperiment(lung$counts,phenoData=phenotypeData,featureData=OTUdata)
+# Links to a paper providing further details can be included optionally.
+# experimentData(obj) = annotate::pmid2MIAME("21680950")
+obj
+@
+
+Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load$\_$biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
+
+\newpage
+\section{Normalization}
+Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates scaling factors equal to the sum of counts up to a particular quantile.
+
+Denote the $l$th quantile of sample $j$ as $q_j^l$, that is, in sample $j$ there are $l$ taxonomic features with counts smaller than $q_j^l$. For $l= \lfloor .95m \rfloor$ then $q_j^l$ corresponds to the 95th percentile of the count distribution for sample $j$. 
+
+
+Denote $s_j^l= \sum_{(i|c_{ij}\leq q_j^l)}c_{ij}$  as the sum of counts for sample $j$ up to the $l$th quantile. Our normalization chooses a value  $\hat{l}\leq m$ to define a normalization scaling factor for each sample to produce normalized counts $\tilde{c_{ij}}$  = $\frac{c_{ij}}{s_j^{\hat{l}}}N$ where $N$ is an appropriately chosen normalization constant. See Appendix C for more information on how our method calculates the proper percentile.
+
+These normalization factors are stored in the experiment summary slot. Functions to determine the proper percentile \texttt{cumNormStat}, save normalized counts \texttt{exportMat}, or save various sample statistics \texttt{exportStats} are also provided.
+Normalized counts can be called easily by \texttt{cumNormMat(MRexperimentObject)} or \texttt{MRcounts(MRexperimentObject,norm=TRUE,log=FALSE)}.
+
+\subsection{Calculating normalization factors}
+After defining a \texttt{MRexperiment} object, the first step is to calculate the proper percentile by which to normalize counts. There are several options in calculating and visualizing the relative differences in the reference. Figure 3 is an example from the lung dataset.
+
+<<calculateNormFactors>>=
+data(lungData)
+p=cumNormStatFast(lungData)
+@
+
+\noindent
+To calculate the scaling factors we simply run \texttt{cumNorm}
+
+<<normalizeData>>=
+lungData = cumNorm(lungData,p=p)
+@
+
+The user can alternatively choose different percentiles for the normalization scheme by specifying $p$.
+
+There are other functions, including \texttt{normFactors}, \texttt{cumNormMat}, that return the normalization factors or a normalized matrix for a specified percentile. To see a full list of functions please refer to the manual and help pages. 
+
+\subsection{Exporting data}
+To export normalized count matrices:
+<<saveData>>=
+mat = MRcounts(lungData,norm=TRUE,log=TRUE)[1:5,1:5]
+exportMat(mat,file=file.path(dataDirectory,"tmp.tsv"))
+@
+
+\noindent
+To save sample statistics (sample scaling factor, quantile value, number of identified features and library size):
+<<exportStats>>=
+exportStats(lungData[,1:5],file=file.path(dataDirectory,"tmp.tsv"))
+head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\t"))
+@
+
+
+<<removeData, echo=FALSE>>=
+system(paste("rm",file.path(dataDirectory,"tmp.tsv")))
+@
+
+\newpage
+\section{Statistical testing}
+Now that we have taken care of normalization we can address the effects of under sampling on the detecting differentially abundant features (OTUs, genes, etc).
+
+\subsection{Zero-inflated Gaussian mixture model}
+The depth of coverage in a sample is directly related to how many features are detected in a sample motivating our zero-inflated Gaussian (ZIG) mixture model. Figure 2 is representative of the linear relationship between depth of coverage and OTU identification ubiquitous in marker-gene survey datasets currently available. For a quick overview of the mathematical model see Appendix B.
+
+\begin{figure}
+\centerline{\includegraphics[width=.55\textwidth]{metagenomeSeq_figure1.png}}
+\caption{\footnotesize{The number of unique features is plotted against depth of coverage for samples from the Human Microbiome Project \cite{hmp}. Including the depth of coverage and the interaction of body site and sequencing site we are able to acheive an adjusted $\mathrm{R}^2$ of .94. The zero-inflated Gaussian mixture was developed to account for missing features.}}\label{fig1}
+\end{figure}
+
+Function \texttt{fitZig} performs a complex mathematical optimization routine to estimate probabilities that a zero for a particular feature in a sample is a technical zero or not. The function relies heavily on the \texttt{limma} package \cite{limma}. Design matrices can be created in R by using the \texttt{model.matrix} function and are inputs for \texttt{fitZig}. 
+
+For large survey studies it is often pertinent to include phenotype information or confounders into a design matrix when testing the association between the abundance of taxonomic features and a phenotype phenotype of interest (disease, for
+instance). Our linear model methodology can easily incorporate these
+confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
+
+\subsection{Example using fitZig for differential abundance testing}
+\textbf{Warning}: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question.
+
+
+We recommend the user remove features based on the number of estimated effective samples, please see \texttt{calculateEffectiveSamples}. We recommend removing features with less than the average number of effective samples in all features. In essence, setting eff = .5 when using \texttt{MRcoefs}, \texttt{MRfulltable}, or \texttt{MRtable}. To find features absent from a group the function \texttt{uniqueFeatures} provides a table of the feature ids, the number of positive features and reads for each group.
+
+In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
+
+<<preprocess,dev='pdf',out.width='.55\\linewidth',out.height='.55\\linewidth',fig.cap='Relative difference for the median difference in counts from the reference.',fig.align='center'>>=
+controls = grep("Extraction.Control",pData(lungData)$SampleType)
+lungTrim = lungData[,-controls]
+sparseFeatures = which(rowSums(MRcounts(lungTrim)>0)<10)
+lungTrim = lungTrim[-sparseFeatures,]
+lungp = cumNormStat(lungTrim,pFlag=TRUE,main="Trimmed lung data")
+lungTrim = cumNorm(lungTrim,p=lungp)
+@
+
+After the user defines an appropriate model matrix for hypothesis testing there are optional inputs to \texttt{fitZig}, including settings determined by \texttt{zigControl}. We ask the user to review the help files for both \texttt{fitZig} and \texttt{zigControl}. For this example we include body site as covariates and want to test for the bacteria differentially abundant between smokers and non-smokers.
+
+<<zigTesting>>=
+smokingStatus = pData(lungTrim)$SmokingStatus
+bodySite = pData(lungTrim)$SampleType
+normFactor = normFactors(lungTrim)
+normFactor = log2(normFactor/median(normFactor) + 1)
+mod = model.matrix(~smokingStatus+bodySite + normFactor)
+settings = zigControl(maxit=10,verbose=TRUE)
+fit = fitZig(obj = lungTrim,mod=mod,useCSSoffset = FALSE, 
+             control=settings) 
+
+# The default, useCSSoffset = TRUE, automatically includes the CSS scaling normalization factor.
+@
+
+The result, \texttt{fit}, is a list providing detailed estimates of the fits including a 
+\texttt{limma} fit in \texttt{fit\$fit} and an \texttt{ebayes} statistical fit in \texttt{fit\$eb}.
+This data can be analyzed like any \texttt{limma} fit and in this example, the column of 
+the fitted coefficientsrepresents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
+
+Looking at the particular analysis just performed, there appears to be OTUs representing two
+\textit{Prevotella}, two \textit{Neisseria}, a \textit{Porphyromonas} and a \textit{Leptotrichia} that are differentially abundant. One should check that similarly annotated OTUs are not equally differentially abundant in controls. 
+
+Alternatively, the user can input a model with their own normalization factors including them directly in the model matrix and specifying the option \texttt{useCSSoffset = FALSE} in fitZig.
+
+\subsection{Exporting fits}
+Currently functions are being developed to wrap and output results more neatly, but \texttt{MRcoefs}, \texttt{MRtable}, \texttt{MRfulltable} can be used to view coefficient fits and related statistics and export the data with optional output values - see help files to learn how they differ. 
+
+To only consider features that are found in a large percentage of effectively positive (positive samples + the weight of zero counts included in the Gaussian mixture) use the \textbf{eff} option in the \texttt{MRtables}.
+
+<<fittedResult,tidy=TRUE>>=
+taxa = 
+  sapply(strsplit(as.character(fData(lungTrim)$taxa),split=";"),
+         function(i){i[length(i)]})
+head(MRcoefs(fit,taxa=taxa,coef=2))
+@
+
+\subsection{Permutation test}
+Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 100 permutations providing p-value resolution to the hundredth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features. We observe two \textit{Prevotella}, two \textit{Veillonella}, a \textit{Streptococcus} and a \textit{Neisseria}.
+
+<<metastats>>=
+coeffOfInterest = 2
+res = fitMeta(obj = lungTrim, mod = mod, useCSSoffset = FALSE, B = 100, coef = coeffOfInterest)
+
+# extract p.values and adjust for multiple testing
+# res$p are the p-values calculated through permutation
+adjustedPvalues = p.adjust(res$p,method="fdr")
+
+# extract the absolute fold-change estimates
+foldChange = abs(res$fit$coef[,coeffOfInterest])
+
+# determine features still significant and order by the 
+sigList = which(adjustedPvalues <= .05)
+sigList = sigList[order(foldChange[sigList])]
+
+# view the top taxa associated with the coefficient of interest.
+head(taxa[sigList])
+@
+
+\subsection{Presence-absence testing}
+The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitPA} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{fitPA}. If there is a desire for a more detailed description, please email me.
+
+
+<<presenceAbsence>>=
+data(mouseData)
+classes = pData(mouseData)$diet
+res = fitPA(mouseData[1:5,],cl=classes)
+# Warning - the p-value is calculating 1 despite a high odd's ratio.
+head(res)
+@
+
+\subsection{Discovery odds ratio testing}
+The hypothesis for the implemented discovery test is that the proportion of observed counts for a feature of all counts are comparable between groups. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitDO} calculates the proportion of counts for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix.
+
+<<discOdds>>=
+data(mouseData)
+classes = pData(mouseData)$diet
+res = fitDO(mouseData[1:100,],cl=classes,norm=FALSE,log=FALSE)
+head(res)
+@
+
+\subsection{Feature correlations}
+To test the correlations of abundance features, or samples, in a pairwise fashion we have implemented \texttt{correlationTest} and \texttt{correctIndices}. The \texttt{correlationTest} function will calculate basic pearson, spearman, kendall correlation statistics for the rows of the input and report the associated p-values.
+
+<<corTest>>=
+data(mouseData)
+cors = correlationTest(mouseData[55:60,],norm=FALSE,log=FALSE)
+head(cors)
+@
+
+\textbf{Caution:} http://www.ncbi.nlm.nih.gov/pubmed/23028285
+
+\newpage
+\section{Aggregating features}
+Normalization is recommended at the OTU level. However, functions are in place to aggregate 
+the count matrix (normalized or not), based on a particular user defined level. Using the
+featureData information in the MRexperiment object, calling \texttt{aggregateByTaxonomy} or \texttt{aggTax} on a MRexperiment object and declaring particular featureData column name (i.e.
+'genus') will aggregate counts to the desired level with the aggfun function (default colSums). Possible aggfun alternatives include colMeans and colMedians.
+
+<<aggTax>>=
+data(mouseData)
+
+# first featureData column as 'chr' vector
+taxa = as.character(fData(mouseData)[,1])
+
+# 2nd item of each taxonomy if delimited by ';'
+phylum = sapply(strsplit(taxa,split=";"),function(i){i[2]}) 
+
+obj = aggTax(MRcounts(mouseData),lvl=phylum,out='matrix')
+head(obj[1:5,1:5])
+@
+
+The \texttt{aggregateByTaxonomy} and \texttt{aggTax} functions are flexible enough to put in either 1) a matrix with a vector of labels or 2) a MRexperiment object with a vector of labels or featureData column name. The function can also output either a matrix or MRexperiment object.
+
+\newpage
+\section{Visualization of features}
+
+\texttt{metagenomeSeq} has several plotting functions to visualize and gain insight into the overall structural composition of the 
+data. Heatmaps of feature counts: \texttt{plotMRheatmap}. Basic feature correlation structures: \texttt{plotCorr}. PCA/MDS coordinates of 
+samples or features: \texttt{plotOrd}. And rarefaction effects: \texttt{plotRare}. 
+
+Other plotting functions include plotting the abundance
+differences for a single feature, \texttt{plotOTU}, \texttt{plotFeature} or multiple features
+\texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for
+additional control of false discoveries.
+
+\subsection{Structural overview}
+Many studies begin by comparing the abundance composition across 
+sample or feature phenotypes. Often a first step of data analysis is a 
+heatmap, correlation or co-occurence plot or some other data exploratory method. 
+The following functions have been implemented to provide a first step overview 
+of the data:
+
+
+\begin{enumerate}
+\item \texttt{plotMRheatmap} - heatmap of abundance estimates (Fig. 4 right)
+\item \texttt{plotCorr} - heatmap of pairwise correlations (Fig. 4 left)
+\item \texttt{plotOrd} - PCA/CMDS components (Fig. 5 left)
+\item \texttt{plotRare} - rarefaction effect (Fig. 5 right)
+\end{enumerate}
+
+\noindent
+Each of the above can include phenotypic information in helping to explore the data.
+
+Below we show an example of how to create a heatmap and hierarchical clustering of $\log_2$ 
+transformed counts for the 200 OTUs with the largest overall variance. 
+Red values indicate counts close to zero. Row color labels indicate OTU 
+taxonomic class; column color labels indicate diet (green = high fat, 
+yellow = low fat). Notice the samples cluster by diet in these cases 
+and there are obvious clusters. We then plot a correlation matrix for the same features.
+
+<<heatmapData,fig.cap='Left) Abundance heatmap (plotMRheatmap). Right) Correlation heatmap (plotCorr).',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth'>>=
+data(mouseData)
+trials = pData(mouseData)$diet
+heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
+heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
+
+# plotMRheatmap
+plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",
+                col = heatmapCols,ColSideColors = heatmapColColors)
+
+# plotCorr
+plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,
+         trace="none",dendrogram="none",col=heatmapCols)
+@
+
+Below is an example of plotting CMDS plots of the data and the rarefaction effect at the OTU level. None of the data is removed (we recommend removing outliers typically).
+<<MDSandRareplots,fig.cap='Left) CMDS of features (plotOrd). Right) Rarefaction effect (plotRare).',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth'>>=
+data(mouseData)
+cl = factor(pData(mouseData)$diet)
+
+# plotOrd - can load vegan and set distfun = vegdist and use dist.method="bray"
+plotOrd(mouseData,tran=TRUE,usePCA=FALSE,useDist=TRUE,bg=cl,pch=21)
+
+# plotRare
+res = plotRare(mouseData,cl=cl,ret=TRUE,pch=21,bg=cl)
+
+# Linear fits for plotRare / legend
+tmp=lapply(levels(cl), function(lv) 
+  lm(res[,"ident"]~res[,"libSize"]-1, subset=cl==lv))
+for(i in 1:length(levels(cl))){
+   abline(tmp[[i]], col=i)
+}
+legend("topleft", c("Diet 1","Diet 2"), text.col=c(1,2),box.col=NA)
+@
+
+\subsection{Feature specific}
+Reads clustered with high similarity represent functional or taxonomic units. 
+However, it is possible that reads from the same organism get clustered into
+multiple OTUs. Following differential abundance analysis. 
+It is important to confirm differential abundance. 
+One way to limit false positives is ensure that the feature is actually abundant (enough positive samples). 
+Another way is to plot the abundances of features similarly annotated.
+
+\begin{enumerate}
+\item \texttt{plotOTU} - abundances of a particular feature by group (Fig. 6 left)
+\item \texttt{plotGenus} - abundances for several features similarly annotated by group (Fig. 6 right)
+\item \texttt{plotFeature} - abundances of a particular feature by group (similar to plotOTU, Fig. 7)
+\end{enumerate}
+
+
+Below we use \texttt{plotOTU} to plot the normalized log(cpt) of a specific OTU annotated as \textit{Neisseria meningitidis}, in particular the 779th row of lungTrim's count matrix. Using \texttt{plotGenus} we plot the normalized log(cpt) of all OTUs annotated as \textit{Neisseria meningitidis}. 
+
+It would appear that \textit{Neisseria meningitidis} is differentially more abundant in nonsmokers.
+<<plotOTUData,fig.cap='Left) Abundance plot (plotOTU). Right) Multiple OTU abundances (plotGenus).',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth',tidy=TRUE>>=
+head(MRtable(fit,coef=2,taxa=1:length(fData(lungTrim)$taxa)))
+patients=sapply(strsplit(rownames(pData(lungTrim)),split="_"),
+          function(i){
+            i[3]
+          })
+pData(lungTrim)$patients=patients
+classIndex=list(smoker=which(pData(lungTrim)$SmokingStatus=="Smoker"))
+classIndex$nonsmoker=which(pData(lungTrim)$SmokingStatus=="NonSmoker")
+otu = 779
+
+# plotOTU
+plotOTU(lungTrim,otu=otu,classIndex,main="Neisseria meningitidis")
+
+# Now multiple OTUs annotated similarly
+x = fData(lungTrim)$taxa[otu]
+otulist = grep(x,fData(lungTrim)$taxa)
+
+# plotGenus
+plotGenus(lungTrim,otulist,classIndex,labs=FALSE,
+            main="Neisseria meningitidis")
+
+lablist<- c("S","NS")
+axis(1, at=seq(1,6,by=1), labels = rep(lablist,times=3))
+@
+
+<<plotFeatureData,fig.cap='Plot of raw abundances',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth',tidy=TRUE>>=
+classIndex=list(Western=which(pData(mouseData)$diet=="Western"))
+classIndex$BK=which(pData(mouseData)$diet=="BK")
+otuIndex = 8770
+
+# par(mfrow=c(1,2))
+dates = pData(mouseData)$date
+plotFeature(mouseData,norm=FALSE,log=FALSE,otuIndex,classIndex,
+            col=dates,sortby=dates,ylab="Raw reads")
+@
+
+\newpage
+\section{Summary}
+
+\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
+
+\subsection{Citing metagenomeSeq}
+<<cite>>=
+citation("metagenomeSeq")
+@
+
+\subsection{Session Info}
+<<sessionInfo>>=
+sessionInfo()
+@
+
+\newpage
+\section{Appendix}
+\subsection{Appendix A: MRexperiment internals}
+The S4 class system in R allows for object oriented definitions. \texttt{metagenomeSeq} makes use of the \texttt{Biobase} package in Bioconductor and their virtual-class, \texttt{eSet}. Building off of \texttt{eSet}, the main S4 class in \texttt{metagenomeSeq} is termed \texttt{MRexperiment}. \texttt{MRexperiment} is a simple extension of \texttt{eSet}, adding a single slot, \texttt{expSummary}.
+
+The experiment summary slot is a data frame that includes the depth of coverage and the normalization factors for each sample. Future datasets can be formated as MRexperiment objects and analyzed with relative ease. A \texttt{MRexperiment} object is created by calling \texttt{newMRexperiment}, passing the counts, phenotype and feature data as parameters.
+
+We do not include normalization factors or library size in the currently available slot specified for the sample specific phenotype data. All matrices are organized in the \texttt{assayData} slot. All phenotype data (disease status, age, etc.) is stored in \texttt{phenoData} and feature data (OTUs, taxanomic assignment to varying levels, etc.) in \texttt{featureData}. Additional slots are available for reproducibility and annotation.
+
+\subsection{Appendix B: Mathematical model}
+
+Defining the class comparison of interest as $k(j)=I\{j \in \mathrm{ group } A\}$. The zero-inflated model is defined for the continuity-corrected $\log_2$ of the count data $y_{ij} = \log_2(c_{ij}+1)$ as a mixture of a point mass at zero $I_{\{0\}}(y_{ij})$ and a count distribution $f_{count}(y_{ij};\mu_i, \sigma_i^2) \sim N(\mu_i, \sigma_i^2)$.
+Given mixture parameters $\pi_{j}$, we have that the density of the zero-inflated Gaussian distribution for feature $i$, in sample $j$ with $S_{j}$ total counts is:
+
+\begin{equation}
+f_{zig}(y_{ij}; \theta ) = \pi_{j}(S_{j}) \cdot I_{\{0\}}(y_{ij})
++ (1-\pi_{j}(S_{j})) \cdot f_{count}(y_{ij};\theta)
+\end{equation}
+
+Maximum-likelihood estimates are approximated using an EM algorithm,
+where we treat mixture membership $\Delta_{ij}=1$ if $y_{ij}$ is
+generated from the zero point mass as latent indicator variables\cite{EM}. We make use of an EM algorithm to account for the linear relationship between sparsity and depth of coverage. The user can specify within the \texttt{fitZig} function a non-default zero model that accounts for more than simply the depth of coverage (e.g. country, age, any metadata associated with sparsity, etc.).
+See Figure 7 for the graphical model.
+
+\begin{figure}
+\centerline{\includegraphics[width=.7\textwidth]{metagenomeSeq_figure2.png}}
+\caption{\footnotesize{Graphical model. Green nodes represent observed variables: $S_j$ is the
+total number of reads in sample $j$; $k_j$ the case-control status
+of sample $j$; and $y_{ij}$ the logged normalized counts for feature $i$ in sample $j$. Yellow nodes represent counts obtained from each mixture component: counts come from either a spike-mass at zero,
+$y_{ij}^0$, or the ``count'' distribution, $y_{ij}^1$. Grey nodes $b_{0i}$, $b_{1i}$ and $\sigma_{i}^2$ represent the
+estimated overall mean, fold-change and variance of the count distribution component for feature $i$. $\pi_j$, is the mixture proportion for sample $j$ which depends on sequencing depth via a linear model defined by parameters $\beta_0$ and $\beta_1$. The expected value of latent indicator variables $\Delta_{ij}$ give the posterior  probability of a count being generated from a spike-mass at zero, i.e. $y_{ij}^0$. We assume $M$ features and $N$ samples.}}
+\end{figure}
+
+More information will be included later.  For now, please see the online methods in: 
+
+http://www.nature.com/nmeth/journal/vaop/ncurrent/full/nmeth.2658.html
+
+\subsection{Appendix C: Calculating the proper percentile} To be included: an overview of the two methods implemented for the data driven percentile calculation and more description below.
+
+
+The choice of the appropriate quantile given is crucial for ensuring that the normalization approach does not introduce normalization-related artifacts in the data. At a high level, the count distribution of samples should all be roughly equivalent and independent of each other up to this quantile under the assumption that, at this range, counts are derived from a common distribution.
+
+
+More information will be included later. For now, please see the online methods in: 
+
+http://www.nature.com/nmeth/journal/vaop/ncurrent/full/nmeth.2658.html
+
+\newpage
+\bibliography{metagenomeSeq}
+\end{document}
