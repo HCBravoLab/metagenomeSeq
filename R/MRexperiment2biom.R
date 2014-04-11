@@ -4,9 +4,12 @@
 #' 
 #' @param obj The MRexperiment object.
 #' @param id Optional id for the biom matrix.
+#' @param norm Normalized data?
+#' @param log Logged data?
+#' @param sl scaling factor for normalized counts.
 #' @return A biom object.
 #' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{load_biom}} \code{\link{biom2MRexperiment}}
-MRexperiment2biom <- function(obj,id=NULL){
+MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000){
 	library(biom)
 	id = id
 	format = "Biological Observation Matrix 1.0.0-dev"
@@ -16,8 +19,11 @@ MRexperiment2biom <- function(obj,id=NULL){
 	date = as.character(Sys.time())
 	matrix_type = "dense"
 	matrix_element_type = "int"
-
-	data = MRcounts(obj)
+	if( (norm==TRUE) | (log == TRUE) ) {
+		matrix_element_type = "float"
+	}
+	
+	data = MRcounts(obj,norm=norm,log=log,sl=sl)
 	shape = dim(data)
 
 	fdatanames = colnames(fData(obj))
