@@ -25,7 +25,9 @@ Percentile for which to scale data
 }
 \description{
 Calculates the percentile for which to sum counts up to and
-scale by. cumNormStat might be deprecated one day.
+scale by. cumNormStat might be deprecated one day. Deviates
+from methods in Nature Methods paper by making use row
+means for generating reference.
 }
 \examples{
 data(mouseData)

@@ -8,6 +8,9 @@
 #' matrix.
 #' @param cl Group comparison
 #' @param thres Threshold for defining presence/absence.
+#' @param parallel Use multiple cores?
+#' @param cores Number of cores to use.
+#' @param ... Extra options for makeCluster
 #' @return NA
 #' @seealso \code{\link{cumNorm}} \code{\link{fitZig}}
 #' @examples
@@ -18,8 +21,8 @@
 #' lungTrim = lungTrim[-which(rowSums(MRcounts(lungTrim)>0)<20),]
 #' res = fitPA(lungTrim,pData(lungTrim)$SmokingStatus);
 #' head(res)
-#' 
-fitPA<-function(obj,cl,thres=0){
+#'
+fitPA<-function(obj,cl,thres=0,parallel=FALSE,cores=2,...){
     if(class(obj)=="MRexperiment"){
         x = MRcounts(obj)>thres;
     } else if(class(obj) == "matrix") {
@@ -28,26 +31,56 @@ fitPA<-function(obj,cl,thres=0){
         stop("Object needs to be either a MRexperiment object or matrix")
     }
     nrows= nrow(x);
-	if(is.null(rownames(x))){rownames(x)=1:nrows}
+    if(is.null(rownames(x))){rownames(x)=1:nrows}
 
     nClass1 = sum(cl==unique(cl)[1])
     nClass2 = sum(cl==unique(cl)[2])
 
-    res = sapply(1:nrows,function(i){
-        tbl = table(1-x[i,],cl)
-        if(sum(dim(tbl))!=4){
-            tbl = array(0,dim=c(2,2));
-            tbl[1,1] = sum(x[i,cl==unique(cl)[1]])
-            tbl[1,2] = sum(x[i,cl==unique(cl)[2]])
-            tbl[2,1] = nClass1-tbl[1,1]
-            tbl[2,2] = nClass2-tbl[1,2]
-        }
-        ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = T)
-        cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
-    })
-    
-    dat = data.frame(as.matrix(t(res)))
-    rownames(dat) = rownames(x)
-    colnames(dat) = c("pvalues","oddsRatio","lower","upper")
-    return(dat)
+    if(parallel==FALSE){
+        res = sapply(1:nrows,function(i){
+            tbl = table(1-x[i,],cl)
+            if(sum(dim(tbl))!=4){
+                tbl = array(0,dim=c(2,2));
+                tbl[1,1] = sum(x[i,cl==unique(cl)[1]])
+                tbl[1,2] = sum(x[i,cl==unique(cl)[2]])
+                tbl[2,1] = nClass1-tbl[1,1]
+                tbl[2,2] = nClass2-tbl[1,2]
+            }
+            ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = T)
+            cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
+        })
+        dat = data.frame(as.matrix(t(res)))
+        rownames(dat) = rownames(x)
+        colnames(dat) = c("pvalues","oddsRatio","lower","upper")
+        return(dat)
+    } else {
+        library(parallel)
+        # This forks the matrix. Clearly need to change. 
+        cores <- makeCluster(getOption("cl.cores", cores))
+        res = parRapply(cl=cores,x,function(i){
+                #if(i%%100000 == 0){show(i)}
+                tbl = table(1-i,cl)
+                
+                if(sum(dim(tbl))!=4){
+                    tbl = array(0,dim=c(2,2));
+                    tbl[1,1] = sum(i[cl==unique(cl)[1]])
+                    tbl[1,2] = sum(i[cl==unique(cl)[2]])
+                    tbl[2,1] = nClass1-tbl[1,1]
+                    tbl[2,2] = nClass2-tbl[1,2]
+                }
+                ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = T)
+                cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
+            })
+        stopCluster(cores)
+        nres = nrows*4
+        seqs = seq(1,nres,by=4)
+        p = res[seqs]
+        o = res[seqs+1]
+        cl = res[seqs+2]
+        cu = res[seqs+3]
+        res = cbind(p,o,cl,cu)
+        colnames(res) = c("pvalues","oddsRatio","lower","upper")
+        rownames(res) = rownames(x)
+        return(data.frame(res))
+    }
 }

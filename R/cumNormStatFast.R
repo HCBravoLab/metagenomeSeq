@@ -1,7 +1,8 @@
 #' Cumulative sum scaling percentile selection
 #' 
 #' Calculates the percentile for which to sum counts up to and scale by. Faster
-#' version than available in cumNormStat.
+#' version than available in cumNormStat. Deviates from methods described in Nature Methods by
+#' making use of ro means for reference.
 #' 
 #' @param obj A MRexperiment object.
 #' @param pFlag Plot the median difference quantiles.

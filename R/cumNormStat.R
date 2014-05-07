@@ -1,7 +1,8 @@
 #' Cumulative sum scaling percentile selection
 #' 
 #' Calculates the percentile for which to sum counts up to and scale by.
-#' cumNormStat might be deprecated one day.
+#' cumNormStat might be deprecated one day. Deviates from methods in Nature Methods paper
+#' by making use row means for generating reference.
 #' 
 #' @param obj A MRexperiment object.
 #' @param qFlag Flag to either calculate the proper percentile using
