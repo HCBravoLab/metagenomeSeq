@@ -2,7 +2,7 @@
 \alias{fitPA}
 \title{Wrapper to run fisher's test on presence/absence of a feature.}
 \usage{
-fitPA(obj, cl, thres = 0)
+fitPA(obj, cl, thres = 0, parallel = FALSE, cores = 2, ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with a count matrix, or
@@ -11,6 +11,12 @@ fitPA(obj, cl, thres = 0)
   \item{cl}{Group comparison}
 
   \item{thres}{Threshold for defining presence/absence.}
+
+  \item{parallel}{Use multiple cores?}
+
+  \item{cores}{Number of cores to use.}
+
+  \item{...}{Extra options for makeCluster}
 }
 \value{
 NA

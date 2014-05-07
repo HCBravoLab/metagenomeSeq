@@ -43,8 +43,8 @@ fitMeta <- function(obj,mod,useCSSoffset=TRUE,B=1000,coef=2,sl=1000){
 
     perms = replicate(B,sample(mmCount[,coef]))
     mmCount1=mmCount[,-coef]
+    nc = ncol(mmCount)
 
-    nc = (ncol(mmCount1)+1)
     tobs<- sapply(1:B,function(i){
         # This code forces the covariate of interest to be a factor (might not apply)
         mmCountPerm = cbind(mmCount1,factor(perms[,i]))

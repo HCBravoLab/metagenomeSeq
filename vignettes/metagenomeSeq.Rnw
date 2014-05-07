@@ -379,7 +379,7 @@ The \texttt{aggregateByTaxonomy} and \texttt{aggTax} functions are flexible enou
 
 \texttt{metagenomeSeq} has several plotting functions to visualize and gain insight into the overall structural composition of the 
 data. Heatmaps of feature counts: \texttt{plotMRheatmap}. Basic feature correlation structures: \texttt{plotCorr}. PCA/MDS coordinates of 
-samples or features: \texttt{plotOrd}. And rarefaction effects: \texttt{plotRare}. 
+samples or features: \texttt{plotOrd}. Rarefaction effects: \texttt{plotRare}. Contingency table style plot: \texttt{plotBubble}.
 
 Other plotting functions include plotting the abundance
 differences for a single feature, \texttt{plotOTU}, \texttt{plotFeature} or multiple features
@@ -399,6 +399,7 @@ of the data:
 \item \texttt{plotCorr} - heatmap of pairwise correlations (Fig. 4 left)
 \item \texttt{plotOrd} - PCA/CMDS components (Fig. 5 left)
 \item \texttt{plotRare} - rarefaction effect (Fig. 5 right)
+\item \texttt{plotBubble} - contingency table style plot (see help)
 \end{enumerate}
 
 \noindent
@@ -538,7 +539,7 @@ f_{zig}(y_{ij}; \theta ) = \pi_{j}(S_{j}) \cdot I_{\{0\}}(y_{ij})
 Maximum-likelihood estimates are approximated using an EM algorithm,
 where we treat mixture membership $\Delta_{ij}=1$ if $y_{ij}$ is
 generated from the zero point mass as latent indicator variables\cite{EM}. We make use of an EM algorithm to account for the linear relationship between sparsity and depth of coverage. The user can specify within the \texttt{fitZig} function a non-default zero model that accounts for more than simply the depth of coverage (e.g. country, age, any metadata associated with sparsity, etc.).
-See Figure 7 for the graphical model.
+See Figure 8 for the graphical model.
 
 \begin{figure}
 \centerline{\includegraphics[width=.7\textwidth]{metagenomeSeq_figure2.png}}

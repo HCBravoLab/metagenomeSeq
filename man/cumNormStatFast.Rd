@@ -21,6 +21,8 @@ Percentile for which to scale data
 \description{
 Calculates the percentile for which to sum counts up to and
 scale by. Faster version than available in cumNormStat.
+Deviates from methods described in Nature Methods by making
+use of ro means for reference.
 }
 \examples{
 data(mouseData)
