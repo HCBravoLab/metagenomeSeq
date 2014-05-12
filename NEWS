@@ -1,6 +1,7 @@
 version 1.7.xx (2014-05-07)
-	+ Added function plotContingency
-	+ Fixed fitMeta in cases where useCSSoffset=FALSE and the design matrix had only 2 covariates 
+	+ Added function plotBubble
+	+ Added parallel (multi-core) options to fitPA
+	+ Fixed bug for fitMeta when useCSSoffset=FALSE and model matrix ncol==2
 version 1.5.xx (2014-04-17)
 	+ Incorporating biom-format support with the biom2MRexperiment, MRexperiment2biom and load_biome function.
 	+ Added uniqueFeatures, filterData, aggregateByTaxonomy / aggTax, plotFeature and calculateEffectiveSamples functions.

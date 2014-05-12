@@ -58,9 +58,7 @@ fitPA<-function(obj,cl,thres=0,parallel=FALSE,cores=2,...){
         # This forks the matrix. Clearly need to change. 
         cores <- makeCluster(getOption("cl.cores", cores))
         res = parRapply(cl=cores,x,function(i){
-                #if(i%%100000 == 0){show(i)}
                 tbl = table(1-i,cl)
-                
                 if(sum(dim(tbl))!=4){
                     tbl = array(0,dim=c(2,2));
                     tbl[1,1] = sum(i[cl==unique(cl)[1]])
