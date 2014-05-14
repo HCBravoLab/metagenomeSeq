@@ -285,8 +285,32 @@ Looking at the particular analysis just performed, there appears to be OTUs repr
 
 Alternatively, the user can input a model with their own normalization factors including them directly in the model matrix and specifying the option \texttt{useCSSoffset = FALSE} in fitZig.
 
+\subsubsection{Multiple groups}
+Assuming there are multiple groups it is possible to make use of Limma's topTable functions for F-tests
+and contrast functions to compare multiple groups and covariates of interest. The output of fitZig includes a 'MLArrayLM' Limma object that can be called on by other functions. When running fitZig by default there is an additional covariate added to the design matrix. The fit and the ultimate design matrix are crucial for contrasts. 
+<<contrasts>>=
+settings = zigControl(maxit=1,verbose=FALSE)
+mod = model.matrix(~bodySite)
+colnames(mod) = levels(bodySite)
+# fitting the ZIG model
+res = fitZig(obj = lungTrim,mod=mod,control=settings)
+# The output of fitZig contains a list of various useful items. hint: names(res).
+# 
+# Probably the most useful is the limma 'MLArrayLM' object called fit.
+zigFit = res$fit
+finalMod = res$fit$design
+
+contrast.matrix = makeContrasts(BAL.A-BAL.B,OW-PSB,levels=finalMod)
+fit2 = contrasts.fit(zigFit, contrast.matrix)
+fit2 = eBayes(fit2)
+topTable(fit2)
+
+# See help pages on decideTests, topTable, topTableF, vennDiagram, etc.
+@
+Further specific details can be found in section 9.3 and beyond of the Limma user guide. The take home message is that to make use of any Limma functions one needs to extract the final model matrix used: \textit{res\$fit\$design} and the MLArrayLM Limma fit object: \textit{res\$fit}.
+
 \subsection{Exporting fits}
-Currently functions are being developed to wrap and output results more neatly, but \texttt{MRcoefs}, \texttt{MRtable}, \texttt{MRfulltable} can be used to view coefficient fits and related statistics and export the data with optional output values - see help files to learn how they differ. 
+Currently functions are being developed to wrap and output results more neatly, but \texttt{MRcoefs}, \texttt{MRtable}, \texttt{MRfulltable} can be used to view coefficient fits and related statistics and export the data with optional output values - see help files to learn how they differ. An important note is that the \texttt{by} variable controls which coefficients are of interest whereas \texttt{coef} determines the display.\\
 
 To only consider features that are found in a large percentage of effectively positive (positive samples + the weight of zero counts included in the Gaussian mixture) use the \textbf{eff} option in the \texttt{MRtables}.
 
