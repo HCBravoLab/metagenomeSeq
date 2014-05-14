@@ -9,10 +9,13 @@
 #' @param xvector A vector of values represented along x-axis.
 #' @param sigvector A vector of the names of significant features (names should match x/yvector).
 #' @param nbreaks Number of bins to break yvector and xvector into.
+#' @param ybreak The values to break the yvector at.
+#' @param xbreak The values to break the xvector at.
 #' @param ret Boolean to return the observed data that would have been plotted.
-#' @param scale Scaling of circle bins.
+#' @param scale Scaling of circle bin sizes.
+#' @param local Boolean to shade by signficant bin numbers (TRUE) or overall proportion (FALSE).
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return If ret == TRUE, returns a matrix of features along rows, and the group membership along columns.
 #' @seealso \code{\link{plotMRheatmap}}
 #' @examples
 #' 
@@ -21,10 +24,16 @@
 #' sparsity = rowMeans(MRcounts(mouseData)==0)
 #' lor = log(fitPA(mouseData,cl=pData(mouseData)[,3])$oddsRatio)
 #' plotBubble(lor,sparsity,main="lor ~ sparsity")
-#' 
-plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10,ret=FALSE,scale=1,...){
-    ybreaks = cut(yvector,breaks=quantile(yvector,p=seq(0,1,length.out=nbreaks)),include.lowest=T)
-    xbreaks = cut(xvector,breaks=quantile(xvector,p=seq(0,1,length.out=nbreaks)),include.lowest=T)
+#' # Example 2
+#' x = runif(100000)
+#' y = runif(100000)
+#' plotBubble(y,x)
+#'
+plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10, ybreak=quantile(yvector,p=seq(0,1,length.out=nbreaks)),
+    xbreak=quantile(xvector,p=seq(0,1,length.out=nbreaks)), ret=FALSE,scale=1,local=FALSE,...){
+
+    ybreaks = cut(yvector,breaks=ybreak,include.lowest=T)
+    xbreaks = cut(xvector,breaks=xbreak,include.lowest=T)
     contTable = lapply(levels(xbreaks),function(i){
         k = which(xbreaks==i)
         sapply(levels(ybreaks),function(j){
@@ -46,6 +55,17 @@ plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10,ret=FALSE,scale=1
                 x
             })
         })
+        if(local==TRUE){
+            contSigTable = sapply(contSig,function(i){i})
+            linMap <- function(x, a, b) approxfun(range(x), c(a, b))(x)
+            if(length(ybreak)!=length(xbreak)) {
+                warning("Not square matrix - this is not implemented currently")
+            }
+            contSigTable = matrix(linMap(contSigTable,a=0,b=1),nrow=length(ybreak))
+            for(i in 1:length(ybreak)){
+                    contSig[[i]] = contSigTable[,i]
+            }
+        }
     } else {
         contSig = lapply(levels(xbreaks),function(i){
             k = which(xbreaks==i)
@@ -54,7 +74,7 @@ plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10,ret=FALSE,scale=1
             })
         })
     }
-    
+
     medianSizes = median(unlist(contTable))
     plot(y=yvec,x=rep(1,nc),cex=scale*contTable[[1]]/medianSizes,
         xlim=c(-0.25,nc+.25),ylim=c(-0.25,nc+.25),bty="n",xaxt="n",yaxt="n",
@@ -64,7 +84,18 @@ plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10,ret=FALSE,scale=1
     }
     axis(1,at = 1:nc,labels=levels(xbreaks),las=2,cex.axis=.5)
     axis(2,at = 1:nc,labels=levels(ybreaks),las=2,cex.axis=.5)
+
     if(ret == TRUE){
-        return(cbind(xbreaks,ybreaks))
+        res = cbind(as.character(ybreaks),as.character(xbreaks))
+        colnames(res) = c("yvector","xvector")
+        rownames(res) = names(yvector)
+        if(is.null(sigvector)){
+            return(res)
+        } else {
+            sig = rep(0,nrow(res))
+            sig[which(rownames(res)%in%sigvector)] = 1
+            res = cbind(res,sig)
+            return(res)
+        }
     }
 }
