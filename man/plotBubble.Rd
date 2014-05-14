@@ -2,10 +2,8 @@
 \alias{plotBubble}
 \title{Basic plot of binned vectors.}
 \usage{
-plotBubble(yvector, xvector, sigvector = NULL, nbreaks = 10,
-  ybreak = quantile(yvector, p = seq(0, 1, length.out = nbreaks)),
-  xbreak = quantile(xvector, p = seq(0, 1, length.out = nbreaks)),
-  ret = FALSE, scale = 1, local = FALSE, ...)
+plotBubble(yvector, xvector, sigvector = NULL, nbreaks = 10, ret = FALSE,
+  scale = 1, ...)
 }
 \arguments{
   \item{yvector}{A vector of values represented along
@@ -20,23 +18,15 @@ plotBubble(yvector, xvector, sigvector = NULL, nbreaks = 10,
   \item{nbreaks}{Number of bins to break yvector and
   xvector into.}
 
-  \item{ybreak}{The values to break the yvector at.}
-
-  \item{xbreak}{The values to break the xvector at.}
-
   \item{ret}{Boolean to return the observed data that would
   have been plotted.}
 
-  \item{scale}{Scaling of circle bin sizes.}
-
-  \item{local}{Boolean to shade by signficant bin numbers
-  (TRUE) or overall proportion (FALSE).}
+  \item{scale}{Scaling of circle bins.}
 
   \item{...}{Additional plot arguments.}
 }
 \value{
-If ret == TRUE, returns a matrix of features along rows,
-and the group membership along columns.
+NA
 }
 \description{
 This function plots takes two vectors, calculates the
@@ -51,10 +41,6 @@ mouseData = mouseData[which(rowSums(mouseData)>139),]
 sparsity = rowMeans(MRcounts(mouseData)==0)
 lor = log(fitPA(mouseData,cl=pData(mouseData)[,3])$oddsRatio)
 plotBubble(lor,sparsity,main="lor ~ sparsity")
-# Example 2
-x = runif(100000)
-y = runif(100000)
-plotBubble(y,x)
 }
 \seealso{
 \code{\link{plotMRheatmap}}
