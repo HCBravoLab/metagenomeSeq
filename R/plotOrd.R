@@ -50,19 +50,18 @@ plotOrd<-function(obj,tran=TRUE,comp=1:2,log=TRUE,norm=TRUE,usePCA=TRUE,useDist=
     
     if(usePCA==FALSE){
         ord = cmdscale(d,k = max(comp))
-        yl = ""
-        xl = ""
+        xl = paste("MDS component:",comp[1])
+        yl = paste("MDS component:",comp[2])
     } else{
         pcaRes <- prcomp(d)
         ord <- pcaRes$x
         vars <- pcaRes$sdev^2
         vars <- round(vars/sum(vars),5)*100
-        xl <- sprintf("%s: %.2f%% variance",colnames(ord)[comp[1]], vars[comp[1]])
-        yl <- sprintf("%s: %.2f%% variance",colnames(ord)[comp[2]], vars[comp[2]])
+        xl <- sprintf("PCA %s: %.2f%% variance",colnames(ord)[comp[1]], vars[comp[1]])
+        yl <- sprintf("PCA %s: %.2f%% variance",colnames(ord)[comp[2]], vars[comp[2]])
     }
-    main = paste(ifelse(usePCA,"PCA","MDS"),ifelse(useDist,"distances of features","features"),sep=" on ")
 
-	plot(ord[,comp],main=main,ylab=yl,xlab=xl,...)
+	plot(ord[,comp],ylab=yl,xlab=xl,...)
     if(ret==TRUE) return(ord[,comp])
     else invisible()
 }
