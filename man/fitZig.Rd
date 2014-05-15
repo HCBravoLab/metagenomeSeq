@@ -20,9 +20,17 @@ fitZig(obj, mod, zeroMod = NULL, useCSSoffset = TRUE,
   \item{control}{The settings for fitZig.}
 }
 \value{
-The fits, posterior probabilities, posterior probabilities
-used at time of convergence for each feature, ebayes (limma
-object) fit, among other data.
+A list of objects including: \itemize{ \item{call - the
+call made to fitZig} \item{fit - 'MLArrayLM' Limma object
+of the weighted fit} \item{countResiduals - the residuals
+of the fit} \item{z - matrix of the posterior
+probabilities} \item{eb - output of ebayes, moderated
+t-statistics, moderated F-statistics, etc} \item{taxa -
+vector of the taxa names} \item{counts - the original count
+matrix input} \item{zeroMod - the zero model matrix}
+\item{zeroCoef - the zero model fitted results}
+\item{stillActive - convergence} \item{stillActiveNLL - nll
+at convergence} }
 }
 \description{
 Wrapper to actually run the Expectation-maximization
