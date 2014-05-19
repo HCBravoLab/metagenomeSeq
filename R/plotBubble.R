@@ -32,8 +32,8 @@
 plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10, ybreak=quantile(yvector,p=seq(0,1,length.out=nbreaks)),
     xbreak=quantile(xvector,p=seq(0,1,length.out=nbreaks)), ret=FALSE,scale=1,local=FALSE,...){
 
-    ybreaks = cut(yvector,breaks=ybreak,include.lowest=T)
-    xbreaks = cut(xvector,breaks=xbreak,include.lowest=T)
+    ybreaks = cut(yvector,breaks=ybreak,include.lowest=TRUE)
+    xbreaks = cut(xvector,breaks=xbreak,include.lowest=TRUE)
     contTable = lapply(levels(xbreaks),function(i){
         k = which(xbreaks==i)
         sapply(levels(ybreaks),function(j){

@@ -123,8 +123,8 @@ dim(lung$counts)
 Next we want to load the annotated taxonomy. Check to make sure that your taxa annotations and OTUs are in the same order as your matrix rows.
 
 <<loadTaxa>>=
-taxa = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=F)[,2]
-otu  = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=F)[,1]
+taxa = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=FALSE)[,2]
+otu  = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=FALSE)[,1]
 @
 
 
