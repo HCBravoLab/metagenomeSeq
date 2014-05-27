@@ -19,7 +19,8 @@ fitPA(obj, cl, thres = 0, parallel = FALSE, cores = 2, ...)
   \item{...}{Extra options for makeCluster}
 }
 \value{
-NA
+Matrix of odds ratios, p-values, lower and upper confidence
+intervals
 }
 \description{
 This function returns a data frame of p-values, odds
@@ -36,5 +37,6 @@ head(res)
 }
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitZig}}
+\code{\link{fitDO}} \code{\link{fitMeta}}
 }
 
