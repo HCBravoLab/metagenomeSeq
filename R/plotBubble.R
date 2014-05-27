@@ -58,11 +58,11 @@ plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10, ybreak=quantile(
         if(local==TRUE){
             contSigTable = sapply(contSig,function(i){i})
             linMap <- function(x, a, b) approxfun(range(x), c(a, b))(x)
-            if(length(ybreak)!=length(xbreak)) {
+            if(length(levels(ybreak))!=length(levels(xbreak))) {
                 warning("Not square matrix - this is not implemented currently")
             }
-            contSigTable = matrix(linMap(contSigTable,a=0,b=1),nrow=length(ybreak))
-            for(i in 1:length(ybreak)){
+            contSigTable = matrix(linMap(contSigTable,a=0,b=1),nrow=length(levels(ybreaks)))
+            for(i in 1:length(levels(ybreaks))){
                     contSig[[i]] = contSigTable[,i]
             }
         }

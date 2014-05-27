@@ -11,8 +11,8 @@
 #' @param parallel Use multiple cores?
 #' @param cores Number of cores to use.
 #' @param ... Extra options for makeCluster
-#' @return NA
-#' @seealso \code{\link{cumNorm}} \code{\link{fitZig}}
+#' @return Matrix of odds ratios, p-values, lower and upper confidence intervals
+#' @seealso \code{\link{cumNorm}} \code{\link{fitZig}} \code{\link{fitDO}} \code{\link{fitMeta}}
 #' @examples
 #' 
 #' data(lungData)
@@ -49,13 +49,9 @@ fitPA<-function(obj,cl,thres=0,parallel=FALSE,cores=2,...){
             ft <- fisher.test(tbl,workspace=8e6,alternative="two.sided",conf.int=TRUE)
             cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
         })
-        dat = data.frame(as.matrix(t(res)))
-        rownames(dat) = rownames(x)
-        colnames(dat) = c("pvalues","oddsRatio","lower","upper")
-        return(dat)
+        res = data.frame(as.matrix(t(res)))
     } else {
         library(parallel)
-        # This forks the matrix. Clearly need to change. 
         cores <- makeCluster(getOption("cl.cores", cores))
         res = parRapply(cl=cores,x,function(i){
                 tbl = table(1-i,cl)
@@ -76,9 +72,9 @@ fitPA<-function(obj,cl,thres=0,parallel=FALSE,cores=2,...){
         o = res[seqs+1]
         cl = res[seqs+2]
         cu = res[seqs+3]
-        res = cbind(p,o,cl,cu)
-        colnames(res) = c("pvalues","oddsRatio","lower","upper")
-        rownames(res) = rownames(x)
-        return(data.frame(res))
+        res = data.frame(cbind(p,o,cl,cu))
     }
+    colnames(res) = c("pvalues","oddsRatio","lower","upper")
+    rownames(res) = rownames(x)
+    return(res)
 }
