@@ -2,7 +2,8 @@
 \alias{fitDO}
 \title{Wrapper to calculate Discovery Odds Ratios on feature values.}
 \usage{
-fitDO(obj, cl, norm = TRUE, log = TRUE)
+fitDO(obj, cl, norm = TRUE, log = TRUE, parallel = FALSE, cores = 2,
+  ...)
 }
 \arguments{
   \item{obj}{A MRexperiment object with a count matrix, or
@@ -15,9 +16,16 @@ fitDO(obj, cl, norm = TRUE, log = TRUE)
 
   \item{log}{Whether or not to log2 transform the counts -
   if MRexperiment object.}
+
+  \item{parallel}{Use multiple cores?}
+
+  \item{cores}{Number of cores to use.}
+
+  \item{...}{Extra options for makeCluster}
 }
 \value{
-NA
+Matrix of odds ratios, p-values, lower and upper confidence
+intervals
 }
 \description{
 This function returns a data frame of p-values, odds
@@ -38,5 +46,6 @@ head(res)
 }
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitZig}}
+\code{\link{fitPA}} \code{\link{fitMeta}}
 }
 

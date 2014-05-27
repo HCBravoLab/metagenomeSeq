@@ -12,8 +12,11 @@
 #' @param cl Group comparison
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param log Whether or not to log2 transform the counts - if MRexperiment object.
-#' @return NA
-#' @seealso \code{\link{cumNorm}} \code{\link{fitZig}}
+#' @param parallel Use multiple cores?
+#' @param cores Number of cores to use.
+#' @param ... Extra options for makeCluster
+#' @return Matrix of odds ratios, p-values, lower and upper confidence intervals
+#' @seealso \code{\link{cumNorm}} \code{\link{fitZig}} \code{\link{fitPA}} \code{\link{fitMeta}}
 #' @examples
 #' 
 #' data(lungData)
@@ -23,7 +26,7 @@
 #' res = fitDO(lungTrim,pData(lungTrim)$SmokingStatus);
 #' head(res)
 #' 
-fitDO<-function(obj,cl,norm=TRUE,log=TRUE){
+fitDO<-function(obj,cl,norm=TRUE,log=TRUE,parallel=FALSE,cores=2,...){
     if(class(obj)=="MRexperiment"){
         x = MRcounts(obj,norm=norm,log=log);
     } else if(class(obj) == "matrix") {
@@ -36,22 +39,45 @@ fitDO<-function(obj,cl,norm=TRUE,log=TRUE){
 
     sumClass1 = round(sum(x[,cl==unique(cl)[1]]))
     sumClass2 = round(sum(x[,cl==unique(cl)[2]]))
-
-    res = sapply(1:nrows,function(i){
-        tbl = table(1-x[i,],cl)
-        if(sum(dim(tbl))!=4){
-            tbl = array(0,dim=c(2,2));
-            tbl[1,1] = round(sum(x[i,cl==unique(cl)[1]]))
-            tbl[1,2] = round(sum(x[i,cl==unique(cl)[2]]))
-            tbl[2,1] = sumClass1-tbl[1,1]
-            tbl[2,2] = sumClass2-tbl[1,2]
-        }
-        ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = TRUE)
-        cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
-    })
-    
-    dat = data.frame(as.matrix(t(res)))
-    rownames(dat) = rownames(x)
-    colnames(dat) = c("pvalues","oddsRatio","lower","upper")
-    return(dat)
+    if(parallel==FALSE){
+        res = sapply(1:nrows,function(i){
+            tbl = table(1-x[i,],cl)
+            if(sum(dim(tbl))!=4){
+                tbl = array(0,dim=c(2,2));
+                tbl[1,1] = round(sum(x[i,cl==unique(cl)[1]]))
+                tbl[1,2] = round(sum(x[i,cl==unique(cl)[2]]))
+                tbl[2,1] = sumClass1-tbl[1,1]
+                tbl[2,2] = sumClass2-tbl[1,2]
+            }
+            ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = TRUE)
+            cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
+        })
+        res = data.frame(as.matrix(t(res)))
+    } else {
+        library(parallel)
+        cores <- makeCluster(getOption("cl.cores", cores))
+        res = parRapply(cl=cores,x,function(i){
+                tbl = table(1-i,cl)
+                if(sum(dim(tbl))!=4){
+                    tbl = array(0,dim=c(2,2));
+                    tbl[1,1] = round(sum(i[cl==unique(cl)[1]]))
+                    tbl[1,2] = round(sum(i[cl==unique(cl)[2]]))
+                    tbl[2,1] = sumClass1-tbl[1,1]
+                    tbl[2,2] = sumClass2-tbl[1,2]
+                }
+                ft <- fisher.test(tbl,workspace=8e6,alternative="two.sided",conf.int=TRUE)
+                cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
+            })
+        stopCluster(cores)
+        nres = nrows*4
+        seqs = seq(1,nres,by=4)
+        p = res[seqs]
+        o = res[seqs+1]
+        cl = res[seqs+2]
+        cu = res[seqs+3]
+        res = data.frame(cbind(p,o,cl,cu))
+    }
+    colnames(res) = c("pvalues","oddsRatio","lower","upper")
+    rownames(res) = rownames(x)
+    return(res)
 }
