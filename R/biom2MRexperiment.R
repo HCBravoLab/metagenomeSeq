@@ -16,15 +16,15 @@ biom2MRexperiment <- function(obj){
 	mat = as(biom_data(obj),"matrix")
 
 	if(! is.null(observation_metadata(obj))){
-		# taxa = as(observation_metadata(obj),"AnnotatedDataFrame")
-		# Check if the metadata is always the same length? Biom should be consistent...
-		len = length(observation_metadata(obj)[[1]])
+		len = max(sapply(observation_metadata(obj),length))
+		cnames = names(observation_metadata(obj)[[which.max(sapply(observation_metadata(obj),length))]])
 		taxa = as.matrix(sapply(observation_metadata(obj),function(i){ i[1:len]}))
 		
 		if(dim(taxa)[1]!=dim(mat)[1]){
 			taxa = t(taxa)
 		}
 		rownames(taxa) = rownames(mat)
+		colnames(taxa) = cnames
 		taxa = as(data.frame(taxa),"AnnotatedDataFrame")
 	} else{
 		taxa = NULL
