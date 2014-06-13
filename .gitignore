@@ -1,4 +1,6 @@
 .DS_Store
+vignettes/figure/
+vignettes/metagenomeSeq.tex
 vignettes/.Rhistory
 man/.Rapp.history
 metagenomeSeq.synctex.gz
