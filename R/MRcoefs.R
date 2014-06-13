@@ -54,7 +54,7 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     }
     if(is.null(coef)){coef = 1:ncol(tb);}
 
-    p=obj$eb$p[,by];
+    p=obj$eb$p.value[,by];
     padj = p.adjust(p,method=adjust.method);
 
     if(group==0){

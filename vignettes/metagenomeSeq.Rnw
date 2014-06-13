@@ -123,10 +123,8 @@ dim(lung$counts)
 Next we want to load the annotated taxonomy. Check to make sure that your taxa annotations and OTUs are in the same order as your matrix rows.
 
 <<loadTaxa>>=
-taxa = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=FALSE)[,2]
-otu  = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=FALSE)[,1]
+taxa = read.delim(file.path(dataDirectory,"CHK_otus.taxonomy.csv"),stringsAsFactors=FALSE)
 @
-
 
 As our OTUs appear to be in order with the count matrix we loaded earlier, the next step is to load phenodata. 
 
@@ -160,8 +158,7 @@ phenotypeData
 A feature annotated data frame. In this example it is simply the OTU numbers, but it can as easily be the annotated taxonomy at multiple levels.
 
 <<createMRexperiment2>>=
-OTUdata = as(lung$taxa,"AnnotatedDataFrame")
-varLabels(OTUdata) = "taxa"
+OTUdata = as(taxa,"AnnotatedDataFrame")
 OTUdata
 @
 
@@ -174,6 +171,33 @@ obj
 @
 
 Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load$\_$biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
+
+\subsection{Useful commands}
+Phenotype information can be accessed with the \verb+phenoData+ and \verb+pData+ methods:
+<<>>=
+phenoData(obj)
+head(pData(obj),3)
+@
+
+Feature information can be accessed with the \verb+featureData+ and \verb+fData+ methods:
+<<>>=
+featureData(obj)
+head(fData(obj)[,-c(2,10)],3)
+@
+
+The raw or normalized counts matrix can be accessed with the \verb+MRcounts+ function:
+<<>>=
+head(MRcounts(obj[,1:2]))
+@
+
+A MRexperiment-class object can be easily subsetted, for example:
+<<>>=
+featuresToKeep = which(rowSums(obj)>=100)
+samplesToKeep = which(pData(obj)$SmokingStatus=="Smoker")
+obj_smokers = obj[featuresToKeep,samplesToKeep]
+obj_smokers
+head(pData(obj_smokers),3)
+@
 
 \newpage
 \section{Normalization}
@@ -251,7 +275,7 @@ We recommend the user remove features based on the number of estimated effective
 
 In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
 
-<<preprocess,dev='pdf',out.width='.55\\linewidth',out.height='.55\\linewidth',fig.cap='Relative difference for the median difference in counts from the reference.',fig.align='center'>>=
+<<preprocess,dev='pdf',out.width='.55\\linewidth',out.height='.55\\linewidth',fig.cap='Relative difference for the median difference in counts from the reference.',fig.align='center',warning=FALSE>>=
 controls = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-controls]
 sparseFeatures = which(rowSums(MRcounts(lungTrim)>0)<10)
