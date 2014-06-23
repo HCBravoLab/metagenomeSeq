@@ -3,16 +3,18 @@
 \alias{plotMRheatmap}
 \title{Basic heatmap plot function for normalized counts.}
 \usage{
-plotMRheatmap(obj, n, log = TRUE, norm = TRUE, ...)
+plotMRheatmap(obj, n, log = TRUE, norm = TRUE, fun = sd, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}
 
-\item{n}{The number of features to plot. This chooses the "n" features with greatest variance.}
+\item{n}{The number of features to plot. This chooses the 'n' features of greatest positive statistic.}
 
 \item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
 
 \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
+
+\item{fun}{Function to select top 'n' features.}
 
 \item{...}{Additional plot arguments.}
 }
@@ -20,15 +22,19 @@ plotMRheatmap(obj, n, log = TRUE, norm = TRUE, ...)
 NA
 }
 \description{
-This function plots a heatmap of the "n" features with greatest variance
-across rows.
+This function plots a heatmap of the 'n' features with greatest variance
+across rows (or other statistic).
 }
 \examples{
 data(mouseData)
 trials = pData(mouseData)$diet
 heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
 heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
+#### version using sd
 plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",
+             col = heatmapCols,ColSideColors = heatmapColColors)
+#### version using MAD
+plotMRheatmap2(obj=mouseData,n=50,fun=mad,cexRow = 0.4,cexCol = 0.4,trace="none",
              col = heatmapCols,ColSideColors = heatmapColColors)
 }
 \seealso{
