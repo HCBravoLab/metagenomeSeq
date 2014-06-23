@@ -4,7 +4,8 @@ version 1.7.xx (2014-05-07)
 	+ Fixed bug for fitMeta when useCSSoffset=FALSE and model matrix ncol==2
 	+ (1.7.10) Updated default quantile estimate (.5) for low estimates
 	+ (1.7.10) Added short description on how to do multiple group comparisons
-	+ (1.7.15) Output of fitZig (eb) is now a result of limma::eBayes instead of limma::ebayes.
+	+ (1.7.15) Output of fitZig (eb) is now a result of limma::eBayes instead of limma::ebayes
+	+ (1.7.16) plotMRheatmap allows for sorting by any stat (not just sd)
 version 1.5.xx (2014-04-17)
 	+ Incorporating biom-format support with the biom2MRexperiment, MRexperiment2biom and load_biome function.
 	+ Added uniqueFeatures, filterData, aggregateByTaxonomy / aggTax, plotFeature and calculateEffectiveSamples functions.
