@@ -27,7 +27,8 @@
 aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfun = colSums,sl=1000,out="MRexperiment"){
 	if(class(obj)=="MRexperiment"){
 		mat = MRcounts(obj,norm=norm,log=log,sl=sl)
-		levels = as.character(fData(obj)[,lvl])
+		if(length(lvl)==1) levels = as.character(fData(obj)[,lvl])
+		else levels = as.character(lvl)
 	} else {
 		mat = obj
 		levels = as.character(lvl)
@@ -65,8 +66,6 @@ aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfu
 		} else {
 			newObj = newMRexperiment(newMat,featureData=taxa)
 		}
-		warning("\n\nThe output here are aggregated counts.\n
-			Check default parameters for all metagenomeSeq functions and consider normalization.")
 		return(newObj)
 	}
 }
