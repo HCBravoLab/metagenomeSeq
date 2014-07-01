@@ -22,7 +22,7 @@
 #' plotMRheatmap(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",
 #'              col = heatmapCols,ColSideColors = heatmapColColors)
 #' #### version using MAD
-#' plotMRheatmap2(obj=mouseData,n=50,fun=mad,cexRow = 0.4,cexCol = 0.4,trace="none",
+#' plotMRheatmap(obj=mouseData,n=50,fun=mad,cexRow = 0.4,cexCol = 0.4,trace="none",
 #'              col = heatmapCols,ColSideColors = heatmapColColors) 
 #'
 plotMRheatmap <- function(obj,n,log=TRUE,norm=TRUE,fun=sd,...) {
