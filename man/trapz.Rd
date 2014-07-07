@@ -3,7 +3,7 @@
 \alias{trapz}
 \title{Trapezoidal Integration
 
-Compute the area of a function with values ‘y’ at the points ‘x’.
+Compute the area of a function with values 'y' at the points 'x'.
 Function comes from the pracma package.}
 \usage{
 trapz(x, y)
@@ -11,16 +11,16 @@ trapz(x, y)
 \arguments{
 \item{x}{x-coordinates of points on the x-axis}
 
-\item{y-coordinates}{of function values}
+\item{y}{y-coordinates of function values}
 }
 \value{
-Approximated integral of the function from ‘min(x)’ to ‘max(x)’.
- Or a matrix of the same size as ‘y’.
+Approximated integral of the function from 'min(x)' to 'max(x)'.
+ Or a matrix of the same size as 'y'.
 }
 \description{
 Trapezoidal Integration
 
-Compute the area of a function with values ‘y’ at the points ‘x’.
+Compute the area of a function with values 'y' at the points 'x'.
 Function comes from the pracma package.
 }
 \examples{

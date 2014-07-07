@@ -49,7 +49,7 @@ transparent.
 data(mouseData)
 classIndex=list(controls=which(pData(mouseData)$diet=="BK"))
 classIndex$cases=which(pData(mouseData)$diet=="Western")
-otuIndex = grep("Strep",fData(mouseData)$fdata)
+otuIndex = grep("Strep",fData(mouseData)$taxa)
 otuIndex=otuIndex[order(rowSums(MRcounts(mouseData)[otuIndex,]),decreasing=TRUE)]
 plotGenus(mouseData,otuIndex,classIndex,no=1:2,xaxt="n",norm=FALSE,ylab="Strep normalized log(cpt)")
 }

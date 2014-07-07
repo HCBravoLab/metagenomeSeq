@@ -1,13 +1,13 @@
 #' @name trapz
 #' @title Trapezoidal Integration
 #' 
-#' Compute the area of a function with values ‘y’ at the points ‘x’.
+#' Compute the area of a function with values 'y' at the points 'x'.
 #' Function comes from the pracma package.
 #' 
 #' @param x x-coordinates of points on the x-axis
-#' @param y-coordinates of function values
-#' @return Approximated integral of the function from ‘min(x)’ to ‘max(x)’. 
-#'  Or a matrix of the same size as ‘y’.
+#' @param y y-coordinates of function values
+#' @return Approximated integral of the function from 'min(x)' to 'max(x)'. 
+#'  Or a matrix of the same size as 'y'.
 #' @rdname trapz
 #' @export
 #' @examples
@@ -248,7 +248,7 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,B=1000,seed=123,nor
         colnames(indexAll)=c("Interval start", "Interval end", "Area", "p.value")
         predArea   = cbind(prep$timePoints , abs(2*prep$fit))
         permList = ssPerm(prep$data,B=B)
-        permResult = ssPermAnalysis(obj=prep$data, permList=permList,
+        permResult = ssPermAnalysis(data=prep$data, permList=permList,
             intTimes=indexAll, timePoints=prep$timePoints)
         
         for (i in 1:nrow(indexAll)){
