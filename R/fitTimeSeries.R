@@ -48,7 +48,7 @@ trapz <- function(x,y){
 #' @name ssFit
 #' @title smoothing-splines anova fit
 #' 
-#' Sets up a data-frame with the feature abundance, 
+#' @details Sets up a data-frame with the feature abundance, 
 #' class information, time points, sample ids and returns
 #' the fitted values for the fitted model.
 #' 
@@ -108,8 +108,9 @@ ssPerm <- function(df,B) {
 #' @name ssPermAnalysis
 #' @title smoothing-splines anova fits for each permutation
 #' 
-#' Calculates the fit for each permutation and estimates the area under the null (permutted)
-#' model for interesting time intervals of differential abundance.
+#' @details Calculates the fit for each permutation and estimates 
+#' the area under the null (permutted) model for interesting time 
+#' intervals of differential abundance.
 #' 
 #' @param data Data used in estimation.
 #' @param permList A list of permutted class memberships
@@ -191,8 +192,8 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @name fitTimeSeries
 #' @title Discover differentially abundant time intervals using SS-Anova
 #' 
-#' Calculate time intervals of interest using SS-Anova fitted models. Fitting is performed
-#' uses Smoothing Spline ANOVA (SS-Anova) to find interesting intervals of time. 
+#' @details Calculate time intervals of interest using SS-Anova fitted models.
+#' Fitting is performed uses Smoothing Spline ANOVA (SS-Anova) to find interesting intervals of time. 
 #' Given observations at different time points for two groups, fitTimeSeries 
 #' calculates a  function that models the difference in abundance between two 
 #' groups across all time. Using permutations we estimate a null distribution 
