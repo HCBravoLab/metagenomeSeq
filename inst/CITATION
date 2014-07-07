@@ -1,4 +1,4 @@
-citHeader("Please cite the top for the original statistical method and normalization method implemented in metagenomeSeq and the bottom for the software/vignette guide.")
+citHeader("Please cite the top for the original statistical method and normalization method implemented in metagenomeSeq and the bottom for the software/vignette guide. Time series analysis/function is described in the third citation.")
 
 citEntry(entry="article",
          title = "Differential abundance analysis for microbial marker-gene surveys",
@@ -31,5 +31,20 @@ citEntry(entry="manual",
                "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing. ",
                "Bioconductor package: ", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq",sep="") )
 
-
+citEntry(entry="article",
+         title = "Finding regions of interest in high throughput genomics data using smoothing splines",
+         author = personList( as.person("Hisham Talukder"),
+                              as.person("Joseph N. Paulson"),
+                              as.person("Hector Corrada Bravo")),
+         year = XX,
+         journal = "XX",
+         volume = "XX",
+         pages = "XX",
+         doi = "XX",
+         url = "XX",
+         textVersion =
+         paste("H Talukder, JN Paulson, HC Bravo.",
+               "Finding regions of interest in high throughput genomics data using smoothing splines.",
+        "Submitted") 
+)
 
