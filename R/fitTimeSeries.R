@@ -62,6 +62,7 @@ trapz <- function(x,y){
 #'      fit         : The interpolated / fitted values for timePoints
 #'      se          : The standard error for CI intervals
 #'      timePoints  : The time points interpolated over
+#' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssPermAnalysis}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
 #' @rdname ssFit
 #' @export
 #' @examples
@@ -90,6 +91,7 @@ ssFit <- function(abundance,class,time,id,...) {
 #' @param df Data frame containing class membership and sample/patient id label.
 #' @param B Number of permutations.
 #' @return A list of permutted class memberships
+#' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPermAnalysis}} \code{\link{ssIntervalCandidate}}
 #' @rdname ssPerm
 #' @examples
 #'
@@ -117,6 +119,7 @@ ssPerm <- function(df,B) {
 #' @param intTimes Interesting time intervals.
 #' @param timePoints Time points to interpolate over.
 #' @return A matrix of permutted area estimates for time intervals of interest.
+#' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
 #' @rdname ssPermAnalysis
 #' @export
 #' @examples
@@ -130,7 +133,7 @@ ssPermAnalysis <- function(data, permList, intTimes, timePoints){
         
         permData$class = permList[[j]]
         permModel      = ssanova(abundance ~ time * class, data=permData)
-        permFit        = cbind(timePoints, abs(2*predict(permModel,data.frame(time=timePoints, class=factor(1)), 
+        permFit        = cbind(timePoints, (2*predict(permModel,data.frame(time=timePoints, class=factor(1)),#abs 
             include=c("class", "time:class"), se=TRUE)$fit))
 
             for (i in 1:nrow(intTimes)){
@@ -153,6 +156,7 @@ ssPermAnalysis <- function(data, permList, intTimes, timePoints){
 #' @param positive Positive region or negative region (difference in abundance is positive/negative).
 #' @param C Value for which difference function has to be larger than (default 0).
 #' @return Matrix of time point intervals of interest
+#' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}}
 #' @rdname ssIntervalCandidate
 #' @export
 #' @examples
@@ -214,6 +218,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @param sl Scaling value.
 #' @return Matrix of time point intervals of interest, Difference in abundance area and p-value.
 #' @rdname fitTimeSeries
+#' @seealso \code{\link{cumNorm}} \code{\link{ssFit}} \code{\link{ssIntervalCandidate}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}}
 #' @export
 #' @examples
 #'
@@ -247,7 +252,7 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,B=1000,seed=123,nor
 
     if (nrow(indexAll)>0){
         colnames(indexAll)=c("Interval start", "Interval end", "Area", "p.value")
-        predArea   = cbind(prep$timePoints , abs(2*prep$fit))
+        predArea   = cbind(prep$timePoints , (2*prep$fit)) #abs
         permList = ssPerm(prep$data,B=B)
         permResult = ssPermAnalysis(data=prep$data, permList=permList,
             intTimes=indexAll, timePoints=prep$timePoints)
@@ -262,7 +267,7 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,B=1000,seed=123,nor
         return("No intervals found")
     }
 
-    res = list(result=indexAll, data=prep$data, fit=2*prep$fit, se=2*prep$se)
+    res = list(result=indexAll, data=prep$data, fit=2*prep$fit, se=2*prep$se, call=match.call())
     return(res)
 }
 # load("~/Dropbox/Projects/metastats/package/git/metagenomeSeq/data/mouseData.rda")

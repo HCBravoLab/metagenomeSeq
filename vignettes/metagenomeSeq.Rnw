@@ -345,6 +345,33 @@ taxa =
 head(MRcoefs(fit,taxa=taxa,coef=2))
 @
 
+\subsection{Time series analysis}
+Implemented in the \texttt{fitTimeSeries} function is a method for calculating time intervals for which bacteria are differentially abundant. 
+Fitting is performed using Smoothing Splines ANOVA (SS-ANOVA), as implemented in the \texttt{gss} package. Given observations at multiple 
+time points for two groups the method calculates a function modeling the difference in abundance across all time. Using group membership permutations we 
+estimate a null distribution of areas under the difference curve for the time intervals of interest and report significant intervals of time. 
+
+Use of the function for analyses should cite:
+"Finding regions of interest in high throughput genomics data using smoothing splines"
+Talukder H, Paulson JN, Bravo HC. (Submitted)
+
+<<timeSeries>>=
+# The gnotobiotic mice come from a longitudinal study ideal for this type of analysis. 
+data(mouseData)
+
+# We choose to perform our analysis at the class level and look for 
+# differentially abundant time intervals for "Actinobacteria".
+# For time sake we perform only 10 permutations.
+res = fitTimeSeries(obj=mouseData,lvl="class",feature="Actinobacteria",class="status",id="mouseID",time="relativeTime",B=10)
+
+# We observe a time period of differential abundance for "Actinobacteria"
+res$result
+
+str(res)
+@
+Please see the help page for \texttt{fitTimeSeries} for parameters. Note, only two groups can be compared to each other and the time parameter must be an actual value (currently no support for posix, etc.).
+
+
 \subsection{Permutation test}
 Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 100 permutations providing p-value resolution to the hundredth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features. We observe two \textit{Prevotella}, two \textit{Veillonella}, a \textit{Streptococcus} and a \textit{Neisseria}.
 
