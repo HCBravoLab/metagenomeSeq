@@ -371,6 +371,11 @@ str(res)
 @
 Please see the help page for \texttt{fitTimeSeries} for parameters. Note, only two groups can be compared to each other and the time parameter must be an actual value (currently no support for posix, etc.).
 
+\subsubsection{Time series plotting}
+We can plot the difference function fit and time intervals of differential abundance using \texttt{plotTimeSeries} on the result. More plots will be updated in time.
+<<timeSeriesPlotting>>=
+plotTimeSeries(res)
+@
 
 \subsection{Permutation test}
 Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 100 permutations providing p-value resolution to the hundredth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features. We observe two \textit{Prevotella}, two \textit{Veillonella}, a \textit{Streptococcus} and a \textit{Neisseria}.
