@@ -253,11 +253,11 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123
         timePoints=prep$timePoints, positive=FALSE,C=C)
     indexAll = rbind(indexPos, indexNeg)
 
-    if (nrow(indexAll)>0){
+    if(!is.null(indexAll)){
         colnames(indexAll)=c("Interval start", "Interval end", "Area", "p.value")
-        predArea   = cbind(prep$timePoints, (2*prep$fit))
-        permList = ssPerm(prep$data,B=B)
-        permResult = ssPermAnalysis(data=prep$data, permList=permList,
+        predArea    = cbind(prep$timePoints, (2*prep$fit))
+        permList    = ssPerm(prep$data,B=B)
+        permResult  = ssPermAnalysis(data=prep$data, permList=permList,
             intTimes=indexAll, timePoints=prep$timePoints,...)
         
         for (i in 1:nrow(indexAll)){
