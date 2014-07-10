@@ -76,7 +76,7 @@ ssFit <- function(abundance,class,time,id,...) {
     # The smoothing splines anova model
     mod = ssanova(abundance ~ time * class, data=df,...)
     fullTime = seq(min(df$time), max(df$time), by=1)
-    values = data.frame(time=fullTime, class=factor(levels(df[,"class"]))[1])
+    values = data.frame(time=fullTime, class=factor(levels(df[,"class"]))[2])
     fit = predict(mod, values, include=c("class", "time:class"), se=TRUE)
     
     res = list(data=df, fit=fit$fit, se=fit$se, timePoints=fullTime)
@@ -253,6 +253,11 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123
         timePoints=prep$timePoints, positive=FALSE,C=C)
     indexAll = rbind(indexPos, indexNeg)
 
+    fit = 2*prep$fit
+    se  = 2*prep$se
+    timePoints = prep$timePoints
+    fits = data.frame(fit = fit, se = se, timePoints = timePoints)
+
     if(!is.null(indexAll)){
         colnames(indexAll)=c("Interval start", "Interval end", "Area", "p.value")
         predArea    = cbind(prep$timePoints, (2*prep$fit))
@@ -271,15 +276,13 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123
             }
 
         }
-        fit = 2*prep$fit
-        se  = 2*prep$se
-        timePoints = prep$timePoints
-        fits = data.frame(fit = fit, se = se, timePoints = timePoints)
 
         res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult,call=match.call())
         return(res)
     }else{
-        return("No intervals found")
+        indexAll = "No intervals found"
+        res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=NULL,call=match.call())
+        return(res)
     }
 }
 
