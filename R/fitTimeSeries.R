@@ -194,12 +194,12 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
     return(intTime)    
 }
 
-#' @name fitTimeSeries
+#' @name fitSSTimeSeries
 #' @title Discover differentially abundant time intervals using SS-Anova
 #' 
 #' @details Calculate time intervals of interest using SS-Anova fitted models.
 #' Fitting is performed uses Smoothing Spline ANOVA (SS-Anova) to find interesting intervals of time. 
-#' Given observations at different time points for two groups, fitTimeSeries 
+#' Given observations at different time points for two groups, fitSSTimeSeries 
 #' calculates a  function that models the difference in abundance between two 
 #' groups across all time. Using permutations we estimate a null distribution 
 #' of areas for the time intervals of interest and report significant intervals of time.
@@ -220,16 +220,24 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @param sl Scaling value.
 #' @param ... Options for ssanova
 #' @return List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
-#' @rdname fitTimeSeries
+#' @return A list of objects including:
+#' \itemize{
+#'  \item{timeIntervals - Matrix of time point intervals of interest, area of differential abundance, and pvalue.}
+#'  \item{data  - Data frame of abundance, class indicator, time, and id input.}
+#'  \item{fit - Data frame of fitted values of the difference in abundance, standard error estimates and timepoints interpolated over.}
+#'  \item{perm - Abundance area estimates for each permutation.}
+#'  \item{call - Function call.}
+#' }
+#' @rdname fitSSTimeSeries
 #' @seealso \code{\link{cumNorm}} \code{\link{ssFit}} \code{\link{ssIntervalCandidate}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}} \code{\link{plotTimeSeries}}
 #' @export
 #' @examples
 #'
 #' data(mouseData)
-#' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
+#' res = fitSSTimeSeries(obj=mouseData,feature="Actinobacteria",
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
 #'
-fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,sl=1000,...) {
+fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,sl=1000,...) {
     if(!require(gss)){
         install.packages("gss",repos="http://cran.r-project.org")
         library(gss)
@@ -286,6 +294,52 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123
     }
 }
 
+#' @name fitTimeSeries
+#' @title Discover differentially abundant time intervals
+#' 
+#' @details Calculate time intervals of significant differential abundance.
+#' Currently only one method is implemented (ssanova). fitSSTimeSeries is called with method="ssanova".
+#' Use of the function for analyses should cite:
+#' "Finding regions of interest in high throughput genomics data using smoothing splines"
+#' Talukder H, Paulson JN, Bravo HC. (Submitted)
+#' 
+#' @param obj metagenomeSeq MRexperiment-class object.
+#' @param feature Name or row of feature of interest.
+#' @param class Name of column in phenoData of MRexperiment-class object for class memberhip.
+#' @param time Name of column in phenoData of MRexperiment-class object for relative time.
+#' @param id Name of column in phenoData of MRexperiment-class object for sample id.
+#' @param method Method to estimate time intervals of differentially abundant bacteria (only ssanova method implemented currently).
+#' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
+#' @param C Value for which difference function has to be larger than.
+#' @param B Number of permutations to perform
+#' @param seed Random-number seed.
+#' @param norm When aggregating counts to normalize or not.
+#' @param sl Scaling value.
+#' @param ... Options for ssanova
+#' @return List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
+#' @return A list of objects including:
+#' \itemize{
+#'  \item{timeIntervals - Matrix of time point intervals of interest, area of differential abundance, and pvalue.}
+#'  \item{data  - Data frame of abundance, class indicator, time, and id input.}
+#'  \item{fit - Data frame of fitted values of the difference in abundance, standard error estimates and timepoints interpolated over.}
+#'  \item{perm - Abundance area estimates for each permutation.}
+#'  \item{call - Function call.}
+#' }
+#' @rdname fitTimeSeries
+#' @seealso \code{\link{cumNorm}} \code{\link{fitSSTimeSeries}} \code{\link{plotTimeSeries}}
+#' @export
+#' @examples
+#'
+#' data(mouseData)
+#' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
+#'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
+#'
+fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,sl=1000,...) {
+    if(method=="ssanova"){
+        res = fitSSTimeSeries(obj,feature,class,time,id,lvl,C,B,seed,norm,sl,...)
+    }
+    return(res)
+}
 
 #' @name plotTimeSeries
 #' @title Plot difference function for particular bacteria
