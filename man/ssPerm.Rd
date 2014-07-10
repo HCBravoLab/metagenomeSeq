@@ -23,4 +23,7 @@ Creates a list of permuted class memberships for the time series permuation test
 \examples{
 # Not run
 }
+\seealso{
+\code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPermAnalysis}} \code{\link{ssIntervalCandidate}}
+}
 

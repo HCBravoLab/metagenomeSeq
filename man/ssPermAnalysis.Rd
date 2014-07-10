@@ -3,7 +3,7 @@
 \alias{ssPermAnalysis}
 \title{smoothing-splines anova fits for each permutation}
 \usage{
-ssPermAnalysis(data, permList, intTimes, timePoints)
+ssPermAnalysis(data, permList, intTimes, timePoints, ...)
 }
 \arguments{
 \item{data}{Data used in estimation.}
@@ -13,6 +13,8 @@ ssPermAnalysis(data, permList, intTimes, timePoints)
 \item{intTimes}{Interesting time intervals.}
 
 \item{timePoints}{Time points to interpolate over.}
+
+\item{...}{Options for ssanova}
 }
 \value{
 A matrix of permutted area estimates for time intervals of interest.
@@ -27,5 +29,8 @@ intervals of differential abundance.
 }
 \examples{
 # Not run
+}
+\seealso{
+\code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
 }
 

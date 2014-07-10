@@ -118,6 +118,7 @@ ssPerm <- function(df,B) {
 #' @param permList A list of permutted class memberships
 #' @param intTimes Interesting time intervals.
 #' @param timePoints Time points to interpolate over.
+#' @param ... Options for ssanova
 #' @return A matrix of permutted area estimates for time intervals of interest.
 #' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
 #' @rdname ssPermAnalysis
@@ -126,13 +127,13 @@ ssPerm <- function(df,B) {
 #'
 #' # Not run
 #'
-ssPermAnalysis <- function(data, permList, intTimes, timePoints){
+ssPermAnalysis <- function(data, permList, intTimes, timePoints,...){
     resPerm=matrix(NA, length(permList), nrow(intTimes))
     permData=data
     for (j in 1:length(permList)){
         
         permData$class = permList[[j]]
-        permModel      = ssanova(abundance ~ time * class, data=permData)
+        permModel      = ssanova(abundance ~ time * class, data=permData,...)
         permFit        = cbind(timePoints, (2*predict(permModel,data.frame(time=timePoints, class=factor(1)),#abs 
             include=c("class", "time:class"), se=TRUE)$fit))
 
@@ -212,21 +213,23 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @param time Name of column in phenoData of MRexperiment-class object for relative time.
 #' @param id Name of column in phenoData of MRexperiment-class object for sample id.
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
+#' @param C Value for which difference function has to be larger than.
 #' @param B Number of permutations to perform
 #' @param seed Random-number seed.
 #' @param norm When aggregating counts to normalize or not.
 #' @param sl Scaling value.
-#' @return Matrix of time point intervals of interest, Difference in abundance area and p-value.
+#' @param ... Options for ssanova
+#' @return List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
 #' @rdname fitTimeSeries
-#' @seealso \code{\link{cumNorm}} \code{\link{ssFit}} \code{\link{ssIntervalCandidate}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}}
+#' @seealso \code{\link{cumNorm}} \code{\link{ssFit}} \code{\link{ssIntervalCandidate}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}} \code{\link{plotTimeSeries}}
 #' @export
 #' @examples
 #'
 #' data(mouseData)
-#' fitTimeSeries(obj=mouseData,feature="Actinobacteria",
+#' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
 #'
-fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,B=1000,seed=123,norm=TRUE,sl=1000) {
+fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,sl=1000,...) {
     if(!require(gss)){
         install.packages("gss",repos="http://cran.r-project.org")
         library(gss)
@@ -243,33 +246,95 @@ fitTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,B=1000,seed=123,nor
     time  = pData(obj)[,time]
     id    = pData(obj)[,id]
 
-    prep=ssFit(abundance=abundance,class=class,time=time,id=id)
+    prep=ssFit(abundance=abundance,class=class,time=time,id=id,...)
     indexPos = ssIntervalCandidate(fit=prep$fit, standardError=prep$se, 
-        timePoints=prep$timePoints, positive=TRUE)
+        timePoints=prep$timePoints, positive=TRUE,C=C)
     indexNeg = ssIntervalCandidate(fit=prep$fit, standardError=prep$se, 
-        timePoints=prep$timePoints, positive=FALSE)
+        timePoints=prep$timePoints, positive=FALSE,C=C)
     indexAll = rbind(indexPos, indexNeg)
 
     if (nrow(indexAll)>0){
         colnames(indexAll)=c("Interval start", "Interval end", "Area", "p.value")
-        predArea   = cbind(prep$timePoints , (2*prep$fit)) #abs
+        predArea   = cbind(prep$timePoints, (2*prep$fit))
         permList = ssPerm(prep$data,B=B)
         permResult = ssPermAnalysis(data=prep$data, permList=permList,
-            intTimes=indexAll, timePoints=prep$timePoints)
+            intTimes=indexAll, timePoints=prep$timePoints,...)
         
         for (i in 1:nrow(indexAll)){
             origArea=predArea[which(predArea[,1]==indexAll[i,1]):which(predArea[,1]==indexAll[i, 2]), ]
             actArea=trapz(x=origArea[,1], y=origArea[,2])
-            indexAll[i, 3] = actArea
-            indexAll[i, 4] = 1-(length(which(actArea>permResult[,i]))/B)
+            indexAll[i,3] = actArea
+            if(actArea>0){
+                indexAll[i,4] = 1 - length(which(actArea>permResult[,i]))/B
+            }else{
+                indexAll[i,4] = length(which(actArea>permResult[,i]))/B
+            }
+
         }
+        fit = 2*prep$fit
+        se  = 2*prep$se
+        timePoints = prep$timePoints
+        fits = data.frame(fit = fit, se = se, timePoints = timePoints)
+
+        res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult,call=match.call())
+        return(res)
     }else{
         return("No intervals found")
     }
-
-    res = list(result=indexAll, data=prep$data, fit=2*prep$fit, se=2*prep$se, call=match.call())
-    return(res)
 }
+
+
+#' @name plotTimeSeries
+#' @title Plot difference function for particular bacteria
+#' 
+#' @details Plot the difference in abundance for 
+#' 
+#' @param res Output of fitTimeSeries function
+#' @param C Value for which difference function has to be larger than (default 0).
+#' @param xlab X-label.
+#' @param ylab Y-label.
+#' @param main Main label.
+#' @param ... Extra plotting arguments.
+#' @return NULL
+#' @rdname plotTimeSeries
+#' @seealso \code{\link{fitTimeSeries}}
+#' @export
+#' @examples
+#'
+#' data(mouseData)
+#' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
+#'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
+#' plotTimeSeries(res)
+#'
+plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main="SS difference function prediction",...){
+    fit = res$fit$fit
+    se  = res$fit$se
+    timePoints = res$fit$timePoints
+    confInt95 = 1.96
+    sigDiff = res$timeIntervals
+
+    minValue=min(fit-(confInt95*se))-.5
+    maxValue=max(fit+(confInt95*se))+.5
+
+    plot(x=timePoints, y=fit, ylim=c(minValue, maxValue), xlab=xlab, ylab=ylab, main=main, ...)
+
+    for (i in 1:nrow(sigDiff)){
+        begin=sigDiff[i,1]
+        end=sigDiff[i,2]
+        indBegin=which(timePoints==begin)
+        indEnd=which(timePoints==end)
+        x=timePoints[indBegin:indEnd]
+        y=fit[indBegin:indEnd]
+        xx=c(x, rev(x))
+        yy=c(y, rep(0, length(y)))
+        polygon(x=xx, yy, col="grey")
+    }
+    lines(x=timePoints, y=fit, pch="")
+    lines(x=timePoints, y=fit+(confInt95*se), pch="", lty=2)
+    lines(x=timePoints, y=fit-(confInt95*se), pch="", lty=2)
+    abline(h=C)
+}
+
 # load("~/Dropbox/Projects/metastats/package/git/metagenomeSeq/data/mouseData.rda")
 # classMatrix = aggregateByTaxonomy(mouseData,lvl='class',norm=TRUE,out='MRexperiment')
 # data(mouseData)

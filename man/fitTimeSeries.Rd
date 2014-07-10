@@ -3,8 +3,8 @@
 \alias{fitTimeSeries}
 \title{Discover differentially abundant time intervals using SS-Anova}
 \usage{
-fitTimeSeries(obj, feature, class, time, id, lvl = NULL, B = 1000,
-  seed = 123, norm = TRUE, sl = 1000)
+fitTimeSeries(obj, feature, class, time, id, lvl = NULL, C = 0, B = 1000,
+  seed = 123, norm = TRUE, sl = 1000, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
@@ -19,6 +19,8 @@ fitTimeSeries(obj, feature, class, time, id, lvl = NULL, B = 1000,
 
 \item{lvl}{Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).}
 
+\item{C}{Value for which difference function has to be larger than.}
+
 \item{B}{Number of permutations to perform}
 
 \item{seed}{Random-number seed.}
@@ -26,9 +28,11 @@ fitTimeSeries(obj, feature, class, time, id, lvl = NULL, B = 1000,
 \item{norm}{When aggregating counts to normalize or not.}
 
 \item{sl}{Scaling value.}
+
+\item{...}{Options for ssanova}
 }
 \value{
-Matrix of time point intervals of interest, Difference in abundance area and p-value.
+List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
 }
 \description{
 Discover differentially abundant time intervals using SS-Anova
@@ -46,7 +50,10 @@ Talukder H, Paulson JN, Bravo HC. (Submitted)
 }
 \examples{
 data(mouseData)
-fitTimeSeries(obj=mouseData,feature="Actinobacteria",
+res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
+}
+\seealso{
+\code{\link{cumNorm}} \code{\link{ssFit}} \code{\link{ssIntervalCandidate}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}} \code{\link{plotTimeSeries}}
 }
 

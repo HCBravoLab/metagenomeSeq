@@ -34,4 +34,7 @@ the fitted values for the fitted model.
 \examples{
 # Not run
 }
+\seealso{
+\code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssPermAnalysis}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
+}
 
