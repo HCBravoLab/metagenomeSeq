@@ -10,7 +10,7 @@ plotTimeSeries(res, C = 0, xlab = "Time",
 \arguments{
 \item{res}{Output of fitTimeSeries function}
 
-\item{C}{Value for which difference function has to be larger than (default 0).}
+\item{C}{Value for which difference function has to be larger or smaller than (default 0).}
 
 \item{xlab}{X-label.}
 
