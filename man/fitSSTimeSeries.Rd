@@ -19,7 +19,7 @@ fitSSTimeSeries(obj, feature, class, time, id, lvl = NULL, C = 0,
 
 \item{lvl}{Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).}
 
-\item{C}{Value for which difference function has to be larger than.}
+\item{C}{Value for which difference function has to be larger or smaller than (default 0).}
 
 \item{B}{Number of permutations to perform}
 
@@ -39,7 +39,7 @@ A list of objects including:
  \item{timeIntervals - Matrix of time point intervals of interest, area of differential abundance, and pvalue.}
  \item{data  - Data frame of abundance, class indicator, time, and id input.}
  \item{fit - Data frame of fitted values of the difference in abundance, standard error estimates and timepoints interpolated over.}
- \item{perm - Abundance area estimates for each permutation.}
+ \item{perm - Differential abundance area estimates for each permutation.}
  \item{call - Function call.}
 }
 }

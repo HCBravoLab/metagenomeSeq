@@ -155,7 +155,7 @@ ssPermAnalysis <- function(data, permList, intTimes, timePoints,...){
 #' @param standardError SS-Anova se estimates.
 #' @param timePoints Time points interpolated over.
 #' @param positive Positive region or negative region (difference in abundance is positive/negative).
-#' @param C Value for which difference function has to be larger than (default 0).
+#' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @return Matrix of time point intervals of interest
 #' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}}
 #' @rdname ssIntervalCandidate
@@ -213,7 +213,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @param time Name of column in phenoData of MRexperiment-class object for relative time.
 #' @param id Name of column in phenoData of MRexperiment-class object for sample id.
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
-#' @param C Value for which difference function has to be larger than.
+#' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @param B Number of permutations to perform
 #' @param seed Random-number seed.
 #' @param norm When aggregating counts to normalize or not.
@@ -225,7 +225,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #'  \item{timeIntervals - Matrix of time point intervals of interest, area of differential abundance, and pvalue.}
 #'  \item{data  - Data frame of abundance, class indicator, time, and id input.}
 #'  \item{fit - Data frame of fitted values of the difference in abundance, standard error estimates and timepoints interpolated over.}
-#'  \item{perm - Abundance area estimates for each permutation.}
+#'  \item{perm - Differential abundance area estimates for each permutation.}
 #'  \item{call - Function call.}
 #' }
 #' @rdname fitSSTimeSeries
@@ -310,7 +310,7 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
 #' @param id Name of column in phenoData of MRexperiment-class object for sample id.
 #' @param method Method to estimate time intervals of differentially abundant bacteria (only ssanova method implemented currently).
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
-#' @param C Value for which difference function has to be larger than.
+#' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @param B Number of permutations to perform
 #' @param seed Random-number seed.
 #' @param norm When aggregating counts to normalize or not.
@@ -322,7 +322,7 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
 #'  \item{timeIntervals - Matrix of time point intervals of interest, area of differential abundance, and pvalue.}
 #'  \item{data  - Data frame of abundance, class indicator, time, and id input.}
 #'  \item{fit - Data frame of fitted values of the difference in abundance, standard error estimates and timepoints interpolated over.}
-#'  \item{perm - Abundance area estimates for each permutation.}
+#'  \item{perm - Differential abundance area estimates for each permutation.}
 #'  \item{call - Function call.}
 #' }
 #' @rdname fitTimeSeries
@@ -347,7 +347,7 @@ fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL
 #' @details Plot the difference in abundance for 
 #' 
 #' @param res Output of fitTimeSeries function
-#' @param C Value for which difference function has to be larger than (default 0).
+#' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @param xlab X-label.
 #' @param ylab Y-label.
 #' @param main Main label.

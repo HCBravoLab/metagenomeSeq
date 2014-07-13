@@ -16,7 +16,7 @@ ssIntervalCandidate(fit, standardError, timePoints, positive = TRUE, C = 0)
 
 \item{positive}{Positive region or negative region (difference in abundance is positive/negative).}
 
-\item{C}{Value for which difference function has to be larger than (default 0).}
+\item{C}{Value for which difference function has to be larger or smaller than (default 0).}
 }
 \value{
 Matrix of time point intervals of interest
