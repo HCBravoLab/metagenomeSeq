@@ -217,6 +217,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @param B Number of permutations to perform
 #' @param seed Random-number seed.
 #' @param norm When aggregating counts to normalize or not.
+#' @param log Log2 transform.
 #' @param sl Scaling value.
 #' @param ... Options for ssanova
 #' @return List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
@@ -237,7 +238,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' res = fitSSTimeSeries(obj=mouseData,feature="Actinobacteria",
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
 #'
-fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,sl=1000,...) {
+fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,log=TRUE,sl=1000,...) {
     if(!require(gss)){
         install.packages("gss",repos="http://cran.r-project.org")
         library(gss)
@@ -246,9 +247,9 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
     
     if(!is.null(lvl)){
         aggData = aggregateByTaxonomy(obj,lvl,norm=norm,sl=sl)
-        abundance = MRcounts(aggData,norm=FALSE,log=TRUE,sl=1)[feature,]
+        abundance = MRcounts(aggData,norm=FALSE,log=log,sl=1)[feature,]
     } else { 
-        abundance = MRcounts(obj,norm=norm,log=TRUE,sl=sl)
+        abundance = MRcounts(obj,norm=norm,log=log,sl=sl)[feature,]
     }
     class = pData(obj)[,class]
     time  = pData(obj)[,time]
@@ -314,6 +315,7 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
 #' @param B Number of permutations to perform
 #' @param seed Random-number seed.
 #' @param norm When aggregating counts to normalize or not.
+#' @param log Log2 transform.
 #' @param sl Scaling value.
 #' @param ... Options for ssanova
 #' @return List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
@@ -334,9 +336,9 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
 #' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
 #'
-fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,sl=1000,...) {
+fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,log=TRUE,sl=1000,...) {
     if(method=="ssanova"){
-        res = fitSSTimeSeries(obj,feature,class,time,id,lvl,C,B,seed,norm,sl,...)
+        res = fitSSTimeSeries(obj,feature,class,time,id,lvl,C,B,seed,norm,log,sl,...)
     }
     return(res)
 }
