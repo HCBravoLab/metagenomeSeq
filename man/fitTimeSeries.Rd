@@ -4,8 +4,8 @@
 \title{Discover differentially abundant time intervals}
 \usage{
 fitTimeSeries(obj, feature, class, time, id, method = c("ssanova"),
-  lvl = NULL, C = 0, B = 1000, seed = 123, norm = TRUE, sl = 1000,
-  ...)
+  lvl = NULL, C = 0, B = 1000, seed = 123, norm = TRUE, log = TRUE,
+  sl = 1000, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
@@ -29,6 +29,8 @@ fitTimeSeries(obj, feature, class, time, id, method = c("ssanova"),
 \item{seed}{Random-number seed.}
 
 \item{norm}{When aggregating counts to normalize or not.}
+
+\item{log}{Log2 transform.}
 
 \item{sl}{Scaling value.}
 
