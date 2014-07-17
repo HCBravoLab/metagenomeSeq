@@ -1,8 +1,10 @@
-#' Pairwise correlation for each row of a matrix or MRexperiment object
+#' Correlation of each row of a matrix or MRexperiment object
 #'
-#' Calculates the pairwise correlation statistics and associated p-values.
+#' Calculates the (pairwise) correlation statistics and associated p-values of a matrix
+#' or the correlation of each row with a vector.
 #'
 #' @param obj A MRexperiment object or count matrix.
+#' @param y Vector of length ncol(obj) to compare to.
 #' @param method One of 'pearson','spearman', or 'kendall'.
 #' @param alternative Indicates the alternative hypothesis and must be one of 'two.sided', 'greater' (positive) or 'less'(negative). You can specify just the initial letter.
 #' @param norm Whether to aggregate normalized counts or not - if MRexperiment object.
@@ -12,15 +14,27 @@
 #' @param override If the number of rows to test is over a thousand the test will not commence (unless override==TRUE).
 #' @param ... Extra settings for mclapply.
 #' @return A matrix of size choose(number of rows, 2) by 2. The first column corresponds to the correlation value. The second column the p-value.
+#' @seealso \code{\link{correctIndices}}
 #' @aliases corTest
 #' @export
 #' @examples
-#' 
+#'
+#' # Pairwise correlation of raw counts
 #' data(mouseData)
-#' cors = correlationTest(mouseData[1:10,],norm=FALSE,log=FALSE)
+#' cors = correlationTest(mouseData[1:10,],libSize(mouseData),norm=FALSE,log=FALSE)
+#' head(cors)
+#' 
+#' cormat = as.matrix(dist(mat)) # Creating a matrix
+#' cormat[cormat>0] = 0 # Creating an empty matrix
+#' cormat[upper.tri(cormat)][ind] = cors[,1] 
+#' table(cormat[1,-1] - cors[1:5,1])
+#'
+#' # Correlation of raw counts with a vector (library size in this case)
+#' data(mouseData)
+#' cors = correlationTest(mouseData[1:10,],libSize(mouseData),norm=FALSE,log=FALSE)
 #' head(cors)
 #'
-correlationTest <- function(obj,method="pearson",alternative="two.sided",norm=TRUE,log=TRUE,parallel=FALSE,cores=2,override=FALSE,...){
+correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",norm=TRUE,log=TRUE,parallel=FALSE,cores=2,override=FALSE,...){
 	if(class(obj)=="MRexperiment"){
 		mat = MRcounts(obj,norm=norm,log=log)
 	} else if(class(obj) == "matrix") {
@@ -45,7 +59,36 @@ correlationTest <- function(obj,method="pearson",alternative="two.sided",norm=TR
 
 	if(parallel){
 		if(require(parallel)){
-			corrAndP = mclapply(1:(nr-1),function(i){
+			if(is.null(y)){
+				corrAndP = mclapply(1:(nr-1),function(i){
+					vals =(i+1):nr
+					cp = array(NA,dim=c(length(vals),2))
+					rownames(cp) = paste(nm[i],nm[(i+1):nr],sep="-")
+					colnames(cp) = c("correlation","pvalue")
+					for(j in (i+1):nr){	
+						x = as.numeric(mat[i,])
+						y = as.numeric(mat[j,])
+						res = cor.test(x,y,method=method,
+							alternative=alternative)
+						cp[j-i,1] = res$estimate
+						cp[j-i,2] = res$p.value
+					}
+					cp
+				},mc.cores=cores,...)
+			} else {
+				corrAndP = mclapply(1:nr,function(i){
+					res = cor.test(mat[i,],y,method=method,
+						alternative=alternative)
+					cbind(res$estimate,res$p.value)
+				},mc.cores=cores,...)
+			}
+		} else {
+			parallel=FALSE
+		}
+	}
+	if(parallel==FALSE){
+		if(is.null(y)){
+			corrAndP=lapply(1:(nr-1),function(i){			
 				vals =(i+1):nr
 				cp = array(NA,dim=c(length(vals),2))
 				rownames(cp) = paste(nm[i],nm[(i+1):nr],sep="-")
@@ -53,36 +96,28 @@ correlationTest <- function(obj,method="pearson",alternative="two.sided",norm=TR
 				for(j in (i+1):nr){	
 					x = as.numeric(mat[i,])
 					y = as.numeric(mat[j,])
-					res = cor.test(x,y,method=method,alternative=alternative)
+					res = cor.test(x,y,method=method,
+						alternative=alternative)
 					cp[j-i,1] = res$estimate
 					cp[j-i,2] = res$p.value
 				}
 				cp
-			},mc.cores=cores,...)
+			})
 		} else {
-			parallel=FALSE
+			corrAndP=lapply(1:nr,function(i){
+					res = cor.test(mat[i,],y,method=method,
+						alternative=alternative)
+					cbind(res$estimate,res$p.value)
+				})
 		}
 	}
-	if(parallel==FALSE){
-		corrAndP=lapply(1:(nr-1),function(i){			
-			vals =(i+1):nr
-			cp = array(NA,dim=c(length(vals),2))
-			rownames(cp) = paste(nm[i],nm[(i+1):nr],sep="-")
-			colnames(cp) = c("correlation","pvalue")
-			for(j in (i+1):nr){	
-				x = as.numeric(mat[i,])
-				y = as.numeric(mat[j,])
-				res = cor.test(x,y,method=method,alternative=alternative)
-				cp[j-i,1] = res$estimate
-				cp[j-i,2] = res$p.value
-			}
-			cp
-		})
-	}
-		
+	# browser()
 	correlation = unlist(sapply(corrAndP,function(i){i[,1]}))
 	p  = unlist(sapply(corrAndP,function(i){i[,2]}))
-	return(cbind(correlation,p))
+	results = cbind(correlation,p)
+	if(!is.null(y)) rownames(results) = rownames(obj)
+	
+	return(results)
 }
 #' Calculate the correct indices for the output of correlationTest
 #'
@@ -92,6 +127,7 @@ correlationTest <- function(obj,method="pearson",alternative="two.sided",norm=TR
 #'
 #' @param n The number of features compared by correlationTest (nrow(mat)).
 #' @return A vector of the indices for an upper triangular matrix.
+#' @seealso \code{\link{correlationTest}}
 #' @export
 #' @examples
 #' 

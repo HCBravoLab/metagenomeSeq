@@ -151,14 +151,14 @@ Library sizes (depths of coverage) and normalization factors are also optional i
 
 
 <<createMRexperiment1>>=
-phenotypeData = as(clin,"AnnotatedDataFrame")
+phenotypeData = AnnotatedDataFrame(clin)
 phenotypeData
 @
 
 A feature annotated data frame. In this example it is simply the OTU numbers, but it can as easily be the annotated taxonomy at multiple levels.
 
 <<createMRexperiment2>>=
-OTUdata = as(taxa,"AnnotatedDataFrame")
+OTUdata = AnnotatedDataFrame(taxa)
 OTUdata
 @
 
@@ -424,7 +424,7 @@ head(res)
 @
 
 \subsection{Feature correlations}
-To test the correlations of abundance features, or samples, in a pairwise fashion we have implemented \texttt{correlationTest} and \texttt{correctIndices}. The \texttt{correlationTest} function will calculate basic pearson, spearman, kendall correlation statistics for the rows of the input and report the associated p-values.
+To test the correlations of abundance features, or samples, in a pairwise fashion we have implemented \texttt{correlationTest} and \texttt{correctIndices}. The \texttt{correlationTest} function will calculate basic pearson, spearman, kendall correlation statistics for the rows of the input and report the associated p-values. If a vector of length ncol(obj) it will also calculate the correlation of each row with the associated vector.
 
 <<corTest>>=
 data(mouseData)
