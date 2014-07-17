@@ -372,9 +372,11 @@ str(res)
 Please see the help page for \texttt{fitTimeSeries} for parameters. Note, only two groups can be compared to each other and the time parameter must be an actual value (currently no support for posix, etc.).
 
 \subsubsection{Time series plotting}
-We can plot the difference function fit and time intervals of differential abundance using \texttt{plotTimeSeries} on the result. More plots will be updated in time.
+We can plot the difference function fit and time intervals of differential abundance using \texttt{plotTimeSeries} and \texttt{plotClassTimeSeries} on the result. More plots will be updated in time.
 <<timeSeriesPlotting>>=
+par(mfrow=c(2,1))
 plotTimeSeries(res)
+plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 @
 
 \subsection{Permutation test}
