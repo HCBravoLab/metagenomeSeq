@@ -24,7 +24,7 @@ plotTimeSeries(res, C = 0, xlab = "Time",
 Plot difference function for particular bacteria
 }
 \details{
-Plot the difference in abundance for
+Plot the difference in abundance for significant features.
 }
 \examples{
 data(mouseData)

@@ -346,7 +346,7 @@ fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL
 #' @name plotTimeSeries
 #' @title Plot difference function for particular bacteria
 #' 
-#' @details Plot the difference in abundance for 
+#' @details Plot the difference in abundance for significant features.
 #' 
 #' @param res Output of fitTimeSeries function
 #' @param C Value for which difference function has to be larger or smaller than (default 0).
@@ -392,6 +392,50 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
     lines(x=timePoints, y=fit+(confInt95*se), pch="", lty=2)
     lines(x=timePoints, y=fit-(confInt95*se), pch="", lty=2)
     abline(h=C)
+}
+
+#' @name plotClassTimeSeries
+#' @title Plot abundances by class
+#' 
+#' @details Plot the abundance of values for each class using 
+#' a spline approach on the estimated full model.
+#' 
+#' @param res Output of fitTimeSeries function
+#' @param xlab X-label.
+#' @param ylab Y-label.
+#' @param color0 Color of samples from first group.
+#' @param color1 Color of samples from second group.
+#' @param ... Extra plotting arguments.
+#' @return NULL
+#' @rdname plotClassTimeSeries
+#' @seealso \code{\link{fitTimeSeries}}
+#' @export
+#' @examples
+#'
+#' data(mouseData)
+#' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
+#'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
+#' plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
+#'
+plotClassTimeSeries<-function(res,xlab="Time",ylab="Abundance",color0="black",color1="red",...){
+    data = res$data
+    mod  = ssanova(abundance~class*time,data=data)
+    
+    timePoints = seq(min(data$time),max(data$time),by=1)
+    group0 = data.frame(time=timePoints,class=levels(data$class)[1])
+    group1 = data.frame(time=timePoints,class=levels(data$class)[2])
+
+    pred0  = predict(mod, newdata=group0, se=TRUE)
+    pred1  = predict(mod, newdata=group1, se=TRUE)
+    
+    plot(x=data$time,y=data$abundance,xlab=xlab,ylab=ylab,...)
+    lines(x=group0$time,y=pred0$fit,col=color0)
+    lines(x=group0$time,y=pred0$fit+(1.96*pred0$se),lty=2,col=color0)
+    lines(x=group0$time,y=pred0$fit-(1.96*pred0$se),lty=2,col=color0)
+
+    lines(x=group1$time,y=pred1$fit,col=color1)
+    lines(x=group1$time,y=pred1$fit+(1.96*pred1$se),lty=2,col=color1)
+    lines(x=group1$time,y=pred1$fit-(1.96*pred1$se),lty=2,col=color1)
 }
 
 # load("~/Dropbox/Projects/metastats/package/git/metagenomeSeq/data/mouseData.rda")
