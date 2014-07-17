@@ -27,4 +27,7 @@ cormat[cormat>0] = 0
 cormat[upper.tri(cormat)][ind] = cors[,1]
 table(cormat[1,-1] - cors[1:5,1])
 }
+\seealso{
+\code{\link{correlationTest}}
+}
 

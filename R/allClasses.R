@@ -10,8 +10,6 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
               }
             }
         }
-        # remove zero valued rows
-        obj = obj[!rowSums(obj)==0,]
         obj
 })
 
@@ -76,9 +74,6 @@ newMRexperiment <- function(counts, phenoData=NULL, featureData=NULL,libSize=NUL
     obj <-new("MRexperiment", assayData = assayDataNew("environment",counts=counts),phenoData = phenoData,featureData = featureData ,expSummary = new("environment",expSummary=annotatedDataFrameFrom(counts,byrow=FALSE),cumNormStat=NULL))
     obj@expSummary$expSummary$libSize = libSize;
     obj@expSummary$expSummary$normFactors=normFactors;
-    # remove zero valued rows
-    obj = obj[!rowSums(obj)==0,]
-
     validObject(obj)
     obj
 }
