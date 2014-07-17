@@ -2,14 +2,16 @@
 \name{correlationTest}
 \alias{corTest}
 \alias{correlationTest}
-\title{Pairwise correlation for each row of a matrix or MRexperiment object}
+\title{Correlation of each row of a matrix or MRexperiment object}
 \usage{
-correlationTest(obj, method = "pearson", alternative = "two.sided",
-  norm = TRUE, log = TRUE, parallel = FALSE, cores = 2,
-  override = FALSE, ...)
+correlationTest(obj, y = NULL, method = "pearson",
+  alternative = "two.sided", norm = TRUE, log = TRUE, parallel = FALSE,
+  cores = 2, override = FALSE, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}
+
+\item{y}{Vector of length ncol(obj) to compare to.}
 
 \item{method}{One of 'pearson','spearman', or 'kendall'.}
 
@@ -31,11 +33,26 @@ correlationTest(obj, method = "pearson", alternative = "two.sided",
 A matrix of size choose(number of rows, 2) by 2. The first column corresponds to the correlation value. The second column the p-value.
 }
 \description{
-Calculates the pairwise correlation statistics and associated p-values.
+Calculates the (pairwise) correlation statistics and associated p-values of a matrix
+or the correlation of each row with a vector.
 }
 \examples{
+# Pairwise correlation of raw counts
 data(mouseData)
-cors = correlationTest(mouseData[1:10,],norm=FALSE,log=FALSE)
+cors = correlationTest(mouseData[1:10,],libSize(mouseData),norm=FALSE,log=FALSE)
 head(cors)
+
+cormat = as.matrix(dist(mat)) # Creating a matrix
+cormat[cormat>0] = 0 # Creating an empty matrix
+cormat[upper.tri(cormat)][ind] = cors[,1]
+table(cormat[1,-1] - cors[1:5,1])
+
+# Correlation of raw counts with a vector (library size in this case)
+data(mouseData)
+cors = correlationTest(mouseData[1:10,],libSize(mouseData),norm=FALSE,log=FALSE)
+head(cors)
+}
+\seealso{
+\code{\link{correctIndices}}
 }
 
