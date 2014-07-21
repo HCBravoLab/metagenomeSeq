@@ -22,7 +22,7 @@
 #' \itemize{
 #' 	\item{call - the call made to fitZig}
 #' 	\item{fit  - 'MLArrayLM' Limma object of the weighted fit}
-#' 	\item{countResiduals - the residuals of the fit}
+#' 	\item{countResiduals - standardized residuals of the fit}
 #' 	\item{z - matrix of the posterior probabilities}
 #' 	\item{eb - output of ebayes, moderated t-statistics, moderated F-statistics, etc}
 #' 	\item{taxa - vector of the taxa names}
