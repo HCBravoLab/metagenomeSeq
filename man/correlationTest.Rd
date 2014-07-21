@@ -39,13 +39,15 @@ or the correlation of each row with a vector.
 \examples{
 # Pairwise correlation of raw counts
 data(mouseData)
-cors = correlationTest(mouseData[1:10,],libSize(mouseData),norm=FALSE,log=FALSE)
+cors = correlationTest(mouseData[1:10,],norm=FALSE,log=FALSE)
 head(cors)
 
+mat = MRcounts(mouseData)[1:10,]
 cormat = as.matrix(dist(mat)) # Creating a matrix
 cormat[cormat>0] = 0 # Creating an empty matrix
+ind = correctIndices(nrow(mat))
 cormat[upper.tri(cormat)][ind] = cors[,1]
-table(cormat[1,-1] - cors[1:5,1])
+table(cormat[1,-1] - cors[1:9,1])
 
 # Correlation of raw counts with a vector (library size in this case)
 data(mouseData)
