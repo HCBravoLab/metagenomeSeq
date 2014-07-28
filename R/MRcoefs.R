@@ -70,7 +70,7 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
         srt = 1:length(padj);
     }
     
-    valid = 1:length(np0)
+    valid = 1:length(padj);
     if(eff>0){
         effectiveSamples = calculateEffectiveSamples(obj);
         if(numberEff == FALSE){
@@ -80,7 +80,7 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
         }
     }
     if(counts>0){
-        np=rowSums(cbind(np0,np1));
+        np=rowSums(obj$counts);
         valid = intersect(valid,which(np>=counts));
     }
     srt = srt[which(srt%in%valid)][1:number];
@@ -90,7 +90,7 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     rownames(mat) = tx;
     mat = mat[srt,]
     
-    nm = c(colnames(tb)[coef],"pValue","adjPvalue")
+    nm = c(colnames(tb)[coef],"pvalues","adjPvalues")
     colnames(mat) = nm
 
 

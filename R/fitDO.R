@@ -56,7 +56,7 @@ fitDO<-function(obj,cl,norm=TRUE,log=TRUE,parallel=FALSE,cores=2,adjust.method='
             cbind(o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2],p=ft$p.value)
         })
         res = data.frame(as.matrix(t(res)))
-        adjp = p.adjust(res[,"p"],method=adjust.method)
+        adjp = p.adjust(res[,4],method=adjust.method)
         res = data.frame(cbind(res,adjp))
     } else {
         library(parallel)

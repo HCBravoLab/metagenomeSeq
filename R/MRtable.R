@@ -81,10 +81,10 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     } else if(group==3){
         srt = order(p,decreasing=FALSE)
     } else {
-        srt = 1:length(np0);
+        srt = 1:length(padj);
     }
 
-    valid = 1:length(np0);
+    valid = 1:length(padj);
     if(eff>0){
         effectiveSamples = calculateEffectiveSamples(obj);
         if(numberEff == FALSE){
@@ -111,7 +111,7 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
 
     nm = c(paste("+samples in group",unique(groups)[1]),paste("+samples in group",unique(groups)[2]),
     paste("counts in group",unique(groups)[1]),paste("counts in group",unique(groups)[2]),
-    colnames(tb)[coef],"pValue","adjPvalue");
+    colnames(tb)[coef],"pvalues","adjPvalues");
     colnames(mat) = nm;
 
     if(!is.null(file)){
