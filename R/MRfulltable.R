@@ -68,7 +68,7 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
     cnts = obj$counts;
     yy = cnts>0;
     
-    pa = matrix(unlist(fitPA(obj$counts,groups)),ncol=4)
+    pa = matrix(unlist(fitPA(obj$counts,groups)),ncol=5)
     
     np0 = rowSums(yy[,groups==unique(groups)[1]]);
     np1 = rowSums(yy[,groups==unique(groups)[2]]);
@@ -85,10 +85,10 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
     } else if(group==3){
         srt = order(p,decreasing=FALSE)
     } else {
-        srt = 1:length(np0);
+        srt = 1:length(padj);
     }
 
-    valid = 1:length(np0)
+    valid = 1:length(padj);
     if(eff>0){
         effectiveSamples = calculateEffectiveSamples(obj);
         if(numberEff == FALSE){
@@ -114,8 +114,8 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
     mat = mat[srt,]
 
     nm = c(paste("+samples in group",unique(groups)[1]),paste("+samples in group",unique(groups)[2]),
-    paste("counts in group",unique(groups)[1]),paste("counts in group",unique(groups)[2]),c("fisher.p","oddsRatio","lower","upper"),
-    colnames(tb)[coef],"pValue","adjPvalue")
+    paste("counts in group",unique(groups)[1]),paste("counts in group",unique(groups)[2]),c("oddsRatio","lower","upper","fisherP","fisherAdjP"),
+    colnames(tb)[coef],"pvalues","adjPvalues")
     colnames(mat) = nm
 
     if(!is.null(file)){
