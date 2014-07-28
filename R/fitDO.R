@@ -14,6 +14,9 @@
 #' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param parallel Use multiple cores?
 #' @param cores Number of cores to use.
+#' @param adjust.method Method to adjust p-values by. Default is "FDR". Options
+#' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",                                                                                                                            
+#' "none". See \code{\link{p.adjust}} for more details.
 #' @param ... Extra options for makeCluster
 #' @return Matrix of odds ratios, p-values, lower and upper confidence intervals
 #' @seealso \code{\link{cumNorm}} \code{\link{fitZig}} \code{\link{fitPA}} \code{\link{fitMeta}}
@@ -26,7 +29,7 @@
 #' res = fitDO(lungTrim,pData(lungTrim)$SmokingStatus);
 #' head(res)
 #' 
-fitDO<-function(obj,cl,norm=TRUE,log=TRUE,parallel=FALSE,cores=2,...){
+fitDO<-function(obj,cl,norm=TRUE,log=TRUE,parallel=FALSE,cores=2,adjust.method='fdr',...){
     if(class(obj)=="MRexperiment"){
         x = MRcounts(obj,norm=norm,log=log);
     } else if(class(obj) == "matrix") {
@@ -50,9 +53,11 @@ fitDO<-function(obj,cl,norm=TRUE,log=TRUE,parallel=FALSE,cores=2,...){
                 tbl[2,2] = sumClass2-tbl[1,2]
             }
             ft <- fisher.test(tbl, workspace = 8e6, alternative = "two.sided", conf.int = TRUE)
-            cbind(p=ft$p.value,o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2])
+            cbind(o=ft$estimate,cl=ft$conf.int[1],cu=ft$conf.int[2],p=ft$p.value)
         })
         res = data.frame(as.matrix(t(res)))
+        adjp = p.adjust(res[,"p"],method=adjust.method)
+        res = data.frame(cbind(res,adjp))
     } else {
         library(parallel)
         cores <- makeCluster(getOption("cl.cores", cores))
@@ -72,12 +77,13 @@ fitDO<-function(obj,cl,norm=TRUE,log=TRUE,parallel=FALSE,cores=2,...){
         nres = nrows*4
         seqs = seq(1,nres,by=4)
         p = res[seqs]
+        adjp = p.adjust(p,method=adjust.method)
         o = res[seqs+1]
         cl = res[seqs+2]
         cu = res[seqs+3]
-        res = data.frame(cbind(p,o,cl,cu))
+        res = data.frame(cbind(o,cl,cu,p,adjp))
     }
-    colnames(res) = c("pvalues","oddsRatio","lower","upper")
+    colnames(res) = c("oddsRatio","lower","upper","pvalues","adjPvalues")
     rownames(res) = rownames(x)
     return(res)
 }

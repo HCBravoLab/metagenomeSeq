@@ -6,7 +6,7 @@ information}
 \usage{
 MRtable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
   uniqueNames = FALSE, adjust.method = "fdr", group = 0, eff = 0,
-  numberEff = FALSE, file = NULL)
+  numberEff = FALSE, counts = 0, file = NULL)
 }
 \arguments{
 \item{obj}{A list containing the linear model fit produced by lmFit through
@@ -28,15 +28,17 @@ or contrast of the linear model to display.}
 include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 "none". See \code{\link{p.adjust}} for more details.}
 
-\item{group}{One of three choices, 0,1,2,3,4. 0: the sort is ordered by a
+\item{group}{One of five choices, 0,1,2,3,4. 0: the sort is ordered by a
 decreasing absolute value coefficient fit. 1: the sort is ordered by the raw
 coefficient fit in decreasing order. 2: the sort is ordered by the raw
 coefficient fit in increasing order. 3: the sort is ordered by the p-value
 of the coefficient fit in increasing order. 4: no sorting.}
 
-\item{eff}{Restrict samples to have at least a "eff" quantile or number of effective samples.}
+\item{eff}{Filter features to have at least a "eff" quantile or number of effective samples.}
 
 \item{numberEff}{Boolean, whether eff should represent quantile (default/FALSE) or number.}
+
+\item{counts}{Filter features to have at least 'counts' of counts.}
 
 \item{file}{Name of file, including location, to save the table.}
 }
