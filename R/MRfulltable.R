@@ -20,13 +20,14 @@
 #' @param adjust.method Method to adjust p-values by. Default is "FDR". Options
 #' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 #' "none". See \code{\link{p.adjust}} for more details.
-#' @param group One of four choices: 0,1,2,3,4. 0: the sort is ordered by a
+#' @param group One of five choices: 0,1,2,3,4. 0: the sort is ordered by a
 #' decreasing absolute value coefficient fit. 1: the sort is ordered by the raw
 #' coefficient fit in decreasing order. 2: the sort is ordered by the raw
 #' coefficient fit in increasing order. 3: the sort is ordered by the p-value
 #' of the coefficient fit in increasing order. 4: no sorting.
-#' @param eff Restrict samples to have at least a "eff" quantile or number of effective samples.
+#' @param eff Filter features to have at least a "eff" quantile or number of effective samples.
 #' @param numberEff Boolean, whether eff should represent quantile (default/FALSE) or number.
+#' @param counts Filter features to those with at least 'counts' counts.
 #' @param file Name of output file, including location, to save the table.
 #' @return Table of the top-ranked features determined by the linear fit's
 #' coefficient.
@@ -46,7 +47,7 @@
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' head(MRfulltable(fit))
 #' 
-MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,numberEff=FALSE,file=NULL){
+MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,numberEff=FALSE,counts=0,file=NULL){
     
     tb = obj$fit$coefficients
     tx = as.character(taxa);
@@ -87,11 +88,18 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FAL
         srt = 1:length(np0);
     }
 
-    effectiveSamples = calculateEffectiveSamples(obj);
-    if(numberEff == FALSE){
-        valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
-    } else {
-        valid = which(effectiveSamples>=eff);
+    valid = 1:length(np0)
+    if(eff>0){
+        effectiveSamples = calculateEffectiveSamples(obj);
+        if(numberEff == FALSE){
+            valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
+        } else {
+            valid = which(effectiveSamples>=eff);
+        }
+    }
+    if(counts>0){
+        np=rowSums(cbind(np0,np1));
+        valid = intersect(valid,which(np>=counts));
     }
     srt = srt[which(srt%in%valid)][1:number];
 
