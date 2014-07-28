@@ -4,7 +4,7 @@
 \title{Wrapper to calculate Discovery Odds Ratios on feature values.}
 \usage{
 fitDO(obj, cl, norm = TRUE, log = TRUE, parallel = FALSE, cores = 2,
-  ...)
+  adjust.method = "fdr", ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with a count matrix, or a simple count
@@ -19,6 +19,10 @@ matrix.}
 \item{parallel}{Use multiple cores?}
 
 \item{cores}{Number of cores to use.}
+
+\item{adjust.method}{Method to adjust p-values by. Default is "FDR". Options
+include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
+"none". See \code{\link{p.adjust}} for more details.}
 
 \item{...}{Extra options for makeCluster}
 }
