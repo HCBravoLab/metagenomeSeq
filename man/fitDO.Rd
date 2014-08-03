@@ -3,8 +3,8 @@
 \alias{fitDO}
 \title{Wrapper to calculate Discovery Odds Ratios on feature values.}
 \usage{
-fitDO(obj, cl, norm = TRUE, log = TRUE, parallel = FALSE, cores = 2,
-  adjust.method = "fdr", ...)
+fitDO(obj, cl, norm = TRUE, log = TRUE, adjust.method = "fdr",
+  cores = 1, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with a count matrix, or a simple count
@@ -16,13 +16,11 @@ matrix.}
 
 \item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
 
-\item{parallel}{Use multiple cores?}
-
-\item{cores}{Number of cores to use.}
-
 \item{adjust.method}{Method to adjust p-values by. Default is "FDR". Options
 include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 "none". See \code{\link{p.adjust}} for more details.}
+
+\item{cores}{Number of cores to use.}
 
 \item{...}{Extra options for makeCluster}
 }

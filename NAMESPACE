@@ -1,10 +1,13 @@
 import(Biobase)
 import(RColorBrewer)
-import(gplots)
 import(limma)
+import(methods)
+importFrom(parallel,makeCluster)
+importFrom(parallel,parRapply)
+importFrom(parallel,mclapply)
 importFrom(matrixStats,colQuantiles)
 importFrom(matrixStats,rowSds)
-import(methods)
+importFrom(gplots,heatmap.2)
 exportClasses( "MRexperiment" )
 
 exportMethods(
