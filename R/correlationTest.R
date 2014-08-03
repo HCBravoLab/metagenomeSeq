@@ -9,10 +9,9 @@
 #' @param alternative Indicates the alternative hypothesis and must be one of 'two.sided', 'greater' (positive) or 'less'(negative). You can specify just the initial letter.
 #' @param norm Whether to aggregate normalized counts or not - if MRexperiment object.
 #' @param log Whether or not to log2 transform the counts - if MRexperiment object.
-#' @param parallel Parallelize the correlation testing?
-#' @param cores Number of cores to make use of if parallel == TRUE.
+#' @param cores Number of cores to use.
 #' @param override If the number of rows to test is over a thousand the test will not commence (unless override==TRUE).
-#' @param ... Extra settings for mclapply.
+#' @param ... Extra parameters for mclapply.
 #' @return A matrix of size choose(number of rows, 2) by 2. The first column corresponds to the correlation value. The second column the p-value.
 #' @seealso \code{\link{correctIndices}}
 #' @aliases corTest
@@ -36,7 +35,7 @@
 #' cors = correlationTest(mouseData[1:10,],libSize(mouseData),norm=FALSE,log=FALSE)
 #' head(cors)
 #'
-correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",norm=TRUE,log=TRUE,parallel=FALSE,cores=2,override=FALSE,...){
+correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",norm=TRUE,log=TRUE,cores=1,override=FALSE,...){
 	if(class(obj)=="MRexperiment"){
 		mat = MRcounts(obj,norm=norm,log=log)
 	} else if(class(obj) == "matrix") {
@@ -58,62 +57,30 @@ correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",
 	} else { 
 		nm = rownames(mat)
 	}
-
-	if(parallel){
-		if(require(parallel)){
-			if(is.null(y)){
-				corrAndP = mclapply(1:(nr-1),function(i){
-					vals =(i+1):nr
-					cp = array(NA,dim=c(length(vals),2))
-					rownames(cp) = paste(nm[i],nm[(i+1):nr],sep="-")
-					colnames(cp) = c("correlation","pvalue")
-					for(j in (i+1):nr){	
-						x = as.numeric(mat[i,])
-						y = as.numeric(mat[j,])
-						res = cor.test(x,y,method=method,
-							alternative=alternative)
-						cp[j-i,1] = res$estimate
-						cp[j-i,2] = res$p.value
-					}
-					cp
-				},mc.cores=cores,...)
-			} else {
-				corrAndP = mclapply(1:nr,function(i){
-					res = cor.test(mat[i,],y,method=method,
-						alternative=alternative)
-					cbind(res$estimate,res$p.value)
-				},mc.cores=cores,...)
+	if(is.null(y)){
+		corrAndP = mclapply(1:(nr-1),function(i){
+			vals =(i+1):nr
+			cp = array(NA,dim=c(length(vals),2))
+			rownames(cp) = paste(nm[i],nm[(i+1):nr],sep="-")
+			colnames(cp) = c("correlation","pvalue")
+			for(j in (i+1):nr){	
+				x = as.numeric(mat[i,])
+				y = as.numeric(mat[j,])
+				res = cor.test(x,y,method=method,
+					alternative=alternative)
+				cp[j-i,1] = res$estimate
+				cp[j-i,2] = res$p.value
 			}
-		} else {
-			parallel=FALSE
-		}
+			cp
+		},mc.cores=cores,...)
+	} else {
+		corrAndP = mclapply(1:nr,function(i){
+			res = cor.test(mat[i,],y,method=method,
+				alternative=alternative)
+			cbind(res$estimate,res$p.value)
+		},mc.cores=cores,...)
 	}
-	if(parallel==FALSE){
-		if(is.null(y)){
-			corrAndP=lapply(1:(nr-1),function(i){			
-				vals =(i+1):nr
-				cp = array(NA,dim=c(length(vals),2))
-				rownames(cp) = paste(nm[i],nm[(i+1):nr],sep="-")
-				colnames(cp) = c("correlation","pvalue")
-				for(j in (i+1):nr){	
-					x = as.numeric(mat[i,])
-					y = as.numeric(mat[j,])
-					res = cor.test(x,y,method=method,
-						alternative=alternative)
-					cp[j-i,1] = res$estimate
-					cp[j-i,2] = res$p.value
-				}
-				cp
-			})
-		} else {
-			corrAndP=lapply(1:nr,function(i){
-					res = cor.test(mat[i,],y,method=method,
-						alternative=alternative)
-					cbind(res$estimate,res$p.value)
-				})
-		}
-	}
-	# browser()
+
 	correlation = unlist(sapply(corrAndP,function(i){i[,1]}))
 	p  = unlist(sapply(corrAndP,function(i){i[,2]}))
 	results = cbind(correlation,p)
