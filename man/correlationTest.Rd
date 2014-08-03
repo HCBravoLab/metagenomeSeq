@@ -5,8 +5,8 @@
 \title{Correlation of each row of a matrix or MRexperiment object}
 \usage{
 correlationTest(obj, y = NULL, method = "pearson",
-  alternative = "two.sided", norm = TRUE, log = TRUE, parallel = FALSE,
-  cores = 2, override = FALSE, ...)
+  alternative = "two.sided", norm = TRUE, log = TRUE, cores = 1,
+  override = FALSE, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}
@@ -21,13 +21,11 @@ correlationTest(obj, y = NULL, method = "pearson",
 
 \item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
 
-\item{parallel}{Parallelize the correlation testing?}
-
-\item{cores}{Number of cores to make use of if parallel == TRUE.}
+\item{cores}{Number of cores to use.}
 
 \item{override}{If the number of rows to test is over a thousand the test will not commence (unless override==TRUE).}
 
-\item{...}{Extra settings for mclapply.}
+\item{...}{Extra parameters for mclapply.}
 }
 \value{
 A matrix of size choose(number of rows, 2) by 2. The first column corresponds to the correlation value. The second column the p-value.
