@@ -25,6 +25,8 @@ function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
     } else {
 		stop("Object needs to be a MRexperiment object.")
     }
+    if(any(colSums(mat)==0)) stop("Warning empty sample")
+    
 	smat = sapply(1:ncol(mat),function(i){sort(mat[,i],decreasing=FALSE)})
 	ref  = rowMeans(smat);
 	
