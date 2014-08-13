@@ -26,7 +26,9 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 	    sort(mat[which(mat[, i]>0),i], decreasing = TRUE)
 	})
 	leng = max(sapply(smat,length))
-	smat2 = array(NA,dim=c(leng,ncol(mat)))
+    if(any(sapply(smat,length)==1)) stop("Warning empty sample")
+    
+    smat2 = array(NA,dim=c(leng,ncol(mat)))
 	for(i in 1:ncol(mat)){
 		smat2[leng:(leng-length(smat[[i]])+1),i] = smat[[i]]
 	}
