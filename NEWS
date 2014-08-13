@@ -9,6 +9,7 @@ version 1.7.xx (2014-05-07)
 	+ (1.7.18) fitTimeSeries Including times series method for differentially abundant time intervals
 	+ (1.7.20) Fixed minor bug for OTU level time series analyses and added plotClassTimeSeries
 	+ (1.7.26) Added warning / fix if any samples are empty in cumNormStat
+	+ (1.7.27) Added a few unit tests
 version 1.5.xx (2014-04-17)
 	+ Incorporating biom-format support with the biom2MRexperiment, MRexperiment2biom and load_biome function.
 	+ Added uniqueFeatures, filterData, aggregateByTaxonomy / aggTax, plotFeature and calculateEffectiveSamples functions.
