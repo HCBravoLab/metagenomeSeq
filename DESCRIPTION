@@ -1,7 +1,7 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.7.27
-Date: 2013-08-13
+Version: 1.7.28
+Date: 2013-09-08
 Author: Joseph Nathaniel Paulson, Hisham Talukder, Mihai Pop, Hector Corrada
     Bravo
 Maintainer: Joseph N. Paulson <jpaulson@umiacs.umd.edu>
@@ -21,12 +21,13 @@ Depends:
     RColorBrewer
 Suggests:
     annotate,
+    BiocGenerics,
     biom,
-    vegan,
     knitr,
     gss,
+    interactiveDisplay,
     RUnit,
-    BiocGenerics
+    vegan
 Imports:
     parallel,
     matrixStats,
