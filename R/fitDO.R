@@ -39,16 +39,16 @@ fitDO<-function(obj,cl,norm=TRUE,log=TRUE,adjust.method='fdr',cores=1,...){
     nrows= nrow(x);
 	if(is.null(rownames(x))){rownames(x)=1:nrows}
 
-    sumClass1 = round(sum(x[,cl==unique(cl)[1]]))
-    sumClass2 = round(sum(x[,cl==unique(cl)[2]]))
+    sumClass1 = round(sum(x[,cl==levels(cl)[1]]))
+    sumClass2 = round(sum(x[,cl==levels(cl)[2]]))
     
     cores <- makeCluster(getOption("cl.cores", cores),...)
     res = parRapply(cl=cores,x,function(i){
             tbl = table(1-i,cl)
             if(sum(dim(tbl))!=4){
                 tbl = array(0,dim=c(2,2));
-                tbl[1,1] = round(sum(i[cl==unique(cl)[1]]))
-                tbl[1,2] = round(sum(i[cl==unique(cl)[2]]))
+                tbl[1,1] = round(sum(i[cl==levels(cl)[1]]))
+                tbl[1,2] = round(sum(i[cl==levels(cl)[2]]))
                 tbl[2,1] = sumClass1-tbl[1,1]
                 tbl[2,2] = sumClass2-tbl[1,2]
             }
