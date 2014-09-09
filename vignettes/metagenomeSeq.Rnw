@@ -468,6 +468,17 @@ differences for a single feature, \texttt{plotOTU}, \texttt{plotFeature} or mult
 \texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for
 additional control of false discoveries.
 
+\subsection{Interactive Display}
+As a first step, thanks to \texttt{interactiveDisplay}, one can view a 
+\texttt{MRexperiment} object simply calling \texttt{display} on the object and access a few of the plotting options available.
+For a more thorough interactive visualization, one might be interested in the shiny-phyloseq package.
+
+<<interactiveDisplay>>=
+# Calling display on the MRexperiment object will start a browser session with interactive plots.
+
+# >interactiveDisplay::display(mouseData)
+@
+
 \subsection{Structural overview}
 Many studies begin by comparing the abundance composition across 
 sample or feature phenotypes. Often a first step of data analysis is a 
