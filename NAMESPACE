@@ -8,6 +8,7 @@ importFrom(parallel,mclapply)
 importFrom(matrixStats,colQuantiles)
 importFrom(matrixStats,rowSds)
 importFrom(gplots,heatmap.2)
+importFrom(interactiveDisplay,display)
 exportClasses( "MRexperiment" )
 
 exportMethods(
