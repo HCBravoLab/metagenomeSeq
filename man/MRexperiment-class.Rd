@@ -2,7 +2,7 @@
 \Rdversion{1.0}
 \docType{class}
 \alias{MRexperiment-class}
-\alias{[,MRexperiment-method}
+\alias{[,MRexperiment,ANY,ANY,ANY-method}
 \alias{colSums,MRexperiment-method}
 \alias{rowSums,MRexperiment-method}
 \alias{colMeans,MRexperiment-method}
@@ -46,7 +46,7 @@ As mentioned above, \code{MRexperiment} is derived from the virtual class,\code{
 \section{Methods}{
   Class-specific methods.
   \describe{
-  \item{\code{[<sample>,<variable>}:}{Subset operation, taking two arguments and
+  \item{\code{[}}{Subset operation, taking two arguments and
       indexing the sample and variable. Returns an \code{MRexperiment object}, including relevant
       metadata. Setting \code{drop=TRUE}
       generates an error. Subsetting the data, the experiment summary slot is repopulated and pData is repopulated after calling factor (removing levels not present).}
