@@ -18,19 +18,23 @@
 #' @param useCSSoffset Boolean, whether to include the default scaling
 #' parameters in the model or not.
 #' @param control The settings for fitZig.
+#' @param useMixedModel Estimate the correlation between duplicate 
+#' features or replicates using duplicateCorrelation.
+#' @param ... Additional parameters for duplicateCorrelation.
 #' @return A list of objects including:
 #' \itemize{
 #' 	\item{call - the call made to fitZig}
 #' 	\item{fit  - 'MLArrayLM' Limma object of the weighted fit}
 #' 	\item{countResiduals - standardized residuals of the fit}
 #' 	\item{z - matrix of the posterior probabilities}
-#' 	\item{eb - output of ebayes, moderated t-statistics, moderated F-statistics, etc}
+#' 	\item{eb - output of eBayes, moderated t-statistics, moderated F-statistics, etc}
 #' 	\item{taxa - vector of the taxa names}
 #' 	\item{counts - the original count matrix input}
 #' 	\item{zeroMod - the zero model matrix}
 #' 	\item{zeroCoef - the zero model fitted results}
 #' 	\item{stillActive - convergence}
 #' 	\item{stillActiveNLL - nll at convergence}
+#' 	\item{dupcor - correlation of duplicates}
 #' }
 #' @export
 #' @seealso \code{\link{cumNorm}} \code{\link{zigControl}}
@@ -48,12 +52,12 @@
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' 
 fitZig <-
-function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
+function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedModel=FALSE,...){
 
 # Initialization
-	tol = control$tol;
-	maxit     = control$maxit;
-	verbose   = control$verbose;
+	tol = control$tol
+	maxit     = control$maxit
+	verbose   = control$verbose
 	
 	stopifnot( is( obj, "MRexperiment" ) )
 	if(any(is.na(normFactors(obj)))) stop("At least one NA normalization factors")
@@ -66,13 +70,15 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
 	zeroIndices=(y==0)
 	z=matrix(0,nrow=nr, ncol=nc)
 	z[zeroIndices]=0.5
-	zUsed = z;
+	zUsed = z
+
 	curIt=0
 	nllOld=rep(Inf, nr)
 	nll=rep(Inf, nr)
 	nllUSED=nll
-	stillActive=rep(TRUE, nr);
+	stillActive=rep(TRUE, nr)
 	stillActiveNLL=rep(1, nr)
+	dupcor=NULL
 	
 # Normalization step
 	Nmatrix = log2(y+1)
@@ -84,17 +90,17 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
 		colnames(mmCount)[ncol(mmCount)] = "scalingFactor"
 	}
 	else{ 
-        mmCount=mod
-   	}
+		mmCount=mod
+	}
 
 	if(is.null(zeroMod)){
 		if(any(is.na(libSize(obj)))){ stop("Calculate the library size first!") }
-	        mmZero=model.matrix(~1+log(libSize(obj)))
-    	} else{ 
-        	mmZero=zeroMod 
-    	}
+			mmZero=model.matrix(~1+log(libSize(obj)))
+		} else{ 
+			mmZero=zeroMod
+		}
 	
-	modRank=ncol(mmCount);
+	modRank=ncol(mmCount)
 # E-M Algorithm
 	while(any(stillActive) && curIt<maxit) {
 	
@@ -123,7 +129,7 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
 		}
 		nllOld=nll
 		curIt=curIt+1
-    
+
 		if(sum(rowSums((1-z)>0)<=modRank,na.rm=TRUE)>0){
 			k = which(rowSums((1-z)>0)<=modRank)
 			stillActive[k] = FALSE;
@@ -131,11 +137,20 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl()){
 		}
 	}
 	
-        assayData(obj)[["z"]] <- z
-        assayData(obj)[["zUsed"]] <- zUsed
+	assayData(obj)[["z"]] <- z
+	assayData(obj)[["zUsed"]] <- zUsed
+
+	if(useMixedModel==TRUE){
+		dupcor = duplicateCorrelation(Nmatrix,mmCount,weights=(1-z),...)
+		fit$fit = limma::lmFit(Nmatrix,mmCount,weights=(1-z),correlation=dupcor$consensus,...)
+		countCoef = fit$fit$coefficients
+		countMu=tcrossprod(countCoef, mmCount)
+		fit$residuals=sweep((Nmatrix-countMu),1,fit$fit$sigma,"/")
+	}
 
 	eb=limma::eBayes(fit$fit)
 	dat = list(call=match.call(),fit=fit$fit,countResiduals=fit$residuals,
-		   z=z,eb=eb,taxa=rownames(obj),counts=y,zeroMod =mmZero,stillActive=stillActive,stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef)
+			z=z,eb=eb,taxa=rownames(obj),counts=y,zeroMod=mmZero,stillActive=stillActive,
+			stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef,dupcor=dupcor)
 	return(dat)
 }
