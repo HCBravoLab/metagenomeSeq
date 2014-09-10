@@ -469,14 +469,16 @@ differences for a single feature, \texttt{plotOTU}, \texttt{plotFeature} or mult
 additional control of false discoveries.
 
 \subsection{Interactive Display}
-As a first step, thanks to \texttt{interactiveDisplay}, one can view a 
-\texttt{MRexperiment} object simply calling \texttt{display} on the object and access a few of the plotting options available.
-For a more thorough interactive visualization, one might be interested in the shiny-phyloseq package.
+Due to recent advances in the \texttt{interactiveDisplay} package, calling the \texttt{display} function on
+\texttt{MRexperiment} objects will bring up a browser to explore your data through several interactive visualizations.
+For more detailed interactive visualizations one might be interested in the shiny-phyloseq package.
 
 <<interactiveDisplay>>=
 # Calling display on the MRexperiment object will start a browser session with interactive plots.
 
-# >interactiveDisplay::display(mouseData)
+# data(mouseData)
+
+# display(mouseData)
 @
 
 \subsection{Structural overview}
