@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: July 10, 2014. Compiled: \today}
+\date{Modified: October 6, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -267,7 +267,7 @@ For large survey studies it is often pertinent to include phenotype information 
 instance). Our linear model methodology can easily incorporate these
 confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
 
-\subsection{Example using fitZig for differential abundance testing}
+\subsubsection{Example using fitZig for differential abundance testing}
 \textbf{Warning}: The user should restrict significant features to those with a minimum number of positive samples. What this means is that one should not claim features are significant unless the effective number of samples is above a particular percentage. For example, fold-change estimates might be unreliable if an entire group does not have a positive count for the feature in question.
 
 
@@ -333,7 +333,7 @@ topTable(fit2)
 @
 Further specific details can be found in section 9.3 and beyond of the Limma user guide. The take home message is that to make use of any Limma functions one needs to extract the final model matrix used: \textit{res\$fit\$design} and the MLArrayLM Limma fit object: \textit{res\$fit}.
 
-\subsection{Exporting fits}
+\subsubsection{Exporting fits}
 Currently functions are being developed to wrap and output results more neatly, but \texttt{MRcoefs}, \texttt{MRtable}, \texttt{MRfulltable} can be used to view coefficient fits and related statistics and export the data with optional output values - see help files to learn how they differ. An important note is that the \texttt{by} variable controls which coefficients are of interest whereas \texttt{coef} determines the display.\\
 
 To only consider features that are found in a large percentage of effectively positive (positive samples + the weight of zero counts included in the Gaussian mixture) use the \textbf{eff} option in the \texttt{MRtables}.
@@ -356,18 +356,56 @@ Use of the function for analyses should cite:
 Talukder H, Paulson JN, Bravo HC. (Submitted)
 
 <<timeSeries>>=
-# The gnotobiotic mice come from a longitudinal study ideal for this type of analysis. 
-data(mouseData)
-
+# The gnotobiotic mice come from a longitudinal study ideal for this type of analysis.
 # We choose to perform our analysis at the class level and look for 
 # differentially abundant time intervals for "Actinobacteria".
-# For time sake we perform only 10 permutations.
+# For demonstrations sake we perform only 10 permutations.
 res = fitTimeSeries(obj=mouseData,lvl="class",feature="Actinobacteria",class="status",id="mouseID",time="relativeTime",B=10)
 
 # We observe a time period of differential abundance for "Actinobacteria"
-res$result
+res$timeIntervals
 
 str(res)
+@
+
+For example, to test every class in the mouse dataset:
+<<timeSeriesAllClasses, tidy=FALSE>>=
+classes = unique(fData(mouseData)[,"class"])
+
+timeSeriesFits = lapply(classes,function(i){
+        fitTimeSeries(obj=mouseData,
+            feature=i,
+            class="status",
+            id="mouseID",
+            time="relativeTime",
+            lvl='class',
+            B=1) # This should be set to a higher value
+    })
+names(timeSeriesFits) = classes
+
+# Removing classes of bacteria without a potentially
+# interesting time interval difference.
+timeSeriesFits = sapply(timeSeriesFits,function(i){i[[1]]})[-c(2,9,14)]
+
+# Correcting for multiple testing.
+for(i in 1:length(timeSeriesFits)){
+    pvalues = timeSeriesFits[[i]][,4]
+    adjPvalues = p.adjust(pvalues,"bonferroni")
+    timeSeriesFits[[i]] = cbind(timeSeriesFits[[i]],adjPvalues)
+}
+
+# Naming the various interesting time intervals.
+for(i in 1:length(timeSeriesFits)){
+    rownames(timeSeriesFits[[i]]) = 
+      paste(
+        paste(names(timeSeriesFits)[i]," interval",sep=""),
+        1:nrow(timeSeriesFits[[i]]),sep=":"
+      )
+}
+
+# Merging into a table.
+timeSeriesFits = do.call(rbind,timeSeriesFits)
+head(timeSeriesFits)
 @
 Please see the help page for \texttt{fitTimeSeries} for parameters. Note, only two groups can be compared to each other and the time parameter must be an actual value (currently no support for posix, etc.).
 
@@ -380,11 +418,11 @@ plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 @
 
 \subsection{Permutation test}
-Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 100 permutations providing p-value resolution to the hundredth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features. We observe two \textit{Prevotella}, two \textit{Veillonella}, a \textit{Streptococcus} and a \textit{Neisseria}.
+Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 10 permutations providing p-value resolution to the tenth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features.
 
 <<metastats>>=
 coeffOfInterest = 2
-res = fitMeta(obj = lungTrim, mod = mod, useCSSoffset = FALSE, B = 100, coef = coeffOfInterest)
+res = fitMeta(obj = lungTrim, mod = mod, useCSSoffset = FALSE, B = 10, coef = coeffOfInterest)
 
 # extract p.values and adjust for multiple testing
 # res$p are the p-values calculated through permutation
@@ -402,11 +440,9 @@ head(taxa[sigList])
 @
 
 \subsection{Presence-absence testing}
-The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitPA} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{fitPA}. If there is a desire for a more detailed description, please email me.
-
+The hypothesis for the implemented presence-absence test is that the proportion/odds of a given feature present is higher/lower among one group of individuals compared to another, and we want to test whether any difference in the proportions observed is significant. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitPA} calculates the presence-absence for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix. \texttt{MRfulltable} when sent a result of fitZig will also include the results of \texttt{fitPA}.
 
 <<presenceAbsence>>=
-data(mouseData)
 classes = pData(mouseData)$diet
 res = fitPA(mouseData[1:5,],cl=classes)
 # Warning - the p-value is calculating 1 despite a high odd's ratio.
@@ -417,7 +453,6 @@ head(res)
 The hypothesis for the implemented discovery test is that the proportion of observed counts for a feature of all counts are comparable between groups. We use Fisher's exact test to create a 2x2 contingency table and calculate p-values, odd's ratios, and confidence intervals.  \texttt{fitDO} calculates the proportion of counts for each organism and returns a table of p-values, odd's ratios, and confidence intervals. The function will accept either a \texttt{MRexperiment} object or matrix.
 
 <<discOdds>>=
-data(mouseData)
 classes = pData(mouseData)$diet
 res = fitDO(mouseData[1:100,],cl=classes,norm=FALSE,log=FALSE)
 head(res)
@@ -427,11 +462,9 @@ head(res)
 To test the correlations of abundance features, or samples, in a pairwise fashion we have implemented \texttt{correlationTest} and \texttt{correctIndices}. The \texttt{correlationTest} function will calculate basic pearson, spearman, kendall correlation statistics for the rows of the input and report the associated p-values. If a vector of length ncol(obj) it will also calculate the correlation of each row with the associated vector.
 
 <<corTest>>=
-data(mouseData)
 cors = correlationTest(mouseData[55:60,],norm=FALSE,log=FALSE)
 head(cors)
 @
-
 \textbf{Caution:} http://www.ncbi.nlm.nih.gov/pubmed/23028285
 
 \newpage
@@ -442,8 +475,6 @@ featureData information in the MRexperiment object, calling \texttt{aggregateByT
 'genus') will aggregate counts to the desired level with the aggfun function (default colSums). Possible aggfun alternatives include colMeans and colMedians.
 
 <<aggTax>>=
-data(mouseData)
-
 # first featureData column as 'chr' vector
 taxa = as.character(fData(mouseData)[,1])
 
@@ -459,12 +490,14 @@ The \texttt{aggregateByTaxonomy} and \texttt{aggTax} functions are flexible enou
 \newpage
 \section{Visualization of features}
 
-\texttt{metagenomeSeq} has several plotting functions to visualize and gain insight into the overall structural composition of the 
-data. Heatmaps of feature counts: \texttt{plotMRheatmap}. Basic feature correlation structures: \texttt{plotCorr}. PCA/MDS coordinates of 
-samples or features: \texttt{plotOrd}. Rarefaction effects: \texttt{plotRare}. Contingency table style plot: \texttt{plotBubble}.
+Visualizing metagenomic datasets can be very revealing. To help with the analysis \texttt{metagenomeSeq} has several plotting functions to gain insight of the dataset's overall structure and particular individual features. We include an shiny based interactive first exploration of the data through the \texttt{display} function.
 
-Other plotting functions include plotting the abundance
-differences for a single feature, \texttt{plotOTU}, \texttt{plotFeature} or multiple features
+For an overall look at the dataset we provide a number of plots including heatmaps of feature counts: \texttt{plotMRheatmap}, basic feature correlation structures: \texttt{plotCorr}, 
+PCA/MDS coordinates of samples or features: \texttt{plotOrd}, rarefaction effects: \texttt{plotRare} and contingency table
+style plots: \texttt{plotBubble}.
+
+
+Other plotting functions look at particular features such as the abundance for a single feature: \texttt{plotOTU} and \texttt{plotFeature}, or of multiple features at once:
 \texttt{plotGenus}. Plotting multiple OTUs with similar annotations allows for
 additional control of false discoveries.
 
@@ -475,8 +508,6 @@ For more detailed interactive visualizations one might be interested in the shin
 
 <<interactiveDisplay>>=
 # Calling display on the MRexperiment object will start a browser session with interactive plots.
-
-# data(mouseData)
 
 # display(mouseData)
 @
@@ -508,7 +539,6 @@ yellow = low fat). Notice the samples cluster by diet in these cases
 and there are obvious clusters. We then plot a correlation matrix for the same features.
 
 <<heatmapData,fig.cap='Left) Abundance heatmap (plotMRheatmap). Right) Correlation heatmap (plotCorr).',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth'>>=
-data(mouseData)
 trials = pData(mouseData)$diet
 heatmapColColors=brewer.pal(12,"Set3")[as.integer(factor(trials))];
 heatmapCols = colorRampPalette(brewer.pal(9, "RdBu"))(50)
@@ -524,7 +554,6 @@ plotCorr(obj=mouseData,n=200,cexRow = 0.25,cexCol = 0.25,
 
 Below is an example of plotting CMDS plots of the data and the rarefaction effect at the OTU level. None of the data is removed (we recommend removing outliers typically).
 <<MDSandRareplots,fig.cap='Left) CMDS of features (plotOrd). Right) Rarefaction effect (plotRare).',dev='pdf',fig.show='hold',out.width='.5\\linewidth', out.height='.5\\linewidth'>>=
-data(mouseData)
 cl = factor(pData(mouseData)$diet)
 
 # plotOrd - can load vegan and set distfun = vegdist and use dist.method="bray"
