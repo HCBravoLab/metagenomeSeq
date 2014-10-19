@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: October 6, 2014. Compiled: \today}
+\date{Modified: October 15, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -172,6 +172,7 @@ obj
 
 Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load$\_$biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
 
+\newpage
 \subsection{Useful commands}
 Phenotype information can be accessed with the \verb+phenoData+ and \verb+pData+ methods:
 <<>>=
@@ -184,7 +185,7 @@ Feature information can be accessed with the \verb+featureData+ and \verb+fData+
 featureData(obj)
 head(fData(obj)[,-c(2,10)],3)
 @
-
+\newpage
 The raw or normalized counts matrix can be accessed with the \verb+MRcounts+ function:
 <<>>=
 head(MRcounts(obj[,1:2]))
@@ -197,6 +198,13 @@ samplesToKeep = which(pData(obj)$SmokingStatus=="Smoker")
 obj_smokers = obj[featuresToKeep,samplesToKeep]
 obj_smokers
 head(pData(obj_smokers),3)
+@
+
+\newpage
+Or using a threshold of minimum depth or OTU presence:
+<<>>=
+data(mouseData)
+filterData(mouseData,present=10,depth=1000)
 @
 
 \newpage
@@ -490,7 +498,7 @@ The \texttt{aggregateByTaxonomy} and \texttt{aggTax} functions are flexible enou
 \newpage
 \section{Visualization of features}
 
-Visualizing metagenomic datasets can be very revealing. To help with the analysis \texttt{metagenomeSeq} has several plotting functions to gain insight of the dataset's overall structure and particular individual features. We include an shiny based interactive first exploration of the data through the \texttt{display} function.
+To help with visualization and analysis of datasets \texttt{metagenomeSeq} has several plotting functions to gain insight of the dataset's overall structure and particular individual features. An initial interactive exploration of the data can be displayed with the \texttt{display} function.
 
 For an overall look at the dataset we provide a number of plots including heatmaps of feature counts: \texttt{plotMRheatmap}, basic feature correlation structures: \texttt{plotCorr}, 
 PCA/MDS coordinates of samples or features: \texttt{plotOrd}, rarefaction effects: \texttt{plotRare} and contingency table
