@@ -1,4 +1,5 @@
 version 1.9.xx (2014)
+	+ Removed interactiveDisplay to namespace - moved to suggests
 	+ Fixed ordering of MRtable,MRfulltable first four columns
 version 1.7.xx (2014-05-07)
 	+ Added function plotBubble
