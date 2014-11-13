@@ -1,0 +1,271 @@
+%\VignetteIndexEntry{fitTimeSeries: differential abundance analysis through time or location}
+%\VignetteEngine{knitr::knitr}
+\documentclass[a4paper,11pt]{article}
+\usepackage{url}
+\usepackage{afterpage}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{cite}
+\geometry{hmargin=2.5cm, vmargin=2.5cm}
+\usepackage{graphicx}
+\usepackage{courier}
+\bibliographystyle{unsrt}
+
+\begin{document}
+<<include=FALSE>>=
+require(knitr)
+opts_chunk$set(concordance=TRUE,tidy=TRUE)
+@
+
+\title{{\textbf{\texttt{fitTimeSeries}: differential abundance analysis through time or location}}}
+\author{Hisham Talukder, Joseph N. Paulson, Hector Corrada Bravo\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
+\date{Modified: November 12, 2014. Compiled: \today}
+\maketitle
+\tableofcontents
+
+\newpage
+
+<<config,echo=FALSE>>=
+options(width = 65)
+options(continue=" ")
+options(warn=-1)
+set.seed(42)
+@
+
+\section{Introduction}
+\textbf{This is a vignette specifically for the fitTimeSeries function. For a full list of functions available in the package:
+help(package=metagenomeSeq). For more information about a particular function call: ?function.}
+
+Smoothing spline regression models~\cite{Wahba:1990} are commonly used to model longitudinal data and form the basis for methods used in a large number of applications ~\cite{networkped1,LongCrisp}. Specifically, an extension of the methodology called Smoothing-Spline ANOVA~\cite{Gu} is capable of directly estimating a smooth function of interest while incorporating other covariates in the model. 
+
+A common approach to detect regions/times of interest in a genome or for differential abundance is to model differences between two groups with respect to the quantitative measurements as smooth functions and perform statistical inference on these models. In particular, widely used methods for region finding using DNA methylation data use local regression methods to estimate these smooth functions. An important aspect of these tools is their ability to incorporate sample characteristics as covariates in these models, e.g., sex and age in population studies, or technical factors like processing batches. Incorporating these sources of variability, both biological and technical is essential in high-throughput studies. Therefore, these methods require that the models used are capable of estimating both smooth functions and sample-specfic characteristics. We present fitTimeSeries - a method for estimating and detecting regions/times of interest due to differential abundance of a quantitative measurement (for example, normalized abundance).
+
+\subsection{Problem Formulation}
+We assume data is of the form:
+$$
+Y_{itk}= f_i(t,x_{k})+e_{tk}
+$$
+where $i$ represents group factor (diet, cell type, etc.), $t$ represents series factor (for example, time or location), $k$ represents replicate observations, $x_{k}$ are covariates for sample $k$ (including an indicator for group 
+membership $I\{k \in i\}$) and $e_{tk}$ are independent $N(0,\sigma^2)$ errors. We assume $f_i$ to be a smooth function, defined in an interval $[a,b]$, that can be parametric, non-parametric or a mixture of both.   
+
+Our goal is to identify intervals where the absolute difference between two groups $\eta_d(t)=f_1(t, \cdot)-f_2(t, \cdot)$ is large, that is, regions, $R_{t_1,t_2}$, where:
+$R_{t_1,t_2}=
+\{t_1,t_2 \in x 
+\textit{ such that } 
+| \eta_{d}(x) | 
+\ge C \}$ 
+and $C$ is a predefined constant threshold.
+
+To identify these areas we use hypothesis testing using the area $A_{t_1,t_2}=\int_{R_{t_1,t_2}}\eta_d(t) dt$ under the estimated function of $\eta_d(t)$ as a statistic with null and alternative hypotheses 
+$$
+  H_0: A_{t_1,t_2} \le K
+$$
+$$
+  H_1: A_{t_1,t_2} >  K
+$$
+with $K$ some fixed threshold.
+
+\section{Data preparation}
+Data should be preprocessed and prepared in tab-delimited files. Measurements are stored in a matrix with samples along the
+columns and features along the rows. For example, given $m$ features and $n$ samples, the entries in a marker-gene or 
+metagenomic count matrix \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular feature $i$ 
+(whether it be OTU, species, genus, etc.) in sample $j$.
+Alternatively, the measurements could be some quantitative measurement such as methylation percentages or CD4 levels.\\
+
+\begin{center}
+$\bordermatrix{ &sample_1&sample_2&\ldots &sample_n\cr feature_1&c_{11} &  c_{12}  & \ldots & c_{1n}\cr feature_2& c_{21}  &  c_{22} & \ldots & c_{2n}\cr \vdots & \vdots & \vdots & \ddots & \vdots\cr feature_m & c_{m1}  &   c_{m2} &\ldots & c_{mn}}$
+\end{center}
+
+Data should be stored in a  file (tab-delimited by default) with sample names along the first row, feature names in the first
+column and should be loaded into R and formatted into a MRexperiment object. To prepare the data please read the section on data preparation in the full metagenomeSeq vignette - \texttt{vignette("metagenomeSeq")}.
+
+\subsection{Example datasets}
+There is a time-series dataset included as an examples in the \texttt{metagenomeSeq} package. Data needs to be in a \texttt{MRexperiment} object format to normalize, run the statistical tests, and visualize. As an example, throughout the vignette we'll use the following datasets. 
+To understand a \texttt{fitTimeSeries}'s usage or included data simply enter ?\texttt{fitTimeSeries}.
+
+<<requireMetagenomeSeq,warning=FALSE,message=FALSE>>=
+library(metagenomeSeq)
+@
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item Humanized gnotobiotic mouse gut \cite{ts_mouse}:
+Twelve germ-free adult male C57BL/6J mice were fed a low-fat, plant polysaccharide-rich diet. Each mouse was gavaged with healthy adult human fecal material. Following the fecal transplant, mice remained on the low-fat, plant polysacchaaride-rich diet for four weeks, following which a subset of 6 were switched to a high-fat and high-sugar diet for eight weeks. Fecal samples for each mouse went through PCR amplification of the bacterial 16S rRNA gene V2 region weekly. Details of experimental protocols and further details of the data can be found in Turnbaugh et. al. Sequences and further information can be found at:
+\url{http://gordonlab.wustl.edu/TurnbaughSE_10_09/STM_2009.html}
+
+\end{enumerate}
+<<dataset2,tidy=FALSE>>=
+data(mouseData)
+mouseData
+@
+
+
+\subsection{Creating a \texttt{MRexperiment} object with other measurements}
+
+For a fitTimeSeries analysis a minimal MRexperiment-object is required and can be created using the function \texttt{newMRexperiment} which takes a count matrix described above and phenoData (annotated data frame).
+\texttt{Biobase} provides functions to create annotated data frames. 
+
+<<createMRexperiment1>>=
+# Creating mock sample replicates
+sampleID = rep(paste("sample",1:10,sep=":"),times=20)
+# Creating mock class membership
+class = rep(c(rep(0,5),rep(1,5)),times=20)
+# Creating mock time
+time = rep(1:20,each=10)
+
+phenotypeData = AnnotatedDataFrame(data.frame(sampleID,class,time))
+
+require(gss)
+# Creating mock abundances
+set.seed(1)
+# No difference
+measurement1 = rnorm(200,mean=100,sd=1)
+# Some difference
+measurement2 = rnorm(200,mean=100,sd=1)
+measurement2[1:5]=measurement2[1:5] + 100
+measurement2[11:15]=measurement2[11:15] + 100
+measurement2[21:25]=measurement2[21:25] + 50
+mat = rbind(measurement1,measurement2)
+colnames(mat) = 1:200
+mat[1:2,1:10]
+@
+
+If phylogenetic information exists for the features and there is a desire to aggregate 
+measurements based on similar annotations choosing the featureData column name in lvl will aggregate measurements using the default parameters in the \texttt{aggregateByTaxonomy} function.
+
+<<createMRexperiment2>>=
+# This is an example of potential lvl's to aggregate by.
+data(mouseData)
+colnames(fData(mouseData))
+@
+
+Here we create the actual MRexperiment to run through fitTimeSeries.
+<<createMRexperiment3,tidy=FALSE>>=
+obj = newMRexperiment(counts=mat,phenoData=phenotypeData)
+obj
+res1 = fitTimeSeries(obj,feature=1,
+              class='class',time='time',id='sampleID',
+              B=10,norm=FALSE,log=FALSE)
+res2 = fitTimeSeries(obj,feature=2,
+              class='class',time='time',id='sampleID',
+              B=10,norm=FALSE,log=FALSE)
+
+
+classInfo = factor(res1$data$class)
+par(mfrow=c(3,1))
+plotClassTimeSeries(res1,pch=21,bg=classInfo)
+plotTimeSeries(res2)
+plotClassTimeSeries(res2,pch=21,bg=classInfo)
+@
+
+\section{Time series analysis}
+Implemented in the \texttt{fitTimeSeries} function is a method for calculating time intervals for which 
+bacteria are differentially abundant. Fitting is performed using Smoothing Splines ANOVA (SS-ANOVA), 
+as implemented in the \texttt{gss} package. Given observations at multiple time points for two groups 
+the method calculates a function modeling the difference in abundance across all time. Using group membership permutations we 
+estimate a null distribution of areas under the difference curve for the time intervals of interest and report significant intervals of time. Here we provide a real example from the microbiome of two groups of mice on different diets.
+
+The gnotobiotic mice come from a longitudinal study ideal for this type of analysis.
+We choose to perform our analysis at the class level and look for 
+differentially abundant time intervals for "Actinobacteria".
+For demonstrations sake we perform only 10 permutations.
+
+If you find the method useful, please cite:
+"Finding regions of interest in high throughput genomics data using smoothing splines"
+Talukder H, Paulson JN, Bravo HC. (Submitted)
+
+<<timeSeries>>=
+res = fitTimeSeries(obj=mouseData,lvl="class",feature="Actinobacteria",class="status",id="mouseID",time="relativeTime",B=10)
+
+# We observe a time period of differential abundance for "Actinobacteria"
+res$timeIntervals
+
+str(res)
+@
+
+For example, to test every class in the mouse dataset:
+<<timeSeriesAllClasses, tidy=FALSE>>=
+classes = unique(fData(mouseData)[,"class"])
+
+timeSeriesFits = lapply(classes,function(i){
+        fitTimeSeries(obj=mouseData,
+            feature=i,
+            class="status",
+            id="mouseID",
+            time="relativeTime",
+            lvl='class',
+            B=1) # B is the number of permutations and should clearly not be 1
+    })
+names(timeSeriesFits) = classes
+
+# Removing classes of bacteria without a potentially
+# interesting time interval difference.
+timeSeriesFits = sapply(timeSeriesFits,function(i){i[[1]]})[-c(2,9,14)]
+
+# Correcting for multiple testing.
+for(i in 1:length(timeSeriesFits)){
+    pvalues = timeSeriesFits[[i]][,4]
+    adjPvalues = p.adjust(pvalues,"bonferroni")
+    timeSeriesFits[[i]] = cbind(timeSeriesFits[[i]],adjPvalues)
+}
+
+# Naming the various interesting time intervals.
+for(i in 1:length(timeSeriesFits)){
+    rownames(timeSeriesFits[[i]]) = 
+      paste(
+        paste(names(timeSeriesFits)[i]," interval",sep=""),
+        1:nrow(timeSeriesFits[[i]]),sep=":"
+      )
+}
+
+# Merging into a table.
+timeSeriesFits = do.call(rbind,timeSeriesFits)
+head(timeSeriesFits)
+@
+Please see the help page for \texttt{fitTimeSeries} for parameters. Note, only two groups can be compared to each other and the time parameter must be an actual value (currently no support for posix, etc.).
+
+\subsection{Paramaters}
+There are a number of parameters for the \texttt{fitTimeSeries} function. We list and provide a brief discussion below. For
+parameters influencing \texttt{ssanova}, \texttt{aggregateByTaxonomy}, \texttt{MRcounts} type ?function for more details.
+\begin{itemize}
+  \item obj - the metagenomeSeq MRexperiment-class object.
+  \item feature	- Name or row of feature of interest.
+  \item class	- Name of column in phenoData of MRexperiment-class object for class memberhip.
+  \item time	- Name of column in phenoData of MRexperiment-class object for relative time.
+  \item id	- Name of column in phenoData of MRexperiment-class object for sample id.
+  \item method	- Method to estimate time intervals of differentially abundant bacteria (only ssanova method implemented currently).
+  \item lvl	- Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
+  \item C	 - Value for which difference function has to be larger or smaller than (default 0).
+  \item B	- Number of permutations to perform (default 1000)
+  \item norm	- When aggregating counts to normalize or not. (see MRcounts)
+  \item log	- Log2 transform. (see MRcounts)
+  \item sl	- Scaling value. (see MRcounts)
+  \item ...	- Options for ssanova
+
+\end{itemize}
+
+\section{Visualization of features}
+To help with visualization and analysis of datasets \texttt{metagenomeSeq} has several plotting functions to gain insight of the model fits and the differentially abundant time intervals using \texttt{plotClassTimeSeries} and \texttt{plotTimeSeries} on the result. More plots will be updated.
+<<timeSeriesPlotting>>=
+par(mfrow=c(2,1))
+plotClassTimeSeries(res,pch=21,
+                    bg=res$data$class,ylim=c(0,8))
+plotTimeSeries(res)
+@
+
+\section{Summary}
+
+\texttt{metagenomeSeq}'s \texttt{fitTimeSeries} is a novel methodology for differential abundance testing of longitudinal data. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
+
+\subsection{Citing fitTimeSeries}
+<<cite>>=
+citation("metagenomeSeq")
+@
+
+\subsection{Session Info}
+<<sessionInfo>>=
+sessionInfo()
+@
+
+\bibliography{fitTimeSeries}
+\end{document}
