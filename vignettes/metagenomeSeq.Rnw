@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: October 23, 2014. Compiled: \today}
+\date{Modified: November 12, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -57,7 +57,7 @@ The software was also designed to address the effects of both normalization and 
 
 \newpage
 \section{Data preparation}
-Microbial marker gene sequence data is preprocessed and counts are algorithmically defined 
+Microbial marker-gene sequence data is preprocessed and counts are algorithmically defined 
 from project-specific sequence data by clustering reads according to read similarity. 
 Given $m$ features and $n$ samples, the elements in a count matrix 
 \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular 
@@ -425,7 +425,7 @@ plotTimeSeries(res)
 plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 @
 
-\subsection{Permutation test}
+\subsection{Metastats}
 Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 10 permutations providing p-value resolution to the tenth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features.
 
 <<metastats>>=
@@ -638,7 +638,7 @@ plotFeature(mouseData,norm=FALSE,log=FALSE,otuIndex,classIndex,
 \newpage
 \section{Summary}
 
-\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
+\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker-gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
 
 \subsection{Citing metagenomeSeq}
 <<cite>>=
