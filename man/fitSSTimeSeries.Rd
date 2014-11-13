@@ -4,7 +4,7 @@
 \title{Discover differentially abundant time intervals using SS-Anova}
 \usage{
 fitSSTimeSeries(obj, feature, class, time, id, lvl = NULL, C = 0,
-  B = 1000, seed = 123, norm = TRUE, log = TRUE, sl = 1000, ...)
+  B = 1000, norm = TRUE, log = TRUE, sl = 1000, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
@@ -22,8 +22,6 @@ fitSSTimeSeries(obj, feature, class, time, id, lvl = NULL, C = 0,
 \item{C}{Value for which difference function has to be larger or smaller than (default 0).}
 
 \item{B}{Number of permutations to perform}
-
-\item{seed}{Random-number seed.}
 
 \item{norm}{When aggregating counts to normalize or not.}
 
