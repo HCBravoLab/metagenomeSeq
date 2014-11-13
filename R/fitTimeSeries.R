@@ -262,6 +262,10 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
         timePoints=prep$timePoints, positive=FALSE,C=C)
     indexAll = rbind(indexPos, indexNeg)
 
+    if(sum(indexAll[,1]==indexAll[,2])>0){
+        indexAll=indexAll[-which(indexAll[,1]==indexAll[,2]),]
+    }
+
     fit = 2*prep$fit
     se  = 2*prep$se
     timePoints = prep$timePoints
