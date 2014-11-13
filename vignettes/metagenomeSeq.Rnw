@@ -354,75 +354,19 @@ head(MRcoefs(fit,taxa=taxa,coef=2))
 @
 
 \subsection{Time series analysis}
-Implemented in the \texttt{fitTimeSeries} function is a method for calculating time intervals for which bacteria are differentially abundant. 
-Fitting is performed using Smoothing Splines ANOVA (SS-ANOVA), as implemented in the \texttt{gss} package. Given observations at multiple 
-time points for two groups the method calculates a function modeling the difference in abundance across all time. Using group membership permutations we 
-estimate a null distribution of areas under the difference curve for the time intervals of interest and report significant intervals of time. 
+Implemented in the \texttt{fitTimeSeries} function is a method for calculating time intervals for which bacteria are
+differentially abundant. Fitting is performed using Smoothing Splines ANOVA (SS-ANOVA), as implemented in the \texttt{gss}
+package. Given observations at multiple time points for two groups the method calculates a function modeling the difference 
+in abundance across all time. Using group membership permutations weestimate a null distribution of areas under the difference
+curve for the time intervals of interest and report significant intervals of time. 
 
 Use of the function for analyses should cite:
 "Finding regions of interest in high throughput genomics data using smoothing splines"
 Talukder H, Paulson JN, Bravo HC. (Submitted)
 
+For a description of how to perform a time-series / genome based analysis call the \texttt{fitTimeSeries} vignette.
 <<timeSeries>>=
-# The gnotobiotic mice come from a longitudinal study ideal for this type of analysis.
-# We choose to perform our analysis at the class level and look for 
-# differentially abundant time intervals for "Actinobacteria".
-# For demonstrations sake we perform only 10 permutations.
-res = fitTimeSeries(obj=mouseData,lvl="class",feature="Actinobacteria",class="status",id="mouseID",time="relativeTime",B=10)
-
-# We observe a time period of differential abundance for "Actinobacteria"
-res$timeIntervals
-
-str(res)
-@
-
-For example, to test every class in the mouse dataset:
-<<timeSeriesAllClasses, tidy=FALSE>>=
-classes = unique(fData(mouseData)[,"class"])
-
-timeSeriesFits = lapply(classes,function(i){
-        fitTimeSeries(obj=mouseData,
-            feature=i,
-            class="status",
-            id="mouseID",
-            time="relativeTime",
-            lvl='class',
-            B=1) # This should be set to a higher value
-    })
-names(timeSeriesFits) = classes
-
-# Removing classes of bacteria without a potentially
-# interesting time interval difference.
-timeSeriesFits = sapply(timeSeriesFits,function(i){i[[1]]})[-c(2,9,14)]
-
-# Correcting for multiple testing.
-for(i in 1:length(timeSeriesFits)){
-    pvalues = timeSeriesFits[[i]][,4]
-    adjPvalues = p.adjust(pvalues,"bonferroni")
-    timeSeriesFits[[i]] = cbind(timeSeriesFits[[i]],adjPvalues)
-}
-
-# Naming the various interesting time intervals.
-for(i in 1:length(timeSeriesFits)){
-    rownames(timeSeriesFits[[i]]) = 
-      paste(
-        paste(names(timeSeriesFits)[i]," interval",sep=""),
-        1:nrow(timeSeriesFits[[i]]),sep=":"
-      )
-}
-
-# Merging into a table.
-timeSeriesFits = do.call(rbind,timeSeriesFits)
-head(timeSeriesFits)
-@
-Please see the help page for \texttt{fitTimeSeries} for parameters. Note, only two groups can be compared to each other and the time parameter must be an actual value (currently no support for posix, etc.).
-
-\subsubsection{Time series plotting}
-We can plot the difference function fit and time intervals of differential abundance using \texttt{plotTimeSeries} and \texttt{plotClassTimeSeries} on the result. More plots will be updated in time.
-<<timeSeriesPlotting>>=
-par(mfrow=c(2,1))
-plotTimeSeries(res)
-plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
+# vignette("fitTimeSeries")
 @
 
 \subsection{Metastats}

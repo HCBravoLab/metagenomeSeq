@@ -215,7 +215,6 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
 #' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @param B Number of permutations to perform
-#' @param seed Random-number seed.
 #' @param norm When aggregating counts to normalize or not.
 #' @param log Log2 transform.
 #' @param sl Scaling value.
@@ -238,12 +237,11 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' res = fitSSTimeSeries(obj=mouseData,feature="Actinobacteria",
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
 #'
-fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,log=TRUE,sl=1000,...) {
+fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,...) {
     if(!require(gss)){
         install.packages("gss",repos="http://cran.r-project.org")
         library(gss)
     }
-    set.seed(seed)
     
     if(!is.null(lvl)){
         aggData = aggregateByTaxonomy(obj,lvl,norm=norm,sl=sl)
@@ -317,7 +315,6 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
 #' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @param B Number of permutations to perform
-#' @param seed Random-number seed.
 #' @param norm When aggregating counts to normalize or not.
 #' @param log Log2 transform.
 #' @param sl Scaling value.
@@ -340,9 +337,9 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,seed=1
 #' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
 #'
-fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL,C=0,B=1000,seed=123,norm=TRUE,log=TRUE,sl=1000,...) {
+fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL,C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,...) {
     if(method=="ssanova"){
-        res = fitSSTimeSeries(obj,feature,class,time,id,lvl,C,B,seed,norm,log,sl,...)
+        res = fitSSTimeSeries(obj,feature,class,time,id,lvl,C,B,norm,log,sl,...)
     }
     return(res)
 }
