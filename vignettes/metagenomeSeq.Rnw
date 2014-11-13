@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: October 6, 2014. Compiled: \today}
+\date{Modified: November 12, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -57,7 +57,7 @@ The software was also designed to address the effects of both normalization and 
 
 \newpage
 \section{Data preparation}
-Microbial marker gene sequence data is preprocessed and counts are algorithmically defined 
+Microbial marker-gene sequence data is preprocessed and counts are algorithmically defined 
 from project-specific sequence data by clustering reads according to read similarity. 
 Given $m$ features and $n$ samples, the elements in a count matrix 
 \textbf{C} ($m, n$), $c_{ij}$, are the number of reads annotated for a particular 
@@ -172,6 +172,7 @@ obj
 
 Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load$\_$biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
 
+\newpage
 \subsection{Useful commands}
 Phenotype information can be accessed with the \verb+phenoData+ and \verb+pData+ methods:
 <<>>=
@@ -184,7 +185,7 @@ Feature information can be accessed with the \verb+featureData+ and \verb+fData+
 featureData(obj)
 head(fData(obj)[,-c(2,10)],3)
 @
-
+\newpage
 The raw or normalized counts matrix can be accessed with the \verb+MRcounts+ function:
 <<>>=
 head(MRcounts(obj[,1:2]))
@@ -197,6 +198,13 @@ samplesToKeep = which(pData(obj)$SmokingStatus=="Smoker")
 obj_smokers = obj[featuresToKeep,samplesToKeep]
 obj_smokers
 head(pData(obj_smokers),3)
+@
+
+\newpage
+Or using a threshold of minimum depth or OTU presence:
+<<>>=
+data(mouseData)
+filterData(mouseData,present=10,depth=1000)
 @
 
 \newpage
@@ -417,7 +425,7 @@ plotTimeSeries(res)
 plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 @
 
-\subsection{Permutation test}
+\subsection{Metastats}
 Included is a standard permutation test similar to what was used in Metastats. Below we show the fit for the same model as above using 10 permutations providing p-value resolution to the tenth. The \texttt{coef} parameter refers to the coefficient of interest to test. Below we first generate the list of significant features.
 
 <<metastats>>=
@@ -490,7 +498,7 @@ The \texttt{aggregateByTaxonomy} and \texttt{aggTax} functions are flexible enou
 \newpage
 \section{Visualization of features}
 
-Visualizing metagenomic datasets can be very revealing. To help with the analysis \texttt{metagenomeSeq} has several plotting functions to gain insight of the dataset's overall structure and particular individual features. We include an shiny based interactive first exploration of the data through the \texttt{display} function.
+To help with visualization and analysis of datasets \texttt{metagenomeSeq} has several plotting functions to gain insight of the dataset's overall structure and particular individual features. An initial interactive exploration of the data can be displayed with the \texttt{display} function.
 
 For an overall look at the dataset we provide a number of plots including heatmaps of feature counts: \texttt{plotMRheatmap}, basic feature correlation structures: \texttt{plotCorr}, 
 PCA/MDS coordinates of samples or features: \texttt{plotOrd}, rarefaction effects: \texttt{plotRare} and contingency table
@@ -509,6 +517,7 @@ For more detailed interactive visualizations one might be interested in the shin
 <<interactiveDisplay>>=
 # Calling display on the MRexperiment object will start a browser session with interactive plots.
 
+# require(interactiveDisplay)
 # display(mouseData)
 @
 
@@ -629,7 +638,7 @@ plotFeature(mouseData,norm=FALSE,log=FALSE,otuIndex,classIndex,
 \newpage
 \section{Summary}
 
-\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
+\texttt{metagenomeSeq} is specifically designed for sparse high-throughput sequencing experiments that addresses the analysis of differential abundance for marker-gene survey data. The package, while designed for marker-gene survey datasets, may be appropriate for other sparse data sets for which the zero-inflated Gaussian mixture model may apply. If you make use of the statistical method please cite our paper. If you made use of the manual/software, please cite the manual/software!
 
 \subsection{Citing metagenomeSeq}
 <<cite>>=

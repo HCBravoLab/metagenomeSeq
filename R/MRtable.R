@@ -66,11 +66,11 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     cnts = obj$counts;
     yy = cnts>0;
     
-    np0 = rowSums(yy[,groups==unique(groups)[1]]);
-    np1 = rowSums(yy[,groups==unique(groups)[2]]);
+    np0 = rowSums(yy[,groups==0]);
+    np1 = rowSums(yy[,groups==1]);
 
-    nc0 = rowSums(cnts[,groups==unique(groups)[1]]);
-    nc1 = rowSums(cnts[,groups==unique(groups)[2]]);
+    nc0 = rowSums(cnts[,groups==0]);
+    nc1 = rowSums(cnts[,groups==1]);
 
     if(group==0){
         srt = order(abs(tb[,by]),decreasing=TRUE)
@@ -109,9 +109,8 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     rownames(mat) = tx;
     mat = mat[srt,];
 
-    nm = c(paste("+samples in group",unique(groups)[1]),paste("+samples in group",unique(groups)[2]),
-    paste("counts in group",unique(groups)[1]),paste("counts in group",unique(groups)[2]),
-    colnames(tb)[coef],"pvalues","adjPvalues");
+    nm = c("+samples in group 0","+samples in group 1","counts in group 0",
+        "counts in group 1",colnames(tb)[coef],"pvalues","adjPvalues");
     colnames(mat) = nm;
 
     if(!is.null(file)){
