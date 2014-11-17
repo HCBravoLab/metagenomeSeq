@@ -58,6 +58,7 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 	tol = control$tol
 	maxit     = control$maxit
 	verbose   = control$verbose
+	dfmethod  = control$dfmethod
 	
 	stopifnot( is( obj, "MRexperiment" ) )
 	if(any(is.na(normFactors(obj)))) stop("At least one NA normalization factors")
@@ -106,9 +107,9 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 	
 # M-step for count density (each feature independently)
 		if(curIt==0){
-			fit=doCountMStep(z, Nmatrix, mmCount, stillActive);
+			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,dfmethod=dfmethod);
 		} else {
-			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit)
+			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit2=fit,dfmethod=dfmethod)
 		}
 
 # M-step for zero density (all features together)
