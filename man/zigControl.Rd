@@ -4,7 +4,8 @@
 \alias{zigControl}
 \title{Settings for the fitZig function}
 \usage{
-zigControl(tol = 1e-04, maxit = 10, verbose = TRUE)
+zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
+  dfmethod = "default")
 }
 \arguments{
 \item{tol}{The tolerance for the difference in negative log likelihood estimates for a feature to remain active.}
@@ -12,6 +13,8 @@ zigControl(tol = 1e-04, maxit = 10, verbose = TRUE)
 \item{maxit}{The maximum number of iterations for the expectation-maximization algorithm.}
 
 \item{verbose}{Whether to display iterative step summary statistics or not.}
+
+\item{dfmethod}{Either 'default' or 'modified' (by responsibilities)}
 }
 \value{
 The value for the tolerance, maximum no. of iterations, and the verbose warning.
