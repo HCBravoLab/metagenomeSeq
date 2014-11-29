@@ -104,6 +104,7 @@ setValidity( "MRexperiment", function( object ) {
 #' @param norm logical indicating whether or not to return normalized counts.
 #' @param log TRUE/FALSE whether or not to log2 transform scale.
 #' @param sl The value to scale by (default=1000).
+#' @return Normalized or raw counts
 #' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
 #' @examples
 #' 
@@ -135,16 +136,17 @@ MRcounts <- function(obj,norm=FALSE,log=FALSE,sl=1000) {
 #' \code{\link{fitZig}}
 #' 
 #' 
-#' @name posterior.probs
-#' @aliases posterior.probs,MRexperiment-method posterior.probs
+#' @name posteriorProbs
+#' @aliases posteriorProbs,MRexperiment-method posteriorProbs
 #' @docType methods
 #' @param obj a \code{MRexperiment} object.
+#' @return Matrix of posterior probabilities
 #' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
 #' @examples
 #' 
 #' # see vignette
 #' 
-posterior.probs <- function( obj ) {
+posteriorProbs <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )
    assayData(obj)[["z"]]
 }
@@ -159,6 +161,7 @@ posterior.probs <- function( obj ) {
 #' @aliases normFactors,MRexperiment-method normFactors
 #' @docType methods
 #' @param obj a \code{MRexperiment} object.
+#' @return Normalization scaling factors
 #' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
 #' @examples
 #'
@@ -184,6 +187,7 @@ normFactors <- function( obj ) {
 #' @aliases libSize,MRexperiment-method libSize
 #' @docType methods
 #' @param obj a \code{MRexperiment} object.
+#' @return Library sizes
 #' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
 #' @examples
 #'
@@ -209,6 +213,7 @@ libSize<-function(obj){
 #' @aliases expSummary,MRexperiment-method expSummary
 #' @docType methods
 #' @param obj a \code{MRexperiment} object.
+#' @return Experiment summary table
 #' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
 #' @examples
 #' 

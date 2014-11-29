@@ -10,6 +10,9 @@ normFactors(obj)
 \arguments{
 \item{obj}{a \code{MRexperiment} object.}
 }
+\value{
+Normalization scaling factors
+}
 \description{
 Function to access the scaling factors, aka the normalization factors, of
 samples in a MRexperiment object.

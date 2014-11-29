@@ -19,6 +19,9 @@ plotClassTimeSeries(res, xlab = "Time", ylab = "Abundance",
 
 \item{...}{Extra plotting arguments.}
 }
+\value{
+Plot for abundances of each class using a spline approach on estimated null model.
+}
 \description{
 Plot abundances by class
 }

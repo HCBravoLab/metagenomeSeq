@@ -58,7 +58,8 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 	tol = control$tol
 	maxit     = control$maxit
 	verbose   = control$verbose
-	dfmethod  = control$dfmethod
+	dfMethod  = control$dfMethod
+	pvalMethod= control$pvalMethod
 	
 	stopifnot( is( obj, "MRexperiment" ) )
 	if(any(is.na(normFactors(obj)))) stop("At least one NA normalization factors")
@@ -80,7 +81,7 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 	stillActive=rep(TRUE, nr)
 	stillActiveNLL=rep(1, nr)
 	dupcor=NULL
-	
+
 # Normalization step
 	Nmatrix = log2(y+1)
 		
@@ -107,9 +108,9 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 	
 # M-step for count density (each feature independently)
 		if(curIt==0){
-			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,dfmethod=dfmethod);
+			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,dfMethod=dfMethod);
 		} else {
-			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit2=fit,dfmethod=dfmethod)
+			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit2=fit,dfMethod=dfMethod)
 		}
 
 # M-step for zero density (all features together)
@@ -155,3 +156,90 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 			stillActiveNLL=stillActiveNLL,zeroCoef=zeroCoef,dupcor=dupcor)
 	return(dat)
 }
+
+# #' Function to perform fitZig bootstrap
+# #' 
+# #' Calculates bootstrap stats
+# #' 
+# #' @param y Log-transformed matrix
+# #' @param y string for the y-axis
+# #' @param norm is the data normalized?
+# #' @param log is the data logged?
+# #' @return vector of x,y labels
+# #' 
+# performBoostrap<-function(fit){
+
+
+# 	zeroIndices=(y==0)
+# 	z=matrix(0,nrow=nr, ncol=nc)
+# 	z[zeroIndices]=0.5
+# 	zUsed = z
+
+# 	curIt=0
+# 	nllOld=rep(Inf, nr)
+# 	nll=rep(Inf, nr)
+# 	nllUSED=nll
+# 	stillActive=rep(TRUE, nr)
+# 	stillActiveNLL=rep(1, nr)
+	
+# 	tt <- fit$fit$coef[,coef] / fit$fit$stdev.unscaled[,coef] / fit$fit$sigma
+# 	perms = replicate(B,sample(mmCount[,coef]))
+# 	mmCount1=mmCount[,-coef]
+
+# # Normalization step
+# 	Nmatrix = log2(y+1)
+		
+# # Initializing the model matrix
+# 	if(useCSSoffset==TRUE){
+# 		if(any(is.na(normFactors(obj)))){stop("Calculate the normalization factors first!")}
+# 		mmCount=cbind(mod,log2(normFactors(obj)/1000 +1))
+# 		colnames(mmCount)[ncol(mmCount)] = "scalingFactor"
+# 	}
+# 	else{ 
+# 		mmCount=mod
+# 	}
+
+# 	if(is.null(zeroMod)){
+# 		if(any(is.na(libSize(obj)))){ stop("Calculate the library size first!") }
+# 			mmZero=model.matrix(~1+log(libSize(obj)))
+# 		} else{ 
+# 			mmZero=zeroMod
+# 		}
+	
+# 	modRank=ncol(mmCount)
+# 	# E-M Algorithm
+# 	while(any(stillActive) && curIt<maxit) {
+	
+# # M-step for count density (each feature independently)
+# 		if(curIt==0){
+# 			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,dfMethod=dfMethod);
+# 		} else {
+# 			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit2=fit,dfMethod=dfMethod)
+# 		}
+
+# # M-step for zero density (all features together)
+# 		zeroCoef = doZeroMStep(z, zeroIndices, mmZero)
+			
+# # E-step
+# 		z = doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
+# 		zzdata<-getZ(z,zUsed,stillActive,nll,nllUSED);
+# 		zUsed = zzdata$zUsed;
+# # NLL 
+# 		nll = getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals)
+# 		eps = getEpsilon(nll, nllOld)
+# 		active = isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
+# 		stillActive = active$stillActive;
+# 		stillActiveNLL = active$stillActiveNLL;
+# 		if(verbose==TRUE){
+# 			cat(sprintf("it=%2d, nll=%0.2f, log10(eps+1)=%0.2f, stillActive=%d\n", curIt, mean(nll,na.rm=TRUE), log10(max(eps,na.rm=TRUE)+1), sum(stillActive)))
+# 		}
+# 		nllOld=nll
+# 		curIt=curIt+1
+
+# 		if(sum(rowSums((1-z)>0)<=modRank,na.rm=TRUE)>0){
+# 			k = which(rowSums((1-z)>0)<=modRank)
+# 			stillActive[k] = FALSE;
+# 			stillActiveNLL[k] = nll[k]
+# 		}
+# 	}
+# }

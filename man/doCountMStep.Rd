@@ -3,7 +3,7 @@
 \alias{doCountMStep}
 \title{Compute the Maximization step calculation for features still active.}
 \usage{
-doCountMStep(z, y, mmCount, stillActive, fit2 = NULL, dfmethod = "default")
+doCountMStep(z, y, mmCount, stillActive, fit2 = NULL, dfMethod = "default")
 }
 \arguments{
 \item{z}{Matrix (m x n) of estimate responsibilities (probabilities that a
@@ -18,7 +18,7 @@ converged or not.}
 
 \item{fit2}{Previous fit of the count model.}
 
-\item{dfmethod}{Either 'default' or 'modified' (by responsibilities)}
+\item{dfMethod}{Either 'default' or 'modified' (by responsibilities)}
 }
 \value{
 Update matrix (m x n) of estimate responsibilities (probabilities

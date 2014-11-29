@@ -16,6 +16,9 @@ MRcounts(obj, norm = FALSE, log = FALSE, sl = 1000)
 
 \item{sl}{The value to scale by (default=1000).}
 }
+\value{
+Normalized or raw counts
+}
 \description{
 The counts slot holds the raw count data representing (along the rows) the
 number of reads annotated for a particular feature and (along the columns)
