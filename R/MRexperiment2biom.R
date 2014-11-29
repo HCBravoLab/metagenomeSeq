@@ -51,5 +51,5 @@ MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000){
 	biomlist = list(id=id,format=format,format_url=format_url,type=type,generated_by=generated_by,
 					date=date,matrix_type=matrix_type,matrix_element_type=matrix_element_type,shape=shape,
 					rows=rows,columns=columns,data=data)
-	biom(biomlist)
+	biom::biom(biomlist)
 }
