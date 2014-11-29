@@ -13,12 +13,12 @@
 #' #biom2MRexperiment(x)
 biom2MRexperiment <- function(obj){
 	library(biom)
-	mat = as(biom_data(obj),"matrix")
+	mat = as(biom::biom_data(obj),"matrix")
 
-	if(! is.null(observation_metadata(obj))){
-		len = max(sapply(observation_metadata(obj),length))
-		cnames = names(observation_metadata(obj)[[which.max(sapply(observation_metadata(obj),length))]])
-		taxa = as.matrix(sapply(observation_metadata(obj),function(i){ i[1:len]}))
+	if(! is.null(biom::observation_metadata(obj))){
+		len = max(sapply(biom::observation_metadata(obj),length))
+		cnames = names(biom::observation_metadata(obj)[[which.max(sapply(biom::observation_metadata(obj),length))]])
+		taxa = as.matrix(sapply(biom::observation_metadata(obj),function(i){ i[1:len]}))
 		
 		if(dim(taxa)[1]!=dim(mat)[1]){
 			taxa = t(taxa)
@@ -30,8 +30,8 @@ biom2MRexperiment <- function(obj){
 		taxa = NULL
 	}
 
-	if(! is.null(sample_metadata(obj))) {
-		pd = as(sample_metadata(obj),"AnnotatedDataFrame")
+	if(! is.null(biom::sample_metadata(obj))) {
+		pd = as(biom::sample_metadata(obj),"AnnotatedDataFrame")
 	} else{
 		pd = NULL
 	}

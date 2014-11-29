@@ -3,6 +3,7 @@
 \docType{class}
 \alias{MRexperiment-class}
 \alias{[,MRexperiment,ANY,ANY,ANY-method}
+\alias{[,MRexperiment-method}
 \alias{colSums,MRexperiment-method}
 \alias{rowSums,MRexperiment-method}
 \alias{colMeans,MRexperiment-method}
