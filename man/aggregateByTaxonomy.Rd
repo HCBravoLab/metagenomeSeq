@@ -40,8 +40,10 @@ to the desired level using the aggfun function (default colSums). Possible aggfu
 include colMeans and colMedians.
 }
 \examples{
+data(mouseData)
+aggregateByTaxonomy(mouseData[1:100,],lvl="class",norm=TRUE,aggfun=colSums)
 # not run
-# aggregateByTaxonomy(mouseData,lvl="genus",norm=TRUE,aggfun=colMedians)
+# aggregateByTaxonomy(mouseData,lvl="class",norm=TRUE,aggfun=colMedians)
 # aggTax(mouseData,lvl='phylum',norm=FALSE,aggfun=colSums)
 }
 

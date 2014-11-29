@@ -5,7 +5,7 @@
 \title{Settings for the fitZig function}
 \usage{
 zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
-  dfmethod = "default")
+  dfMethod = "default", pvalMethod = "default")
 }
 \arguments{
 \item{tol}{The tolerance for the difference in negative log likelihood estimates for a feature to remain active.}
@@ -14,7 +14,9 @@ zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
 
 \item{verbose}{Whether to display iterative step summary statistics or not.}
 
-\item{dfmethod}{Either 'default' or 'modified' (by responsibilities)}
+\item{dfMethod}{Either 'default' or 'modified' (by responsibilities).}
+
+\item{pvalMethod}{Either 'default' or 'bootstrap'.}
 }
 \value{
 The value for the tolerance, maximum no. of iterations, and the verbose warning.

@@ -20,6 +20,9 @@ plotTimeSeries(res, C = 0, xlab = "Time",
 
 \item{...}{Extra plotting arguments.}
 }
+\value{
+Plot of difference in abundance for significant features.
+}
 \description{
 Plot difference function for particular bacteria
 }

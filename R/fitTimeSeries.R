@@ -355,7 +355,7 @@ fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL
 #' @param ylab Y-label.
 #' @param main Main label.
 #' @param ... Extra plotting arguments.
-#' @return NULL
+#' @return Plot of difference in abundance for significant features.
 #' @rdname plotTimeSeries
 #' @seealso \code{\link{fitTimeSeries}}
 #' @export
@@ -407,7 +407,7 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
 #' @param color0 Color of samples from first group.
 #' @param color1 Color of samples from second group.
 #' @param ... Extra plotting arguments.
-#' @return NULL
+#' @return Plot for abundances of each class using a spline approach on estimated null model.
 #' @rdname plotClassTimeSeries
 #' @seealso \code{\link{fitTimeSeries}}
 #' @export

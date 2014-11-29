@@ -51,7 +51,7 @@ function(obj,otuIndex,classIndex,log=TRUE,norm=TRUE,no=1:length(otuIndex),labs=T
 	y=unlist(l)
 	x=rep(seq(along=l),sapply(l,length))
 
-	z = posterior.probs(obj)
+	z = posteriorProbs(obj)
     #if(!is.null(z)){
     #    z = 1-z;
     #    lz=lapply(classIndex,function(j){(z[otuIndex[no],j])})

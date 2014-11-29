@@ -10,6 +10,9 @@ expSummary(obj)
 \arguments{
 \item{obj}{a \code{MRexperiment} object.}
 }
+\value{
+Experiment summary table
+}
 \description{
 The expSummary vectors represent the column (sample specific) sums of
 features, i.e. the total number of reads for a sample, libSize and also the

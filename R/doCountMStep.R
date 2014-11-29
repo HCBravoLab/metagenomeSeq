@@ -19,17 +19,17 @@
 #' @param stillActive Boolean vector of size M, indicating whether a feature
 #' converged or not.
 #' @param fit2 Previous fit of the count model.
-#' @param dfmethod Either 'default' or 'modified' (by responsibilities)
+#' @param dfMethod Either 'default' or 'modified' (by responsibilities)
 #' @return Update matrix (m x n) of estimate responsibilities (probabilities
 #' that a count comes from a spike distribution at 0).
 #' @seealso \code{\link{fitZig}}
 doCountMStep <-
-function(z, y, mmCount, stillActive,fit2=NULL,dfmethod="default"){
+function(z, y, mmCount, stillActive,fit2=NULL,dfMethod="default"){
 
 	if (is.null(fit2)){
 		fit=limma::lmFit(y[stillActive,],mmCount,weights = (1-z[stillActive,]))
-		if(dfmethod=="modified"){
-			df = rowSums(1-z[stillActive,]) - ncol(mmCount)
+		if(dfMethod=="modified"){
+			df = rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount)
 			fit$df[stillActive] = df
 			fit$df.residual[stillActive] = df
 		}
@@ -50,8 +50,8 @@ function(z, y, mmCount, stillActive,fit2=NULL,dfmethod="default"){
 		fit2$sigma[stillActive] = fit$sigma
 		fit2$Amean[stillActive] = fit$Amean
 
-		if(dfmethod=="modified"){
-			df = rowSums(1-z[stillActive,]) - ncol(mmCount)
+		if(dfMethod=="modified"){
+			df = rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount)
 			fit$df = df
 			fit$df.residual = df
 		}
