@@ -74,7 +74,7 @@ ssFit <- function(abundance,class,time,id,...) {
         time=time,id = factor(id))
 
     # The smoothing splines anova model
-    mod = ssanova(abundance ~ time * class, data=df,...)
+    mod = gss::ssanova(abundance ~ time * class, data=df,...)
     fullTime = seq(min(df$time), max(df$time), by=1)
     values = data.frame(time=fullTime, class=factor(levels(df[,"class"]))[2])
     fit = predict(mod, values, include=c("class", "time:class"), se=TRUE)
@@ -133,7 +133,7 @@ ssPermAnalysis <- function(data, permList, intTimes, timePoints,...){
     for (j in 1:length(permList)){
         
         permData$class = permList[[j]]
-        permModel      = ssanova(abundance ~ time * class, data=permData,...)
+        permModel      = gss::ssanova(abundance ~ time * class, data=permData,...)
         permFit        = cbind(timePoints, (2*predict(permModel,data.frame(time=timePoints, class=factor(1)),#abs 
             include=c("class", "time:class"), se=TRUE)$fit))
 
@@ -420,7 +420,7 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
 #'
 plotClassTimeSeries<-function(res,xlab="Time",ylab="Abundance",color0="black",color1="red",...){
     data = res$data
-    mod  = ssanova(abundance~class*time,data=data)
+    mod  = gss::ssanova(abundance~class*time,data=data)
     
     timePoints = seq(min(data$time),max(data$time),by=1)
     group0 = data.frame(time=timePoints,class=levels(data$class)[1])

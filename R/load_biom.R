@@ -13,7 +13,7 @@
 #' #x
 load_biom <- function(file){
 	library(biom)
-	x = read_biom(file);
+	x = biom::read_biom(file);
 	mrobj = biom2MRexperiment(x);
 	return(mrobj);
 }
