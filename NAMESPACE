@@ -3,6 +3,7 @@ import(RColorBrewer)
 import(limma)
 import(methods)
 importFrom(parallel,makeCluster)
+importFrom(parallel,stopCluster)
 importFrom(parallel,parRapply)
 importFrom(parallel,mclapply)
 importFrom(matrixStats,colQuantiles)
@@ -68,7 +69,7 @@ ssPermAnalysis,
 trapz,
 zigControl,
 newMRexperiment,
-posterior.probs,
+posteriorProbs,
 normFactors,
 libSize
 )

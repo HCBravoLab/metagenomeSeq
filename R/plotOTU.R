@@ -42,7 +42,7 @@ function(obj,otu,classIndex,log=TRUE,norm=TRUE,jitter.factor=1,pch=21,labs=TRUE,
         mat[otu,j]
         })
 
-	z = posterior.probs(obj)
+	z = posteriorProbs(obj)
     y=unlist(l)
     x=rep(seq(along=l),sapply(l,length))
 

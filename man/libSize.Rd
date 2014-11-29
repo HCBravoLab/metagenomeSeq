@@ -10,6 +10,9 @@ libSize(obj)
 \arguments{
 \item{obj}{a \code{MRexperiment} object.}
 }
+\value{
+Library sizes
+}
 \description{
 The libSize vector represents the column (sample specific) sums of features,
 i.e. the total number of reads for a sample or depth of coverage. It is used by
