@@ -9,3 +9,9 @@ metagenomeSeq.toc
 metagenomeSeq.log
 metagenomeSeq.pdf
 inst/.DS_Store
+vignettes/fitTimeSeries-concordance.tex
+vignettes/fitTimeSeries.log
+vignettes/fitTimeSeries.pdf
+vignettes/fitTimeSeries.synctex.gz
+vignettes/fitTimeSeries.tex
+vignettes/fitTimeSeries.toc
