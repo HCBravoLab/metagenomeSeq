@@ -17,14 +17,13 @@ biom2MRexperiment <- function(obj){
 
 	if(! is.null(biom::observation_metadata(obj))){
 		len = max(sapply(biom::observation_metadata(obj),length))
-		cnames = names(biom::observation_metadata(obj)[[which.max(sapply(biom::observation_metadata(obj),length))]])
 		taxa = as.matrix(sapply(biom::observation_metadata(obj),function(i){ i[1:len]}))
 		
 		if(dim(taxa)[1]!=dim(mat)[1]){
 			taxa = t(taxa)
 		}
 		rownames(taxa) = rownames(mat)
-		colnames(taxa) = cnames
+		colnames(taxa) = colnames(biom::observation_metadata(obj))
 		taxa = as(data.frame(taxa),"AnnotatedDataFrame")
 	} else{
 		taxa = NULL
