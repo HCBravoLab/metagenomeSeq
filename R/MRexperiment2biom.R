@@ -7,9 +7,10 @@
 #' @param norm Normalized data?
 #' @param log Logged data?
 #' @param sl scaling factor for normalized counts.
+#' @param qiimeVersion Format fData according to QIIME specifications (assumes only taxonomy in fData).
 #' @return A biom object.
 #' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{load_biom}} \code{\link{biom2MRexperiment}}
-MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000){
+MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000,qiimeVersion=TRUE){
 	library(biom)
 	id = id
 	format = "Biological Observation Matrix 1.0.0-dev"
@@ -27,15 +28,30 @@ MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000){
 	shape = dim(data)
 
 	fdatanames = colnames(fData(obj))
-	rows = lapply(1:nrow(data),function(i){
-			ll = list(
-				id=rownames(data)[i],
-				metadata=lapply(1:ncol(fData(obj)),function(j){
-					as.character(fData(obj)[i,j])}))
-			names(ll$metadata) = fdatanames
-			ll
-			})
+	# this is a bad hack - can make better
+	if(qiimeVersion==TRUE){
+		fd = fData(obj)
+		for(i in 1:ncol(fd)){
+			fd[,i] = as.character(fd[,i])
+		}
+		rows = lapply(1:nrow(data),function(i){
+		ll = list(
+			id=rownames(data)[i],
+			metadata=list("taxonomy" = paste(fd[i,]))
+			)
+		ll
+		})
 
+	} else {
+		rows = lapply(1:nrow(data),function(i){
+				ll = list(
+					id=rownames(data)[i],
+					metadata=lapply(1:ncol(fData(obj)),function(j){
+						as.character(fData(obj)[i,j])}))
+				names(ll$metadata) = fdatanames
+				ll
+				})
+	}
 	sdatanames = colnames(pData(obj))
 	columns  = lapply(1:ncol(data),function(i){
 			ll = list(

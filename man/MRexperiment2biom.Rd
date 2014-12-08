@@ -3,7 +3,8 @@
 \alias{MRexperiment2biom}
 \title{MRexperiment to biom objects}
 \usage{
-MRexperiment2biom(obj, id = NULL, norm = FALSE, log = FALSE, sl = 1000)
+MRexperiment2biom(obj, id = NULL, norm = FALSE, log = FALSE, sl = 1000,
+  qiimeVersion = TRUE)
 }
 \arguments{
 \item{obj}{The MRexperiment object.}
@@ -15,6 +16,8 @@ MRexperiment2biom(obj, id = NULL, norm = FALSE, log = FALSE, sl = 1000)
 \item{log}{Logged data?}
 
 \item{sl}{scaling factor for normalized counts.}
+
+\item{qiimeVersion}{Format fData according to QIIME specifications (assumes only taxonomy in fData).}
 }
 \value{
 A biom object.
