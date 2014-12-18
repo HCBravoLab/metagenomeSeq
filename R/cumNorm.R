@@ -50,7 +50,7 @@ calcNormFactors <- function(obj,p=cumNormStatFast(obj)){
 	}
 	xx = x
 	xx[x == 0] <- NA
-	qs = colQuantiles(xx, p = p, na.rm = TRUE)
+	qs = colQuantiles(xx, probs = p, na.rm = TRUE)
 	normFactors <- sapply(1:ncol(xx), function(i) {
 		xx = (x[, i] - .Machine$double.eps)
 		sum(xx[xx <= qs[i]])
