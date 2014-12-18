@@ -30,7 +30,7 @@ function(obj,p= cumNormStatFast(obj),sl = 1000){
     xx=x
 	xx[x==0] <- NA
 	
-	qs=colQuantiles(xx,p=p,na.rm=TRUE)
+	qs=colQuantiles(xx,probs=p,na.rm=TRUE)
 	
 	newMat<-sapply(1:ncol(xx), function(i) {
 				   xx=(x[,i]-.Machine$double.eps)
