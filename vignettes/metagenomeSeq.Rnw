@@ -425,6 +425,14 @@ head(cors)
 @
 \textbf{Caution:} http://www.ncbi.nlm.nih.gov/pubmed/23028285
 
+\subsection{Unique OTUs or features}
+To find features absent from any number of classes the function \texttt{uniqueFeatures} provides a table of the feature ids, the number of positive features and reads for each group. Thresholding for the number of positive samples or reads required are options.
+
+<<uniqueFeatures>>=
+cl = pData(mouseData)[["diet"]]
+uniqueFeatures(mouseData,cl,nsamples = 10,nreads = 100)
+@
+
 \newpage
 \section{Aggregating features}
 Normalization is recommended at the OTU level. However, functions are in place to aggregate 
