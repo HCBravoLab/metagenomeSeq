@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: November 12, 2014. Compiled: \today}
+\date{Modified: December 18, 2014. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -33,7 +33,14 @@ set.seed(42)
 @
 
 \section{Introduction}
+
 \textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function.}
+
+
+To load the metagenomeSeq library:
+<<requireMetagenomeSeq,warning=FALSE,message=FALSE>>=
+library(metagenomeSeq)
+@
 
 Metagenomics is the study of genetic material targeted directly from an environmental community. 
 Originally focused on exploratory and validation projects, these studies now focus on understanding the differences in microbial communities caused by phenotypic differences. 
@@ -71,36 +78,12 @@ $\bordermatrix{ &sample_1&sample_2&\ldots &sample_n\cr feature_1&c_{11} &  c_{12
 Count data should be stored in a delimited (tab by default) file with sample names
 along the first row and feature names along the first column.
 
-Data is prepared and formatted as a MRexperiment object. For an overview of the internal structure please see Appendix A.
+Data is prepared and formatted as a \texttt{MRexperiment} object. For an overview of the internal structure please see Appendix A.
 
-\subsection{Example datasets}
-There are two datasets included as examples in the \texttt{metagenomeSeq} package. Data needs to be in a \texttt{MRexperiment} object format to normalize, run statistical tests, and visualize. As an example, throughout the vignette we'll use the following datasets. 
-To understand a function's usage or included data simply enter ?functionName.
 
-<<requireMetagenomeSeq,warning=FALSE,message=FALSE>>=
-library(metagenomeSeq)
-@
-
-\begin{enumerate}
-\item Human lung microbiome \cite{charlson}:
-The lung microbiome consists of respiratory flora sampled from six healthy individuals. Three healthy nonsmokers and three healthy smokers. The upper lung tracts were sampled by oral wash and oro-/nasopharyngeal swabs. Samples were taken using two bronchoscopes, serial bronchoalveolar lavage and lower airway protected brushes.
-\end{enumerate}
-<<dataset1,tidy=FALSE>>=
-data(lungData)
-lungData
-@
-
-\begin{enumerate}
-\setcounter{enumi}{1}
-\item Humanized gnotobiotic mouse gut \cite{ts_mouse}:
-Twelve germ-free adult male C57BL/6J mice were fed a low-fat, plant polysaccharide-rich diet. Each mouse was gavaged with healthy adult human fecal material. Following the fecal transplant, mice remained on the low-fat, plant polysacchaaride-rich diet for four weeks, following which a subset of 6 were switched to a high-fat and high-sugar diet for eight weeks. Fecal samples for each mouse went through PCR amplification of the bacterial 16S rRNA gene V2 region weekly. Details of experimental protocols and further details of the data can be found in Turnbaugh et. al. Sequences and further information can be found at:
-\url{http://gordonlab.wustl.edu/TurnbaughSE_10_09/STM_2009.html}
-
-\end{enumerate}
-<<dataset2,tidy=FALSE>>=
-data(mouseData)
-mouseData
-@
+\subsection{Biom-Format}
+You can load in BIOM file format data, the output of many popular tools out there, using the \texttt{load$\_$biom} function. 
+Tthe \texttt{biom2MRexperiment} and \texttt{MRexperiment2biom} functions serve as a gateway between the \texttt{biom-class} object defined in the \textbf{biom} package and a texttt{MRexperiment-class} object. Currenlty, version 2.0 of the BIOM format is not supported.
 
 \subsection{Loading count data}
 Following preprocessing and annotation of sequencing data \texttt{metagenomeSeq} requires a count matrix with features along rows and samples along the columns.
@@ -170,7 +153,30 @@ obj = newMRexperiment(lung$counts,phenoData=phenotypeData,featureData=OTUdata)
 obj
 @
 
-Alternatively, you can load in Biome-format data (outputs of QIIME and Mothur) using the \texttt{load$\_$biom} function. If a biom class object is already loaded into R it can be converted to a MRexperiment-class object using the \texttt{biom2MRexperiment} function.
+\subsection{Example datasets}
+There are two datasets included as examples in the \texttt{metagenomeSeq} package. Data needs to be in a \texttt{MRexperiment} object format to normalize, run statistical tests, and visualize. As an example, throughout the vignette we'll use the following datasets. 
+To understand a function's usage or included data simply enter ?functionName.
+
+\begin{enumerate}
+\item Human lung microbiome \cite{charlson}:
+The lung microbiome consists of respiratory flora sampled from six healthy individuals. Three healthy nonsmokers and three healthy smokers. The upper lung tracts were sampled by oral wash and oro-/nasopharyngeal swabs. Samples were taken using two bronchoscopes, serial bronchoalveolar lavage and lower airway protected brushes.
+\end{enumerate}
+<<dataset1,tidy=FALSE>>=
+data(lungData)
+lungData
+@
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item Humanized gnotobiotic mouse gut \cite{ts_mouse}:
+Twelve germ-free adult male C57BL/6J mice were fed a low-fat, plant polysaccharide-rich diet. Each mouse was gavaged with healthy adult human fecal material. Following the fecal transplant, mice remained on the low-fat, plant polysacchaaride-rich diet for four weeks, following which a subset of 6 were switched to a high-fat and high-sugar diet for eight weeks. Fecal samples for each mouse went through PCR amplification of the bacterial 16S rRNA gene V2 region weekly. Details of experimental protocols and further details of the data can be found in Turnbaugh et. al. Sequences and further information can be found at:
+\url{http://gordonlab.wustl.edu/TurnbaughSE_10_09/STM_2009.html}
+
+\end{enumerate}
+<<dataset2,tidy=FALSE>>=
+data(mouseData)
+mouseData
+@
 
 \newpage
 \subsection{Useful commands}
