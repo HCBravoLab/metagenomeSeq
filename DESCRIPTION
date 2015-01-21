@@ -1,6 +1,6 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.9.17
+Version: 1.9.18
 Date: 2014-12-20
 Author: Joseph Nathaniel Paulson, Hisham Talukder, Mihai Pop, Hector Corrada
     Bravo
@@ -33,5 +33,6 @@ Imports:
     matrixStats,
     gplots
 VignetteBuilder: knitr
-URL: http://cbcb.umd.edu/software/metagenomeSeq
+URL: https://github.com/nosson/metagenomeSeq/
+BugReports: https://github.com/nosson/metagenomeSeq/issues
 biocViews: Classification, Clustering, GeneticVariability, DifferentialExpression, Microbiome, Metagenomics, Visualization, MultipleComparison, Sequencing, Software
