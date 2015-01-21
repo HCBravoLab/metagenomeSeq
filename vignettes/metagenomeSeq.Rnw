@@ -451,7 +451,16 @@ obj = aggTax(MRcounts(mouseData),lvl=phylum,out='matrix')
 head(obj[1:5,1:5])
 @
 
-The \texttt{aggregateByTaxonomy} and \texttt{aggTax} functions are flexible enough to put in either 1) a matrix with a vector of labels or 2) a MRexperiment object with a vector of labels or featureData column name. The function can also output either a matrix or MRexperiment object.
+Additionally, aggregating samples can be done using the
+phenoData information in the MRexperiment object,  calling \texttt{aggregateBySample} or \texttt{aggsamp} on a MRexperiment object or matrix and declaring a particular phenoData column name (i.e.
+'diet') will aggregate counts with the aggfun function (default rowMeans). Possible aggfun alternatives include rowSums and rowMedians.
+
+<<aggSamp>>=
+obj = aggSamp(mouseData,fct='mouseID',out='matrix')
+head(obj[1:5,1:5])
+@
+
+The \texttt{aggregateByTaxonomy},\texttt{aggregateBySample}, \texttt{aggTax} \texttt{aggSamp} functions are flexible enough to put in either 1) a matrix with a vector of labels or 2) a MRexperiment object with a vector of labels or featureData column name. The function can also output either a matrix or MRexperiment object.
 
 \newpage
 \section{Visualization of features}
