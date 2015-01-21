@@ -17,7 +17,7 @@
 exportStats <-function(obj,p= cumNormStat(obj),file="~/Desktop/res.stats.tsv"){
 	xx=MRcounts(obj)
 	xx[xx==0]=NA
-	qs=colQuantiles(xx,p=p,na.rm=TRUE)
+	qs=colQuantiles(xx,probs=p,na.rm=TRUE)
 
 	xx[xx>0] = 1;
 	xx[is.na(xx)]=0
