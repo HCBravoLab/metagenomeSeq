@@ -22,6 +22,8 @@ exportMethods(
 export(
 aggregateByTaxonomy,
 aggTax,
+aggregateBySample,
+aggSamp,
 biom2MRexperiment,
 calculateEffectiveSamples,
 calcNormFactors,
