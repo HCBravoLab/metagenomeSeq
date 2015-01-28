@@ -41,13 +41,7 @@ cumNorm <- function(obj,p=cumNormStatFast(obj)){
 #' head(calcNormFactors(mouseData))
 #' 
 calcNormFactors <- function(obj,p=cumNormStatFast(obj)){
-	if(class(obj)=="MRexperiment"){
-		x = MRcounts(obj,norm=FALSE,log=FALSE)
-	} else if(class(obj) == "matrix") {
-		x = obj
-    } else {
-		stop("Object needs to be either a MRexperiment object or matrix")
-	}
+	x = returnAppropriateObj(obj,norm=FALSE,log=FALSE)
 	xx = x
 	xx[x == 0] <- NA
 	qs = colQuantiles(xx, probs = p, na.rm = TRUE)

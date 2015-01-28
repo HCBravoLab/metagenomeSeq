@@ -36,13 +36,7 @@
 #' head(cors)
 #'
 correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",norm=TRUE,log=TRUE,cores=1,override=FALSE,...){
-	if(class(obj)=="MRexperiment"){
-		mat = MRcounts(obj,norm=norm,log=log)
-	} else if(class(obj) == "matrix") {
-		mat = obj
-	} else {
-		stop("Object needs to be either a MRexperiment object or matrix")
-	}
+	mat = returnAppropriateObj(obj,norm,log)
 	nr = nrow(mat)
 	if(nr > 1000){
 		if(override){
