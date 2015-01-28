@@ -434,7 +434,7 @@ uniqueFeatures(mouseData,cl,nsamples = 10,nreads = 100)
 @
 
 \newpage
-\section{Aggregating features}
+\section{Aggregating counts}
 Normalization is recommended at the OTU level. However, functions are in place to aggregate 
 the count matrix (normalized or not), based on a particular user defined level. Using the
 featureData information in the MRexperiment object, calling \texttt{aggregateByTaxonomy} or \texttt{aggTax} on a MRexperiment object and declaring particular featureData column name (i.e.
@@ -452,7 +452,7 @@ head(obj[1:5,1:5])
 @
 
 Additionally, aggregating samples can be done using the
-phenoData information in the MRexperiment object,  calling \texttt{aggregateBySample} or \texttt{aggsamp} on a MRexperiment object or matrix and declaring a particular phenoData column name (i.e.
+phenoData information in the MRexperiment object. Calling \texttt{aggregateBySample} or \texttt{aggsamp} on a MRexperiment object and declaring a particular phenoData column name (i.e.
 'diet') will aggregate counts with the aggfun function (default rowMeans). Possible aggfun alternatives include rowSums and rowMedians.
 
 <<aggSamp>>=

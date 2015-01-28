@@ -17,14 +17,7 @@
 #' # see vignette
 #' 
 exportMat <-function(obj,log=TRUE,norm=TRUE,sep="\t",file="~/Desktop/matrix.tsv"){
-    if(class(obj)=="MRexperiment"){
-        mat = MRcounts(obj,norm=norm,log=log)
-    } else if(class(obj) == "matrix") {
-        mat = obj
-    } else {
-        stop("Object needs to be either a MRexperiment object or matrix.")
-    }
-	
+    mat = returnAppropriateObj(obj,norm,log)
 	oMat = array(NA,dim=c((nrow(mat)+1),(ncol(mat)+1)));
 	oMat[1,2:ncol(oMat)] = colnames(mat);
 	oMat[2:nrow(oMat),2:ncol(oMat)] = mat;

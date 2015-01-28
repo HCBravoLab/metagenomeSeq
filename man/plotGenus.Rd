@@ -5,7 +5,7 @@
 \alias{plotGenus}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-plotGenus(obj, otuIndex, classIndex, log = TRUE, norm = TRUE,
+plotGenus(obj, otuIndex, classIndex, norm = TRUE, log = TRUE,
   no = 1:length(otuIndex), labs = TRUE, xlab = NULL, ylab = NULL,
   jitter = TRUE, jitter.factor = 1, pch = 21, ret = FALSE, ...)
 }
@@ -16,9 +16,9 @@ plotGenus(obj, otuIndex, classIndex, log = TRUE, norm = TRUE,
 
 \item{classIndex}{A list of the samples in their respective groups.}
 
-\item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
-
 \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
+
+\item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
 
 \item{no}{Which of the otuIndex to plot.}
 

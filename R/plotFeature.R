@@ -29,15 +29,7 @@
 #' col=dates,sortby=dates,ylab="Raw reads")
 #'
 plotFeature<-function(obj,otuIndex,classIndex,col="black",sort=TRUE,sortby=NULL,norm=TRUE,log=TRUE,sl=1000,...){
-    if (class(obj) == "MRexperiment") {
-        mat = MRcounts(obj, norm = norm, log = log, sl=sl)
-    }
-    else if (class(obj) == "matrix") {
-        mat = obj
-    }
-    else {
-        stop("Object needs to be either a MRexperiment object or matrix")
-    }
+    mat = returnAppropriateObj(obj,norm,log,sl)
     fmat = mat[otuIndex,]
     ylmin = min(fmat)
     ylmax = max(fmat)

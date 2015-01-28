@@ -14,13 +14,7 @@
 #' filterData(mouseData)
 #' 
 filterData <- function(obj,present=1,depth=1000){
-    if(class(obj)=="MRexperiment"){
-        mat = MRcounts(obj,norm=FALSE,log=FALSE)>0
-    } else if(class(obj) == "matrix") {
-        mat = obj>0
-    } else {
-        stop("Object needs to be either a MRexperiment object or matrix.")
-    }
+    mat = returnAppropriateObj(obj,norm=FALSE,log=FALSE)>0
 	cols = which(colSums(obj)>=depth)
 	rows = which(rowSums(mat[,cols])>=present)
 	return(obj[rows,cols])

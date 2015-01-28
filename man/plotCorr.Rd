@@ -4,16 +4,16 @@
 \alias{plotCorr}
 \title{Basic correlation plot function for normalized or unnormalized counts.}
 \usage{
-plotCorr(obj, n, log = TRUE, norm = TRUE, fun = cor, ...)
+plotCorr(obj, n, norm = TRUE, log = TRUE, fun = cor, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}
 
 \item{n}{The number of features to plot. This chooses the "n" features with greatest variance.}
 
-\item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
-
 \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
+
+\item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
 
 \item{fun}{Function to calculate pair-wise relationships. Default is pearson
 correlation}

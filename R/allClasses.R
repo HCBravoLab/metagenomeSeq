@@ -12,22 +12,18 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
         }
         obj
 })
-
 setMethod("colSums", signature ="MRexperiment", function (x, ...) {
     callNextMethod(MRcounts(x),...)
 })
-
 setMethod("rowSums", signature="MRexperiment", function (x, ...) {
     callNextMethod(MRcounts(x),...)
 })
 setMethod("rowMeans", signature="MRexperiment", function (x, ...) {
     callNextMethod(MRcounts(x),...)
 })
-
 setMethod("colMeans", signature="MRexperiment", function (x, ...) {
     callNextMethod(MRcounts(x),...)
 })
-
 #' Create a MRexperiment object
 #' 
 #' This function creates a MRexperiment object from a matrix or data frame of
@@ -77,7 +73,6 @@ newMRexperiment <- function(counts, phenoData=NULL, featureData=NULL,libSize=NUL
     validObject(obj)
     obj
 }
-
 setValidity( "MRexperiment", function( object ) {
     if( is.null(assayData(object)$counts))
         return( "There are no counts!" )
@@ -87,9 +82,6 @@ setValidity( "MRexperiment", function( object ) {
 #        return( "Experiment summary got hacked!" )
     TRUE
 } )
-
-
-
 #' Accessor for the counts slot of a MRexperiment object
 #' 
 #' The counts slot holds the raw count data representing (along the rows) the
@@ -129,7 +121,6 @@ MRcounts <- function(obj,norm=FALSE,log=FALSE,sl=1000) {
     return(log2(x+1))
    }
 }
-
 #' Access the posterior probabilities that results from analysis
 #' 
 #' Accessing the posterior probabilities following a run through
@@ -150,7 +141,6 @@ posteriorProbs <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )
    assayData(obj)[["z"]]
 }
-
 #' Access the normalization factors in a MRexperiment object
 #'
 #' Function to access the scaling factors, aka the normalization factors, of
@@ -175,7 +165,6 @@ normFactors <- function( obj ) {
    names(nf) <- sampleNames(obj)
    nf
 }
-
 #' Access sample depth of coverage from MRexperiment object
 #'
 #' The libSize vector represents the column (sample specific) sums of features,
@@ -201,7 +190,6 @@ libSize<-function(obj){
    names(ls) <- sampleNames(obj)
    ls
 }
-
 #' Access MRexperiment object experiment data
 #' 
 #' The expSummary vectors represent the column (sample specific) sums of
@@ -223,4 +211,30 @@ libSize<-function(obj){
 expSummary<-function(obj){
   stopifnot( is( obj, "MRexperiment" ) )
   pData(obj@expSummary$expSummary)
+}
+#' Check if MRexperiment or matrix and return matrix
+#'
+#' Function to check if object is a MRexperiment
+#' class or matrix 
+#'
+#' @name returnAppropriateObj
+#' @param obj a \code{MRexperiment} or \code{matrix} object
+#' @param norm return a normalized \code{MRexperiment} matrix
+#' @param log return a log transformed \code{MRexperiment} matrix
+#' @param sl scaling value
+#' @return Matrix
+#' @examples
+#'
+#' data(lungData)
+#' head(returnAppropriateObj(lungData,norm=FALSE,log=FALSE))
+#'
+returnAppropriateObj <- function(obj,norm,log,sl=1000) {
+  if(class(obj)=="MRexperiment"){
+    mat = MRcounts(obj,norm=norm,log=log,sl=sl)
+  } else if(class(obj) == "matrix") {
+    mat = obj
+  } else {
+    stop("Object needs to be either a MRexperiment object or matrix")
+  }
+  mat
 }
