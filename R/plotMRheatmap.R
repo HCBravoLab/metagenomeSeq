@@ -6,8 +6,8 @@
 #' 
 #' @param obj A MRexperiment object with count data.
 #' @param n The number of features to plot. This chooses the 'n' features of greatest positive statistic.
-#' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
+#' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param fun Function to select top 'n' features.
 #' @param ... Additional plot arguments.
 #' @return NA
@@ -25,14 +25,8 @@
 #' plotMRheatmap(obj=mouseData,n=50,fun=mad,cexRow = 0.4,cexCol = 0.4,trace="none",
 #'              col = heatmapCols,ColSideColors = heatmapColColors) 
 #'
-plotMRheatmap <- function(obj,n,log=TRUE,norm=TRUE,fun=sd,...) {
-  if(class(obj)=="MRexperiment"){
-    mat = MRcounts(obj,norm=norm,log=log)
-  } else if(class(obj) == "matrix") {
-    mat = obj
-  } else {
-    stop("Object needs to be either a MRexperiment object or matrix")
-  }
+plotMRheatmap <- function(obj,n,norm=TRUE,log=TRUE,fun=sd,...) {
+  mat = returnAppropriateObj(obj,norm,log)
     
   otusToKeep = which(rowSums(mat)>0);
   otuStats   = apply(mat[otusToKeep,],1,fun);

@@ -4,7 +4,7 @@
 \alias{plotOrd}
 \title{Plot of either PCA or MDS coordinates for the distances of normalized or unnormalized counts.}
 \usage{
-plotOrd(obj, tran = TRUE, comp = 1:2, log = TRUE, norm = TRUE,
+plotOrd(obj, tran = TRUE, comp = 1:2, norm = TRUE, log = TRUE,
   usePCA = TRUE, useDist = FALSE, distfun = stats::dist,
   dist.method = "euclidian", ret = FALSE, n = NULL, ...)
 }
@@ -15,9 +15,9 @@ plotOrd(obj, tran = TRUE, comp = 1:2, log = TRUE, norm = TRUE,
 
 \item{comp}{Which components to display}
 
-\item{log}{Whether or not to log2 the counts - if MRexperiment object.}
-
 \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
+
+\item{log}{Whether or not to log2 the counts - if MRexperiment object.}
 
 \item{usePCA}{TRUE/FALSE whether to use PCA  or MDS coordinates (TRUE is PCA).}
 

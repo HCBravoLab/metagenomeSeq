@@ -4,16 +4,16 @@
 \alias{plotMRheatmap}
 \title{Basic heatmap plot function for normalized counts.}
 \usage{
-plotMRheatmap(obj, n, log = TRUE, norm = TRUE, fun = sd, ...)
+plotMRheatmap(obj, n, norm = TRUE, log = TRUE, fun = sd, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}
 
 \item{n}{The number of features to plot. This chooses the 'n' features of greatest positive statistic.}
 
-\item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
-
 \item{norm}{Whether or not to normalize the counts - if MRexperiment object.}
+
+\item{log}{Whether or not to log2 transform the counts - if MRexperiment object.}
 
 \item{fun}{Function to select top 'n' features.}
 

@@ -30,14 +30,8 @@
 #' 
 plotOTU <-
 function(obj,otu,classIndex,log=TRUE,norm=TRUE,jitter.factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,ret=FALSE,...){
-    if(class(obj)=="MRexperiment"){
-        mat = MRcounts(obj,norm=norm,log=log)
-    } else if(class(obj) == "matrix") {
-        mat = obj
-    } else {
-       stop("Object needs to be either a MRexperiment object or matrix")
-    }
-
+    mat = returnAppropriateObj(obj,norm,log)
+    
 	l=lapply(classIndex, function(j){
         mat[otu,j]
         })

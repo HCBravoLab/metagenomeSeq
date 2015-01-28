@@ -6,8 +6,8 @@
 #' 
 #' @param obj A MRexperiment object with count data.
 #' @param n The number of features to plot. This chooses the "n" features with greatest variance.
-#' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
+#' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param fun Function to calculate pair-wise relationships. Default is pearson
 #' correlation
 #' @param ... Additional plot arguments.
@@ -19,14 +19,8 @@
 #' plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="none",
 #'          col = colorRampPalette(brewer.pal(9, "RdBu"))(50))
 #' 
-plotCorr <- function(obj,n,log=TRUE,norm=TRUE,fun=cor,...) {
-    if(class(obj)=="MRexperiment"){
-        mat = MRcounts(obj,norm=norm,log=log)
-    } else if(class(obj) == "matrix") {
-        mat = obj
-    } else {
-        stop("Object needs to be either a MRexperiment object or matrix")
-    }
+plotCorr <- function(obj,n,norm=TRUE,log=TRUE,fun=cor,...) {
+    mat = returnAppropriateObj(obj,norm,log)
     otusToKeep <- which(rowSums(mat) > 0)
     otuVars = rowSds(mat[otusToKeep, ])
     otuIndices = otusToKeep[order(otuVars, decreasing = TRUE)[1:n]]

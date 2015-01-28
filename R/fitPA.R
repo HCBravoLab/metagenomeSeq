@@ -25,13 +25,7 @@
 #' head(res)
 #'
 fitPA<-function(obj,cl,thres=0,adjust.method='fdr',cores=1,...){
-    if(class(obj)=="MRexperiment"){
-        x = MRcounts(obj)>thres;
-    } else if(class(obj) == "matrix") {
-        x = obj>thres;
-    } else {
-        stop("Object needs to be either a MRexperiment object or matrix")
-    }
+    x = returnAppropriateObj(obj,norm=FALSE,log=FALSE)>thres
     nrows= nrow(x);
     if(is.null(rownames(x))){rownames(x)=1:nrows}
 

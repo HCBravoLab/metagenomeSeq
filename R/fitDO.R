@@ -29,13 +29,7 @@
 #' head(res)
 #' 
 fitDO<-function(obj,cl,norm=TRUE,log=TRUE,adjust.method='fdr',cores=1,...){
-    if(class(obj)=="MRexperiment"){
-        x = MRcounts(obj,norm=norm,log=log);
-    } else if(class(obj) == "matrix") {
-        x = obj;
-    } else {
-        stop("Object needs to be either a MRexperiment object or matrix")
-    }
+    x = returnAppropriateObj(obj,norm,log)
     nrows= nrow(x);
 	if(is.null(rownames(x))){rownames(x)=1:nrows}
 
