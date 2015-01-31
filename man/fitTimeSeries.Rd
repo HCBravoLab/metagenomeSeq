@@ -4,12 +4,14 @@
 \alias{fitTimeSeries}
 \title{Discover differentially abundant time intervals}
 \usage{
-fitTimeSeries(obj, feature, class, time, id, method = c("ssanova"),
-  lvl = NULL, C = 0, B = 1000, norm = TRUE, log = TRUE, sl = 1000,
-  ...)
+fitTimeSeries(obj, formula, feature, class, time, id, method = c("ssanova"),
+  lvl = NULL, include = c("class", "time:class"), C = 0, B = 1000,
+  norm = TRUE, log = TRUE, sl = 1000, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
+
+\item{formula}{Formula for ssanova.}
 
 \item{feature}{Name or row of feature of interest.}
 
@@ -22,6 +24,8 @@ fitTimeSeries(obj, feature, class, time, id, method = c("ssanova"),
 \item{method}{Method to estimate time intervals of differentially abundant bacteria (only ssanova method implemented currently).}
 
 \item{lvl}{Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).}
+
+\item{include}{Parameters to include in prediction.}
 
 \item{C}{Value for which difference function has to be larger or smaller than (default 0).}
 
@@ -60,7 +64,7 @@ Talukder H, Paulson JN, Bravo HC. (Submitted)
 \examples{
 data(mouseData)
 res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
-   class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
+   class="status",id="mouseID",time="relativeTime",lvl='class',B=2)
 }
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitSSTimeSeries}} \code{\link{plotTimeSeries}}
