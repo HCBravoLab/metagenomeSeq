@@ -52,16 +52,19 @@ trapz <- function(x,y){
 #' class information, time points, sample ids and returns
 #' the fitted values for the fitted model.
 #' 
+#' @param formula Formula for ssanova.
 #' @param abundance Numeric vector of abundances.
 #' @param class Class membership (factor of group membership).
 #' @param time Time point vector of relative times (same length as abundance).
 #' @param id Sample / patient id.
+#' @param include Parameters to include in prediction.
 #' @param ... Extra parameters for ssanova function (see ?ssanova).
-#' @return A list containing:
-#'      data        : Inputed data
-#'      fit         : The interpolated / fitted values for timePoints
-#'      se          : The standard error for CI intervals
-#'      timePoints  : The time points interpolated over
+#' @return \itemize{A list containing:
+#' \item     data        : Inputed data
+#' \item     fit         : The interpolated / fitted values for timePoints
+#' \item     se          : The standard error for CI intervals
+#' \item     timePoints  : The time points interpolated over
+#' }
 #' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssPermAnalysis}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
 #' @rdname ssFit
 #' @export
@@ -69,15 +72,20 @@ trapz <- function(x,y){
 #'
 #' # Not run
 #'
-ssFit <- function(abundance,class,time,id,...) {
+ssFit <- function(formula,abundance,class,time,id,include=c("class", "time:class"),...) {
     df = data.frame(abundance = abundance, class = factor(class),
-        time=time,id = factor(id))
-
+       time=time,id = factor(id))
+    
     # The smoothing splines anova model
-    mod = gss::ssanova(abundance ~ time * class, data=df,...)
+    if(missing(formula)){
+        mod = gss::ssanova(abundance ~ time * class, data=df,...)
+    } else{
+        mod = gss::ssanova(formula,data=df,...)
+    }
+
     fullTime = seq(min(df$time), max(df$time), by=1)
     values = data.frame(time=fullTime, class=factor(levels(df[,"class"]))[2])
-    fit = predict(mod, values, include=c("class", "time:class"), se=TRUE)
+    fit = predict(mod, values, include=include, se=TRUE)
     
     res = list(data=df, fit=fit$fit, se=fit$se, timePoints=fullTime)
     return(res)
@@ -115,9 +123,11 @@ ssPerm <- function(df,B) {
 #' intervals of differential abundance.
 #' 
 #' @param data Data used in estimation.
+#' @param formula Formula for ssanova.
 #' @param permList A list of permutted class memberships
 #' @param intTimes Interesting time intervals.
 #' @param timePoints Time points to interpolate over.
+#' @param include Parameters to include in prediction.
 #' @param ... Options for ssanova
 #' @return A matrix of permutted area estimates for time intervals of interest.
 #' @seealso \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
@@ -127,15 +137,20 @@ ssPerm <- function(df,B) {
 #'
 #' # Not run
 #'
-ssPermAnalysis <- function(data, permList, intTimes, timePoints,...){
+ssPermAnalysis <- function(data,formula,permList,intTimes,timePoints,include=c("class", "time:class"),...){
     resPerm=matrix(NA, length(permList), nrow(intTimes))
     permData=data
     for (j in 1:length(permList)){
         
         permData$class = permList[[j]]
-        permModel      = gss::ssanova(abundance ~ time * class, data=permData,...)
+        # The smoothing splines anova model
+        if(!missing(formula)){
+            permModel = gss::ssanova(formula, data=permData,...)
+        } else{
+            permModel = gss::ssanova(abundance ~ time * class,data=permData,...)
+        }
         permFit        = cbind(timePoints, (2*predict(permModel,data.frame(time=timePoints, class=factor(1)),#abs 
-            include=c("class", "time:class"), se=TRUE)$fit))
+            include=include, se=TRUE)$fit))
 
             for (i in 1:nrow(intTimes)){
                 permArea=permFit[which(permFit[,1]==intTimes[i,1]) : which(permFit[,1]==intTimes[i, 2]), ]
@@ -208,11 +223,13 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' Talukder H, Paulson JN, Bravo HC. (Submitted)
 #' 
 #' @param obj metagenomeSeq MRexperiment-class object.
+#' @param formula Formula for ssanova.
 #' @param feature Name or row of feature of interest.
 #' @param class Name of column in phenoData of MRexperiment-class object for class memberhip.
 #' @param time Name of column in phenoData of MRexperiment-class object for relative time.
 #' @param id Name of column in phenoData of MRexperiment-class object for sample id.
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
+#' @param include Parameters to include in prediction.
 #' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @param B Number of permutations to perform
 #' @param norm When aggregating counts to normalize or not.
@@ -235,9 +252,9 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #'
 #' data(mouseData)
 #' res = fitSSTimeSeries(obj=mouseData,feature="Actinobacteria",
-#'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
+#'    class="status",id="mouseID",time="relativeTime",lvl='class',B=2)
 #'
-fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,...) {
+fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c("class", "time:class"),C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,...) {
     if(!require(gss)){
         install.packages("gss",repos="http://cran.r-project.org")
         library(gss)
@@ -253,7 +270,13 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,norm=T
     time  = pData(obj)[,time]
     id    = pData(obj)[,id]
 
-    prep=ssFit(abundance=abundance,class=class,time=time,id=id,...)
+    if(!missing(formula)){
+        prep=ssFit(formula=formula,abundance=abundance,class=class,
+            time=time,id=id,include=include,...)
+    } else {
+        prep=ssFit(abundance=abundance,class=class,time=time,id=id,
+            include=include,...)
+    }
     indexPos = ssIntervalCandidate(fit=prep$fit, standardError=prep$se, 
         timePoints=prep$timePoints, positive=TRUE,C=C)
     indexNeg = ssIntervalCandidate(fit=prep$fit, standardError=prep$se, 
@@ -273,8 +296,13 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,norm=T
         colnames(indexAll)=c("Interval start", "Interval end", "Area", "p.value")
         predArea    = cbind(prep$timePoints, (2*prep$fit))
         permList    = ssPerm(prep$data,B=B)
-        permResult  = ssPermAnalysis(data=prep$data, permList=permList,
-            intTimes=indexAll, timePoints=prep$timePoints,...)
+        if(!missing(formula)){
+            permResult  = ssPermAnalysis(data=prep$data,formula=formula,permList=permList,
+                intTimes=indexAll,timePoints=prep$timePoints,include=include,...)
+        } else {
+            permResult  = ssPermAnalysis(data=prep$data,permList=permList,
+                intTimes=indexAll,timePoints=prep$timePoints,include=include,...)
+        }
         
         for (i in 1:nrow(indexAll)){
             origArea=predArea[which(predArea[,1]==indexAll[i,1]):which(predArea[,1]==indexAll[i, 2]), ]
@@ -288,11 +316,11 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,norm=T
 
         }
 
-        res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult,call=match.call())
+        res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult)
         return(res)
     }else{
-        indexAll = "No intervals found"
-        res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=NULL,call=match.call())
+        indexAll = "No statistically significant time intervals detected"
+        res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=NULL)
         return(res)
     }
 }
@@ -307,12 +335,14 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,norm=T
 #' Talukder H, Paulson JN, Bravo HC. (Submitted)
 #' 
 #' @param obj metagenomeSeq MRexperiment-class object.
+#' @param formula Formula for ssanova.
 #' @param feature Name or row of feature of interest.
 #' @param class Name of column in phenoData of MRexperiment-class object for class memberhip.
 #' @param time Name of column in phenoData of MRexperiment-class object for relative time.
 #' @param id Name of column in phenoData of MRexperiment-class object for sample id.
 #' @param method Method to estimate time intervals of differentially abundant bacteria (only ssanova method implemented currently).
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
+#' @param include Parameters to include in prediction.
 #' @param C Value for which difference function has to be larger or smaller than (default 0).
 #' @param B Number of permutations to perform
 #' @param norm When aggregating counts to normalize or not.
@@ -335,12 +365,22 @@ fitSSTimeSeries <- function(obj,feature,class,time,id,lvl=NULL,C=0,B=1000,norm=T
 #'
 #' data(mouseData)
 #' res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
-#'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
+#'    class="status",id="mouseID",time="relativeTime",lvl='class',B=2)
 #'
-fitTimeSeries <- function(obj,feature,class,time,id,method=c("ssanova"),lvl=NULL,C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,...) {
+fitTimeSeries <- function(obj,formula,feature,class,time,id,method=c("ssanova"),
+                        lvl=NULL,include=c("class", "time:class"),C=0,B=1000,
+                        norm=TRUE,log=TRUE,sl=1000,...) {
     if(method=="ssanova"){
-        res = fitSSTimeSeries(obj,feature,class,time,id,lvl,C,B,norm,log,sl,...)
+        if(missing(formula)){
+            res = fitSSTimeSeries(obj=obj,feature=feature,class=class,time=time,id=id,
+                    lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,include=include,...)
+        } else {
+            res = fitSSTimeSeries(obj=obj,formula=formula,feature=feature,class=class,
+                    time=time,id=id,lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,
+                    include=include,...)
+        }
     }
+    res = c(res,call=match.call())
     return(res)
 }
 
@@ -402,10 +442,12 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
 #' a spline approach on the estimated full model.
 #' 
 #' @param res Output of fitTimeSeries function
+#' @param formula Formula for ssanova.
 #' @param xlab X-label.
 #' @param ylab Y-label.
 #' @param color0 Color of samples from first group.
 #' @param color1 Color of samples from second group.
+#' @param include Parameters to include in prediction.
 #' @param ... Extra plotting arguments.
 #' @return Plot for abundances of each class using a spline approach on estimated null model.
 #' @rdname plotClassTimeSeries
@@ -418,18 +460,23 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=10)
 #' plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 #'
-plotClassTimeSeries<-function(res,xlab="Time",ylab="Abundance",color0="black",color1="red",...){
-    data = res$data
-    mod  = gss::ssanova(abundance~class*time,data=data)
+plotClassTimeSeries<-function(res,formula,xlab="Time",ylab="Abundance",color0="black",
+                            color1="red",include=c("class", "time:class"),type=NULL,...){
+    dat = res$data
+    if(missing(formula)){
+        mod = gss::ssanova(abundance ~ time * class, data=dat)
+    } else{
+        mod = gss::ssanova(formula,data=dat,type=type)
+    }
     
-    timePoints = seq(min(data$time),max(data$time),by=1)
-    group0 = data.frame(time=timePoints,class=levels(data$class)[1])
-    group1 = data.frame(time=timePoints,class=levels(data$class)[2])
+    timePoints = seq(min(dat$time),max(dat$time),by=1)
+    group0 = data.frame(time=timePoints,class=levels(dat$class)[1])
+    group1 = data.frame(time=timePoints,class=levels(dat$class)[2])
 
-    pred0  = predict(mod, newdata=group0, se=TRUE)
-    pred1  = predict(mod, newdata=group1, se=TRUE)
+    pred0  = predict(mod, newdata=group0,include=include, se=TRUE)
+    pred1  = predict(mod, newdata=group1,include=include, se=TRUE)
     
-    plot(x=data$time,y=data$abundance,xlab=xlab,ylab=ylab,...)
+    plot(x=dat$time,y=dat$abundance,xlab=xlab,ylab=ylab,...)
     lines(x=group0$time,y=pred0$fit,col=color0)
     lines(x=group0$time,y=pred0$fit+(1.96*pred0$se),lty=2,col=color0)
     lines(x=group0$time,y=pred0$fit-(1.96*pred0$se),lty=2,col=color0)

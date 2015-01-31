@@ -4,9 +4,12 @@
 \alias{ssFit}
 \title{smoothing-splines anova fit}
 \usage{
-ssFit(abundance, class, time, id, ...)
+ssFit(formula, abundance, class, time, id, include = c("class", "time:class"),
+  ...)
 }
 \arguments{
+\item{formula}{Formula for ssanova.}
+
 \item{abundance}{Numeric vector of abundances.}
 
 \item{class}{Class membership (factor of group membership).}
@@ -15,14 +18,17 @@ ssFit(abundance, class, time, id, ...)
 
 \item{id}{Sample / patient id.}
 
+\item{include}{Parameters to include in prediction.}
+
 \item{...}{Extra parameters for ssanova function (see ?ssanova).}
 }
 \value{
-A list containing:
-     data        : Inputed data
-     fit         : The interpolated / fitted values for timePoints
-     se          : The standard error for CI intervals
-     timePoints  : The time points interpolated over
+\itemize{A list containing:
+\item     data        : Inputed data
+\item     fit         : The interpolated / fitted values for timePoints
+\item     se          : The standard error for CI intervals
+\item     timePoints  : The time points interpolated over
+}
 }
 \description{
 smoothing-splines anova fit

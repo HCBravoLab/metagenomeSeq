@@ -4,16 +4,21 @@
 \alias{ssPermAnalysis}
 \title{smoothing-splines anova fits for each permutation}
 \usage{
-ssPermAnalysis(data, permList, intTimes, timePoints, ...)
+ssPermAnalysis(data, formula, permList, intTimes, timePoints,
+  include = c("class", "time:class"), ...)
 }
 \arguments{
 \item{data}{Data used in estimation.}
+
+\item{formula}{Formula for ssanova.}
 
 \item{permList}{A list of permutted class memberships}
 
 \item{intTimes}{Interesting time intervals.}
 
 \item{timePoints}{Time points to interpolate over.}
+
+\item{include}{Parameters to include in prediction.}
 
 \item{...}{Options for ssanova}
 }
