@@ -4,11 +4,13 @@
 \alias{plotClassTimeSeries}
 \title{Plot abundances by class}
 \usage{
-plotClassTimeSeries(res, xlab = "Time", ylab = "Abundance",
+plotClassTimeSeries(res, formula, xlab = "Time", ylab = "Abundance",
   color0 = "black", color1 = "red", ...)
 }
 \arguments{
 \item{res}{Output of fitTimeSeries function}
+
+\item{formula}{Formula for ssanova.}
 
 \item{xlab}{X-label.}
 
