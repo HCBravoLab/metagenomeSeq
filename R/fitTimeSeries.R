@@ -255,10 +255,6 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=2)
 #'
 fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c("class", "time:class"),C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,...) {
-    if(!require(gss)){
-        install.packages("gss",repos="http://cran.r-project.org")
-        library(gss)
-    }
     
     if(!is.null(lvl)){
         aggData = aggregateByTaxonomy(obj,lvl,norm=norm,sl=sl)
@@ -371,13 +367,15 @@ fitTimeSeries <- function(obj,formula,feature,class,time,id,method=c("ssanova"),
                         lvl=NULL,include=c("class", "time:class"),C=0,B=1000,
                         norm=TRUE,log=TRUE,sl=1000,...) {
     if(method=="ssanova"){
-        if(missing(formula)){
-            res = fitSSTimeSeries(obj=obj,feature=feature,class=class,time=time,id=id,
-                    lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,include=include,...)
-        } else {
-            res = fitSSTimeSeries(obj=obj,formula=formula,feature=feature,class=class,
-                    time=time,id=id,lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,
-                    include=include,...)
+        if(requireNamespace(gss)){
+            if(missing(formula)){
+                res = fitSSTimeSeries(obj=obj,feature=feature,class=class,time=time,id=id,
+                        lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,include=include,...)
+            } else {
+                res = fitSSTimeSeries(obj=obj,formula=formula,feature=feature,class=class,
+                        time=time,id=id,lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,
+                        include=include,...)
+            }
         }
     }
     res = c(res,call=match.call())
@@ -461,12 +459,12 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
 #' plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 #'
 plotClassTimeSeries<-function(res,formula,xlab="Time",ylab="Abundance",color0="black",
-                            color1="red",include=c("class", "time:class"),type=NULL,...){
+                            color1="red",include=c("class", "time:class"),...){
     dat = res$data
     if(missing(formula)){
         mod = gss::ssanova(abundance ~ time * class, data=dat)
     } else{
-        mod = gss::ssanova(formula,data=dat,type=type)
+        mod = gss::ssanova(formula,data=dat)
     }
     
     timePoints = seq(min(dat$time),max(dat$time),by=1)

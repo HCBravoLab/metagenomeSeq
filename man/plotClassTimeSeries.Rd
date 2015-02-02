@@ -5,7 +5,8 @@
 \title{Plot abundances by class}
 \usage{
 plotClassTimeSeries(res, formula, xlab = "Time", ylab = "Abundance",
-  color0 = "black", color1 = "red", ...)
+  color0 = "black", color1 = "red", include = c("class", "time:class"),
+  ...)
 }
 \arguments{
 \item{res}{Output of fitTimeSeries function}
@@ -19,6 +20,8 @@ plotClassTimeSeries(res, formula, xlab = "Time", ylab = "Abundance",
 \item{color0}{Color of samples from first group.}
 
 \item{color1}{Color of samples from second group.}
+
+\item{include}{Parameters to include in prediction.}
 
 \item{...}{Extra plotting arguments.}
 }
