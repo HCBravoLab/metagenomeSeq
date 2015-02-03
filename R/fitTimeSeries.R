@@ -140,6 +140,7 @@ ssPerm <- function(df,B) {
 ssPermAnalysis <- function(data,formula,permList,intTimes,timePoints,include=c("class", "time:class"),...){
     resPerm=matrix(NA, length(permList), nrow(intTimes))
     permData=data
+    case = data.frame(time=timePoints, class=factor(levels(data$class)[2]))
     for (j in 1:length(permList)){
         
         permData$class = permList[[j]]
@@ -149,9 +150,8 @@ ssPermAnalysis <- function(data,formula,permList,intTimes,timePoints,include=c("
         } else{
             permModel = gss::ssanova(abundance ~ time * class,data=permData,...)
         }
-        permFit        = cbind(timePoints, (2*predict(permModel,data.frame(time=timePoints, class=factor(1)),#abs 
-            include=include, se=TRUE)$fit))
 
+        permFit = cbind(timePoints, (2*predict(permModel,case,include=include, se=TRUE)$fit))
             for (i in 1:nrow(intTimes)){
                 permArea=permFit[which(permFit[,1]==intTimes[i,1]) : which(permFit[,1]==intTimes[i, 2]), ]
                 resPerm[j, i]=metagenomeSeq::trapz(x=permArea[,1], y=permArea[,2])
@@ -367,7 +367,7 @@ fitTimeSeries <- function(obj,formula,feature,class,time,id,method=c("ssanova"),
                         lvl=NULL,include=c("class", "time:class"),C=0,B=1000,
                         norm=TRUE,log=TRUE,sl=1000,...) {
     if(method=="ssanova"){
-        if(requireNamespace(gss)){
+        if(requireNamespace("gss")){
             if(missing(formula)){
                 res = fitSSTimeSeries(obj=obj,feature=feature,class=class,time=time,id=id,
                         lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,include=include,...)
