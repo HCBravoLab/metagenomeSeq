@@ -85,6 +85,7 @@ To understand a \texttt{fitTimeSeries}'s usage or included data simply enter ?\t
 
 <<requireMetagenomeSeq,warning=FALSE,message=FALSE>>=
 library(metagenomeSeq)
+library(gss)
 @
 
 \begin{enumerate}
@@ -114,8 +115,6 @@ class = rep(c(rep(0,5),rep(1,5)),times=20)
 time = rep(1:20,each=10)
 
 phenotypeData = AnnotatedDataFrame(data.frame(sampleID,class,time))
-
-require(gss)
 # Creating mock abundances
 set.seed(1)
 # No difference
