@@ -6,7 +6,11 @@ setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
             obj@expSummary = new("environment",expSummary=as(expSummary(x)[j,1:2,...,drop=drop],"AnnotatedDataFrame"),cumNormStat=x@expSummary$cumNormStat)
             if(length(pData(obj))>0){
               for(i in 1:length(pData(obj))){
+                if(is.factor(pData(obj)[,i])){
                   pData(obj)[,i] = factor(pData(obj)[,i])
+                } else {
+                  pData(obj)[,i] = pData(obj)[,i]
+                }
               }
             }
         }
