@@ -1,6 +1,7 @@
 version 1.9.xx (2015)
 	+ Added flexibility in formula choice for fitTimeSeries
 	+ Added readability in ssPermAnalysis
+	+ Fixed default in plotClassTimeSeries (include = c("1",...))
 	+ Added fitTimeSeries vignette
 	+ Removed interactiveDisplay to namespace - moved to suggests
 	+ Fixed ordering of MRtable,MRfulltable first four columns
