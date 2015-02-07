@@ -180,10 +180,12 @@ ssPermAnalysis <- function(data,formula,permList,intTimes,timePoints,include=c("
 #' # Not run
 #'
 ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=0){
+    lowerCI = (2*fit - (1.96*2*standardError))
+    upperCI = (2*fit + (1.96*2*standardError))
     if (positive){
-        abundanceDifference = which( (2*fit - (1.96*2*standardError) )>C)
+        abundanceDifference = which( lowerCI>=0 & abs(lowerCI)>=C )
     }else{
-        abundanceDifference = which( (2*fit + (1.96*2*standardError) )<C)
+        abundanceDifference = which( upperCI<=0 & abs(upperCI)>=C )
     }
     if (length(abundanceDifference)>0){
         intIndex=which(diff(abundanceDifference)!=1)
@@ -287,8 +289,10 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
     se  = 2*prep$se
     timePoints = prep$timePoints
     fits = data.frame(fit = fit, se = se, timePoints = timePoints)
-
+    
     if(!is.null(indexAll)){
+      if(length(indexAll)>0){
+        indexAll=matrix(indexAll,ncol=4)
         colnames(indexAll)=c("Interval start", "Interval end", "Area", "p.value")
         predArea    = cbind(prep$timePoints, (2*prep$fit))
         permList    = ssPerm(prep$data,B=B)
@@ -314,6 +318,7 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
 
         res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult)
         return(res)
+      }
     }else{
         indexAll = "No statistically significant time intervals detected"
         res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=NULL)
@@ -459,7 +464,7 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
 #' plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 #'
 plotClassTimeSeries<-function(res,formula,xlab="Time",ylab="Abundance",color0="black",
-                            color1="red",include=c("class", "time:class"),...){
+                            color1="red",include=c("1","class", "time:class"),...){
     dat = res$data
     if(missing(formula)){
         mod = gss::ssanova(abundance ~ time * class, data=dat)
