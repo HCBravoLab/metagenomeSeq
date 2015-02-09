@@ -5,8 +5,8 @@
 \title{Plot abundances by class}
 \usage{
 plotClassTimeSeries(res, formula, xlab = "Time", ylab = "Abundance",
-  color0 = "black", color1 = "red", include = c("class", "time:class"),
-  ...)
+  color0 = "black", color1 = "red", include = c("1", "class",
+  "time:class"), ...)
 }
 \arguments{
 \item{res}{Output of fitTimeSeries function}
