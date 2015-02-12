@@ -7,7 +7,7 @@
 plotBubble(yvector, xvector, sigvector = NULL, nbreaks = 10,
   ybreak = quantile(yvector, p = seq(0, 1, length.out = nbreaks)),
   xbreak = quantile(xvector, p = seq(0, 1, length.out = nbreaks)),
-  ret = FALSE, scale = 1, local = FALSE, ...)
+  scale = 1, local = FALSE, ...)
 }
 \arguments{
 \item{yvector}{A vector of values represented along y-axis.}
@@ -22,8 +22,6 @@ plotBubble(yvector, xvector, sigvector = NULL, nbreaks = 10,
 
 \item{xbreak}{The values to break the xvector at.}
 
-\item{ret}{Boolean to return the observed data that would have been plotted.}
-
 \item{scale}{Scaling of circle bin sizes.}
 
 \item{local}{Boolean to shade by signficant bin numbers (TRUE) or overall proportion (FALSE).}
@@ -31,7 +29,7 @@ plotBubble(yvector, xvector, sigvector = NULL, nbreaks = 10,
 \item{...}{Additional plot arguments.}
 }
 \value{
-If ret == TRUE, returns a matrix of features along rows, and the group membership along columns.
+A matrix of features along rows, and the group membership along columns.
 }
 \description{
 This function plots takes two vectors, calculates the contingency table and

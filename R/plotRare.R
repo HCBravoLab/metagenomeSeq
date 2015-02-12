@@ -4,9 +4,8 @@
 #' 
 #' @param obj A MRexperiment object with count data or matrix.
 #' @param cl Vector of classes for various samples.
-#' @param ret True/False, return the number of features and the depth of coverage as a vector.
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return Library size and number of detected features
 #' @seealso \code{\link{plotOrd}}, \code{\link{plotMRheatmap}}, \code{\link{plotCorr}}, \code{\link{plotOTU}}, \code{\link{plotGenus}}
 #' @examples
 #' 
@@ -19,7 +18,7 @@
 #' }
 #' legend("topleft", c("Diet 1","Diet 2"), text.col=c(1,2),box.col=NA)
 #'
-plotRare<-function(obj,cl=NULL,ret=FALSE,...){
+plotRare<-function(obj,cl=NULL,...){
     if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=FALSE,log=FALSE)
         totalCounts = libSize(obj)
@@ -37,16 +36,7 @@ plotRare<-function(obj,cl=NULL,ret=FALSE,...){
         plot(totalCounts, numFeatures, xlab = "Depth of coverage", ylab = "Number of detected features",col=factor(cl),...)
     }
     
-    if(ret==TRUE){
-        dat = cbind(totalCounts,numFeatures);
-        colnames(dat) = c("libSize","ident")
-        return(dat);
-    }
-    else{
-        invisible()
-    }
+    dat = cbind(totalCounts,numFeatures);
+    colnames(dat) = c("libSize","ident")
+    invisible(dat)
 }
-
-
-
-

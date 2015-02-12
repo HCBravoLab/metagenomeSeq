@@ -10,7 +10,7 @@
 #' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param fun Function to select top 'n' features.
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return plotted matrix
 #' @seealso \code{\link{cumNormMat}}
 #' @examples
 #' 
@@ -33,5 +33,5 @@ plotMRheatmap <- function(obj,n,norm=TRUE,log=TRUE,fun=sd,...) {
   otuIndices = otusToKeep[order(otuStats,decreasing=TRUE)[1:n]];
   mat2=mat[otuIndices,];
   heatmap.2(mat2,...);
-  invisible()
+  invisible(mat2)
 }

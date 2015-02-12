@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: December 18, 2014. Compiled: \today}
+\date{Modified: February 11, 2015. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -536,7 +536,7 @@ cl = factor(pData(mouseData)$diet)
 plotOrd(mouseData,tran=TRUE,usePCA=FALSE,useDist=TRUE,bg=cl,pch=21)
 
 # plotRare
-res = plotRare(mouseData,cl=cl,ret=TRUE,pch=21,bg=cl)
+res = plotRare(mouseData,cl=cl,pch=21,bg=cl)
 
 # Linear fits for plotRare / legend
 tmp=lapply(levels(cl), function(lv) 

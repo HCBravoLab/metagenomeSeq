@@ -18,9 +18,8 @@
 #' @param xlab xlabel for the plot.
 #' @param ylab ylabel for the plot.
 #' @param jitter Boolean to jitter the count data or not.
-#' @param ret Boolean to return the observed data that would have been plotted.
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return plotted data
 #' @seealso \code{\link{cumNorm}}
 #' @examples
 #' 
@@ -32,7 +31,7 @@
 #' plotGenus(mouseData,otuIndex,classIndex,no=1:2,xaxt="n",norm=FALSE,ylab="Strep normalized log(cpt)")
 #' 
 plotGenus <-
-function(obj,otuIndex,classIndex,norm=TRUE,log=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,jitter.factor=1,pch=21,ret=FALSE,...){
+function(obj,otuIndex,classIndex,norm=TRUE,log=TRUE,no=1:length(otuIndex),labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,jitter.factor=1,pch=21,...){
 
     mat = returnAppropriateObj(obj,norm,log)
 	l=lapply(otuIndex[no], function(i) lapply(classIndex, function(j) {
@@ -66,5 +65,5 @@ function(obj,otuIndex,classIndex,norm=TRUE,log=TRUE,no=1:length(otuIndex),labs=T
         axis(1,at=seq(1:length(gp)),gp)
     }
 
-	if(ret) list(x=x,y=y)
+	invisible(list(x=x,y=y))
 }
