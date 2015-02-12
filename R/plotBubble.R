@@ -11,11 +11,10 @@
 #' @param nbreaks Number of bins to break yvector and xvector into.
 #' @param ybreak The values to break the yvector at.
 #' @param xbreak The values to break the xvector at.
-#' @param ret Boolean to return the observed data that would have been plotted.
 #' @param scale Scaling of circle bin sizes.
 #' @param local Boolean to shade by signficant bin numbers (TRUE) or overall proportion (FALSE).
 #' @param ... Additional plot arguments.
-#' @return If ret == TRUE, returns a matrix of features along rows, and the group membership along columns.
+#' @return A matrix of features along rows, and the group membership along columns.
 #' @seealso \code{\link{plotMRheatmap}}
 #' @examples
 #' 
@@ -30,7 +29,7 @@
 #' plotBubble(y,x)
 #'
 plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10, ybreak=quantile(yvector,p=seq(0,1,length.out=nbreaks)),
-    xbreak=quantile(xvector,p=seq(0,1,length.out=nbreaks)), ret=FALSE,scale=1,local=FALSE,...){
+    xbreak=quantile(xvector,p=seq(0,1,length.out=nbreaks)),scale=1,local=FALSE,...){
 
     ybreaks = cut(yvector,breaks=ybreak,include.lowest=TRUE)
     xbreaks = cut(xvector,breaks=xbreak,include.lowest=TRUE)
@@ -85,17 +84,13 @@ plotBubble<-function(yvector,xvector,sigvector=NULL,nbreaks=10, ybreak=quantile(
     axis(1,at = 1:nc,labels=levels(xbreaks),las=2,cex.axis=.5)
     axis(2,at = 1:nc,labels=levels(ybreaks),las=2,cex.axis=.5)
 
-    if(ret == TRUE){
-        res = cbind(as.character(ybreaks),as.character(xbreaks))
-        colnames(res) = c("yvector","xvector")
-        rownames(res) = names(yvector)
-        if(is.null(sigvector)){
-            return(res)
-        } else {
-            sig = rep(0,nrow(res))
-            sig[which(rownames(res)%in%sigvector)] = 1
-            res = cbind(res,sig)
-            return(res)
-        }
+    res = cbind(as.character(ybreaks),as.character(xbreaks))
+    colnames(res) = c("yvector","xvector")
+    rownames(res) = names(yvector)
+    if(is.null(sigvector)){
+        sig = rep(0,nrow(res))
+        sig[which(rownames(res)%in%sigvector)] = 1
+        res = cbind(res,sig)
     }
+    invisible(res)
 }

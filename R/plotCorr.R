@@ -11,7 +11,7 @@
 #' @param fun Function to calculate pair-wise relationships. Default is pearson
 #' correlation
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return plotted correlation matrix
 #' @seealso \code{\link{cumNormMat}}
 #' @examples
 #' 
@@ -30,6 +30,6 @@ plotCorr <- function(obj,n,norm=TRUE,log=TRUE,fun=cor,...) {
     otuOrder = hc$order
     cc = cc[otuOrder, otuOrder]
     heatmap.2(t(cc),...)
-    invisible()
+    invisible(t(cc))
 }
 

@@ -16,9 +16,8 @@
 #' @param xlab xlabel for the plot.
 #' @param ylab ylabel for the plot.
 #' @param jitter Boolean to jitter the count data or not.
-#' @param ret Boolean to return the observed data that would have been plotted.
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return Plotted values
 #' @seealso \code{\link{cumNorm}}
 #' @examples
 #' 
@@ -29,7 +28,7 @@
 #' plotOTU(mouseData,otu=9083,classIndex,norm=FALSE,main="9083 feature abundances")
 #' 
 plotOTU <-
-function(obj,otu,classIndex,log=TRUE,norm=TRUE,jitter.factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,ret=FALSE,...){
+function(obj,otu,classIndex,log=TRUE,norm=TRUE,jitter.factor=1,pch=21,labs=TRUE,xlab=NULL,ylab=NULL,jitter=TRUE,...){
     mat = returnAppropriateObj(obj,norm,log)
     
 	l=lapply(classIndex, function(j){
@@ -61,7 +60,5 @@ function(obj,otu,classIndex,log=TRUE,norm=TRUE,jitter.factor=1,pch=21,labs=TRUE,
         gp = names(classIndex)
         axis(1,at=seq(1:length(gp)),gp)
     }
-    
-	if (ret)
-		list(x=x,y=y)
+	invisible(list(x=x,y=y))
 }

@@ -4,19 +4,17 @@
 \alias{plotRare}
 \title{Plot of rarefaction effect}
 \usage{
-plotRare(obj, cl = NULL, ret = FALSE, ...)
+plotRare(obj, cl = NULL, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data or matrix.}
 
 \item{cl}{Vector of classes for various samples.}
 
-\item{ret}{True/False, return the number of features and the depth of coverage as a vector.}
-
 \item{...}{Additional plot arguments.}
 }
 \value{
-NA
+Library size and number of detected features
 }
 \description{
 This function plots the number of observed features vs. the depth of coverage.

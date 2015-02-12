@@ -14,7 +14,7 @@
 #' @param log Whether or not to log2 transform the counts - if MRexperiment object.
 #' @param sl Scaling factor - if MRexperiment and norm=TRUE.
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return counts and classindex
 #' @seealso \code{\link{cumNorm}}
 #' @examples
 #' 

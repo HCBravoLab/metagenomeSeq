@@ -5,7 +5,7 @@
 \alias{phenoData}
 \title{Load a clinical/phenotypic dataset associated with a study.}
 \usage{
-load_phenoData(file, tran = FALSE, sep = "\\t")
+load_phenoData(file, tran = TRUE, sep = "\\t")
 }
 \arguments{
 \item{file}{Path and filename of the actual clinical file.}
