@@ -20,7 +20,7 @@ plotMRheatmap(obj, n, norm = TRUE, log = TRUE, fun = sd, ...)
 \item{...}{Additional plot arguments.}
 }
 \value{
-NA
+plotted matrix
 }
 \description{
 This function plots a heatmap of the 'n' features with greatest variance

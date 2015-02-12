@@ -5,8 +5,7 @@
 \title{Basic plot function of the raw or normalized data.}
 \usage{
 plotOTU(obj, otu, classIndex, log = TRUE, norm = TRUE, jitter.factor = 1,
-  pch = 21, labs = TRUE, xlab = NULL, ylab = NULL, jitter = TRUE,
-  ret = FALSE, ...)
+  pch = 21, labs = TRUE, xlab = NULL, ylab = NULL, jitter = TRUE, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}
@@ -31,12 +30,10 @@ plotOTU(obj, otu, classIndex, log = TRUE, norm = TRUE, jitter.factor = 1,
 
 \item{jitter}{Boolean to jitter the count data or not.}
 
-\item{ret}{Boolean to return the observed data that would have been plotted.}
-
 \item{...}{Additional plot arguments.}
 }
 \value{
-NA
+Plotted values
 }
 \description{
 This function plots the abundance of a particular OTU by class. The function

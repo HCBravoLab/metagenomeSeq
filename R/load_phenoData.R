@@ -14,8 +14,7 @@
 #' 
 #' # see vignette
 #' 
-load_phenoData <-
-function(file,tran=FALSE,sep="\t")
+load_phenoData <-function(file,tran=TRUE,sep="\t")
 {
 	dat2 <- read.table(file,header=FALSE,sep=sep);
 

@@ -6,7 +6,7 @@
 \usage{
 plotOrd(obj, tran = TRUE, comp = 1:2, norm = TRUE, log = TRUE,
   usePCA = TRUE, useDist = FALSE, distfun = stats::dist,
-  dist.method = "euclidian", ret = FALSE, n = NULL, ...)
+  dist.method = "euclidian", n = NULL, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}
@@ -27,14 +27,12 @@ plotOrd(obj, tran = TRUE, comp = 1:2, norm = TRUE, log = TRUE,
 
 \item{dist.method}{If useDist==TRUE, what method to calculate distances.}
 
-\item{ret}{Whether or not to output the coordinates.}
-
 \item{n}{Number of features to make use of in calculating your distances.}
 
 \item{...}{Additional plot arguments.}
 }
 \value{
-NA
+coordinates
 }
 \description{
 This function plots the PCA / MDS coordinates for the "n" features of interest. Potentially uncovering batch

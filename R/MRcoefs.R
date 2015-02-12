@@ -93,13 +93,11 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     nm = c(colnames(tb)[coef],"pvalues","adjPvalues")
     colnames(mat) = nm
 
-
     if(!is.null(file)){
         nm = c("Taxa",nm)
         mat2 = cbind(rownames(mat),mat)
         mat2 = rbind(nm,mat2)
         write(t(mat2),ncolumns=ncol(mat2),file=file,sep="\t")
-    } else{
-        return(as.data.frame(mat))
     }
+    invisible(as.data.frame(mat))
 }

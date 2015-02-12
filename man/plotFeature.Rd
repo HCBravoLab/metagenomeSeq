@@ -29,7 +29,7 @@ plotFeature(obj, otuIndex, classIndex, col = "black", sort = TRUE,
 \item{...}{Additional plot arguments.}
 }
 \value{
-NA
+counts and classindex
 }
 \description{
 This function plots the abundance of a particular OTU by class. The function

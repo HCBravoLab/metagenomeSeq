@@ -13,10 +13,9 @@
 #' @param dist.method If useDist==TRUE, what method to calculate distances.
 #' @param norm Whether or not to normalize the counts - if MRexperiment object.
 #' @param log Whether or not to log2 the counts - if MRexperiment object.
-#' @param ret Whether or not to output the coordinates.
 #' @param n Number of features to make use of in calculating your distances.
 #' @param ... Additional plot arguments.
-#' @return NA
+#' @return coordinates
 #' @seealso \code{\link{cumNormMat}}
 #' @examples
 #' 
@@ -24,7 +23,7 @@
 #' cl = pData(mouseData)[,3]
 #' plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),usePCA=FALSE)
 #' 
-plotOrd<-function(obj,tran=TRUE,comp=1:2,norm=TRUE,log=TRUE,usePCA=TRUE,useDist=FALSE,distfun=stats::dist,dist.method="euclidian",ret=FALSE,n=NULL,...){
+plotOrd<-function(obj,tran=TRUE,comp=1:2,norm=TRUE,log=TRUE,usePCA=TRUE,useDist=FALSE,distfun=stats::dist,dist.method="euclidian",n=NULL,...){
     mat = returnAppropriateObj(obj,norm,log)
     if(useDist==FALSE & usePCA==FALSE) stop("Classical MDS requires distances")
     if(is.null(n)) n = min(nrow(mat),1000)
@@ -56,6 +55,5 @@ plotOrd<-function(obj,tran=TRUE,comp=1:2,norm=TRUE,log=TRUE,usePCA=TRUE,useDist=
     }
 
 	plot(ord[,comp],ylab=yl,xlab=xl,...)
-    if(ret==TRUE) return(ord[,comp])
-    else invisible()
+    invisible(ord[,comp])
 }

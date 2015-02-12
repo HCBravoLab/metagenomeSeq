@@ -21,7 +21,7 @@ correlation}
 \item{...}{Additional plot arguments.}
 }
 \value{
-NA
+plotted correlation matrix
 }
 \description{
 This function plots a heatmap of the "n" features with greatest variance
