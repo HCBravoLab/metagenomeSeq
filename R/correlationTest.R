@@ -45,7 +45,6 @@ correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",
 			stop("Many features being considered - to proceed set override to TRUE")
 		}
 	}
-
 	if(is.null(rownames(mat))){
 		nm = as.character(1:nr)
 	} else { 
@@ -74,9 +73,10 @@ correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",
 			cbind(res$estimate,res$p.value)
 		},mc.cores=cores,...)
 	}
-
 	correlation = unlist(sapply(corrAndP,function(i){i[,1]}))
 	p  = unlist(sapply(corrAndP,function(i){i[,2]}))
+	nc2 = choose(nr,2)
+	names(p)[nc2] = names(correlation)[nc2] = rownames(corrAndP[[nr-1]])
 	results = cbind(correlation,p)
 	if(!is.null(y)) rownames(results) = rownames(obj)
 	
