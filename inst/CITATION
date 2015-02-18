@@ -32,9 +32,9 @@ citEntry(entry="manual",
                "Bioconductor package: ", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq",sep="") )
 
 citEntry(entry="article",
-         title = "Finding regions of interest in high throughput genomics data using smoothing splines",
-         author = personList( as.person("Hisham Talukder"),
-                              as.person("Joseph N. Paulson"),
+         title = "Longitudinal differential abundance analysis of marker-gene surveys",
+         author = personList( as.person("Hisham Talukder*"),
+                              as.person("Joseph N. Paulson*"),
                               as.person("Hector Corrada Bravo")),
          year = "2014",
          journal = "XX",
@@ -43,8 +43,8 @@ citEntry(entry="article",
          doi = "",
          url = "",
          textVersion =
-         paste("H Talukder, JN Paulson, HC Bravo.",
-               "Finding regions of interest in high throughput genomics data using smoothing splines.",
+         paste("H Talukder*, JN Paulson*, HC Bravo.",
+               "Longitudinal differential abundance analysis of marker-gene surveys.",
         "Submitted") 
 )
 
