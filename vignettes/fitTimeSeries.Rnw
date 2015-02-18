@@ -17,9 +17,9 @@ require(knitr)
 opts_chunk$set(concordance=TRUE,tidy=TRUE)
 @
 
-\title{{\textbf{\texttt{fitTimeSeries}: differential abundance analysis through time or location}}}
+\title{{\textbf{\texttt{fitTimeSeries}: Longitudinal differential abundance analysis for marker-gene surveys}}}
 \author{Hisham Talukder, Joseph N. Paulson, Hector Corrada Bravo\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: November 12, 2014. Compiled: \today}
+\date{Modified: February 18, 2015. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -41,11 +41,11 @@ Smoothing spline regression models~\cite{Wahba:1990} are commonly used to model 
 A common approach to detect regions/times of interest in a genome or for differential abundance is to model differences between two groups with respect to the quantitative measurements as smooth functions and perform statistical inference on these models. In particular, widely used methods for region finding using DNA methylation data use local regression methods to estimate these smooth functions. An important aspect of these tools is their ability to incorporate sample characteristics as covariates in these models, e.g., sex and age in population studies, or technical factors like processing batches. Incorporating these sources of variability, both biological and technical is essential in high-throughput studies. Therefore, these methods require that the models used are capable of estimating both smooth functions and sample-specfic characteristics. We present fitTimeSeries - a method for estimating and detecting regions/times of interest due to differential abundance of a quantitative measurement (for example, normalized abundance).
 
 \subsection{Problem Formulation}
-We assume data is of the form:
+We model data in the following form:
 $$
 Y_{itk}= f_i(t,x_{k})+e_{tk}
 $$
-where $i$ represents group factor (diet, cell type, etc.), $t$ represents series factor (for example, time or location), $k$ represents replicate observations, $x_{k}$ are covariates for sample $k$ (including an indicator for group 
+where i represents group factor (diet, health status, etc.), $t$ represents series factor (for example, time or location), $k$ represents replicate observations, $x_{k}$ are covariates for sample $k$ (including an indicator for group 
 membership $I\{k \in i\}$) and $e_{tk}$ are independent $N(0,\sigma^2)$ errors. We assume $f_i$ to be a smooth function, defined in an interval $[a,b]$, that can be parametric, non-parametric or a mixture of both.   
 
 Our goal is to identify intervals where the absolute difference between two groups $\eta_d(t)=f_1(t, \cdot)-f_2(t, \cdot)$ is large, that is, regions, $R_{t_1,t_2}$, where:
@@ -64,6 +64,14 @@ $$
   H_1: A_{t_1,t_2} >  K
 $$
 with $K$ some fixed threshold.
+
+We employ a permutation-based method to calculate a null distribution of the area statistics $A_(t1,t2)$'s. To do this, 
+the group-membership indicator variables (0-1 binary variable) are randomly permuted $B$ times, e.g., $B=1000$ and the 
+method above is used to estimate the difference function $\eta_d^b$ (in this case simulating the null hypothesis) and an area 
+statistics $A_(t1,t2)^b$ for each random permutation. Estimates $A_(t1,t2)^b$ are then used to construct an empirical 
+estimate of $A_(t1,t2)$ under the null hypothesis. The observed area, $A_(t1,t2)^*$, is compared to the empirical null 
+distribution to calculate a p-value. Figure 1 illustrates the relationship between $R_(t1,t2)$ and $A_(t1,t2)$. The key 
+is to estimate regions $R_(t1,t2)$ where point-wise confidence intervals would be appropriate. 
 
 \section{Data preparation}
 Data should be preprocessed and prepared in tab-delimited files. Measurements are stored in a matrix with samples along the
@@ -170,8 +178,8 @@ differentially abundant time intervals for "Actinobacteria".
 For demonstrations sake we perform only 10 permutations.
 
 If you find the method useful, please cite:
-"Finding regions of interest in high throughput genomics data using smoothing splines"
-Talukder H, Paulson JN, Bravo HC. (Submitted)
+"Longitudinal differential abundance analysis for marker-gene surveys"
+Talukder H*, Paulson JN*, Bravo HC. (Submitted)
 
 <<timeSeries>>=
 res = fitTimeSeries(obj=mouseData,lvl="class",feature="Actinobacteria",class="status",id="mouseID",time="relativeTime",B=10)
@@ -193,20 +201,14 @@ timeSeriesFits = lapply(classes,function(i){
             id="mouseID",
             time="relativeTime",
             lvl='class',
+            C=.3,# a cutoff for 'interesting' 
             B=1) # B is the number of permutations and should clearly not be 1
     })
 names(timeSeriesFits) = classes
 
 # Removing classes of bacteria without a potentially
 # interesting time interval difference.
-timeSeriesFits = sapply(timeSeriesFits,function(i){i[[1]]})[-c(2,9,14)]
-
-# Correcting for multiple testing.
-for(i in 1:length(timeSeriesFits)){
-    pvalues = timeSeriesFits[[i]][,4]
-    adjPvalues = p.adjust(pvalues,"bonferroni")
-    timeSeriesFits[[i]] = cbind(timeSeriesFits[[i]],adjPvalues)
-}
+timeSeriesFits = sapply(timeSeriesFits,function(i){i[[1]]})[-grep("No",timeSeriesFits)]
 
 # Naming the various interesting time intervals.
 for(i in 1:length(timeSeriesFits)){
@@ -219,6 +221,12 @@ for(i in 1:length(timeSeriesFits)){
 
 # Merging into a table.
 timeSeriesFits = do.call(rbind,timeSeriesFits)
+
+# Correcting for multiple testing.
+pvalues = timeSeriesFits[,"p.value"]
+adjPvalues = p.adjust(pvalues,"bonferroni")
+timeSeriesFits = cbind(timeSeriesFits,adjPvalues)
+
 head(timeSeriesFits)
 @
 Please see the help page for \texttt{fitTimeSeries} for parameters. Note, only two groups can be compared to each other and the time parameter must be an actual value (currently no support for posix, etc.).
