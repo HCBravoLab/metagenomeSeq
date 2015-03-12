@@ -442,13 +442,7 @@ featureData information in the MRexperiment object, calling \texttt{aggregateByT
 'genus') will aggregate counts to the desired level with the aggfun function (default colSums). Possible aggfun alternatives include colMeans and colMedians.
 
 <<aggTax>>=
-# first featureData column as 'chr' vector
-taxa = as.character(fData(mouseData)[,1])
-
-# 2nd item of each taxonomy if delimited by ';'
-phylum = sapply(strsplit(taxa,split=";"),function(i){i[2]}) 
-
-obj = aggTax(MRcounts(mouseData),lvl=phylum,out='matrix')
+obj = aggTax(mouseData,lvl='phylum',out='matrix')
 head(obj[1:5,1:5])
 @
 
