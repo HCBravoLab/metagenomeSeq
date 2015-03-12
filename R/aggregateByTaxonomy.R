@@ -63,7 +63,7 @@ aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfu
 		rownames(taxa) = names(grps)
 		taxa = as(taxa,"AnnotatedDataFrame")
 		if(class(obj)=="MRexperiment"){
-			pd = as(pData(obj),"AnnotatedDataFrame")
+			pd = phenoData(obj)
 			newObj = newMRexperiment(newMat,featureData=taxa,phenoData=pd)
 		} else {
 			newObj = newMRexperiment(newMat,featureData=taxa)

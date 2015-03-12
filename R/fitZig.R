@@ -39,15 +39,17 @@
 #' @export
 #' @seealso \code{\link{cumNorm}} \code{\link{zigControl}}
 #' @examples
-#' 
+#'
+#' # This is a simple demonstration 
 #' data(lungData)
 #' k = grep("Extraction.Control",pData(lungData)$SampleType)
 #' lungTrim = lungData[,-k]
 #' k = which(rowSums(MRcounts(lungTrim)>0)<30)
-#' cumNorm(lungTrim)
+#' lungTrim = cumNorm(lungTrim)
 #' lungTrim = lungTrim[-k,]
 #' smokingStatus = pData(lungTrim)$SmokingStatus
 #' mod = model.matrix(~smokingStatus)
+#' # The maxit is not meant to be 1 - this is for demonstration/speed
 #' settings = zigControl(maxit=1,verbose=FALSE)
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' 

@@ -14,7 +14,7 @@
 #' @examples
 #' control =  zigControl(tol=1e-10,maxit=10,verbose=FALSE)
 #'
-zigControl <-function(tol=1e-4,maxit=10,verbose=TRUE,dfMethod="default",pvalMethod="default"){
+zigControl <-function(tol=1e-4,maxit=10,verbose=TRUE,dfMethod="modified",pvalMethod="default"){
 	# to do: add stop if not
 	DFMETHODS <- c("default", "modified")
 	PMETHODS  <- c("default", "bootstrap")
