@@ -54,14 +54,16 @@ pi_j(s_j)+(1-delta_ij) log (1-pi_j (s_j))$. The responsibilities are defined
 as $z_ij = pr(delta_ij=1 | data)$.
 }
 \examples{
+# This is a simple demonstration
 data(lungData)
 k = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-k]
 k = which(rowSums(MRcounts(lungTrim)>0)<30)
-cumNorm(lungTrim)
+lungTrim = cumNorm(lungTrim)
 lungTrim = lungTrim[-k,]
 smokingStatus = pData(lungTrim)$SmokingStatus
 mod = model.matrix(~smokingStatus)
+# The maxit is not meant to be 1 - this is for demonstration/speed
 settings = zigControl(maxit=1,verbose=FALSE)
 fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 }
