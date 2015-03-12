@@ -24,7 +24,7 @@
 #' that a count comes from a spike distribution at 0).
 #' @seealso \code{\link{fitZig}}
 doCountMStep <-
-function(z, y, mmCount, stillActive,fit2=NULL,dfMethod="default"){
+function(z, y, mmCount, stillActive,fit2=NULL,dfMethod="modified"){
 
 	if (is.null(fit2)){
 		fit=limma::lmFit(y[stillActive,],mmCount,weights = (1-z[stillActive,]))

@@ -26,7 +26,7 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 	    sort(mat[which(mat[, i]>0),i], decreasing = TRUE)
 	})
 	leng = max(sapply(smat,length))
-    if(any(sapply(smat,length)==1)) stop("Warning empty sample")
+    if(any(sapply(smat,length)==1)) stop("Warning sample with one or zero features")
     
     smat2 = array(NA,dim=c(leng,ncol(mat)))
 	for(i in 1:ncol(mat)){

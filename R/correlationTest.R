@@ -79,7 +79,6 @@ correlationTest <- function(obj,y=NULL,method="pearson",alternative="two.sided",
 	if(is.null(y)) rownames(results)[nrow(results)] = rownames(corrAndP[[nr-1]])
 	if(!is.null(y)) rownames(results) = rownames(obj)
 	
-	
 	return(results)
 }
 #' Calculate the correct indices for the output of correlationTest

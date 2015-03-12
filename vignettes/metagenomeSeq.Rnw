@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: February 11, 2015. Compiled: \today}
+\date{Modified: March 5, 2015. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -327,6 +327,7 @@ Alternatively, the user can input a model with their own normalization factors i
 Assuming there are multiple groups it is possible to make use of Limma's topTable functions for F-tests
 and contrast functions to compare multiple groups and covariates of interest. The output of fitZig includes a 'MLArrayLM' Limma object that can be called on by other functions. When running fitZig by default there is an additional covariate added to the design matrix. The fit and the ultimate design matrix are crucial for contrasts. 
 <<contrasts>>=
+# maxit=1 is for demonstration purposes
 settings = zigControl(maxit=1,verbose=FALSE)
 mod = model.matrix(~bodySite)
 colnames(mod) = levels(bodySite)
