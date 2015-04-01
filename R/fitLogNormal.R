@@ -1,4 +1,4 @@
-#' Computes a slightly modified form of Metastats.
+#' Computes a log-normal linear model and permutation based p-values.
 #' 
 #' Wrapper to perform the permutation test on the t-statistic. This is the original
 #' method employed by metastats (for non-sparse large samples). We include CSS normalization
@@ -16,7 +16,7 @@
 #' @return Call made, fit object from lmFit, t-statistics and p-values for each feature.
 #' @export
 #' 
-fitMeta <- function(obj,mod,useCSSoffset=TRUE,B=1000,coef=2,sl=1000){
+fitLogNormal <- function(obj,mod,useCSSoffset=TRUE,B=1000,coef=2,sl=1000){
     if(class(obj)=="MRexperiment"){
         mat = MRcounts(obj,norm=FALSE,log=FALSE)
         mat = log2(mat + 1)
