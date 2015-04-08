@@ -38,5 +38,5 @@ function(z, zeroIndices, mmZero)
 	r=zeroLM$residuals
 	sigma=sd(r)+(1e-3)
 
-	list(zeroCoef=zeroCoef, sigma=sigma, residuals=r/sigma)
+	list(zeroLM=zeroLM, zeroCoef=zeroCoef, sigma=sigma, residuals=r/sigma)
 }
