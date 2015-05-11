@@ -217,7 +217,9 @@ calcZeroAdjustment<-function(fitln,fitzero,mod,coef,exclude=NULL){
 
 #' Calculate the zero-inflated log-normal statistic's standard error
 #' 
-#' Calculat the se for the model.
+#' Calculat the se for the model. Code modified from
+#' "Adjusting for covariates in zero-inflated gamma and 
+#' zero-inflated log-normal models for semicontinuous data", ED Mills 
 #' 
 #' @param mod The zero component model matrix
 #' @param fitln A matrix with parameters from the log-normal fit
@@ -238,7 +240,6 @@ calcStandardError<-function(mod,fitln,fitzero,coef=2,exclude=NULL){
 
   fullvar = sapply(features,function(i){
       beta = fitzero[i,1:ncol(mod)]
-      # b = fitln[i,1:ncol(mod)]
       b = fitln[i,1:(ncol(mod)-1)]
       s = as.numeric(fitln[i,"s2"])
 

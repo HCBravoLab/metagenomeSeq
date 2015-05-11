@@ -18,7 +18,9 @@ calcStandardError(mod, fitln, fitzero, coef = 2, exclude = NULL)
 \item{exclude}{List of features to exclude}
 }
 \description{
-Calculat the se for the model.
+Calculat the se for the model. Code modified from
+"Adjusting for covariates in zero-inflated gamma and
+zero-inflated log-normal models for semicontinuous data", ED Mills
 }
 \seealso{
 \code{\link{fitZeroLogNormal}} \code{\link{fitFeatureModel}}
