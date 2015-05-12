@@ -35,7 +35,7 @@ and model matrix. User can decide to shrink parameter estimates.
 \examples{
 data(lungData)
 lungData = lungData[,-which(is.na(pData(lungData)$SmokingStatus))]
-lungData=filterData(lungData,present=5,depth=1)
+lungData=filterData(lungData,present=30,depth=1)
 lungData <- cumNorm(lungData, p=.5)
 s <- normFactors(lungData)
 pd <- pData(lungData)

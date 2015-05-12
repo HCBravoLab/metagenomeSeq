@@ -21,7 +21,7 @@
 #' 
 #' data(lungData)
 #' lungData = lungData[,-which(is.na(pData(lungData)$SmokingStatus))]
-#' lungData=filterData(lungData,present=5,depth=1)
+#' lungData=filterData(lungData,present=30,depth=1)
 #' lungData <- cumNorm(lungData, p=.5)
 #' s <- normFactors(lungData)
 #' pd <- pData(lungData)
@@ -43,14 +43,13 @@ fitFeatureModel<-function(obj,mod,coef=2,B=1,szero=FALSE,spos=TRUE){
   colnames(mmCount)[ncol(mmCount)] = "scalingFactor"
   
   if(ncol(mmCount)>3){ stop("Can't analyze currently.") }
+  i = permuttedFits = NULL
 
   # These pieces get to be a part of the new zero-ln model!
-  show("Running zero-ln model")
   fitzeroln = fitZeroLogNormal(obj,mmCount,coef=coef,szero=szero,spos=spos)
   zscore = fitzeroln$logFC/fitzeroln$se
 
   if(B>1){
-    show("Running permutations")
     permutations = replicate(B,sample(mmCount[,coef]))
     mmCountPerm  = mmCount
     export=c("fitZeroLogNormal","calcPosComponent",
@@ -67,7 +66,6 @@ fitFeatureModel<-function(obj,mod,coef=2,B=1,szero=FALSE,spos=TRUE){
     zperm = abs(sapply(permuttedFits,function(i)i))
     pvals = rowMeans(zperm>=abs(zscore),na.rm=TRUE)
   } else {
-    permuttedFits = NULL
     pvals = 2*(1-pnorm(abs(zscore)))
   }
   res = list(call=match.call(),fitZeroLogNormal=fitzeroln,pvalues=pvals,permuttedFits=permuttedFits)
