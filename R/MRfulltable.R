@@ -31,25 +31,23 @@
 #' @param file Name of output file, including location, to save the table.
 #' @return Table of the top-ranked features determined by the linear fit's
 #' coefficient.
-#' @seealso \code{\link{fitZig}} \code{\link{MRcoefs}} \code{\link{MRtable}}
+#' @seealso \code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRcoefs}} \code{\link{MRtable}}
 #' \code{\link{fitPA}}
 #' @examples
 #' 
 #' data(lungData)
 #' k = grep("Extraction.Control",pData(lungData)$SampleType)
 #' lungTrim = lungData[,-k]
-#' k = which(rowSums(MRcounts(lungTrim)>0)<10)
-#' lungTrim = lungTrim[-k,]
-#' cumNorm(lungTrim)
+#' lungTrim=filterData(lungTrim,present=30)
+#' lungTrim=cumNorm(lungTrim,p=0.5)
 #' smokingStatus = pData(lungTrim)$SmokingStatus
 #' mod = model.matrix(~smokingStatus)
-#' settings = zigControl(maxit=1,verbose=FALSE)
-#' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
-#' head(MRfulltable(fit))
+#' fit = fitZig(obj = lungTrim,mod=mod)
+#' # head(MRfulltable(fit))
 #' ####
 #' fit = fitFeatureModel(obj = lungTrim,mod=mod)
-#' head(MRtable(fit))
-#' 
+#' # head(MRfulltable(fit))
+#'
 MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
     uniqueNames=FALSE,adjustMethod="fdr",group=0,eff=0,numberEff=FALSE,ncounts=0,file=NULL){
     

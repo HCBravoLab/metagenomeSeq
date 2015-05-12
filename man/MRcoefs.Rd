@@ -54,19 +54,17 @@ limma's topTable.
 data(lungData)
 k = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-k]
-k = which(rowSums(MRcounts(lungTrim)>0)<10)
-lungTrim = lungTrim[-k,]
-cumNorm(lungTrim)
+lungTrim=filterData(lungTrim,present=30)
+lungTrim=cumNorm(lungTrim,p=0.5)
 smokingStatus = pData(lungTrim)$SmokingStatus
 mod = model.matrix(~smokingStatus)
-settings = zigControl(maxit=1,verbose=FALSE)
-fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+fit = fitZig(obj = lungTrim,mod=mod)
 head(MRcoefs(fit))
 ####
 fit = fitFeatureModel(obj = lungTrim,mod=mod)
-head(MRtable(fit))
+head(MRcoefs(fit))
 }
 \seealso{
-\code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRtable}}
+\code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRtable}} \code{\link{MRfulltable}}
 }
 
