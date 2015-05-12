@@ -58,20 +58,18 @@ ensure significant features called are moderately present.
 data(lungData)
 k = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-k]
-k = which(rowSums(MRcounts(lungTrim)>0)<10)
-lungTrim = lungTrim[-k,]
-cumNorm(lungTrim)
+lungTrim=filterData(lungTrim,present=30)
+lungTrim=cumNorm(lungTrim,p=0.5)
 smokingStatus = pData(lungTrim)$SmokingStatus
 mod = model.matrix(~smokingStatus)
-settings = zigControl(maxit=1,verbose=FALSE)
-fit = fitZig(obj = lungTrim,mod=mod,control=settings)
-head(MRfulltable(fit))
+fit = fitZig(obj = lungTrim,mod=mod)
+# head(MRfulltable(fit))
 ####
 fit = fitFeatureModel(obj = lungTrim,mod=mod)
-head(MRtable(fit))
+# head(MRfulltable(fit))
 }
 \seealso{
-\code{\link{fitZig}} \code{\link{MRcoefs}} \code{\link{MRtable}}
+\code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRcoefs}} \code{\link{MRtable}}
 \code{\link{fitPA}}
 }
 
