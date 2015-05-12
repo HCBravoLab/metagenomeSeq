@@ -8,8 +8,7 @@
 #' ensure significant features called are moderately present.
 #' 
 #' 
-#' @param obj A list containing the linear model fit produced by lmFit through
-#' fitZig.
+#' @param obj Output of fitFeatureModel or fitZig.
 #' @param by Column number or column name specifying which coefficient or
 #' contrast of the linear model is of interest.
 #' @param coef Column number(s) or column name(s) specifying which coefficient
@@ -17,7 +16,7 @@
 #' @param number The number of bacterial features to pick out.
 #' @param taxa Taxa list.
 #' @param uniqueNames Number the various taxa.
-#' @param adjust.method Method to adjust p-values by. Default is "FDR". Options
+#' @param adjustMethod Method to adjust p-values by. Default is "FDR". Options
 #' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 #' "none". See \code{\link{p.adjust}} for more details.
 #' @param group One of five choices, 0,1,2,3,4. 0: the sort is ordered by a
@@ -27,11 +26,11 @@
 #' of the coefficient fit in increasing order. 4: no sorting.
 #' @param eff Filter features to have at least a "eff" quantile or number of effective samples.
 #' @param numberEff Boolean, whether eff should represent quantile (default/FALSE) or number.
-#' @param counts Filter features to have at least 'counts' of counts.
+#' @param ncounts Filter features to have at least 'counts' of counts.
 #' @param file Name of file, including location, to save the table.
 #' @return Table of the top-ranked features determined by the linear fit's
 #' coefficient.
-#' @seealso \code{\link{fitZig}} \code{\link{MRcoefs}}
+#' @seealso \code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRcoefs}}
 #' @examples
 #' 
 #' data(lungData)
@@ -45,32 +44,51 @@
 #' settings = zigControl(maxit=1,verbose=FALSE)
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' head(MRtable(fit))
+#' ####
+#' fit = fitFeatureModel(obj = lungTrim,mod=mod)
+#' head(MRtable(fit))
 #' 
-MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,adjust.method="fdr",group=0,eff=0,numberEff=FALSE,counts=0,file=NULL){
-    tb = obj$fit$coefficients
-    tx = as.character(taxa);
+MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
+    uniqueNames=FALSE,adjustMethod="fdr",group=0,eff=0,numberEff=FALSE,ncounts=0,file=NULL){
+
+    if(length(grep("fitFeatureModel",obj$call))){
+        groups = factor(obj$design[,by])
+        by = "logFC"; coef = 1:2;
+        tb = data.frame(logFC=obj$fitZeroLogNormal$logFC,se=obj$fitZeroLogNormal$se)
+        p  = obj$pvalues
+    } else {
+        tb = obj$fit$coefficients
+        if(is.null(coef)){
+            coef = 1:ncol(tb)
+        }
+        p=obj$eb$p.value[,by]
+        groups = factor(obj$fit$design[,by])
+        if(eff>0){
+            effectiveSamples = calculateEffectiveSamples(obj)
+            if(numberEff == FALSE){
+                valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE))
+            } else {
+                valid = which(effectiveSamples>=eff)
+            }
+        }        
+    }
     
+    tx = as.character(taxa)
     if(uniqueNames==TRUE){
         for (nm in unique(tx)) {
             ii=which(tx==nm)
-        tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
+            tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
         }
     }
-
-    if(is.null(coef)){coef = 1:ncol(tb);}
-
-    p=obj$eb$p.value[,by];
-    padj = p.adjust(p,method=adjust.method);
+    padj = p.adjust(p,method=adjustMethod)
+    cnts = obj$counts
+    posIndices = cnts>0
     
-    groups = factor(obj$fit$design[,by])
-    cnts = obj$counts;
-    yy = cnts>0;
-    
-    np0 = rowSums(yy[,groups==0]);
-    np1 = rowSums(yy[,groups==1]);
+    np0 = rowSums(posIndices[,groups==0])
+    np1 = rowSums(posIndices[,groups==1])
 
-    nc0 = rowSums(cnts[,groups==0]);
-    nc1 = rowSums(cnts[,groups==1]);
+    nc0 = rowSums(cnts[,groups==0])
+    nc1 = rowSums(cnts[,groups==1])
 
     if(group==0){
         srt = order(abs(tb[,by]),decreasing=TRUE)
@@ -81,37 +99,28 @@ MRtable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,uniqueNames=FALSE,a
     } else if(group==3){
         srt = order(p,decreasing=FALSE)
     } else {
-        srt = 1:length(padj);
+        srt = 1:length(padj)
     }
 
-    valid = 1:length(padj);
-    if(eff>0){
-        effectiveSamples = calculateEffectiveSamples(obj);
-        if(numberEff == FALSE){
-            valid = which(effectiveSamples>=quantile(effectiveSamples,p=eff,na.rm=TRUE));
-        } else {
-            valid = which(effectiveSamples>=eff);
-        }
+    valid = 1:length(padj)
+    if(ncounts>0){
+        np=rowSums(cbind(np0,np1))
+        valid = intersect(valid,which(np>=ncounts))
     }
-    if(counts>0){
-        np=rowSums(cbind(np0,np1));
-        valid = intersect(valid,which(np>=counts));
-    }
+    srt = srt[which(srt%in%valid)][1:number]
 
-    srt = srt[which(srt%in%valid)][1:number];
-
-    mat = cbind(np0,np1);
-    mat = cbind(mat,nc0);
-    mat = cbind(mat,nc1);
-    mat = cbind(mat,tb[,coef]);
-    mat = cbind(mat,p);
-    mat = cbind(mat,padj);
-    rownames(mat) = tx;
-    mat = mat[srt,];
+    mat = cbind(np0,np1)
+    mat = cbind(mat,nc0)
+    mat = cbind(mat,nc1)
+    mat = cbind(mat,tb[,coef])
+    mat = cbind(mat,p)
+    mat = cbind(mat,padj)
+    rownames(mat) = tx
+    mat = mat[srt,]
 
     nm = c("+samples in group 0","+samples in group 1","counts in group 0",
-        "counts in group 1",colnames(tb)[coef],"pvalues","adjPvalues");
-    colnames(mat) = nm;
+        "counts in group 1",colnames(tb)[coef],"pvalues","adjPvalues")
+    colnames(mat) = nm
 
     if(!is.null(file)){
         nm = c("Taxa",nm)
