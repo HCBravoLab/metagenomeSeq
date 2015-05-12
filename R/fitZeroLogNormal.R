@@ -47,7 +47,8 @@ fitZeroLogNormal<-function(obj,mod,coef=2,szero=TRUE,spos=TRUE){
   exclude = union(which(rs[1,]<=1),which(rs[2,]<=1))
   zeroExclude  = which(colSums(rs)>=(nc-3))
   exclude = union(zeros2,exclude); if(length(exclude)==0) exclude=NULL
-  
+  if(length(zeroExclude)==0) zeroExclude=NULL
+
   sdensity = density(fitln[,"s2"],na.rm=TRUE)
   smode = sdensity$x[which.max(sdensity$y)]
   if(length(zeros2)>0) fitln[zeros2,"s2"] = smode
@@ -233,7 +234,7 @@ calcStandardError<-function(mod,fitln,fitzero,coef=2,exclude=NULL){
   mod0[,coef] <- 0
   ve = rep(NA,nrow(fitln))
   features = seq(nrow(fitln))
-  if(!is.null(exclude)) features = features[-exclude]
+  if(length(exclude)>0) features = features[-exclude]
 
 # a) need to speed up
 # b) need to include more covariates
