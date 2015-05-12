@@ -6,13 +6,16 @@
 #' @param obj A MRexperiment object with count data.
 #' @param mod The model for the count distribution.
 #' @param coef Coefficient of interest to grab log fold-changes.
-#' @param B Number of iterations to perform. If >1, performs permutation test.
+#' @param B Number of bootstraps to perform if >1. If >1 performs permutation test.
 #' @param szero TRUE/FALSE, shrink zero component parameters.
 #' @param spos TRUE/FALSE, shrink positive component parameters.
 #' @return A list of objects including:
 #' \itemize{
 #'  \item{call - the call made to fitFeatureModel}
 #'  \item{fitZeroLogNormal  - list of parameter estimates for the zero-inflated log normal model}
+#'  \item{design - model matrix}
+#'  \item{taxa - taxa names}
+#'  \item{counts - count matrix}
 #'  \item{pvalues - calculated p-values}
 #'  \item{permuttedfits - permutted z-score estimates under the null}
 #' }
@@ -25,7 +28,6 @@
 #' lungData <- cumNorm(lungData, p=.5)
 #' s <- normFactors(lungData)
 #' pd <- pData(lungData)
-#' pd <- cbind(pd,norm=log(s/median(s)))
 #' mod <- model.matrix(~1+SmokingStatus, data=pd)
 #' lungres1 = fitFeatureModel(lungData,mod)
 #' 
@@ -52,22 +54,19 @@ fitFeatureModel<-function(obj,mod,coef=2,B=1,szero=FALSE,spos=TRUE){
   if(B>1){
     permutations = replicate(B,sample(mmCount[,coef]))
     mmCountPerm  = mmCount
-    export=c("fitZeroLogNormal","calcPosComponent",
-      "calcZeroComponent","calcShrinkParameters",
-      "calcZeroAdjustment","calcStandardError")
     
-    permuttedFits = foreach(i = seq(B),.export=export,.errorhandling="remove",
+    permuttedFits = foreach(i = seq(B),.errorhandling="remove",
       .packages=c("metagenomeSeq","glmnet")) %dopar% {
         mmCountPerm[,coef] = permutations[,i]
         permFit = fitZeroLogNormal(obj,mmCountPerm,coef=coef,szero=szero,spos=spos)
         permFit$logFC/permFit$se
       }
-
     zperm = abs(sapply(permuttedFits,function(i)i))
     pvals = rowMeans(zperm>=abs(zscore),na.rm=TRUE)
   } else {
     pvals = 2*(1-pnorm(abs(zscore)))
   }
-  res = list(call=match.call(),fitZeroLogNormal=fitzeroln,pvalues=pvals,permuttedFits=permuttedFits)
+  res = list(call=match.call(),fitZeroLogNormal=fitzeroln,design=mmCount,
+    taxa=rownames(obj),counts=MRcounts(obj),pvalues=pvals,permuttedFits=permuttedFits)
   res
 }

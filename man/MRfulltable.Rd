@@ -6,8 +6,8 @@
 information}
 \usage{
 MRfulltable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
-  uniqueNames = FALSE, adjust.method = "fdr", group = 0, eff = 0,
-  numberEff = FALSE, counts = 0, file = NULL)
+  uniqueNames = FALSE, adjustMethod = "fdr", group = 0, eff = 0,
+  numberEff = FALSE, ncounts = 0, file = NULL)
 }
 \arguments{
 \item{obj}{A list containing the linear model fit produced by lmFit through
@@ -25,7 +25,7 @@ or contrast of the linear model to display.}
 
 \item{uniqueNames}{Number the various taxa.}
 
-\item{adjust.method}{Method to adjust p-values by. Default is "FDR". Options
+\item{adjustMethod}{Method to adjust p-values by. Default is "FDR". Options
 include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 "none". See \code{\link{p.adjust}} for more details.}
 
@@ -39,7 +39,7 @@ of the coefficient fit in increasing order. 4: no sorting.}
 
 \item{numberEff}{Boolean, whether eff should represent quantile (default/FALSE) or number.}
 
-\item{counts}{Filter features to those with at least 'counts' counts.}
+\item{ncounts}{Filter features to those with at least 'counts' counts.}
 
 \item{file}{Name of output file, including location, to save the table.}
 }
@@ -66,6 +66,9 @@ mod = model.matrix(~smokingStatus)
 settings = zigControl(maxit=1,verbose=FALSE)
 fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 head(MRfulltable(fit))
+####
+fit = fitFeatureModel(obj = lungTrim,mod=mod)
+head(MRtable(fit))
 }
 \seealso{
 \code{\link{fitZig}} \code{\link{MRcoefs}} \code{\link{MRtable}}

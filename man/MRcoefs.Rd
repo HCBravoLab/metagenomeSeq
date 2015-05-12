@@ -2,15 +2,14 @@
 % Please edit documentation in R/MRcoefs.R
 \name{MRcoefs}
 \alias{MRcoefs}
-\title{Table of top-ranked microbial marker gene from linear model fit}
+\title{Table of top-ranked features from fitZig or fitFeatureModel}
 \usage{
 MRcoefs(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
-  uniqueNames = FALSE, adjust.method = "fdr", group = 0, eff = 0,
+  uniqueNames = FALSE, adjustMethod = "fdr", group = 0, eff = 0,
   numberEff = FALSE, counts = 0, file = NULL)
 }
 \arguments{
-\item{obj}{A list containing the linear model fit produced by lmFit through
-fitZig.}
+\item{obj}{Output of fitFeatureModel or fitZig.}
 
 \item{by}{Column number or column name specifying which coefficient or
 contrast of the linear model is of interest.}
@@ -24,7 +23,7 @@ or contrast of the linear model to display.}
 
 \item{uniqueNames}{Number the various taxa.}
 
-\item{adjust.method}{Method to adjust p-values by. Default is "FDR". Options
+\item{adjustMethod}{Method to adjust p-values by. Default is "FDR". Options
 include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 "none". See \code{\link{p.adjust}} for more details.}
 
@@ -63,8 +62,11 @@ mod = model.matrix(~smokingStatus)
 settings = zigControl(maxit=1,verbose=FALSE)
 fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 head(MRcoefs(fit))
+####
+fit = fitFeatureModel(obj = lungTrim,mod=mod)
+head(MRtable(fit))
 }
 \seealso{
-\code{\link{fitZig}} \code{\link{MRtable}}
+\code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRtable}}
 }
 

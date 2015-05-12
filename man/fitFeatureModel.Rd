@@ -13,7 +13,7 @@ fitFeatureModel(obj, mod, coef = 2, B = 1, szero = FALSE, spos = TRUE)
 
 \item{coef}{Coefficient of interest to grab log fold-changes.}
 
-\item{B}{Number of iterations to perform. If >1, performs permutation test.}
+\item{B}{Number of bootstraps to perform if >1. If >1 performs permutation test.}
 
 \item{szero}{TRUE/FALSE, shrink zero component parameters.}
 
@@ -24,6 +24,9 @@ A list of objects including:
 \itemize{
  \item{call - the call made to fitFeatureModel}
  \item{fitZeroLogNormal  - list of parameter estimates for the zero-inflated log normal model}
+ \item{design - model matrix}
+ \item{taxa - taxa names}
+ \item{counts - count matrix}
  \item{pvalues - calculated p-values}
  \item{permuttedfits - permutted z-score estimates under the null}
 }
@@ -39,7 +42,6 @@ lungData=filterData(lungData,present=30,depth=1)
 lungData <- cumNorm(lungData, p=.5)
 s <- normFactors(lungData)
 pd <- pData(lungData)
-pd <- cbind(pd,norm=log(s/median(s)))
 mod <- model.matrix(~1+SmokingStatus, data=pd)
 lungres1 = fitFeatureModel(lungData,mod)
 }
