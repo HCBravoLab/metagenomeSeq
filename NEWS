@@ -1,3 +1,5 @@
+version 1.11.xx (2015)
+	+ Adding fitFeatureModel - a feature based zero-inflated log-normal model.
 version 1.9.xx (2015)
 	+ Added flexibility in formula choice for fitTimeSeries
 	+ Added readability in ssPermAnalysis

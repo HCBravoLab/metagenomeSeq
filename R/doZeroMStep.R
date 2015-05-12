@@ -26,9 +26,8 @@ function(z, zeroIndices, mmZero)
 {
 	pi=sapply(1:ncol(zeroIndices), function(j) {
 		if (sum(zeroIndices[,j])==0){
-			return(1e-6)
+			return(1e-8)
 		}
-
 		tmp=mean(z[zeroIndices[,j],j],na.rm=TRUE)
 		ifelse(tmp<=1e-8, 1e-8, ifelse(tmp>=1-(1e-8),1-(1e-8),tmp)) 
 		})

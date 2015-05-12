@@ -17,6 +17,7 @@ Depends:
     R(>= 3.0),
     Biobase,
     limma,
+    glmnet,
     methods,
     glmnet,
     RColorBrewer
@@ -32,6 +33,8 @@ Suggests:
 Imports:
     parallel,
     matrixStats,
+    foreach,
+    Matrix,
     gplots
 VignetteBuilder: knitr
 URL: https://github.com/nosson/metagenomeSeq/
