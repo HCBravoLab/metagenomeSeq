@@ -1,6 +1,7 @@
 import(Biobase)
 import(RColorBrewer)
 import(limma)
+import(glmnet)
 import(methods)
 importFrom(parallel,makeCluster)
 importFrom(parallel,stopCluster)
@@ -9,6 +10,9 @@ importFrom(parallel,mclapply)
 importFrom(matrixStats,colQuantiles)
 importFrom(matrixStats,rowSds)
 importFrom(gplots,heatmap.2)
+importFrom(foreach,'%dopar%')
+importFrom(foreach,foreach)
+importFrom(Matrix,bdiag)
 exportClasses( "MRexperiment" )
 
 exportMethods(
@@ -38,6 +42,7 @@ exportMat,
 exportStats,
 fitDO,
 fitMeta,
+fitFeatureModel,
 fitLogNormal,
 fitPA,
 fitSSTimeSeries,
