@@ -19,7 +19,7 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: March 5, 2015. Compiled: \today}
+\date{Modified: May 18, 2015. Compiled: \today}
 \maketitle
 \tableofcontents
 
@@ -34,7 +34,7 @@ set.seed(42)
 
 \section{Introduction}
 
-\textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function.}
+\textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function. See \texit{fitFeatureModel} for our latest development.}
 
 
 To load the metagenomeSeq library:
@@ -265,7 +265,27 @@ system(paste("rm",file.path(dataDirectory,"tmp.tsv")))
 
 \newpage
 \section{Statistical testing}
-Now that we have taken care of normalization we can address the effects of under sampling on the detecting differentially abundant features (OTUs, genes, etc).
+Now that we have taken care of normalization we can address the effects of under sampling on the detecting differentially abundant features (OTUs, genes, etc). This is our latest development and we recommend \textit{fitFeatureModel} over \textit{fitZig}. \textit{MRcoefs}, \textit{MRtable} and \textit{MRfulltable} are useful summary tables of the model outputs.
+
+\subsection{Zero-inflated Log-Normal mixture model for each feature}
+By reparametrizing our zero-inflation model, we're able to fit a zero-inflated model for each specific OTU separately.
+We currently recommend using the zero-inflated log-normal model as implemented in \textit{fitFeatureModel}.
+
+\subsubsection{Example using fitFeatureModel for differential abundance testing}
+
+Here is an example comparing smoker's and non-smokers lung microbiome.
+
+<<fitFeatureModel>>=
+data(lungData)
+lungData = lungData[,-which(is.na(pData(lungData)$SmokingStatus))]
+lungData=filterData(lungData,present=30,depth=1)
+lungData <- cumNorm(lungData, p=.5)
+s <- normFactors(lungData)
+pd <- pData(lungData)
+mod <- model.matrix(~1+SmokingStatus, data=pd)
+lungres1 = fitFeatureModel(lungData,mod)
+head(MRcoefs(lungres1))
+@
 
 \subsection{Zero-inflated Gaussian mixture model}
 The depth of coverage in a sample is directly related to how many features are detected in a sample motivating our zero-inflated Gaussian (ZIG) mixture model. Figure 2 is representative of the linear relationship between depth of coverage and OTU identification ubiquitous in marker-gene survey datasets currently available. For a quick overview of the mathematical model see Appendix B.
