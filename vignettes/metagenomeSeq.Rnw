@@ -310,10 +310,11 @@ We recommend the user remove features based on the number of estimated effective
 In our analysis of the lung microbiome data, we can remove features that are not present in many samples, controls, and calculate the normalization factors. The user needs to decide which metadata should be included in the linear model.
 
 <<preprocess,dev='pdf',out.width='.55\\linewidth',out.height='.55\\linewidth',fig.cap='Relative difference for the median difference in counts from the reference.',fig.align='center',warning=FALSE>>=
+data(lungData)
 controls = grep("Extraction.Control",pData(lungData)$SampleType)
 lungTrim = lungData[,-controls]
-sparseFeatures = which(rowSums(MRcounts(lungTrim)>0)<10)
-lungTrim = lungTrim[-sparseFeatures,]
+rareFeatures = which(rowSums(MRcounts(lungTrim)>0)<10)
+lungTrim = lungTrim[-rareFeatures,]
 lungp = cumNormStat(lungTrim,pFlag=TRUE,main="Trimmed lung data")
 lungTrim = cumNorm(lungTrim,p=lungp)
 @
