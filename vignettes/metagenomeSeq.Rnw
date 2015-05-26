@@ -34,7 +34,7 @@ set.seed(42)
 
 \section{Introduction}
 
-\textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function. See \texit{fitFeatureModel} for our latest development.}
+\textbf{This is a vignette for pieces of an association study pipeline. For a full list of functions available in the package: help(package=metagenomeSeq). For more information about a particular function call: ?function.} See \textit{fitFeatureModel} for our latest development.
 
 
 To load the metagenomeSeq library:
@@ -181,19 +181,19 @@ mouseData
 \newpage
 \subsection{Useful commands}
 Phenotype information can be accessed with the \verb+phenoData+ and \verb+pData+ methods:
-<<>>=
+<<pdata>>=
 phenoData(obj)
 head(pData(obj),3)
 @
 
 Feature information can be accessed with the \verb+featureData+ and \verb+fData+ methods:
-<<>>=
+<<fdata>>=
 featureData(obj)
 head(fData(obj)[,-c(2,10)],3)
 @
 \newpage
 The raw or normalized counts matrix can be accessed with the \verb+MRcounts+ function:
-<<>>=
+<<MRcounts>>=
 head(MRcounts(obj[,1:2]))
 @
 
@@ -208,7 +208,7 @@ head(pData(obj_smokers),3)
 
 \newpage
 Or using a threshold of minimum depth or OTU presence:
-<<>>=
+<<filterData>>=
 data(mouseData)
 filterData(mouseData,present=10,depth=1000)
 @
@@ -329,7 +329,7 @@ normFactor = log2(normFactor/median(normFactor) + 1)
 mod = model.matrix(~smokingStatus+bodySite + normFactor)
 settings = zigControl(maxit=10,verbose=TRUE)
 fit = fitZig(obj = lungTrim,mod=mod,useCSSoffset = FALSE, 
-             control=settings) 
+             control=settings)
 
 # The default, useCSSoffset = TRUE, automatically includes the CSS scaling normalization factor.
 @
@@ -400,7 +400,7 @@ For a description of how to perform a time-series / genome based analysis call t
 \subsection{Log Normal permutation test}
 Included is a standard log normal linear model with permutation based p-values permutation. We show the fit for the same model as above using 10 permutations providing p-value resolution to the tenth. The \texttt{coef} parameter refers to the coefficient of interest to test. We first generate the list of significant features.
 
-<<metastats>>=
+<<perm>>=
 coeffOfInterest = 2
 res = fitLogNormal(obj = lungTrim, mod = mod, useCSSoffset = FALSE, B = 10, coef = coeffOfInterest)
 
