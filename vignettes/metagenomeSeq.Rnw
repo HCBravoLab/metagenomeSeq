@@ -513,8 +513,8 @@ of the data:
 
 
 \begin{enumerate}
-\item \texttt{plotMRheatmap} - heatmap of abundance estimates (Fig. 4 right)
-\item \texttt{plotCorr} - heatmap of pairwise correlations (Fig. 4 left)
+\item \texttt{plotMRheatmap} - heatmap of abundance estimates (Fig. 4 left)
+\item \texttt{plotCorr} - heatmap of pairwise correlations (Fig. 4 right)
 \item \texttt{plotOrd} - PCA/CMDS components (Fig. 5 left)
 \item \texttt{plotRare} - rarefaction effect (Fig. 5 right)
 \item \texttt{plotBubble} - contingency table style plot (see help)
