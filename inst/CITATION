@@ -27,8 +27,8 @@ citEntry(entry="manual",
          url = "http://www.cbcb.umd.edu/software/metagenomeSeq",
          
          textVersion = 
-         paste("JN Paulson, M Pop, HC Bravo. ", 
-               "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing. ",
+         paste("JN Paulson, H Talukder, M Pop, HC Bravo. ", 
+               "metagenomeSeq: Statistical analysis for sparse high-throughput sequencing. ",
                "Bioconductor package: ", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq",sep="") )
 
 citEntry(entry="article",
