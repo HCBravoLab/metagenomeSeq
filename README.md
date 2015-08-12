@@ -21,7 +21,7 @@ library("devtools")
 install_github("metagenomeSeq","nosson")
 ```
 
-Author: [Joseph Nathaniel Paulson](http://www.cbcb.umd.edu/~jpaulson), [Mihai Pop](http://www.cbcb.umd.edu/~mpop), [Hector Corrada Bravo](http://www.cbcb.umd.edu/~hcorrada)
+Author: [Joseph Nathaniel Paulson](http://www.cbcb.umd.edu/~jpaulson), Hisham Talukder, [Mihai Pop](http://www.cbcb.umd.edu/~mpop), [Hector Corrada Bravo](http://www.cbcb.umd.edu/~hcorrada)
 
 Maintainer: Joseph N. Paulson : jpaulson at umiacs.umd.edu
 
