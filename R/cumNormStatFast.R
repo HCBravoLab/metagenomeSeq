@@ -51,7 +51,7 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 	}
 	x= which(abs(diff(diffr1))/diffr1[-1] > rel)[1]/length(diffr1)
 	if(x<=0.50){
-		warning("Low quantile estimate. Default value being used.")
+		message("Default value being used.")
 		x = 0.50
 	}
 	obj@expSummary$cumNormStat = x;
