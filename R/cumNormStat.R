@@ -57,7 +57,7 @@ function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
 	}
 	x = which(abs(diff(diffr2))/diffr2[-1]>rel)[1] / length(diffr2)
 	if(x<=0.50){
-		warning("Low quantile estimate. Default value being used.")
+		message("Default value being used.")
 		x = 0.50
 	}
 	obj@expSummary$cumNormStat = x;
