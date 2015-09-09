@@ -4,7 +4,7 @@
 #' that quantile.
 #' 
 #' 
-#' @param obj A MRexperiment object.
+#' @param obj A matrix or MRexperiment object.
 #' @param p The pth quantile.
 #' @param sl The value to scale by (default=1000).
 #' @return Returns a matrix normalized by scaling counts up to and including
@@ -22,11 +22,7 @@ function(obj,p= cumNormStatFast(obj),sl = 1000){
 #    and calculated the sum up to and
 #    including that quantile.
 ####################################################################################
-	if(class(obj)=="MRexperiment"){
-		x = MRcounts(obj,norm=FALSE,log=FALSE)
-    } else {
-		stop("Object needs to be a MRexperiment object.")
-    }
+	x = returnAppropriateObj(obj,FALSE,FALSE)
     xx=x
 	xx[x==0] <- NA
 	

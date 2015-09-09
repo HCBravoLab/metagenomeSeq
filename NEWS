@@ -2,6 +2,7 @@ version 1.11.xx (2015)
 	+ Adding fitFeatureModel - a feature based zero-inflated log-normal model.
 	+ Added MRcoefs,MRtable,MRfulltable support for fitFeatureModel output.
 	+ Added mention in vignette.
+	+ Added support for normalizing matrices instead of just MRexperiment objects.
 version 1.9.xx (2015)
 	+ Added flexibility in formula choice for fitTimeSeries
 	+ Added readability in ssPermAnalysis
