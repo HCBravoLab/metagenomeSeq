@@ -42,7 +42,7 @@ function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
 	}
 	if(qFlag == FALSE){
        	diffr = sapply(1:ncols,function(i){
-			refS[k:length(refS)] - approx(yy[,i],n=lo)$y
+			refS[k:length(refS)] - approx(sort(yy[,i],decreasing=FALSE),n=lo)$y
 		})
 	}
 	diffr2 = rowMedians(abs(diffr),na.rm=TRUE)
