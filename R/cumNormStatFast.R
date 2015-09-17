@@ -50,7 +50,7 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 		message("Default value being used.")
 		x = 0.50
 	}
-	if(class("obj"=="MRexperiment")){
+	if(class(obj)=="MRexperiment"){
 		obj@expSummary$cumNormStat = x;		
 	}
 	return(x)
