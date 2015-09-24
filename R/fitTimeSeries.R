@@ -58,6 +58,7 @@ trapz <- function(x,y){
 #' @param time Time point vector of relative times (same length as abundance).
 #' @param id Sample / patient id.
 #' @param include Parameters to include in prediction.
+#' @param pd Extra variable.
 #' @param ... Extra parameters for ssanova function (see ?ssanova).
 #' @return \itemize{A list containing:
 #' \item     data        : Inputed data
@@ -72,9 +73,9 @@ trapz <- function(x,y){
 #'
 #' # Not run
 #'
-ssFit <- function(formula,abundance,class,time,id,include=c("class", "time:class"),...) {
+ssFit <- function(formula,abundance,class,time,id,include=c("class", "time:class"),pd,...) {
     df = data.frame(abundance = abundance, class = factor(class),
-       time=time,id = factor(id))
+       time=time,id = factor(id),pd)
     
     # The smoothing splines anova model
     if(missing(formula)){
@@ -270,10 +271,10 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
 
     if(!missing(formula)){
         prep=ssFit(formula=formula,abundance=abundance,class=class,
-            time=time,id=id,include=include,...)
+            time=time,id=id,include=include,pd=pData(obj),...)
     } else {
         prep=ssFit(abundance=abundance,class=class,time=time,id=id,
-            include=include,...)
+            include=include,pd=pData(obj),...)
     }
     indexPos = ssIntervalCandidate(fit=prep$fit, standardError=prep$se, 
         timePoints=prep$timePoints, positive=TRUE,C=C)
