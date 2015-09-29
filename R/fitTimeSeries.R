@@ -108,7 +108,9 @@ ssFit <- function(formula,abundance,class,time,id,include=c("class", "time:class
 #'
 ssPerm <- function(df,B) {
     dat = data.frame(class=df$class, id=df$id)
-    id  = table(dat$id)
+    # id  = table(dat$id)
+    id = table(interaction(dat$class,dat$id))
+    id = id[id>0]
     classes = unique(dat)[,"class"]
     permList = lapply(1:B,function(i){
         rep(sample(classes, replace=FALSE),id)
