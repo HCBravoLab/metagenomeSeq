@@ -1,0 +1,47 @@
+# Sample .travis.yml for R projects
+language: c
+
+sudo: required
+before_install:
+  - curl -OL http://raw.github.com/lcolladotor/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+
+install:
+  - ./travis-tool.sh install_bioc Biobase
+  - ./travis-tool.sh install_bioc limma
+  - ./travis-tool.sh install_bioc glmnet
+  - ./travis-tool.sh install_bioc annotate
+  - ./travis-tool.sh install_bioc BiocGenerics
+  - ./travis-tool.sh install_bioc interactiveDisplay
+  - ./travis-tool.sh install_bioc covr
+  - ./travis-tool.sh install_r biom
+  - ./travis-tool.sh install_r gss
+  - ./travis-tool.sh install_r RUnit
+  - ./travis-tool.sh install_r vegan
+  - ./travis-tool.sh install_r methods
+  - ./travis-tool.sh install_r RColorBrewer
+  - ./travis-tool.sh install_r testthat
+  - ./travis-tool.sh install_r knitr
+  - ./travis-tool.sh install_r rmarkdown
+  - ./travis-tool.sh install_bioc_deps
+
+script: ./travis-tool.sh run_tests
+
+on_failure:
+  - ./travis-tool.sh dump_logs
+
+after_script:
+  - ./travis-tool.sh dump_logs_by_extension "timings"
+  - ./travis-tool.sh dump_sysinfo
+
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+env:
+  global:
+    - R_BUILD_ARGS="--no-build-vignettes --no-manual --no-resave-data"
+    - R_CHECK_ARGS=" --no-build-vignettes --no-manual --timings"
+    - R_CHECK_TIME="TRUE"
+    - R_CHECK_TESTS="TRUE"
+    - _R_CHECK_FORCE_SUGGESTS_="FALSE"
