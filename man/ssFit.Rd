@@ -5,7 +5,7 @@
 \title{smoothing-splines anova fit}
 \usage{
 ssFit(formula, abundance, class, time, id, include = c("class", "time:class"),
-  ...)
+  pd, ...)
 }
 \arguments{
 \item{formula}{Formula for ssanova.}
@@ -19,6 +19,8 @@ ssFit(formula, abundance, class, time, id, include = c("class", "time:class"),
 \item{id}{Sample / patient id.}
 
 \item{include}{Parameters to include in prediction.}
+
+\item{pd}{Extra variable.}
 
 \item{...}{Extra parameters for ssanova function (see ?ssanova).}
 }
