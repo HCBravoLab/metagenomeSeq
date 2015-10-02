@@ -32,14 +32,14 @@ MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000,qiimeVers
 
     data = as.list(as.data.frame(t(data)))
     names(data) <- NULL
-    
+
     biomlist = list(id=id,format=format,format_url=format_url,type=type,generated_by=generated_by,
                     date=date,matrix_type=matrix_type,matrix_element_type=matrix_element_type,shape=shape,
                     rows=rows,columns=columns,data=data)
     biom::biom(biomlist)
 }
 
-metadata<-function(df,qiimeVersion=FALSE){
+metadata <- function(df,qiimeVersion=FALSE){
     if(ncol(df)>0){
         for(i in 1:ncol(df)){
             df[,i] = as.character(df[,i])
@@ -55,9 +55,15 @@ metadata<-function(df,qiimeVersion=FALSE){
         	meta = lapply(1:nrow(df),function(i){
             	    ll = list(id=rownames(df)[i], 
 	                metadata=list("taxonomy" = paste(df[i,])))
+                    NAvalues = grep("NA$",ll$metadata$taxonomy)
+                    if(length(NAvalues)>0){
+                        k = NAvalues[1]
+                        ll$metadata$taxonomy = paste(df[i,1:(k-1)])
+                    }
                 	ll
             	})
         }
+        return(meta)
     } else {
         if(ncol(df)==0){
             meta = lapply(1:nrow(df),function(i){
@@ -73,5 +79,6 @@ metadata<-function(df,qiimeVersion=FALSE){
                     ll
                 })            
         }
+        return(meta)
     }
 }

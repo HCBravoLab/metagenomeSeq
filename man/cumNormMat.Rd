@@ -7,7 +7,7 @@
 cumNormMat(obj, p = cumNormStatFast(obj), sl = 1000)
 }
 \arguments{
-\item{obj}{A MRexperiment object.}
+\item{obj}{A matrix or MRexperiment object.}
 
 \item{p}{The pth quantile.}
 
