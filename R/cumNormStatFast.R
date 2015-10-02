@@ -4,7 +4,7 @@
 #' version than available in cumNormStat. Deviates from methods described in Nature Methods by
 #' making use of ro means for reference.
 #' 
-#' @param obj A MRexperiment object.
+#' @param obj A matrix or MRexperiment object.
 #' @param pFlag Plot the median difference quantiles.
 #' @param rel Cutoff for the relative difference from one median difference
 #' from the reference to the next.
@@ -17,11 +17,7 @@
 #' p = round(cumNormStatFast(mouseData,pFlag=FALSE),digits=2)
 #' 
 cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
-	if(class(obj)=="MRexperiment"){
-		mat = MRcounts(obj,norm=FALSE,log=FALSE)
-	} else {
-		stop("Object needs to be a MRexperiment object.")
-    }
+	mat = returnAppropriateObj(obj,FALSE,FALSE)
 	smat = lapply(1:ncol(mat), function(i) {
 	    sort(mat[which(mat[, i]>0),i], decreasing = TRUE)
 	})
@@ -51,9 +47,11 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 	}
 	x= which(abs(diff(diffr1))/diffr1[-1] > rel)[1]/length(diffr1)
 	if(x<=0.50){
-		warning("Low quantile estimate. Default value being used.")
+		message("Default value being used.")
 		x = 0.50
 	}
-	obj@expSummary$cumNormStat = x;
+	if(class(obj)=="MRexperiment"){
+		obj@expSummary$cumNormStat = x;		
+	}
 	return(x)
 }

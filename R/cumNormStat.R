@@ -4,7 +4,7 @@
 #' cumNormStat might be deprecated one day. Deviates from methods in Nature Methods paper
 #' by making use row means for generating reference.
 #' 
-#' @param obj A MRexperiment object.
+#' @param obj A matrix or MRexperiment object.
 #' @param qFlag Flag to either calculate the proper percentile using
 #' R's step-wise quantile function or approximate function. 
 #' @param pFlag Plot the relative difference of the median deviance from the reference.
@@ -20,11 +20,7 @@
 #' 
 cumNormStat <-
 function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
-	if(class(obj)=="MRexperiment"){
-		mat = MRcounts(obj,norm=FALSE,log=FALSE)
-    } else {
-		stop("Object needs to be a MRexperiment object.")
-    }
+	mat = returnAppropriateObj(obj,FALSE,FALSE)
     if(any(colSums(mat)==0)) stop("Warning empty sample")
     
 	smat = sapply(1:ncol(mat),function(i){sort(mat[,i],decreasing=FALSE)})
@@ -46,7 +42,7 @@ function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
 	}
 	if(qFlag == FALSE){
        	diffr = sapply(1:ncols,function(i){
-			refS[k:length(refS)] - approx(yy[,i],n=lo)$y
+			refS[k:length(refS)] - approx(sort(yy[,i],decreasing=FALSE),n=lo)$y
 		})
 	}
 	diffr2 = rowMedians(abs(diffr),na.rm=TRUE)
@@ -57,9 +53,11 @@ function(obj,qFlag = TRUE,pFlag = FALSE,rel=.1,...){
 	}
 	x = which(abs(diff(diffr2))/diffr2[-1]>rel)[1] / length(diffr2)
 	if(x<=0.50){
-		warning("Low quantile estimate. Default value being used.")
+		message("Default value being used.")
 		x = 0.50
 	}
-	obj@expSummary$cumNormStat = x;
+	if(class(obj)=="MRexperiment"){
+		obj@expSummary$cumNormStat = x;		
+	}
 	return(x)
 }
