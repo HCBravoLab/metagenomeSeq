@@ -94,7 +94,7 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
         np=rowSums(obj$counts);
         valid = intersect(valid,which(np>=counts));
     }
-    srt = srt[which(srt%in%valid)][1:number];
+    srt = srt[which(srt%in%valid)][1:min(number,nrow(tb))];
     
     mat = cbind(tb[,coef],p)
     mat = cbind(mat,padj)
