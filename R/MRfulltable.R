@@ -109,7 +109,7 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
         np=rowSums(cbind(np0,np1))
         valid = intersect(valid,which(np>=ncounts))
     }
-    srt = srt[which(srt%in%valid)][1:number]
+    srt = srt[which(srt%in%valid)][1:min(number,nrow(tb))]
 
     mat = cbind(np0,np1)
     mat = cbind(mat,nc0)
