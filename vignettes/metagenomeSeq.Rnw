@@ -83,7 +83,7 @@ Data is prepared and formatted as a \texttt{MRexperiment} object. For an overvie
 
 \subsection{Biom-Format}
 You can load in BIOM file format data, the output of many popular tools out there, using the \texttt{load$\_$biom} function. 
-Tthe \texttt{biom2MRexperiment} and \texttt{MRexperiment2biom} functions serve as a gateway between the \texttt{biom-class} object defined in the \textbf{biom} package and a \texttt{MRexperiment-class} object. Currenlty, version 2.0 of the BIOM format is not supported. If you need to load a biom-2.0 file, see: https://gist.github.com/nosson/c9cdcb8cf95e7daae468.
+Tthe \texttt{biom2MRexperiment} and \texttt{MRexperiment2biom} functions serve as a gateway between the \texttt{biom-class} object defined in the \textbf{biom} package and a \texttt{MRexperiment-class} object.
 
 \subsection{Loading count data}
 Following preprocessing and annotation of sequencing data \texttt{metagenomeSeq} requires a count matrix with features along rows and samples along the columns.

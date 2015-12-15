@@ -11,7 +11,7 @@
 #' @return A biom object.
 #' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{load_biom}} \code{\link{biom2MRexperiment}}
 MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000,qiimeVersion=TRUE){
-    library(biom)
+    requireNamespace("biomformat")
     id = id
     format = "Biological Observation Matrix 1.0.0-dev"
     format_url = "http://biom-format.org/documentation/format_versions/biom-1.0.html"
@@ -36,7 +36,7 @@ MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000,qiimeVers
     biomlist = list(id=id,format=format,format_url=format_url,type=type,generated_by=generated_by,
                     date=date,matrix_type=matrix_type,matrix_element_type=matrix_element_type,shape=shape,
                     rows=rows,columns=columns,data=data)
-    biom::biom(biomlist)
+    biomformat::biom(biomlist)
 }
 
 metadata <- function(df,qiimeVersion=FALSE){
