@@ -25,7 +25,7 @@ library("devtools")
 install_github("metagenomeSeq","Bioconductor-mirror")
 ```
 
-Author: [Joseph Nathaniel Paulson](bcb.dfci.harvard.edu/~jpaulson), Hisham Talukder, [Mihai Pop](http://www.cbcb.umd.edu/~mpop), [Hector Corrada Bravo](http://www.cbcb.umd.edu/~hcorrada)
+Author: [Joseph Nathaniel Paulson](http://bcb.dfci.harvard.edu/~jpaulson), Hisham Talukder, [Mihai Pop](http://www.cbcb.umd.edu/~mpop), [Hector Corrada Bravo](http://www.cbcb.umd.edu/~hcorrada)
 
 Maintainer: Joseph N. Paulson : jpaulson at jimmy.harvard.edu
 
