@@ -29,16 +29,16 @@ fitPA<-function(obj,cl,thres=0,adjust.method='fdr',cores=1,...){
     nrows= nrow(x);
     if(is.null(rownames(x))){rownames(x)=1:nrows}
 
-    nClass1 = sum(cl==unique(cl)[1])
-    nClass2 = sum(cl==unique(cl)[2])
+    nClass1 = sum(cl==levels(cl)[1])
+    nClass2 = sum(cl==levels(cl)[2])
 
     cores <- makeCluster(getOption("cl.cores", cores),...)
     res = parRapply(cl=cores,x,function(i){
             tbl = table(1-i,cl)
             if(sum(dim(tbl))!=4){
                 tbl = array(0,dim=c(2,2));
-                tbl[1,1] = sum(i[cl==unique(cl)[1]])
-                tbl[1,2] = sum(i[cl==unique(cl)[2]])
+                tbl[1,1] = sum(i[cl==levels(cl)[1]])
+                tbl[1,2] = sum(i[cl==levels(cl)[2]])
                 tbl[2,1] = nClass1-tbl[1,1]
                 tbl[2,2] = nClass2-tbl[1,2]
             }
