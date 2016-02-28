@@ -39,7 +39,7 @@ cumNormStatFast <-function(obj,pFlag = FALSE,rel=.1,...){
 	diffr = sapply(1:ncols, function(i) {
 		ref1 - rmat2[,i]
 	})
-	diffr1=rowMedians(abs(diffr))
+	diffr1=matrixStats::rowMedians(abs(diffr))
 	if(pFlag==TRUE){
 		plot(abs(diff(diffr1))/diffr1[-1],type="h",...)
 		abline(h=rel)

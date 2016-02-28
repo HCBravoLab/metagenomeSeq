@@ -19,7 +19,7 @@
 #' data(mouseData)
 #' aggregateBySample(mouseData[1:100,],fct="diet",aggfun=rowSums)
 #' # not run
-#' # aggregateBySample(mouseData,fct="diet",aggfun=rowMedians)
+#' # aggregateBySample(mouseData,fct="diet",aggfun=matrixStats::rowMedians)
 #' # aggSamp(mouseData,fct='diet',aggfun=rowMaxs)
 #' 
 aggregateBySample<-function(obj,fct,aggfun=rowMeans,out="MRexperiment"){
