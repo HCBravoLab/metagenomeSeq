@@ -270,6 +270,9 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
     class = pData(obj)[,class]
     time  = pData(obj)[,time]
     id    = pData(obj)[,id]
+    if(any(sapply(list(id,time,class),length)==0)){
+        stop("provide class, time, and id names")
+    }
 
     if(!missing(formula)){
         prep=ssFit(formula=formula,abundance=abundance,class=class,
