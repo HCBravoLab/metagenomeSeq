@@ -7,6 +7,8 @@ Statistical analysis for sparse high-throughput sequencing
 
 [![Travis-CI Build Status](https://travis-ci.org/HCBravoLab/metagenomeSeq.svg?branch=master)](https://travis-ci.org/HCBravoLab/metagenomeSeq)
 
+***Warning: This repository is not as up to date as https://github.com/Bioconductor-mirror/metagenomeSeq***
+
 metagenomeSeq is designed to determine features (be it Operational Taxanomic Unit (OTU), species, etc.) 
 that are differentially abundant between two or more groups of multiple samples. metagenomeSeq is designed 
 to address the effects of both normalization and undersampling of microbial communities on disease 
@@ -22,7 +24,7 @@ To install the latest development version of metagenomeSeq:
 ```S
 install.packages("devtools")
 library("devtools")
-install_github("metagenomeSeq","nosson")
+install_github("Bioconductor-mirror/metagenomeSeq")
 ```
 
 Author: [Joseph Nathaniel Paulson](http://www.cbcb.umd.edu/~jpaulson), Hisham Talukder, [Mihai Pop](http://www.cbcb.umd.edu/~mpop), [Hector Corrada Bravo](http://www.cbcb.umd.edu/~hcorrada)
