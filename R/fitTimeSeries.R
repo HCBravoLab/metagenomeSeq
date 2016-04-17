@@ -1,5 +1,4 @@
-#' @name trapz
-#' @title Trapezoidal Integration
+#' Trapezoidal Integration
 #' 
 #' Compute the area of a function with values 'y' at the points 'x'.
 #' Function comes from the pracma package.
@@ -45,10 +44,9 @@ trapz <- function(x,y){
     return(0.5 * (p1 - p2))
 }
 
-#' @name ssFit
-#' @title smoothing-splines anova fit
+#' smoothing-splines anova fit
 #' 
-#' @details Sets up a data-frame with the feature abundance, 
+#' Sets up a data-frame with the feature abundance, 
 #' class information, time points, sample ids and returns
 #' the fitted values for the fitted model.
 #' 
@@ -92,8 +90,7 @@ ssFit <- function(formula,abundance,class,time,id,include=c("class", "time:class
     return(res)
 }
 
-#' @name ssPerm
-#' @title class permutations for smoothing-spline time series analysis
+#' class permutations for smoothing-spline time series analysis
 #' 
 #' Creates a list of permuted class memberships for the time series permuation tests.
 #' 
@@ -118,10 +115,9 @@ ssPerm <- function(df,B) {
     return(permList) 
 }
 
-#' @name ssPermAnalysis
-#' @title smoothing-splines anova fits for each permutation
+#' smoothing-splines anova fits for each permutation
 #' 
-#' @details Calculates the fit for each permutation and estimates 
+#' Calculates the fit for each permutation and estimates 
 #' the area under the null (permutted) model for interesting time 
 #' intervals of differential abundance.
 #' 
@@ -164,8 +160,7 @@ ssPermAnalysis <- function(data,formula,permList,intTimes,timePoints,include=c("
     return(resPerm)
 }
 
-#' @name ssIntervalCandidate
-#' @title calculate interesting time intervals
+#' calculate interesting time intervals
 #' 
 #' Calculates time intervals of interest using SS-Anova fitted confidence intervals.
 #' 
@@ -214,10 +209,9 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
     return(intTime)    
 }
 
-#' @name fitSSTimeSeries
-#' @title Discover differentially abundant time intervals using SS-Anova
+#' Discover differentially abundant time intervals using SS-Anova
 #' 
-#' @details Calculate time intervals of interest using SS-Anova fitted models.
+#' Calculate time intervals of interest using SS-Anova fitted models.
 #' Fitting is performed uses Smoothing Spline ANOVA (SS-Anova) to find interesting intervals of time. 
 #' Given observations at different time points for two groups, fitSSTimeSeries 
 #' calculates a  function that models the difference in abundance between two 
@@ -225,7 +219,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' of areas for the time intervals of interest and report significant intervals of time.
 #' Use of the function for analyses should cite:
 #' "Finding regions of interest in high throughput genomics data using smoothing splines"
-#' Talukder H, Paulson JN, Bravo HC. (Submitted)
+#' Talukder H, Paulson JN, Bravo HC. (In preparation)
 #' 
 #' @param obj metagenomeSeq MRexperiment-class object.
 #' @param formula Formula for ssanova.
@@ -332,14 +326,10 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
     }
 }
 
-#' @name fitTimeSeries
-#' @title Discover differentially abundant time intervals
+#' Discover differentially abundant time intervals
 #' 
-#' @details Calculate time intervals of significant differential abundance.
+#' Calculate time intervals of significant differential abundance.
 #' Currently only one method is implemented (ssanova). fitSSTimeSeries is called with method="ssanova".
-#' Use of the function for analyses should cite:
-#' "Finding regions of interest in high throughput genomics data using smoothing splines"
-#' Talukder H, Paulson JN, Bravo HC. (Submitted)
 #' 
 #' @param obj metagenomeSeq MRexperiment-class object.
 #' @param formula Formula for ssanova.
@@ -393,10 +383,9 @@ fitTimeSeries <- function(obj,formula,feature,class,time,id,method=c("ssanova"),
     return(res)
 }
 
-#' @name plotTimeSeries
-#' @title Plot difference function for particular bacteria
+#' Plot difference function for particular bacteria
 #' 
-#' @details Plot the difference in abundance for significant features.
+#' Plot the difference in abundance for significant features.
 #' 
 #' @param res Output of fitTimeSeries function
 #' @param C Value for which difference function has to be larger or smaller than (default 0).
@@ -444,10 +433,9 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
     abline(h=C)
 }
 
-#' @name plotClassTimeSeries
-#' @title Plot abundances by class
+#' Plot abundances by class
 #' 
-#' @details Plot the abundance of values for each class using 
+#' Plot the abundance of values for each class using 
 #' a spline approach on the estimated full model.
 #' 
 #' @param res Output of fitTimeSeries function

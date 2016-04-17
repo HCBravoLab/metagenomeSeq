@@ -22,7 +22,7 @@ To install the latest development version of metagenomeSeq:
 ```S
 install.packages("devtools")
 library("devtools")
-install_github("metagenomeSeq","Bioconductor-mirror")
+install_github("Bioconductor-mirror/metagenomeSeq")
 ```
 
 Author: [Joseph Nathaniel Paulson](http://bcb.dfci.harvard.edu/~jpaulson), Hisham Talukder, [Mihai Pop](http://www.cbcb.umd.edu/~mpop), [Hector Corrada Bravo](http://www.cbcb.umd.edu/~hcorrada)

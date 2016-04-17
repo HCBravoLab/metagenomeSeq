@@ -3,7 +3,6 @@
 #' Calculates each column's quantile and calculates the sum up to and including
 #' that quantile.
 #' 
-#' 
 #' @param obj An MRexperiment object.
 #' @param p The pth quantile.
 #' @return Object with the normalization factors stored as 
@@ -27,7 +26,7 @@ cumNorm <- function(obj,p=cumNormStatFast(obj)){
 	return(obj)
 }
 
-#' @title Cumulative sum scaling normalization factors
+#' Cumulative sum scaling (css) normalization factors
 #' 
 #' Return a vector of the the sum up to and including a quantile.
 #' 

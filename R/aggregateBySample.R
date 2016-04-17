@@ -1,7 +1,6 @@
-#' @name aggregateBySample
-#' @title Aggregates a MRexperiment object or counts matrix to by a factor.
+#' Aggregates a MRexperiment object or counts matrix to by a factor.
 #' 
-#' @details Using the phenoData information in the MRexperiment, calling aggregateBySample on a
+#' Using the phenoData information in the MRexperiment, calling aggregateBySample on a
 #' MRexperiment and a particular phenoData column (i.e. 'diet') will aggregate counts
 #' using the aggfun function (default rowMeans). Possible aggfun alternatives
 #' include rowMeans and rowMedians.
