@@ -1,7 +1,6 @@
-#' @name aggregateByTaxonomy
-#' @title Aggregates a MRexperiment object or counts matrix to a particular level.
+#' Aggregates a MRexperiment object or counts matrix to a particular level.
 #' 
-#' @details Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
+#' Using the featureData information in the MRexperiment, calling aggregateByTaxonomy on a
 #' MRexperiment and a particular featureData column (i.e. 'genus') will aggregate counts
 #' to the desired level using the aggfun function (default colSums). Possible aggfun alternatives
 #' include colMeans and colMedians.
