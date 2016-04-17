@@ -148,7 +148,8 @@ calcZeroComponent<-function(mat,mod,weights){
     fit <- glm.fit(mod, weights[i,], family=binomial())
     cf = coefficients(fit)
     df = fit$df.residual
-    s2 = sum( (weights[i,] - t(mod %*% (exp(cf)/(1+exp(cf)))))^2 )/df 
+    mc = exp(mod %*% cf)
+    s2 = sum((weights[i, ] - t(mc/(1 + mc)))^2)/df    
     # s2 = sum(residuals(fit)^2)/df
     c(beta= cf, s2 = s2, df = df)
   })
