@@ -4,8 +4,8 @@
 #' 
 #' @param obj The MRexperiment object.
 #' @param id Optional id for the biom matrix.
-#' @param norm Normalized data?
-#' @param log Logged data?
+#' @param norm normalize count table
+#' @param log log2 transform count table
 #' @param sl scaling factor for normalized counts.
 #' @param qiimeVersion Format fData according to QIIME specifications (assumes only taxonomy in fData).
 #' @return A biom object.
