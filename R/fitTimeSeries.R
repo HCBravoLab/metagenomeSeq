@@ -309,11 +309,10 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
             actArea=trapz(x=origArea[,1], y=origArea[,2])
             indexAll[i,3] = actArea
             if(actArea>0){
-                indexAll[i,4] = 1 - length(which(actArea>permResult[,i]))/B
+                indexAll[i,4] = 1 - (length(which(actArea>permResult[,i]))+1)/(B+1)
             }else{
-                indexAll[i,4] = length(which(actArea>permResult[,i]))/B
+                indexAll[i,4] = (length(which(actArea>permResult[,i]))+1)/(B+1)
             }
-
         }
 
         res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult)
