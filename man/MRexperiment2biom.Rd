@@ -12,9 +12,9 @@ MRexperiment2biom(obj, id = NULL, norm = FALSE, log = FALSE, sl = 1000,
 
 \item{id}{Optional id for the biom matrix.}
 
-\item{norm}{Normalized data?}
+\item{norm}{normalize count table}
 
-\item{log}{Logged data?}
+\item{log}{log2 transform count table}
 
 \item{sl}{scaling factor for normalized counts.}
 
