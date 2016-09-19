@@ -175,11 +175,11 @@ fitZig <- function(obj,
     dupcor <- duplicateCorrelation(y, count_model_matrix, weights=(1-z), ...)
     fit$fit <- limma::lmFit(y, count_model_matrix, weights=(1-z), correlation=dupcor$consensus, ...)
     countCoef <- fit$fit$coefficients
-    countMu <- tcrossprod(countCoef, mmCount)
+    countMu <- tcrossprod(countCoef, count_model_matrix)
     fit$residuals <- sweep((y-countMu), 1, fit$fit$sigma, "/")
   }
   
-  eb=limma::eBayes(fit$fit)
+  eb <- limma::eBayes(fit$fit)
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
               z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive, 
               stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor)
