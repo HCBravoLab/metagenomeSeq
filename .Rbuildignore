@@ -1,1 +1,5 @@
 ^\.travis\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^update_remotes.sh
+inst/doc/*.pdf
