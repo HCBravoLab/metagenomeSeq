@@ -53,44 +53,53 @@
 #' settings = zigControl(maxit=1,verbose=FALSE)
 #' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 #' 
-fitZig <-
-function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedModel=FALSE,...){
-
+fitZig <- function(obj, 
+                   mod, 
+                   zeroMod=NULL,
+                   useCSSoffset=TRUE,
+                   control=zigControl(),
+                   useMixedModel=FALSE,
+                   ...)
+{
 	stopifnot( is( obj, "MRexperiment" ) )
 	if(any(is.na(normFactors(obj)))) stop("At least one NA normalization factors")
 	if(any(is.na(libSize(obj)))) stop("Calculate the library size first!")
 	
-	y = MRcounts(obj,norm=FALSE,log=FALSE)
-	nc = ncol(y) #nsamples
-	nr = nrow(y) #nfeatures
+	y <- MRcounts(obj, norm=FALSE, log=FALSE)
+	nc <- ncol(y) #nsamples
+	nr <- nrow(y) #nfeatures
 
-# Normalization step
-	Nmatrix = log2(y+1)
+  # Normalization step
+	Nmatrix <- log2(y + 1)
 		
-# Initializing the model matrix
-	if(useCSSoffset==TRUE){
-		if(any(is.na(normFactors(obj)))){stop("Calculate the normalization factors first!")}
-		mmCount=cbind(mod,log2(normFactors(obj)/1000 +1))
-		colnames(mmCount)[ncol(mmCount)] = "scalingFactor"
-	}
-	else{ 
-		mmCount=mod
+  # Initializing the model matrix
+	if (useCSSoffset == TRUE){
+		if (any(is.na(normFactors(obj)))) {
+		  stop("Calculate the normalization factors first!")
+		}
+		mmCount <- cbind(mod, log2(normFactors(obj)/1000 + 1))
+		colnames(mmCount)[ncol(mmCount)] <- "scalingFactor"
+	} else { 
+		mmCount <- mod
 	}
 
-	if(is.null(zeroMod)){
-		if(any(is.na(libSize(obj)))){ stop("Calculate the library size first!") }
-			mmZero=model.matrix(~1+log(libSize(obj)))
-		} else{ 
-			mmZero=zeroMod
+	if (is.null(zeroMod)) {
+	  if (any(is.na(libSize(obj)))) {
+		  stop("Calculate the library size first!") 
 		}
+		
+	  mmZero <- model.matrix(~1+log(libSize(obj)))
+	} else { 
+		mmZero <- zeroMod
+	}
 	
 	dat <- .do_fitZig(Nmatrix, mmCount, mmZero, control=control, useMixedModel=useMixedModel, ...)
 
-		assayData(obj)[["z"]] <- dat$z
+	assayData(obj)[["z"]] <- dat$z
 	assayData(obj)[["zUsed"]] <- dat$zUsed
 	dat$zUsed <- NULL
 	
-		dat <- c(dat, list(call=match.call(),taxa=rownames(obj),counts=y))
+	dat <- c(dat, list(call=match.call(),taxa=rownames(obj),counts=y))
 	dat
 }
 
@@ -162,7 +171,7 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
     }
   }
   
-  if (useMixedModel == TRUE){
+  if (useMixedModel == TRUE) {
     dupcor <- duplicateCorrelation(y, count_model_matrix, weights=(1-z), ...)
     fit$fit <- limma::lmFit(y, count_model_matrix, weights=(1-z), correlation=dupcor$consensus, ...)
     countCoef <- fit$fit$coefficients
