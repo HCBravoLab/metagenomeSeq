@@ -1,3 +1,7 @@
+version 1.15.xx (2016)
+	+ Added 'mergeMRexperiment' function
+	+ Replaced RUnit with testthat library for unit testing
+	+ Adding multiple upgrades and changes throughout
 version 1.13.xx (2015)
 	+ Upgrade support for biom-format vs. 2.0
 	+ Fixed issue - "MRtable, etc will report NA rows when user requests more features than available"
