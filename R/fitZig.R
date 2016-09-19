@@ -84,7 +84,7 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 			mmZero=zeroMod
 		}
 	
-	dat <- .do_fitZig(Nmatrix, mmCount, mmZero, control=control, useMixedModel=useMixedModel)
+	dat <- .do_fitZig(Nmatrix, mmCount, mmZero, control=control, useMixedModel=useMixedModel, ...)
 
 		assayData(obj)[["z"]] <- dat$z
 	assayData(obj)[["zUsed"]] <- dat$zUsed
@@ -94,80 +94,85 @@ function(obj,mod,zeroMod=NULL,useCSSoffset=TRUE,control=zigControl(),useMixedMod
 	dat
 }
 
-.do_fitZig <- function(Nmatrix, mmCount, mmZero, control=zigControl(), useMixedModel=FALSE) {
+.do_fitZig <- function(y, 
+                       count_model_matrix, 
+                       zero_model_matrix, 
+                       control=zigControl(), 
+                       useMixedModel=FALSE,
+                       ...) 
+{
   # Initialization
-  tol = control$tol
-  maxit     = control$maxit
-  verbose   = control$verbose
-  dfMethod  = control$dfMethod
-  pvalMethod= control$pvalMethod
+  tol <- control$tol
+  maxit <- control$maxit
+  verbose <- control$verbose
+  dfMethod <- control$dfMethod
+  pvalMethod <- control$pvalMethod
   
-  nr <- nrow(Nmatrix)
-  nc <- ncol(Nmatrix)
+  nr <- nrow(y)
+  nc <- ncol(y)
   
-  zeroIndices=(Nmatrix==0)
-  z=matrix(0,nrow=nr, ncol=nc)
-  z[zeroIndices]=0.5
-  zUsed = z
+  zeroIndices <- (y == 0)
+  z <- matrix(0, nrow=nr, ncol=nc)
+  z[zeroIndices] <- 0.5
+  zUsed <- z
   
-  curIt=0
-  nllOld=rep(Inf, nr)
-  nll=rep(Inf, nr)
-  nllUSED=nll
-  stillActive=rep(TRUE, nr)
-  stillActiveNLL=rep(1, nr)
-  dupcor=NULL
+  curIt <- 0
+  nllOld <- rep(Inf, nr)
+  nll <- rep(Inf, nr)
+  nllUSED <- nll
+  stillActive <- rep(TRUE, nr)
+  stillActiveNLL <- rep(1, nr)
+  dupcor <- NULL
   
-  modRank=ncol(mmCount)
+  modRank <- ncol(count_model_matrix)
   # E-M Algorithm
-  while(any(stillActive) && curIt<maxit) {
+  while (any(stillActive) && (curIt < maxit)) {
     
     # M-step for count density (each feature independently)
-    if(curIt==0){
-      fit=doCountMStep(z, Nmatrix, mmCount, stillActive,dfMethod=dfMethod);
+    if(curIt == 0){
+      fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod)
     } else {
-      fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit2=fit,dfMethod=dfMethod)
+      fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod)
     }
     
     # M-step for zero density (all features together)
-    zeroCoef = doZeroMStep(z, zeroIndices, mmZero)
+    zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix)
     
     # E-step
-    z = doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
-    zzdata<-getZ(z,zUsed,stillActive,nll,nllUSED);
-    zUsed = zzdata$zUsed;
+    z <- doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
+    zzdata <- getZ(z, zUsed, stillActive, nll, nllUSED);
+    zUsed <- zzdata$zUsed;
+    
     # NLL 
-    nll = getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals)
-    eps = getEpsilon(nll, nllOld)
-    active = isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
-    stillActive = active$stillActive;
-    stillActiveNLL = active$stillActiveNLL;
-    if(verbose==TRUE){
+    nll <- getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals)
+    eps <- getEpsilon(nll, nllOld)
+    active <- isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
+    stillActive <- active$stillActive;
+    stillActiveNLL <- active$stillActiveNLL;
+    if (verbose == TRUE){
       cat(sprintf("it=%2d, nll=%0.2f, log10(eps+1)=%0.2f, stillActive=%d\n", curIt, mean(nll,na.rm=TRUE), log10(max(eps,na.rm=TRUE)+1), sum(stillActive)))
     }
-    nllOld=nll
-    curIt=curIt+1
+    nllOld <- nll
+    curIt <- curIt + 1
     
-    if(sum(rowSums((1-z)>0)<=modRank,na.rm=TRUE)>0){
-      k = which(rowSums((1-z)>0)<=modRank)
-      stillActive[k] = FALSE;
-      stillActiveNLL[k] = nll[k]
+    if (sum(rowSums((1-z) > 0) <= modRank, na.rm=TRUE) > 0) {
+      k <- which(rowSums((1-z) > 0) <= modRank)
+      stillActive[k] <- FALSE;
+      stillActiveNLL[k] <- nll[k]
     }
   }
   
-  
-  
-  if(useMixedModel==TRUE){
-    dupcor = duplicateCorrelation(Nmatrix,mmCount,weights=(1-z),...)
-    fit$fit = limma::lmFit(Nmatrix,mmCount,weights=(1-z),correlation=dupcor$consensus,...)
-    countCoef = fit$fit$coefficients
-    countMu=tcrossprod(countCoef, mmCount)
-    fit$residuals=sweep((Nmatrix-countMu),1,fit$fit$sigma,"/")
+  if (useMixedModel == TRUE){
+    dupcor <- duplicateCorrelation(y, count_model_matrix, weights=(1-z), ...)
+    fit$fit <- limma::lmFit(y, count_model_matrix, weights=(1-z), correlation=dupcor$consensus, ...)
+    countCoef <- fit$fit$coefficients
+    countMu <- tcrossprod(countCoef, mmCount)
+    fit$residuals <- sweep((y-countMu), 1, fit$fit$sigma, "/")
   }
   
   eb=limma::eBayes(fit$fit)
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
-              z=z, zUsed=zUsed, eb=eb, zeroMod=mmZero, stillActive=stillActive, 
+              z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive, 
               stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor)
   dat
 }
