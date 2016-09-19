@@ -13,6 +13,17 @@ importFrom(gplots,heatmap.2)
 importFrom(foreach,'%dopar%')
 importFrom(foreach,foreach)
 importFrom(Matrix,bdiag)
+importFrom("graphics", "abline", "axis", "lines", "plot", "points",
+             "polygon")
+importFrom("grDevices", "col2rgb", "rgb")
+importFrom("stats", "approx", "approxfun", "binomial", "cmdscale",
+             "coefficients", "cor", "cor.test", "density", "dist",
+             "dnorm", "fisher.test", "glm.fit", "hclust", "lm.fit",
+             "median", "model.matrix", "p.adjust", "plogis", "pnorm",
+             "prcomp", "predict", "qlogis", "quantile", "residuals",
+             "sd", "var")
+importFrom("utils", "packageVersion", "read.delim", "read.table",
+             "tail")
 exportClasses( "MRexperiment" )
 
 exportMethods(
