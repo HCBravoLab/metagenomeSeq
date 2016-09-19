@@ -7,7 +7,7 @@ test_that("`fitZig` function provides expected values prior to split", {
   # uses the lung data and pre-calculated fitZig result from 
   # prior to this separation
   data(lungData)
-  path = system.file("tests/test_datasets", package = "metagenomeSeq")
+  path = system.file("extdata", package = "metagenomeSeq")
   fit  = readRDS(file.path(path,"lungfit.rds"))
   
   # run the same fit
@@ -31,7 +31,7 @@ test_that("`fitZig` function treats a matrix the same", {
   # uses the lung data and pre-calculated fitZig result from 
   # prior to this separation
   data(lungData)
-  path = system.file("tests/test_datasets", package = "metagenomeSeq")
+  path = system.file("extdata", package = "metagenomeSeq")
   fit  = readRDS(file.path(path,"lungfit.rds"))
   
   # run the same fit
