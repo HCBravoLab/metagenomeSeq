@@ -8,7 +8,7 @@ ssFit(formula, abundance, class, time, id, include = c("class", "time:class"),
   pd, ...)
 }
 \arguments{
-\item{formula}{Formula for ssanova.}
+\item{formula}{Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.}
 
 \item{abundance}{Numeric vector of abundances.}
 

@@ -10,7 +10,7 @@ ssPermAnalysis(data, formula, permList, intTimes, timePoints,
 \arguments{
 \item{data}{Data used in estimation.}
 
-\item{formula}{Formula for ssanova.}
+\item{formula}{Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.}
 
 \item{permList}{A list of permutted class memberships}
 

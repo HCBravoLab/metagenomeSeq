@@ -11,7 +11,7 @@ plotClassTimeSeries(res, formula, xlab = "Time", ylab = "Abundance",
 \arguments{
 \item{res}{Output of fitTimeSeries function}
 
-\item{formula}{Formula for ssanova.}
+\item{formula}{Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.}
 
 \item{xlab}{X-label.}
 
