@@ -11,7 +11,7 @@ fitSSTimeSeries(obj, formula, feature, class, time, id, lvl = NULL,
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
 
-\item{formula}{Formula for ssanova.}
+\item{formula}{Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.}
 
 \item{feature}{Name or row of feature of interest.}
 

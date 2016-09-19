@@ -50,7 +50,7 @@ trapz <- function(x,y){
 #' class information, time points, sample ids and returns
 #' the fitted values for the fitted model.
 #' 
-#' @param formula Formula for ssanova.
+#' @param formula Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.
 #' @param abundance Numeric vector of abundances.
 #' @param class Class membership (factor of group membership).
 #' @param time Time point vector of relative times (same length as abundance).
@@ -122,7 +122,7 @@ ssPerm <- function(df,B) {
 #' intervals of differential abundance.
 #' 
 #' @param data Data used in estimation.
-#' @param formula Formula for ssanova.
+#' @param formula Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.
 #' @param permList A list of permutted class memberships
 #' @param intTimes Interesting time intervals.
 #' @param timePoints Time points to interpolate over.
@@ -222,7 +222,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' Talukder H, Paulson JN, Bravo HC. (In preparation)
 #' 
 #' @param obj metagenomeSeq MRexperiment-class object.
-#' @param formula Formula for ssanova.
+#' @param formula Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.
 #' @param feature Name or row of feature of interest.
 #' @param class Name of column in phenoData of MRexperiment-class object for class memberhip.
 #' @param time Name of column in phenoData of MRexperiment-class object for relative time.
@@ -331,7 +331,7 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
 #' Currently only one method is implemented (ssanova). fitSSTimeSeries is called with method="ssanova".
 #' 
 #' @param obj metagenomeSeq MRexperiment-class object.
-#' @param formula Formula for ssanova.
+#' @param formula Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.
 #' @param feature Name or row of feature of interest.
 #' @param class Name of column in phenoData of MRexperiment-class object for class memberhip.
 #' @param time Name of column in phenoData of MRexperiment-class object for relative time.
@@ -438,7 +438,7 @@ plotTimeSeries<-function(res,C=0,xlab="Time",ylab="Difference in abundance",main
 #' a spline approach on the estimated full model.
 #' 
 #' @param res Output of fitTimeSeries function
-#' @param formula Formula for ssanova.
+#' @param formula Formula for ssanova. Of the form: abundance ~ ... where ... includes any pData slot value.
 #' @param xlab X-label.
 #' @param ylab Y-label.
 #' @param color0 Color of samples from first group.
