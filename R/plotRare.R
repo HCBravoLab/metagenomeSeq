@@ -11,7 +11,7 @@
 #' 
 #' data(mouseData)
 #' cl = factor(pData(mouseData)[,3])
-#' res = plotRare(mouseData,cl=cl,ret=TRUE,pch=21,bg=cl)
+#' res = plotRare(mouseData,cl=cl,pch=21,bg=cl)
 #' tmp=lapply(levels(cl), function(lv) lm(res[,"ident"]~res[,"libSize"]-1, subset=cl==lv))
 #' for(i in 1:length(levels(cl))){
 #'    abline(tmp[[i]], col=i)
