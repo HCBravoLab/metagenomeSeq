@@ -3,7 +3,7 @@
 #' Load a matrix of metadata associated with a study.
 #' 
 #' 
-#' @aliases load_phenoData phenoData
+#' @aliases loadPhenoData phenoData
 #' @param file Path and filename of the actual clinical file.
 #' @param tran Boolean. If the covariates are along the columns and samples
 #' along the rows, then tran should equal TRUE.
@@ -14,7 +14,7 @@
 #' 
 #' # see vignette
 #' 
-load_phenoData <-function(file,tran=TRUE,sep="\t")
+loadPhenoData <-function(file,tran=TRUE,sep="\t")
 {
 	dat2 <- read.table(file,header=FALSE,sep=sep);
 

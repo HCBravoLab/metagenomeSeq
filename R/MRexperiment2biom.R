@@ -9,7 +9,7 @@
 #' @param sl scaling factor for normalized counts.
 #' @param qiimeVersion Format fData according to QIIME specifications (assumes only taxonomy in fData).
 #' @return A biom object.
-#' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{load_biom}} \code{\link{biom2MRexperiment}}
+#' @seealso \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{loadBiom}} \code{\link{biom2MRexperiment}}
 MRexperiment2biom <- function(obj,id=NULL,norm=FALSE,log=FALSE,sl=1000,qiimeVersion=TRUE){
     requireNamespace("biomformat")
     id = id
