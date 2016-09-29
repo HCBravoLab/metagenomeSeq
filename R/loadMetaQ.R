@@ -3,7 +3,7 @@
 #' Load a matrix of OTUs in Qiime's format
 #' 
 #' 
-#' @aliases load_metaQ qiimeLoader
+#' @aliases loadMetaQ qiimeLoader
 #' @param file Path and filename of the actual data file.
 #' @return An list with 'counts' containing the count data, 'taxa' containing the otu annotation, and 'otus'.
 #' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}}
@@ -11,7 +11,7 @@
 #' 
 #' # see vignette
 #' 
-load_metaQ <- function(file) {	
+loadMetaQ <- function(file) {	
 	dat2 <- read.delim(file,header=FALSE,stringsAsFactors=FALSE,nrows=1,skip=1);
 	len = ncol(dat2)
 	subjects = as.character(dat2[1,-c(1,len)]);
