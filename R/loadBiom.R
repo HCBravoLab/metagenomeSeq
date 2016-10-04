@@ -4,7 +4,7 @@
 #' 
 #' @param file The biom object filepath.
 #' @return A MRexperiment object.
-#' @seealso \code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{biom2MRexperiment}}
+#' @seealso \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{biom2MRexperiment}}
 #' @examples
 #' 
 #' #library(biomformat)

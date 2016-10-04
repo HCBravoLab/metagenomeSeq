@@ -9,7 +9,7 @@
 #' along the rows, then tran should equal TRUE.
 #' @param sep The separator for the file.
 #' @return The metadata as a dataframe.
-#' @seealso \code{\link{load_meta}}
+#' @seealso \code{\link{loadMeta}}
 #' @examples
 #' 
 #' # see vignette

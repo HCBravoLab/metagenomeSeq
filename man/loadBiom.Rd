@@ -23,6 +23,6 @@ Wrapper to load Biom formatted object.
 #x
 }
 \seealso{
-\code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{biom2MRexperiment}}
+\code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{biom2MRexperiment}}
 }
 

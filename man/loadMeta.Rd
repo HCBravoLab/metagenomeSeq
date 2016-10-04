@@ -25,6 +25,6 @@ lung = loadMeta(file.path(dataDirectory,"CHK_NAME.otus.count.csv"))
 
 }
 \seealso{
-\code{\link{load_phenoData}}
+\code{\link{loadPhenoData}}
 }
 

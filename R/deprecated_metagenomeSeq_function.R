@@ -17,7 +17,7 @@
 #'
 deprecated_metagenomeSeq_function <- function(x, value, ...){return(NULL)}
 fitMeta <- function(...){.Deprecated("fitMeta",package="metagenomeSeq");return(fitLogNormal(...))}
-load_phenoData <- function(...){.Deprecate("load_phenoData",package="metagenomeSeq");return(loadPhenodata(...))}
-load_biom <- function(...){.Deprecate("load_biom",package="metagenomeSeq");return(loadBiom(...))}
-load_meta <- function(...){.Deprecate("load_meta",package="metagenomeSeq");return(loadMeta(...))}
-load_metaQ <- function(...){.Deprecate("load_metaQ",package="metagenomeSeq");return(loadMetaQ(...))}
+load_phenoData <- function(...){.Deprecated("load_phenoData",package="metagenomeSeq");return(loadPhenodata(...))}
+load_biom <- function(...){.Deprecated("load_biom",package="metagenomeSeq");return(loadBiom(...))}
+load_meta <- function(...){.Deprecated("load_meta",package="metagenomeSeq");return(loadMeta(...))}
+load_metaQ <- function(...){.Deprecated("load_metaQ",package="metagenomeSeq");return(loadMetaQ(...))}

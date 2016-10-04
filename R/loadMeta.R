@@ -7,7 +7,7 @@
 #' @param file Path and filename of the actual data file.
 #' @param sep File delimiter.
 #' @return A list with objects 'counts' and 'taxa'.
-#' @seealso \code{\link{load_phenoData}}
+#' @seealso \code{\link{loadPhenoData}}
 #' @examples
 #' 
 #' dataDirectory <- system.file("extdata", package="metagenomeSeq")

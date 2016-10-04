@@ -27,6 +27,6 @@ Load a matrix of metadata associated with a study.
 
 }
 \seealso{
-\code{\link{load_meta}}
+\code{\link{loadMeta}}
 }
 

@@ -22,6 +22,6 @@ Load a matrix of OTUs in Qiime's format
 
 }
 \seealso{
-\code{\link{load_meta}} \code{\link{load_phenoData}}
+\code{\link{loadMeta}} \code{\link{loadPhenoData}}
 }
 
