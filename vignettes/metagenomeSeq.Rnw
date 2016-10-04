@@ -82,22 +82,22 @@ Data is prepared and formatted as a \texttt{MRexperiment} object. For an overvie
 
 
 \subsection{Biom-Format}
-You can load in BIOM file format data, the output of many popular tools out there, using the \texttt{load$\_$biom} function. 
+You can load in BIOM file format data, the output of many popular tools out there, using the \texttt{loadBiom} function. 
 Tthe \texttt{biom2MRexperiment} and \texttt{MRexperiment2biom} functions serve as a gateway between the \texttt{biom-class} object defined in the \textbf{biom} package and a \texttt{MRexperiment-class} object.
 
 \subsection{Loading count data}
 Following preprocessing and annotation of sequencing data \texttt{metagenomeSeq} requires a count matrix with features along rows and samples along the columns.
 \texttt{metagenomeSeq} includes functions for loading delimited files of counts 
-\texttt{load$\_$meta} and phenodata \texttt{load$\_$phenoData}.
+\texttt{loadMeta} and phenodata \texttt{loadPhenoData}.
 
 As an example, a portion of the lung microbiome \cite{charlson} 
 OTU matrix is provided in \texttt{metagenomeSeq}'s library "extdata" folder. 
 The OTU matrix is stored as a tab delimited file.
-\texttt{load\_meta} loads the taxa and counts into a list.
+\texttt{loadMeta} loads the taxa and counts into a list.
 
 <<loadData>>=
 dataDirectory <- system.file("extdata", package="metagenomeSeq")
-lung = load_meta(file.path(dataDirectory,"CHK_NAME.otus.count.csv")) 
+lung = loadMeta(file.path(dataDirectory,"CHK_NAME.otus.count.csv")) 
 dim(lung$counts)
 @
 
@@ -114,10 +114,10 @@ As our OTUs appear to be in order with the count matrix we loaded earlier, the n
 \textbf{Warning}: features need to have the same names as the rows of the count matrix when we create the MRexperiment object for provenance purposes. 
 
 \subsection{Loading metadata}
-Phenotype data can be optionally loaded into \texttt{R} with \texttt{load\_phenoData}. This function loads the data as a list.
+Phenotype data can be optionally loaded into \texttt{R} with \texttt{loadPhenoData}. This function loads the data as a list.
 
 <<loadClin>>=
-clin = load_phenoData(file.path(dataDirectory,"CHK_clinical.csv"),tran=TRUE)
+clin = loadPhenoData(file.path(dataDirectory,"CHK_clinical.csv"),tran=TRUE)
 ord = match(colnames(lung$counts),rownames(clin)) 
 clin = clin[ord,]
 head(clin[1:2,])
