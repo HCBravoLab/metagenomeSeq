@@ -23,6 +23,6 @@ Wrapper to convert biom files to MRexperiment objects.
 #biom2MRexperiment(x)
 }
 \seealso{
-\code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{load_biom}}
+\code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{loadBiom}}
 }
 
