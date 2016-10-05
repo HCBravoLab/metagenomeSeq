@@ -313,6 +313,9 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
             }else{
                 indexAll[i,4] = (length(which(actArea>permResult[,i]))+1)/(B+1)
             }
+	    if(indexAll[i,4]==0){ 
+		indexAll[i,4] = 1/(B+1)
+	    }
         }
 
         res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult)
