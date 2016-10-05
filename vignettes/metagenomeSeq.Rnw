@@ -82,7 +82,7 @@ Data is prepared and formatted as a \texttt{MRexperiment} object. For an overvie
 
 
 \subsection{Biom-Format}
-You can load in BIOM file format data, the output of many popular tools out there, using the \texttt{loadBiom} function.
+You can load in BIOM file format data, the output of many commonly used, using the \texttt{loadBiom} function.
 The \texttt{biom2MRexperiment} and \texttt{MRexperiment2biom} functions serve as a gateway between the \texttt{biom-class} object defined in the \textbf{biom} package and a \texttt{MRexperiment-class} object. BIOM format files IO is available thanks to the \texttt{biomformat} package.  
 
 As an example, we show how one can read in a BIOM file and convert it to a \texttt{MRexperiment} object.
