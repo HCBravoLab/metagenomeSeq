@@ -4,9 +4,10 @@
 \name{libSize}
 \alias{libSize}
 \alias{libSize,MRexperiment-method}
+\alias{libSize<-}
 \title{Access sample depth of coverage from MRexperiment object}
 \usage{
-libSize(obj)
+libSize(object)
 }
 \arguments{
 \item{obj}{a \code{MRexperiment} object.}
@@ -15,7 +16,7 @@ libSize(obj)
 Library sizes
 }
 \description{
-The libSize vector represents the column (sample specific) sums of features,
+Access or replace the libSize vector represents the column (sample specific) sums of features,
 i.e. the total number of reads for a sample or depth of coverage. It is used by
 \code{\link{fitZig}}.
 }

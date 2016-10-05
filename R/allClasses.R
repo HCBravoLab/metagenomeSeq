@@ -28,6 +28,76 @@ setMethod("rowMeans", signature="MRexperiment", function (x, ...) {
 setMethod("colMeans", signature="MRexperiment", function (x, ...) {
     callNextMethod(MRcounts(x),...)
 })
+
+#' Access the normalization factors in a MRexperiment object
+#'
+#' Function to access/replace the scaling factors, aka the normalization factors, of
+#' samples in a MRexperiment object.
+#'
+#' @name normFactors
+#' @aliases normFactors,MRexperiment-method normFactors normFactors<-
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @return Normalization scaling factors
+#' @author Joseph N. Paulson
+#' @examples
+#'
+#' data(lungData)
+#' head(normFactors(lungData))
+#'
+setGeneric("normFactors",function(object){standardGeneric("normFactors")}) 
+setGeneric("normFactors<-",function(object,value){standardGeneric("normFactors<-")})
+
+setMethod("normFactors", signature="MRexperiment",function(object) {
+   nf <- expSummary(object)$normFactors
+   nf <- as.data.frame(nf)
+   colnames(nf) <- "normFactors"
+   rownames(nf) <- sampleNames(object)
+   nf
+ })
+
+setReplaceMethod("normFactors", signature=c(object="MRexperiment", value="numeric"),
+  function( object, value ) {
+   pData(object@expSummary$expSummary)$normFactors <- value
+   validObject( object )
+   object
+})
+
+#' Access sample depth of coverage from MRexperiment object
+#'
+#' Access or replace the libSize vector represents the column (sample specific) sums of features,
+#' i.e. the total number of reads for a sample or depth of coverage. It is used by
+#' \code{\link{fitZig}}.
+#'
+#' @name libSize
+#' @aliases libSize,MRexperiment-method libSize libSize<-
+#' @docType methods
+#' @param obj a \code{MRexperiment} object.
+#' @return Library sizes
+#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @examples
+#'
+#' data(lungData)
+#' head(libSize(lungData))
+#'
+setGeneric("libSize",function(object){standardGeneric("libSize")})
+setGeneric("libSize<-",function(object,value){standardGeneric("libSize<-")})
+
+setMethod("libSize", signature="MRexperiment",function(object) {
+   ls <- expSummary(object)$libSize
+   ls <- as.data.frame(ls)
+   colnames(ls) <- "libSize"
+   rownames(ls) <- sampleNames(object)
+   ls
+ })
+
+setReplaceMethod("libSize", signature=c(object="MRexperiment", value="numeric"),
+  function( object, value ) {
+   pData(object@expSummary$expSummary)$libSize <- value
+   validObject( object )
+   object
+})
+
 #' Create a MRexperiment object
 #' 
 #' This function creates a MRexperiment object from a matrix or data frame of
@@ -47,7 +117,7 @@ setMethod("colMeans", signature="MRexperiment", function (x, ...) {
 #' @param normFactors normFactors, the normalization factors used in either the
 #' model or as scaling factors of sample counts for each particular sample.
 #' @return an object of class MRexperiment
-#' @author Joseph N Paulson, jpaulson@@umiacs.umd.edu
+#' @author Joseph N Paulson
 #' @examples
 #' 
 #' cnts = matrix(abs(rnorm(1000)),nc=10)
@@ -145,55 +215,7 @@ posteriorProbs <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )
    assayData(obj)[["z"]]
 }
-#' Access the normalization factors in a MRexperiment object
-#'
-#' Function to access the scaling factors, aka the normalization factors, of
-#' samples in a MRexperiment object.
-#'
-#'
-#' @name normFactors
-#' @aliases normFactors,MRexperiment-method normFactors
-#' @docType methods
-#' @param obj a \code{MRexperiment} object.
-#' @return Normalization scaling factors
-#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
-#' @examples
-#'
-#' data(lungData)
-#' head(normFactors(lungData))
-#'
-normFactors <- function( obj ) {
-   stopifnot( is( obj, "MRexperiment" ) )
-   nf <- pData(obj@expSummary$expSummary)[["normFactors"]]
-   nf <- unlist(nf)
-   names(nf) <- sampleNames(obj)
-   nf
-}
-#' Access sample depth of coverage from MRexperiment object
-#'
-#' The libSize vector represents the column (sample specific) sums of features,
-#' i.e. the total number of reads for a sample or depth of coverage. It is used by
-#' \code{\link{fitZig}}.
-#'
-#'
-#' @name libSize
-#' @aliases libSize,MRexperiment-method libSize
-#' @docType methods
-#' @param obj a \code{MRexperiment} object.
-#' @return Library sizes
-#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
-#' @examples
-#'
-#' data(lungData)
-#' head(libSize(lungData))
-#'
-libSize<-function(obj){
-   stopifnot( is( obj, "MRexperiment" ) )
-   ls <- pData(obj@expSummary$expSummary)[["libSize"]]
-   ls <- unlist(ls)
-   names(ls) <- sampleNames(obj)
-   ls
-}
+
 #' Access MRexperiment object experiment data
 #' 
 #' The expSummary vectors represent the column (sample specific) sums of

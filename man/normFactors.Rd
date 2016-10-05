@@ -4,9 +4,10 @@
 \name{normFactors}
 \alias{normFactors}
 \alias{normFactors,MRexperiment-method}
+\alias{normFactors<-}
 \title{Access the normalization factors in a MRexperiment object}
 \usage{
-normFactors(obj)
+normFactors(object)
 }
 \arguments{
 \item{obj}{a \code{MRexperiment} object.}
@@ -15,7 +16,7 @@ normFactors(obj)
 Normalization scaling factors
 }
 \description{
-Function to access the scaling factors, aka the normalization factors, of
+Function to access/replace the scaling factors, aka the normalization factors, of
 samples in a MRexperiment object.
 }
 \examples{
@@ -25,6 +26,6 @@ head(normFactors(lungData))
 
 }
 \author{
-Joseph N. Paulson, jpaulson@umiacs.umd.edu
+Joseph N. Paulson
 }
 
