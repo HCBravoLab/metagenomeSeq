@@ -27,6 +27,6 @@ A biom object.
 Wrapper to convert MRexperiment objects to biom objects.
 }
 \seealso{
-\code{\link{load_meta}} \code{\link{load_phenoData}} \code{\link{newMRexperiment}} \code{\link{load_biom}} \code{\link{biom2MRexperiment}}
+\code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{loadBiom}} \code{\link{biom2MRexperiment}}
 }
 
