@@ -4,6 +4,10 @@
 \name{metagenomeSeq-deprecated}
 \alias{deprecated_metagenomeSeq_function}
 \alias{fitMeta}
+\alias{load_biom}
+\alias{load_meta}
+\alias{load_metaQ}
+\alias{load_phenoData}
 \alias{metagenomeSeq-deprecated}
 \alias{metagenomeSeq-deprecated-package}
 \title{Depcrecated functions in the metagenomeSeq package.}
