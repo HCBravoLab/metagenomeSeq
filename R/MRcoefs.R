@@ -110,5 +110,5 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
         mat2 = rbind(nm,mat2)
         write(t(mat2),ncolumns=ncol(mat2),file=file,sep="\t")
     }
-    invisible(as.data.frame(mat))
+    return(as.data.frame(mat))
 }
