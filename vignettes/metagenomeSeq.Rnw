@@ -19,14 +19,14 @@ opts_chunk$set(concordance=TRUE,tidy=TRUE)
 
 \title{{\textbf{\texttt{metagenomeSeq}: Statistical analysis for sparse high-throughput sequencing}}}
 \author{Joseph Nathaniel Paulson\\[1em]\\ Applied Mathematics $\&$ Statistics, and Scientific Computation\\ Center for Bioinformatics and Computational Biology\\ University of Maryland, College Park\\[1em]\\ \texttt{jpaulson@umiacs.umd.edu}}
-\date{Modified: May 18, 2015. Compiled: \today}
+\date{Modified: October 4, 2016. Compiled: \today}
 \maketitle
 \tableofcontents
 
 \newpage
 
 <<config,echo=FALSE>>=
-options(width = 65)
+options(width = 60)
 options(continue=" ")
 options(warn=-1)
 set.seed(42)
@@ -82,8 +82,26 @@ Data is prepared and formatted as a \texttt{MRexperiment} object. For an overvie
 
 
 \subsection{Biom-Format}
-You can load in BIOM file format data, the output of many popular tools out there, using the \texttt{loadBiom} function. 
-Tthe \texttt{biom2MRexperiment} and \texttt{MRexperiment2biom} functions serve as a gateway between the \texttt{biom-class} object defined in the \textbf{biom} package and a \texttt{MRexperiment-class} object.
+You can load in BIOM file format data, the output of many popular tools out there, using the \texttt{loadBiom} function.
+The \texttt{biom2MRexperiment} and \texttt{MRexperiment2biom} functions serve as a gateway between the \texttt{biom-class} object defined in the \textbf{biom} package and a \texttt{MRexperiment-class} object. BIOM format files IO is available thanks to the \texttt{biomformat} package.  
+
+As an example, we show how one can read in a BIOM file and convert it to a \texttt{MRexperiment} object.
+<<loadBiom>>=
+# reading in a biom file
+library(biomformat)
+biom_file <- system.file("extdata", "min_sparse_otu_table.biom", package = "biomformat")
+b <- read_biom(biom_file)
+biom2MRexperiment(b)
+@
+
+As an example, we show how one can write a \texttt{MRexperiment} object out as a BIOM file.
+Here is an example writing out the mouseData \texttt{MRexperiment} object to a BIOM file.
+<<writeBiom,eval=FALSE>>=
+data(mouseData)
+# options include to normalize or not
+b <- MRexperiment2biom(mouseData)
+write_biom(b,biom_file="~/Desktop/otu_table.biom")
+@
 
 \subsection{Loading count data}
 Following preprocessing and annotation of sequencing data \texttt{metagenomeSeq} requires a count matrix with features along rows and samples along the columns.
