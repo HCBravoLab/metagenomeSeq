@@ -27,7 +27,8 @@ fitZeroLogNormal<-function(obj,mod,coef=2,szero=TRUE,spos=TRUE){
   positiveMod = mod[,-ncol(mod)]
   zeroMod = mod
   
-  mat <- MRcounts(obj, norm=TRUE, log=FALSE,sl=median(normFactors(obj)))
+  nf <- normFactors(obj)
+  mat <- MRcounts(obj, norm=TRUE, log=FALSE,sl=median(nf))
   posIndices = mat>0
 
   nr = nrow(mat)

@@ -41,6 +41,6 @@ obj <- newMRexperiment(cnts)
 
 }
 \author{
-Joseph N Paulson, jpaulson@umiacs.umd.edu
+Joseph N Paulson
 }
 

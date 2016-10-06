@@ -3,13 +3,12 @@
 \docType{methods}
 \name{normFactors}
 \alias{normFactors}
-\alias{normFactors,MRexperiment-method}
 \title{Access the normalization factors in a MRexperiment object}
 \usage{
-normFactors(obj)
+normFactors(object)
 }
 \arguments{
-\item{obj}{a \code{MRexperiment} object.}
+\item{object}{a \code{MRexperiment} object}
 }
 \value{
 Normalization scaling factors
@@ -25,6 +24,6 @@ head(normFactors(lungData))
 
 }
 \author{
-Joseph N. Paulson, jpaulson@umiacs.umd.edu
+Joseph N. Paulson
 }
 
