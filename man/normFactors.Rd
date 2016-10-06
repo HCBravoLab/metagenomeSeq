@@ -3,20 +3,18 @@
 \docType{methods}
 \name{normFactors}
 \alias{normFactors}
-\alias{normFactors,MRexperiment-method}
-\alias{normFactors<-}
 \title{Access the normalization factors in a MRexperiment object}
 \usage{
 normFactors(object)
 }
 \arguments{
-\item{obj}{a \code{MRexperiment} object.}
+\item{object}{a \code{MRexperiment} object}
 }
 \value{
 Normalization scaling factors
 }
 \description{
-Function to access/replace the scaling factors, aka the normalization factors, of
+Function to access the scaling factors, aka the normalization factors, of
 samples in a MRexperiment object.
 }
 \examples{

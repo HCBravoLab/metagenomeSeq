@@ -8,6 +8,7 @@
 \alias{rowSums,MRexperiment-method}
 \alias{colMeans,MRexperiment-method}
 \alias{rowMeans,MRexperiment-method}
+\alias{libSize,MRexperiment-method}
 \alias{normFactors,MRexperiment-method}
 
 \title{Class "MRexperiment" -- a modified eSet object for the data from high-throughput sequencing experiments}

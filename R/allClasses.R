@@ -31,13 +31,12 @@ setMethod("colMeans", signature="MRexperiment", function (x, ...) {
 
 #' Access the normalization factors in a MRexperiment object
 #'
-#' Function to access/replace the scaling factors, aka the normalization factors, of
+#' Function to access the scaling factors, aka the normalization factors, of
 #' samples in a MRexperiment object.
 #'
 #' @name normFactors
-#' @aliases normFactors,MRexperiment-method normFactors normFactors<-
 #' @docType methods
-#' @param obj a \code{MRexperiment} object.
+#' @param object a \code{MRexperiment} object
 #' @return Normalization scaling factors
 #' @author Joseph N. Paulson
 #' @examples
@@ -55,6 +54,23 @@ setMethod("normFactors", signature="MRexperiment",function(object) {
    nf
  })
 
+#' Replace the normalization factors in a MRexperiment object
+#'
+#' Function to replace the scaling factors, aka the normalization factors, of
+#' samples in a MRexperiment object.
+#'
+#' @name normFactors<-
+#' @docType methods
+#' @aliases normFactors<-,MRexperiment,numeric-method normFactors<-
+#' @param object a \code{MRexperiment} object
+#' @param value vector of normalization scaling factors
+#' @return Normalization scaling factors
+#' @author Joseph N. Paulson
+#' @examples
+#'
+#' data(lungData)
+#' head(normFactors(lungData)<- rnorm(1))
+#'
 setReplaceMethod("normFactors", signature=c(object="MRexperiment", value="numeric"),
   function( object, value ) {
    pData(object@expSummary$expSummary)$normFactors <- value
@@ -64,16 +80,15 @@ setReplaceMethod("normFactors", signature=c(object="MRexperiment", value="numeri
 
 #' Access sample depth of coverage from MRexperiment object
 #'
-#' Access or replace the libSize vector represents the column (sample specific) sums of features,
+#' Access the libSize vector represents the column (sample specific) sums of features,
 #' i.e. the total number of reads for a sample or depth of coverage. It is used by
 #' \code{\link{fitZig}}.
 #'
 #' @name libSize
-#' @aliases libSize,MRexperiment-method libSize libSize<-
 #' @docType methods
-#' @param obj a \code{MRexperiment} object.
+#' @param object a \code{MRexperiment} object
 #' @return Library sizes
-#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @author Joseph N. Paulson
 #' @examples
 #'
 #' data(lungData)
@@ -89,6 +104,23 @@ setMethod("libSize", signature="MRexperiment",function(object) {
    ls
  })
 
+#' Replace the library sizes in a MRexperiment object
+#'
+#' Function to replace the scaling factors, aka the library sizes, of
+#' samples in a MRexperiment object.
+#'
+#' @name libSize<-
+#' @docType methods
+#' @aliases libSize<-,MRexperiment,numeric-method libSize<-
+#' @param object a \code{MRexperiment} object
+#' @param value vector of library sizes
+#' @return vector library sizes
+#' @author Joseph N. Paulson
+#' @examples
+#'
+#' data(lungData)
+#' head(libSize(lungData)<- rnorm(1))
+#'
 setReplaceMethod("libSize", signature=c(object="MRexperiment", value="numeric"),
   function( object, value ) {
    pData(object@expSummary$expSummary)$libSize <- value
