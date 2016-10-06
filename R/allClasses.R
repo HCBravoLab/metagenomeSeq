@@ -50,9 +50,8 @@ setGeneric("normFactors<-",function(object,value){standardGeneric("normFactors<-
 
 setMethod("normFactors", signature="MRexperiment",function(object) {
    nf <- expSummary(object)$normFactors
-   nf <- as.data.frame(nf)
-   colnames(nf) <- "normFactors"
-   rownames(nf) <- sampleNames(object)
+   nf <- unlist(nf)
+   names(nf) <- sampleNames(object)
    nf
  })
 
@@ -85,9 +84,8 @@ setGeneric("libSize<-",function(object,value){standardGeneric("libSize<-")})
 
 setMethod("libSize", signature="MRexperiment",function(object) {
    ls <- expSummary(object)$libSize
-   ls <- as.data.frame(ls)
-   colnames(ls) <- "libSize"
-   rownames(ls) <- sampleNames(object)
+   ls <- unlist(ls)
+   names(ls) <- sampleNames(object)
    ls
  })
 

@@ -215,7 +215,7 @@ The raw or normalized counts matrix can be accessed with the \verb+MRcounts+ fun
 head(MRcounts(obj[,1:2]))
 @
 
-A MRexperiment-class object can be easily subsetted, for example:
+A \texttt{MRexperiment-class} object can be easily subsetted, for example:
 <<>>=
 featuresToKeep = which(rowSums(obj)>=100)
 samplesToKeep = which(pData(obj)$SmokingStatus=="Smoker")
@@ -224,8 +224,22 @@ obj_smokers
 head(pData(obj_smokers),3)
 @
 
+Alternative normalization scaling factors can be accessed or replaced with the \verb+normFactors+ method:
+<<pdata>>=
+head(normFactors(obj))
+normFactors(obj) <- rnorm(ncol(obj))
+head(normFactors(obj))
+@
+
+Library sizes (sequencing depths) can be accessed or replaced with the \verb+libSize+ method:
+<<pdata>>=
+head(libSize(obj))
+libSize(obj) <- rnorm(ncol(obj))
+head(libSize(obj))
+@
+
 \newpage
-Or using a threshold of minimum depth or OTU presence:
+Additionally, data can be filtered to maintain a threshold of minimum depth or OTU presence:
 <<filterData>>=
 data(mouseData)
 filterData(mouseData,present=10,depth=1000)
@@ -298,7 +312,6 @@ data(lungData)
 lungData = lungData[,-which(is.na(pData(lungData)$SmokingStatus))]
 lungData=filterData(lungData,present=30,depth=1)
 lungData <- cumNorm(lungData, p=.5)
-s <- normFactors(lungData)
 pd <- pData(lungData)
 mod <- model.matrix(~1+SmokingStatus, data=pd)
 lungres1 = fitFeatureModel(lungData,mod)

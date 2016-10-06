@@ -41,7 +41,8 @@ fitFeatureModel<-function(obj,mod,coef=2,B=1,szero=FALSE,spos=TRUE){
   if (any(is.na(normFactors(obj)))) {
       stop("Calculate the normalization factors first!")
   }
-  mmCount = cbind(mod, log(normFactors(obj)/median(normFactors(obj))))
+  nf = normFactors(obj)
+  mmCount = cbind(mod, log(nf/median(nf)))
   colnames(mmCount)[ncol(mmCount)] = "scalingFactor"
   
   if(ncol(mmCount)>3){ stop("Can't analyze currently.") }
