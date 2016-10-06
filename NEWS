@@ -1,5 +1,6 @@
 version 1.15.xx (2016)
 	+ Added 'mergeMRexperiment' function
+	+ Added 'normFactors' and 'libSize' generics
 	+ Replaced RUnit with testthat library for unit testing
 	+ Adding multiple upgrades and changes throughout
 	+ Deprecated the load_* functions and created load* function.

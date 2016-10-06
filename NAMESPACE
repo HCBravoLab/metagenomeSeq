@@ -31,7 +31,11 @@ exportMethods(
 "colSums",
 "rowSums",
 "colMeans",
-"rowMeans"
+"rowMeans",
+"normFactors",
+"normFactors<-",
+"libSize",
+"libSize<-"
 )
 
 export(
@@ -94,7 +98,5 @@ ssPermAnalysis,
 trapz,
 zigControl,
 newMRexperiment,
-posteriorProbs,
-normFactors,
-libSize
+posteriorProbs
 )
