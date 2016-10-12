@@ -313,9 +313,9 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
             }else{
                 indexAll[i,4] = (length(which(actArea>permResult[,i]))+1)/(B+1)
             }
-	    if(indexAll[i,4]==0){ 
-		indexAll[i,4] = 1/(B+1)
-	    }
+        if(indexAll[i,4]==0){ 
+        indexAll[i,4] = 1/(B+1)
+        }
         }
 
         res = list(timeIntervals=indexAll,data=prep$data,fit=fits,perm=permResult)
@@ -343,7 +343,7 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
 #' @param include Parameters to include in prediction.
 #' @param C Value for which difference function has to be larger or smaller than (default 0).
-#' @param B Number of permutations to perform
+#' @param B Number of permutations to perform.
 #' @param norm When aggregating counts to normalize or not.
 #' @param log Log2 transform.
 #' @param sl Scaling value.
@@ -485,6 +485,135 @@ plotClassTimeSeries<-function(res,formula,xlab="Time",ylab="Abundance",color0="b
     lines(x=group1$time,y=pred1$fit-(1.96*pred1$se),lty=2,col=color1)
 }
 
+#' Discover differentially abundant time intervals for all bacteria
+#' 
+#' Calculate time intervals of significant differential abundance over all
+#' bacteria of a particularly specified level (lvl). If not lvl is specified,
+#' all OTUs are analyzed. Warning, function can take a while
+#' 
+#' @param obj metagenomeSeq MRexperiment-class object.
+#' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
+#' @param B Number of permutations to perform.
+#' @param ... Options for \code{\link{fitTimeSeries}}, except feature.
+#' @return List of lists of matrices of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations.
+#' @return A list of lists for which each includes:
+#' \itemize{
+#'  \item{timeIntervals - Matrix of time point intervals of interest, area of differential abundance, and pvalue.}
+#'  \item{data  - Data frame of abundance, class indicator, time, and id input.}
+#'  \item{fit - Data frame of fitted values of the difference in abundance, standard error estimates and timepoints interpolated over.}
+#'  \item{perm - Differential abundance area estimates for each permutation.}
+#'  \item{call - Function call.}
+#' }
+#' @rdname fitMultipleTimeSeries
+#' @seealso \code{\link{cumNorm}} \code{\link{fitSSTimeSeries}} \code{\link{fitTimeSeries}}
+#' @export
+#' @examples
+#'
+#' data(mouseData)
+#' res = fitMultipleTimeSeries(obj=mouseData,lvl='phylum',class="status",
+#'           id="mouseID",time="relativeTime",B=1)
+#'
+fitMultipleTimeSeries <- function(obj,lvl=NULL,B=1,...) {
+    if(is.null(lvl)){
+        bacteria = seq(nrow(obj))
+    } else {
+        if(is.factor(fData(obj)[,lvl])){
+            fData(obj)[,lvl] = as.character(fData(obj)[,lvl])
+        }
+        bacteria = unique(fData(obj)[,lvl])
+    }
+    fits = lapply(bacteria,function(bact){
+        try(fitTimeSeries(obj,lvl=lvl,feature=bact,B=B,...))
+    })
+    names(fits) = bacteria
+    fits = c(fits,call=match.call())
+    return(fits)
+}
+
+#' With a list of fitTimeSeries results, generate
+#' an MRexperiment that can be plotted with metavizr
+#' 
+#' @param obj Output of fitMultipleTimeSeries
+#' @param sampleNames Sample names for plot
+#' @param sampleDescription Description of samples for plot axis label
+#' @param taxonomyLevels Feature names for plot
+#' @param taxonomyHierarchyRoot Root of feature hierarchy for MRexperiment
+#' @param taxonomyDescription Description of features for plot axis label
+#' @param featuresOfInterest The features to select from the fitMultipleTimeSeries output
+#' @return MRexperiment that contains fitTimeSeries data, featureData, and phenoData
+#' @rdname ts2MRexperiment
+#' @seealso \code{\link{fitTimeSeries}} \code{\link{fitMultipleTimeSeries}}
+#' @export
+#' @examples
+#'
+#' data(etec16s)
+#' etec16s = etec16s[,-which(pData(etec16s)$Day>9)]
+#' featuresOfInterest = c('Escherichia/Shigella','Faecalibacterium prausnitzii')
+#' res = lapply(featuresOfInterest,function(i){
+#'  fitTimeSeries(obj=etec16s,
+#'                formula = abundance~id + time*class + AntiGiven,
+#'                feature=i,class="AnyDayDiarrhea",id="SubjectID",
+#'                time="Day",lvl="Species", C=0.3, B=1))}
+#' fitsMRexp <- ts2MRexperiment(res, featureNames = featureOfInterest)
+#'
+#' # Alternatively, using fitMultipleTimeSeries
+#' data(mouseData)
+#' res = fitMultipleTimeSeries(obj=mouseData,lvl='phylum',class="status",
+#'           id="mouseID",time="relativeTime",B=1)
+#' obj = ts2MRexperiment(res)
+#' obj
+ts2MRexperiment<-function(obj,sampleNames=NULL,
+                          sampleDescription="timepoints",
+                          taxonomyLevels=NULL,
+                          taxonomyHierarchyRoot="bacteria",
+                          taxonomyDescription="taxonomy",
+                          featuresOfInterest = NULL){
+  if(is.null(obj)){
+    stop("Matrix cannot be null")
+  }
+  if(is.null(sampleNames)){
+    numSamples <- dim(obj[[1]]$fit)[1]
+    sampleNames <- paste("Timepoint", 1:numSamples, sep="_")
+  }
+  
+  if(is.null(featuresOfInterest)){
+    hasFit <- lapply(1:length(obj), function(i) which(!is.null(obj[[i]]$fit)))
+    featuresOfInterest <- which(hasFit == 1)
+  }
+  
+  if(is.null(taxonomyLevels)){
+    numLevels <- length(featuresOfInterest)
+    taxonomyLevels <- names(obj)[featuresOfInterest]
+  }
+
+  numSamples <- length(sampleNames)
+  numLevels <- length(taxonomyLevels)
+  numFeaturesOfInterest <- length(featuresOfInterest)
+
+  rangeSamples <- 1:numSamples
+  rangeFeaturesOfInterest <- 1:numFeaturesOfInterest
+
+  results <- do.call(rbind, lapply(rangeFeaturesOfInterest,function(i){ t(obj[[featuresOfInterest[i]]]$fit)[1,]}))
+
+  dfSamples <- data.frame(x=rangeSamples,row.names=sampleNames)
+  metaDataSamples <-data.frame(labelDescription=sampleDescription)
+  annotatedDFSamples <- AnnotatedDataFrame()
+  pData(annotatedDFSamples) <- dfSamples
+  varMetadata(annotatedDFSamples) <- metaDataSamples
+  validObject(annotatedDFSamples)
+  
+  dfFeatures <- data.frame(taxonomy1=rep(taxonomyHierarchyRoot, numLevels),taxonomy2=taxonomyLevels)
+  metaDataFeatures <-data.frame(labelDescription=paste(taxonomyDescription, 1:2, sep=""))
+  annotatedDFFeatures <- AnnotatedDataFrame()
+  pData(annotatedDFFeatures) <- dfFeatures
+  varMetadata(annotatedDFFeatures) <- metaDataFeatures
+  validObject(annotatedDFFeatures)
+  
+  fitTimeSeriesMRexp <- newMRexperiment(counts=results,
+                                        phenoData=annotatedDFSamples,
+                                        featureData=annotatedDFFeatures)
+  return(fitTimeSeriesMRexp)
+}
 # load("~/Dropbox/Projects/metastats/package/git/metagenomeSeq/data/mouseData.rda")
 # classMatrix = aggregateByTaxonomy(mouseData,lvl='class',norm=TRUE,out='MRexperiment')
 # data(mouseData)
