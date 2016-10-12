@@ -546,22 +546,12 @@ fitMultipleTimeSeries <- function(obj,lvl=NULL,B=1,...) {
 #' @export
 #' @examples
 #'
-#' data(etec16s)
-#' etec16s = etec16s[,-which(pData(etec16s)$Day>9)]
-#' featuresOfInterest = c('Escherichia/Shigella','Faecalibacterium prausnitzii')
-#' res = lapply(featuresOfInterest,function(i){
-#'  fitTimeSeries(obj=etec16s,
-#'                formula = abundance~id + time*class + AntiGiven,
-#'                feature=i,class="AnyDayDiarrhea",id="SubjectID",
-#'                time="Day",lvl="Species", C=0.3, B=1))}
-#' fitsMRexp <- ts2MRexperiment(res, featureNames = featureOfInterest)
-#'
-#' # Alternatively, using fitMultipleTimeSeries
 #' data(mouseData)
 #' res = fitMultipleTimeSeries(obj=mouseData,lvl='phylum',class="status",
 #'           id="mouseID",time="relativeTime",B=1)
 #' obj = ts2MRexperiment(res)
 #' obj
+#'
 ts2MRexperiment<-function(obj,sampleNames=NULL,
                           sampleDescription="timepoints",
                           taxonomyLevels=NULL,
