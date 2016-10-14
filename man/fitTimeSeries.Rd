@@ -29,7 +29,7 @@ fitTimeSeries(obj, formula, feature, class, time, id, method = c("ssanova"),
 
 \item{C}{Value for which difference function has to be larger or smaller than (default 0).}
 
-\item{B}{Number of permutations to perform}
+\item{B}{Number of permutations to perform.}
 
 \item{norm}{When aggregating counts to normalize or not.}
 
