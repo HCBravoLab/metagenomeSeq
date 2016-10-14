@@ -7,10 +7,11 @@
 #' @seealso \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{loadBiom}}
 #' @examples
 #' 
-#' #library(biomformat)
-#' #rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
-#' #x = read_biom(rich_dense_file)
-#' #biom2MRexperiment(x)
+#' library(biomformat)
+#' rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
+#' x = biomformat::read_biom(rich_dense_file)
+#' biom2MRexperiment(x)
+#'
 biom2MRexperiment <- function(obj){
 	requireNamespace("biomformat")
 	mat = as(biomformat::biom_data(obj),"matrix")
