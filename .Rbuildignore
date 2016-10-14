@@ -3,3 +3,5 @@
 ^\.Rproj\.user$
 ^update_remotes.sh
 inst/doc/*.pdf
+^\.git
+
