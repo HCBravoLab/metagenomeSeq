@@ -12,7 +12,8 @@
 #' @seealso \code{\link{loadMeta}}
 #' @examples
 #' 
-#' # see vignette
+#' dataDirectory <- system.file("extdata", package="metagenomeSeq")
+#' clin = loadPhenoData(file.path(dataDirectory,"CHK_clinical.csv"),tran=TRUE)
 #' 
 loadPhenoData <-function(file,tran=TRUE,sep="\t")
 {

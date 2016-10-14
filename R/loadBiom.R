@@ -8,9 +8,9 @@
 #' @examples
 #' 
 #' #library(biomformat)
-#' #rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
-#' #x = loadBiom(rich_dense_file)
-#' #x
+#' rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
+#' x = loadBiom(rich_dense_file)
+#' x
 loadBiom <- function(file){
 	requireNamespace("biomformat")
 	x = biomformat::read_biom(file);
