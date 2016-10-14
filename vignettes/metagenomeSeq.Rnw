@@ -245,6 +245,15 @@ data(mouseData)
 filterData(mouseData,present=10,depth=1000)
 @
 
+Two \texttt{MRexperiment-class} objects can be merged with the \texttt{mergeMRexperiments} function, e.g.:
+
+<<mergeMRexperiment>>=
+data(mouseData)
+newobj = mergeMRexperiments(mouseData,mouseData)
+newobj
+@
+
+
 \newpage
 \section{Normalization}
 Normalization is required due to varying depths of coverage across samples. \texttt{cumNorm} is a normalization method that calculates scaling factors equal to the sum of counts up to a particular quantile.
