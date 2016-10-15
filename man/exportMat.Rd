@@ -28,7 +28,10 @@ dataset to the user's workspace as a tab-delimited file, etc.
 }
 \examples{
 
-# see vignette
+data(lungData)
+dataDirectory <- system.file("extdata", package="metagenomeSeq")
+exportMat(lungData[,1:5],file=file.path(dataDirectory,"tmp.tsv"))
+head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\\t"))
 
 }
 \seealso{

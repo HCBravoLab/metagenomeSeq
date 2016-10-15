@@ -18,9 +18,9 @@ Wrapper to load Biom formatted object.
 \examples{
 
 #library(biomformat)
-#rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
-#x = loadBiom(rich_dense_file)
-#x
+rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
+x = loadBiom(rich_dense_file)
+x
 }
 \seealso{
 \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{biom2MRexperiment}}

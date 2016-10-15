@@ -236,10 +236,22 @@ MRcounts <- function(obj,norm=FALSE,log=FALSE,sl=1000) {
 #' @docType methods
 #' @param obj a \code{MRexperiment} object.
 #' @return Matrix of posterior probabilities
-#' @author Joseph N. Paulson, jpaulson@@umiacs.umd.edu
+#' @author Joseph N. Paulson
 #' @examples
 #' 
-#' # see vignette
+#' # This is a simple demonstration 
+#' data(lungData)
+#' k = grep("Extraction.Control",pData(lungData)$SampleType)
+#' lungTrim = lungData[,-k]
+#' k = which(rowSums(MRcounts(lungTrim)>0)<30)
+#' lungTrim = cumNorm(lungTrim)
+#' lungTrim = lungTrim[-k,]
+#' smokingStatus = pData(lungTrim)$SmokingStatus
+#' mod = model.matrix(~smokingStatus)
+#' # The maxit is not meant to be 1 - this is for demonstration/speed
+#' settings = zigControl(maxit=1,verbose=FALSE)
+#' fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+#' head(posteriorProbs(lungTrim))
 #' 
 posteriorProbs <- function( obj ) {
    stopifnot( is( obj, "MRexperiment" ) )

@@ -17,10 +17,11 @@ Wrapper to convert biom files to MRexperiment objects.
 }
 \examples{
 
-#library(biomformat)
-#rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
-#x = read_biom(rich_dense_file)
-#biom2MRexperiment(x)
+library(biomformat)
+rich_dense_file = system.file("extdata", "rich_dense_otu_table.biom", package = "biomformat")
+x = biomformat::read_biom(rich_dense_file)
+biom2MRexperiment(x)
+
 }
 \seealso{
 \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{loadBiom}}

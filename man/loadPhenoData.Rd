@@ -23,7 +23,8 @@ Load a matrix of metadata associated with a study.
 }
 \examples{
 
-# see vignette
+dataDirectory <- system.file("extdata", package="metagenomeSeq")
+clin = loadPhenoData(file.path(dataDirectory,"CHK_clinical.csv"),tran=TRUE)
 
 }
 \seealso{
