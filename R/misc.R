@@ -54,7 +54,8 @@ uniqueFeatures<-function(obj,cl,nsamples=0,nreads=0){
 #' @param norm is the data normalized?
 #' @param log is the data logged?
 #' @return vector of x,y labels
-#' 
+#' @examples
+#' metagenomeSeq::makeLabels(norm=TRUE,log=TRUE) 
 makeLabels<-function(x="samples",y="abundance",norm,log){
 	yl = xl = ""
 	if(log == TRUE){
