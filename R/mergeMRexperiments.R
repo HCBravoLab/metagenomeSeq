@@ -9,6 +9,11 @@
 #' \item     pheno  : phenotype table
 #' \item     feat  : feature table
 #' }
+#' 
+#' @examples
+#'
+#' data(mouseData)
+#' head(metagenomeSeq:::extractMR(mouseData))
 #'
 extractMR<-function(obj){
 	mat = MRcounts(obj)

@@ -15,6 +15,18 @@
 #'
 #' @return Call made, fit object from lmFit, t-statistics and p-values for each feature.
 #' @export
+#' @examples
+#' 
+#' # This is a simple demonstration
+#' data(lungData)
+#' k = grep("Extraction.Control",pData(lungData)$SampleType)
+#' lungTrim = lungData[,-k]
+#' k = which(rowSums(MRcounts(lungTrim)>0)<30)
+#' lungTrim = cumNorm(lungTrim)
+#' lungTrim = lungTrim[-k,]
+#' smokingStatus = pData(lungTrim)$SmokingStatus
+#' mod = model.matrix(~smokingStatus)
+#' fit = fitLogNormal(obj = lungTrim,mod=mod,B=1)
 #' 
 fitLogNormal <- function(obj,mod,useCSSoffset=TRUE,B=1000,coef=2,sl=1000){
     if(class(obj)=="MRexperiment"){

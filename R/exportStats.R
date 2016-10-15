@@ -12,7 +12,10 @@
 #' @seealso \code{\link{cumNorm}} \code{\link{quantile}}
 #' @examples
 #' 
-#' # see vignette
+#' data(lungData)
+#' dataDirectory <- system.file("extdata", package="metagenomeSeq")
+#' exportStats(lungData[,1:5],file=file.path(dataDirectory,"tmp.tsv"))
+#' head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\t"))
 #' 
 exportStats <-function(obj,p= cumNormStat(obj),file="~/Desktop/res.stats.tsv"){
 	xx=MRcounts(obj)
