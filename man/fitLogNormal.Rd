@@ -29,4 +29,18 @@ Wrapper to perform the permutation test on the t-statistic. This is the original
 method employed by metastats (for non-sparse large samples). We include CSS normalization
 though (optional) and log2 transform the data. In this method the null distribution is not assumed to be a t-dist.
 }
+\examples{
+
+# This is a simple demonstration
+data(lungData)
+k = grep("Extraction.Control",pData(lungData)$SampleType)
+lungTrim = lungData[,-k]
+k = which(rowSums(MRcounts(lungTrim)>0)<30)
+lungTrim = cumNorm(lungTrim)
+lungTrim = lungTrim[-k,]
+smokingStatus = pData(lungTrim)$SmokingStatus
+mod = model.matrix(~smokingStatus)
+fit = fitLogNormal(obj = lungTrim,mod=mod,B=1)
+
+}
 

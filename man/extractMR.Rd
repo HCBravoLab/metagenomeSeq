@@ -21,4 +21,10 @@ extractMR(obj)
 \description{
 Extract the essentials of an MRexperiment.
 }
+\examples{
+
+data(mouseData)
+head(metagenomeSeq:::extractMR(mouseData))
+
+}
 

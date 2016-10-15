@@ -21,4 +21,7 @@ vector of x,y labels
 \description{
 Beginning to transition to better axes for plots
 }
+\examples{
+metagenomeSeq::makeLabels(norm=TRUE,log=TRUE) 
+}
 

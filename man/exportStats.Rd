@@ -23,7 +23,10 @@ sample scaling factor, quantile value, the number identified features, and libra
 }
 \examples{
 
-# see vignette
+data(lungData)
+dataDirectory <- system.file("extdata", package="metagenomeSeq")
+exportStats(lungData[,1:5],file=file.path(dataDirectory,"tmp.tsv"))
+head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\\t"))
 
 }
 \seealso{

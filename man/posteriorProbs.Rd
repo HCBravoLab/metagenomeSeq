@@ -20,10 +20,22 @@ Accessing the posterior probabilities following a run through
 }
 \examples{
 
-# see vignette
+# This is a simple demonstration 
+data(lungData)
+k = grep("Extraction.Control",pData(lungData)$SampleType)
+lungTrim = lungData[,-k]
+k = which(rowSums(MRcounts(lungTrim)>0)<30)
+lungTrim = cumNorm(lungTrim)
+lungTrim = lungTrim[-k,]
+smokingStatus = pData(lungTrim)$SmokingStatus
+mod = model.matrix(~smokingStatus)
+# The maxit is not meant to be 1 - this is for demonstration/speed
+settings = zigControl(maxit=1,verbose=FALSE)
+fit = fitZig(obj = lungTrim,mod=mod,control=settings)
+head(posteriorProbs(lungTrim))
 
 }
 \author{
-Joseph N. Paulson, jpaulson@umiacs.umd.edu
+Joseph N. Paulson
 }
 
