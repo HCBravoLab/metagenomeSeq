@@ -1,0 +1,50 @@
+citHeader("Please cite the top for the original statistical method and normalization method implemented in metagenomeSeq and the bottom for the software/vignette guide. Time series analysis/function is described in the third citation.")
+
+citEntry(entry="article",
+         title = "Differential abundance analysis for microbial marker-gene surveys",
+         author = personList( as.person("Joseph N. Paulson"), 
+                              as.person("Oscar Colin Stine"),
+                              as.person("Hector Corrada Bravo"),
+                              as.person("Mihai Pop")),
+         year = 2013,
+         journal = "Nat Meth",
+         volume = "advance online publication",
+         pages = "",
+         doi = "10.1038/nmeth.2658",
+         url = "http://www.nature.com/nmeth/journal/vaop/ncurrent/abs/nmeth.2658.html",
+         textVersion = 
+         paste("JN Paulson, OC Stine, HC Bravo, M Pop. ", 
+               "Differential abundance analysis for microbial marker-gene surveys.",
+	"Nat Meth", "Accepted" ) )
+
+citEntry(entry="manual",
+         title = "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing.",
+         author = personList( as.person("Joseph N. Paulson"), 
+                              as.person("Mihai Pop"),
+                              as.person("Hector Corrada Bravo")),
+         year = 2013,
+         note = "Bioconductor package",
+         url = "http://www.cbcb.umd.edu/software/metagenomeSeq",
+         
+         textVersion = 
+         paste("JN Paulson, H Talukder, M Pop, HC Bravo. ", 
+               "metagenomeSeq: Statistical analysis for sparse high-throughput sequencing. ",
+               "Bioconductor package: ", packageVersion("metagenomeSeq"), ". http://cbcb.umd.edu/software/metagenomeSeq",sep="") )
+
+citEntry(entry="article",
+         title = "Longitudinal differential abundance analysis of marker-gene surveys",
+         author = personList( as.person("Hisham Talukder*"),
+                              as.person("Joseph N. Paulson*"),
+                              as.person("Hector Corrada Bravo")),
+         year = "2014",
+         journal = "XX",
+         volume = "",
+         pages = "",
+         doi = "",
+         url = "",
+         textVersion =
+         paste("H Talukder*, JN Paulson*, HC Bravo.",
+               "Longitudinal differential abundance analysis of marker-gene surveys.",
+        "Submitted") 
+)
+

@@ -1,0 +1,104 @@
+import(Biobase)
+import(RColorBrewer)
+import(limma)
+import(glmnet)
+import(methods)
+importFrom(parallel,makeCluster)
+importFrom(parallel,stopCluster)
+importFrom(parallel,parRapply)
+importFrom(parallel,mclapply)
+importFrom(matrixStats,colQuantiles)
+importFrom(matrixStats,rowSds)
+importFrom(gplots,heatmap.2)
+importFrom(foreach,'%dopar%')
+importFrom(foreach,foreach)
+importFrom(Matrix,bdiag)
+importFrom("graphics", "abline", "axis", "lines", "plot", "points",
+             "polygon")
+importFrom("grDevices", "col2rgb", "rgb")
+importFrom("stats", "approx", "approxfun", "binomial", "cmdscale",
+             "coefficients", "cor", "cor.test", "density", "dist",
+             "dnorm", "fisher.test", "glm.fit", "hclust", "lm.fit",
+             "median", "model.matrix", "p.adjust", "plogis", "pnorm",
+             "prcomp", "predict", "qlogis", "quantile", "residuals",
+             "sd", "var")
+importFrom("utils", "packageVersion", "read.delim", "read.table",
+             "tail")
+exportClasses( "MRexperiment" )
+
+exportMethods(
+"[",
+"colSums",
+"rowSums",
+"colMeans",
+"rowMeans",
+"normFactors",
+"normFactors<-",
+"libSize",
+"libSize<-"
+)
+
+export(
+aggregateByTaxonomy,
+aggTax,
+aggregateBySample,
+aggSamp,
+biom2MRexperiment,
+calculateEffectiveSamples,
+calcNormFactors,
+correlationTest,
+correctIndices,
+cumNorm,
+cumNormMat,
+cumNormStat,
+cumNormStatFast,
+expSummary,
+exportMat,
+exportStats,
+fitDO,
+fitMeta,
+fitFeatureModel,
+fitLogNormal,
+fitPA,
+fitMultipleTimeSeries,
+fitSSTimeSeries,
+fitTimeSeries,
+fitZig,
+filterData,
+load_biom,
+load_meta,
+load_metaQ,
+load_phenoData,
+loadBiom,
+loadMeta,
+loadMetaQ,
+loadPhenoData,
+makeLabels,
+mergeMRexperiments,
+MRcoefs,
+MRcounts,
+MRfulltable,
+MRtable,
+MRexperiment2biom,
+plotBubble,
+plotCorr,
+plotGenus,
+plotMRheatmap,
+plotOTU,
+plotOrd,
+plotRare,
+plotFeature,
+plotTimeSeries,
+plotClassTimeSeries,
+uniqueFeatures,
+returnAppropriateObj,
+ssFit,
+ssIntervalCandidate,
+ssPerm,
+ssPermAnalysis,
+ts2MRexperiment,
+trapz,
+zigControl,
+newMRexperiment,
+posteriorProbs
+)

@@ -1,0 +1,13 @@
+*.Rhistory
+*.DS_Store
+*.tex
+*.Rapp.history
+*synctex.gz
+*.toc
+*.log
+vignettes/fitTimeSeries.pdf
+vignettes/metagenomeSeq.pdf
+vignettes/figure/
+.httr-oauth
+.Rproj.user
+update_remotes.sh

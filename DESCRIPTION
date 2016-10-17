@@ -1,0 +1,44 @@
+Package: metagenomeSeq
+Title: Statistical analysis for sparse high-throughput sequencing
+Version: 1.16.0
+Date: 2016-07-21
+Author: Joseph Nathaniel Paulson, Hisham Talukder, Mihai Pop, Hector Corrada
+    Bravo
+Maintainer: Joseph N. Paulson <jpaulson@jimmy.harvard.edu>
+Description: metagenomeSeq is designed to determine features (be it
+    Operational Taxanomic Unit (OTU), species, etc.) that are
+    differentially abundant between two or more groups of multiple
+    samples. metagenomeSeq is designed to address the effects of
+    both normalization and under-sampling of microbial communities
+    on disease association detection and the testing of feature
+    correlations.
+License: Artistic-2.0
+Depends:
+    R(>= 3.0),
+    Biobase,
+    limma,
+    glmnet,
+    methods,
+    RColorBrewer
+Suggests:
+    annotate,
+    BiocGenerics,
+    biomformat,
+    knitr,
+    gss,
+    testthat (>= 0.8),
+    vegan,
+    interactiveDisplay
+Imports:
+    parallel,
+    matrixStats,
+    foreach,
+    Matrix,
+    gplots
+VignetteBuilder: knitr
+URL: https://github.com/nosson/metagenomeSeq/
+BugReports: https://github.com/nosson/metagenomeSeq/issues
+biocViews: Classification, Clustering, GeneticVariability,
+    DifferentialExpression, Microbiome, Metagenomics, Normalization, Visualization,
+    MultipleComparison, Sequencing, Software
+RoxygenNote: 5.0.1

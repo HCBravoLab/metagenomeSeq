@@ -1,0 +1,71 @@
+version 1.15.xx (2016)
+	+ Added 'mergeMRexperiment' function
+	+ Added 'normFactors' and 'libSize' generics
+	+ Added 'fitMultipleTimeSeries' function
+	+ Replaced RUnit with testthat library for unit testing
+	+ Adding multiple upgrades and changes throughout
+	+ Deprecated the load_* functions and created load* function.
+version 1.13.xx (2015)
+	+ Upgrade support for biom-format vs. 2.0
+	+ Fixed issue - "MRtable, etc will report NA rows when user requests more features than available"
+	+ Fixed s2 miscalculation in calcZeroComponent
+version 1.11.xx (2015)
+	+ Adding fitFeatureModel - a feature based zero-inflated log-normal model.
+	+ Added MRcoefs,MRtable,MRfulltable support for fitFeatureModel output.
+	+ Added mention in vignette.
+	+ Added support for normalizing matrices instead of just MRexperiment objects.
+	+ Fixed cumNormStat's non-default qFlag option 
+version 1.9.xx (2015)
+	+ Added flexibility in formula choice for fitTimeSeries
+	+ Added readability in ssPermAnalysis
+	+ Fixed default in plotClassTimeSeries (include = c("1",...))
+	+ Added fitTimeSeries vignette
+	+ Removed interactiveDisplay to namespace - moved to suggests
+	+ Fixed ordering of MRtable,MRfulltable first four columns
+	+ modified df estimated through responsibilities
+	+ renamed fitMeta to fitLogNormal - a more appropriate name
+version 1.7.xx (2014-05-07)
+	+ Added function plotBubble
+	+ Added parallel (multi-core) options to fitPA, fitDO
+	+ Fixed bug for fitMeta when useCSSoffset=FALSE and model matrix ncol==2
+	+ (1.7.10) Updated default quantile estimate (.5) for low estimates
+	+ (1.7.10) Added short description on how to do multiple group comparisons
+	+ (1.7.15) Output of fitZig (eb) is now a result of limma::eBayes instead of limma::ebayes
+	+ (1.7.16) plotMRheatmap allows for sorting by any stat (not just sd)
+	+ (1.7.18) fitTimeSeries Including times series method for differentially abundant time intervals
+	+ (1.7.20) Fixed minor bug for OTU level time series analyses and added plotClassTimeSeries
+	+ (1.7.26) Added warning / fix if any samples are empty in cumNormStat
+	+ (1.7.27) Added a few unit tests
+	+ (1.7.29) Added interactiveDisplay to namespace (display function allows interactive exploration / plots through browser)
+version 1.5.xx (2014-04-17)
+	+ Incorporating biom-format support with the biom2MRexperiment, MRexperiment2biom and load_biome function.
+	+ Added uniqueFeatures, filterData, aggregateByTaxonomy / aggTax, plotFeature and calculateEffectiveSamples functions.
+	+ Renamed MRfisher to fitPA (presence-absence fisher test).
+	+ Added warnings for normalization 
+	+ Added fitDO (Discovery odds ratio test) and fitMeta (original metastats).
+	+ Added match.call() info to fitZig output
+	+ Fixed missing E-Step bounds
+version 1.2.xx (2013-08-20)
+	+ Our paper got accepted and is available!
+        + Added methods for MRexperiment objects (colSums,colMeans,rowSums,rowMeans, usage is for example colSums(obj) or colSums(obj,norm=TRUE)) (09-25)
+        + Added two new functions, plotOrd and plotRare - a function to plot PCA/MDS coordinates and rarefaction effect (09-04,09-18)
+        + Updated MRfisher to include thresholding for presence-absence testing (08-19)	
+	+ Updated comments (roxygen2) style for all the functions using the Rd2roxygen package (07-13)
+	+ Updated plotCorr and plotMRheatmap to allow various colors/not require trials(07-13)
+	+ Rewrote vignette (and switched to knitr) 
+
+version 1.1.xx (last update 2013-06-25)	
+	+ Rewrote load_meta and load_metaQ to be faster/use less memory
+	+ Modified cumNormStat to remove NA samples from calculations (example would be samples without any counts)
+	+ Re-added plotGenus' jitter
+	+ Fixed uniqueNames call in the MR tables
+
+	+ Changed thanks to Kasper Daniel Hansen's suggestions the following:
+		plotOTU and plotGenus both have much better auto-generated axis
+		MRtable, MRfulltable, MRcoefs have a sort by p-value option now
+		MRtable, MRfulltable, MRcoefs now have an extra option to include unique numbers for OTU features (default would automatically add them previously)
+		cumNorm.R - now returns the object as well - not just replacing the environment
+	0 Still need to turn the fitZig output to S3, consider subsetting function address low p-values
+
+version 1.0.0: (2013-03-29)
+	+ Release!
