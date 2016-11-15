@@ -17,6 +17,7 @@
 #' @param zeroIndices Index (matrix m x n) of counts that are zero/non-zero.
 #' @param mmZero The zero model, the model matrix to account for the change in
 #' the number of OTUs observed as a linear effect of the depth of coverage.
+#' @param dampening_limit <numeric> z values used will be within param and 1-param (default: 1e-8)
 #' @param per_feature <logical> fit zero model per feature independently (default: FALSE)
 #' 
 #' @return List of the zero fit (zero mean model) coefficients, variance -

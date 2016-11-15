@@ -16,6 +16,8 @@ count comes from a spike distribution at 0).}
 \item{mmZero}{The zero model, the model matrix to account for the change in
 the number of OTUs observed as a linear effect of the depth of coverage.}
 
+\item{dampening_limit}{<numeric> z values used will be within param and 1-param (default: 1e-8)}
+
 \item{per_feature}{<logical> fit zero model per feature independently (default: FALSE)}
 }
 \value{
