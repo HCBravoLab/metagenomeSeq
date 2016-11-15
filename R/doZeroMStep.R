@@ -22,20 +22,38 @@
 #' sum(zeroIndices).
 #' @seealso \code{\link{fitZig}}
 doZeroMStep <-
-function(z, zeroIndices, mmZero)
+function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
 {
-	pi=sapply(1:ncol(zeroIndices), function(j) {
-		if (sum(zeroIndices[,j])==0){
-			return(1e-8)
-		}
-		tmp=mean(z[zeroIndices[,j],j],na.rm=TRUE)
-		ifelse(tmp<=1e-8, 1e-8, ifelse(tmp>=1-(1e-8),1-(1e-8),tmp)) 
-		})
-	zeroLM=lm.fit(mmZero, qlogis(pi))
-	zeroCoef=zeroLM$coef
+  if (isTRUE(per_feature)) {
+    .doZeroMStep_perFeature(z, zeroIndices, mmZero, dampening_limit)
+  } else {
+    .doZeroMStep_combined(z, zeroIndices, mmZero, dampening_limit)
+  }
+}
 
-	r=zeroLM$residuals
-	sigma=sd(r)+(1e-3)
+.doZeroMStep_combined <- function(z, zeroIndices, mmZero, dampening_limit=1e-8) {
+  pi <- sapply(1:ncol(zeroIndices), function(j) {
+    if (sum(zeroIndices[,j]) == 0) {
+      return(dampening_limit)
+    }
+    
+    tmp <- mean(z[zeroIndices[,j],j], na.rm=TRUE)
+    ifelse(tmp <= 1e-8, 
+           dampening_limit, 
+           ifelse( tmp >= 1-dampening_limit, 
+                   1-dampening_limit, 
+                   tmp)) 
+  })
+  
+  zeroLM <- lm.fit(mmZero, qlogis(pi))
+  zeroCoef <- zeroLM$coef
+  
+  r <- zeroLM$residuals
+  sigma <- sd(r) + (1e-3)
+  
+  list(zeroLM=zeroLM, zeroCoef=zeroCoef, sigma=sigma, residuals=r/sigma)
+}
 
-	list(zeroLM=zeroLM, zeroCoef=zeroCoef, sigma=sigma, residuals=r/sigma)
+.doZeroMStep_perFeature <- function(z, zeroIndices, mmZero, dampening_limit=1e-8) {
+  stop("not implemented")
 }
