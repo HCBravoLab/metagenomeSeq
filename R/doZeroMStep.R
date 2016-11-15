@@ -17,6 +17,8 @@
 #' @param zeroIndices Index (matrix m x n) of counts that are zero/non-zero.
 #' @param mmZero The zero model, the model matrix to account for the change in
 #' the number of OTUs observed as a linear effect of the depth of coverage.
+#' @param per_feature <logical> fit zero model per feature independently (default: FALSE)
+#' 
 #' @return List of the zero fit (zero mean model) coefficients, variance -
 #' scale parameter (scalar), and normalized residuals of length
 #' sum(zeroIndices).
@@ -38,11 +40,7 @@ function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
     }
     
     tmp <- mean(z[zeroIndices[,j],j], na.rm=TRUE)
-    ifelse(tmp <= 1e-8, 
-           dampening_limit, 
-           ifelse( tmp >= 1-dampening_limit, 
-                   1-dampening_limit, 
-                   tmp)) 
+    .dampen(tmp, dampening_limit)
   })
   
   zeroLM <- lm.fit(mmZero, qlogis(pi))
@@ -54,6 +52,41 @@ function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
   list(zeroLM=zeroLM, zeroCoef=zeroCoef, sigma=sigma, residuals=r/sigma)
 }
 
+.dampen <- function(y, dampening_limit) {
+  max(dampening_limit, min(1-dampening_limit, y))
+}
+
 .doZeroMStep_perFeature <- function(z, zeroIndices, mmZero, dampening_limit=1e-8) {
   stop("not implemented")
+  
+  nfeatures <- nrow(z)
+  zeroLMs <- vector("list", nfeatures)
+  zeroCoef <- matrix(NA, nrow=nfeatures, ncol=ncol(mmZero))
+  r <- matrix(NA, nrow=nfeatures, ncol=ncol(z))
+  sigma <- vector("numeric", nfeatures)
+  
+  for (i in seq_len(nfeatures)) {
+    res <- .doZeroMStep_oneFeature(z[i, ], zeroIndices[i, ], mmZero, dampening_limit)
+  }
+  zeroLMs[[i]] <- res$fit
+  zeroCoef[i, ] <- res$coef
+  residuals[i, ] <- res$residuals
+  sigma[i] <- res$sigma
+  list(zeroLM=zeroLM, zeroCoef=zeroCoef, sigma=sigma, residuals=residuals)
+}
+
+.doZeroMStep_oneFeature <- function(z, zeroIndices, mmZero, dampening_limit) {
+  y <- z[zeroIndices]
+  y <- .dampen_vector(y, dampening_limit)
+  y <- qlogis(y)
+  
+  mmZero <- mmZero[zeroIndices,]
+  fit <- lm.fit(mmZero, y)
+  coef <- fit$coef
+  r <- vector("numeric", length(z))
+  r[zeroIndices] <- fit$residuals
+  r[!zeroIndices] <- NA
+  sigma <- sd(r, na.rm=TRUE)
+  r <- r / sigma
+  list(fit=fit, coef=coef, residuals=residuals, sigma=sigma)
 }

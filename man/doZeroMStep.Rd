@@ -4,7 +4,8 @@
 \alias{doZeroMStep}
 \title{Compute the zero Maximization step.}
 \usage{
-doZeroMStep(z, zeroIndices, mmZero)
+doZeroMStep(z, zeroIndices, mmZero, dampening_limit = 1e-08,
+  per_feature = FALSE)
 }
 \arguments{
 \item{z}{Matrix (m x n) of estimate responsibilities (probabilities that a
@@ -14,6 +15,8 @@ count comes from a spike distribution at 0).}
 
 \item{mmZero}{The zero model, the model matrix to account for the change in
 the number of OTUs observed as a linear effect of the depth of coverage.}
+
+\item{per_feature}{<logical> fit zero model per feature independently (default: FALSE)}
 }
 \value{
 List of the zero fit (zero mean model) coefficients, variance -
