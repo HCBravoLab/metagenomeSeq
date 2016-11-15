@@ -116,6 +116,7 @@ fitZig <- function(obj,
   verbose <- control$verbose
   dfMethod <- control$dfMethod
   pvalMethod <- control$pvalMethod
+  per_feature_zeroModel <- control$per_feature_zeroModel
   
   nr <- nrow(y)
   nc <- ncol(y)
@@ -145,7 +146,7 @@ fitZig <- function(obj,
     }
     
     # M-step for zero density (all features together)
-    zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix)
+    zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix, per_feature=per_feature_zeroModel)
     
     # E-step
     z <- doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
