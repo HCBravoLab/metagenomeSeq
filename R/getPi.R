@@ -11,7 +11,6 @@
 #' @param residuals Residuals from the zero model.
 #' @return Mixture proportions for each sample.
 #' @seealso \code{\link{fitZig}}
-getPi <-
-function(residuals){
+getPi <- function(residuals) {
 	plogis(residuals)
 }

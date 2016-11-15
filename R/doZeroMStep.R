@@ -54,12 +54,10 @@ function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
 }
 
 .dampen <- function(y, dampening_limit) {
-  max(dampening_limit, min(1-dampening_limit, y))
+  pmax(dampening_limit, pmin(1-dampening_limit, y))
 }
 
 .doZeroMStep_perFeature <- function(z, zeroIndices, mmZero, dampening_limit=1e-8) {
-  stop("not implemented")
-  
   nfeatures <- nrow(z)
   zeroLMs <- vector("list", nfeatures)
   zeroCoef <- matrix(NA, nrow=nfeatures, ncol=ncol(mmZero))
@@ -68,17 +66,18 @@ function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
   
   for (i in seq_len(nfeatures)) {
     res <- .doZeroMStep_oneFeature(z[i, ], zeroIndices[i, ], mmZero, dampening_limit)
+    zeroLMs[[i]] <- res$fit
+    zeroCoef[i, ] <- res$coef
+    r[i, ] <- res$residuals
+    sigma[i] <- res$sigma
   }
-  zeroLMs[[i]] <- res$fit
-  zeroCoef[i, ] <- res$coef
-  residuals[i, ] <- res$residuals
-  sigma[i] <- res$sigma
-  list(zeroLM=zeroLM, zeroCoef=zeroCoef, sigma=sigma, residuals=residuals)
+  
+  list(zeroLM=zeroLMs, zeroCoef=zeroCoef, sigma=sigma, residuals=r)
 }
 
 .doZeroMStep_oneFeature <- function(z, zeroIndices, mmZero, dampening_limit) {
   y <- z[zeroIndices]
-  y <- .dampen_vector(y, dampening_limit)
+  y <- .dampen(y, dampening_limit)
   y <- qlogis(y)
   
   mmZero <- mmZero[zeroIndices,]
@@ -89,5 +88,5 @@ function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
   r[!zeroIndices] <- NA
   sigma <- sd(r, na.rm=TRUE)
   r <- r / sigma
-  list(fit=fit, coef=coef, residuals=residuals, sigma=sigma)
+  list(fit=fit, coef=coef, residuals=r, sigma=sigma)
 }

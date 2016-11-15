@@ -123,7 +123,12 @@ fitZig <- function(obj,
   
   zeroIndices <- (y == 0)
   z <- matrix(0, nrow=nr, ncol=nc)
-  z[zeroIndices] <- 0.5
+  
+  if (isTRUE(per_feature_zeroModel)) {
+    z[zeroIndices] <- runif(sum(zeroIndices), min=1/3, max=2/3)
+  } else {
+    z[zeroIndices] <- 0.5
+  }
   zUsed <- z
   
   curIt <- 0
@@ -147,14 +152,14 @@ fitZig <- function(obj,
     
     # M-step for zero density (all features together)
     zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix, per_feature=per_feature_zeroModel)
-    
+
     # E-step
-    z <- doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
+    z <- doEStep(fit$residuals, zeroCoef$residuals, zeroIndices, per_feature=per_feature_zeroModel)
     zzdata <- getZ(z, zUsed, stillActive, nll, nllUSED);
     zUsed <- zzdata$zUsed;
     
     # NLL 
-    nll <- getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals)
+    nll <- getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals, per_feature=per_feature_zeroModel)
     eps <- getEpsilon(nll, nllOld)
     active <- isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
     stillActive <- active$stillActive;

@@ -16,12 +16,17 @@
 #' @return Vector of size M of the negative log-likelihoods for the various
 #' features.
 #' @seealso \code{\link{fitZig}}
-getNegativeLogLikelihoods <-
-function(z, countResiduals, zeroResiduals){
-	pi=getPi(zeroResiduals)
-	countDensity=getCountDensity(countResiduals, log=TRUE)
-	res=(1-z) * countDensity
-	res=res+sweep(z, 2, log(pi), FUN="*")
-	res=res+sweep(1-z,2,log(1-pi), FUN="*")
+getNegativeLogLikelihoods <- function(z, countResiduals, zeroResiduals, per_feature=FALSE) {
+	pi <- getPi(zeroResiduals)
+	countDensity <- getCountDensity(countResiduals, log=TRUE)
+	res <- (1-z) * countDensity
+	
+	if (!isTRUE(per_feature)) {
+  	res <- res+sweep(z, 2, log(pi), FUN="*")
+  	res <- res+sweep(1-z,2,log(1-pi), FUN="*")
+	} else {
+	  res <- res + z * log(pi)
+	  res <- res + (1-z) * log(1-pi)
+	}
 	-rowSums(res)
 }

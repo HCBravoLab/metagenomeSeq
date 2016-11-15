@@ -19,15 +19,26 @@
 #' that a count comes from a spike distribution at 0).
 #' @seealso \code{\link{fitZig}}
 doEStep <-
-function(countResiduals,  zeroResiduals, zeroIndices)
+function(countResiduals,  zeroResiduals, zeroIndices, per_feature=FALSE)
 {
-	pi_prop=getPi(zeroResiduals)
-	w1=sweep(zeroIndices, 2, pi_prop, FUN="*")
+	pi_prop <- getPi(zeroResiduals)
+	
+	if (!isTRUE(per_feature)) {
+  	w1 <- sweep(zeroIndices, 2, pi_prop, FUN="*")
+	} else {
+	  w1 <- pi_prop
+	}
 
-	countDensity=getCountDensity(countResiduals)
-	w2=sweep(countDensity, 2, 1-pi_prop, FUN="*")
-	z=w1/(w1+w2)
-	z[z>1-1e-6]=1-1e-6
-	z[!zeroIndices]=0
+	countDensity <- getCountDensity(countResiduals)
+	
+	if (!isTRUE(per_feature)) {
+	  w2 <- sweep(countDensity, 2, 1-pi_prop, FUN="*")
+	} else {
+	  w2 <- countDensity * 1-pi_prop
+	}
+	
+	z <- w1/(w1+w2)
+	z[z>1-1e-6] <- 1-1e-6
+	z[!zeroIndices] <- 0
 	z
 }
