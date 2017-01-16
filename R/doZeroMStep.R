@@ -24,9 +24,7 @@
 #' scale parameter (scalar), and normalized residuals of length
 #' sum(zeroIndices).
 #' @seealso \code{\link{fitZig}}
-doZeroMStep <-
-function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
-{
+doZeroMStep <- function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE) {
   if (isTRUE(per_feature)) {
     .doZeroMStep_perFeature(z, zeroIndices, mmZero, dampening_limit)
   } else {
@@ -63,7 +61,7 @@ function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
   zeroCoef <- matrix(NA, nrow=nfeatures, ncol=ncol(mmZero))
   r <- matrix(NA, nrow=nfeatures, ncol=ncol(z))
   sigma <- vector("numeric", nfeatures)
-  
+
   for (i in seq_len(nfeatures)) {
     res <- .doZeroMStep_oneFeature(z[i, ], zeroIndices[i, ], mmZero, dampening_limit)
     zeroLMs[[i]] <- res$fit
@@ -79,14 +77,14 @@ function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE)
   y <- z[zeroIndices]
   y <- .dampen(y, dampening_limit)
   y <- qlogis(y)
-  
-  mmZero <- mmZero[zeroIndices,]
+  mmZero <- mmZero[zeroIndices,,drop=FALSE]
   fit <- lm.fit(mmZero, y)
   coef <- fit$coef
   r <- vector("numeric", length(z))
   r[zeroIndices] <- fit$residuals
   r[!zeroIndices] <- NA
   sigma <- sd(r, na.rm=TRUE)
+  if(sigma == 0) sigma = 1
   r <- r / sigma
   list(fit=fit, coef=coef, residuals=r, sigma=sigma)
 }
