@@ -5,6 +5,7 @@
 #' @param verbose Whether to display iterative step summary statistics or not.
 #' @param dfMethod Method to calculate degrees of freedom, either 'default', (non-zero) or 'modified' (weighted by responsibilities).
 #' @param pvalMethod Method to calculate p-values, either 'default' (parametric) or 'bootstrap'.
+#' @param log Boolean, whether to Log_2 transform or not.
 #' @param per_feature_zeroModel <logical> Fit a logistic model per feature indepdently (default: FALSE)
 #' @return The value for the tolerance, maximum no. of iterations, and the verbose warning.
 #' @note \code{\link{fitZig}} makes use of zigControl.
@@ -20,6 +21,7 @@ zigControl <- function(tol=1e-4,
                       verbose=TRUE,
                       dfMethod=c("modified", "default"),
                       pvalMethod=c("default", "bootstrap"),
+                      log = TRUE,
                       per_feature_zeroModel=FALSE) {
 
 	dfMethod <- match.arg(dfMethod)
@@ -30,6 +32,7 @@ zigControl <- function(tol=1e-4,
 	           verbose=verbose,
 	           dfMethod=dfMethod,
 	           pvalMethod=pvalMethod,
+	           log = log,
 	           per_feature_zeroModel=per_feature_zeroModel)
 	return(set)	
 }

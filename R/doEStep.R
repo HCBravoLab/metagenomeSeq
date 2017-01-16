@@ -18,9 +18,8 @@
 #' @return Updated matrix (m x n) of estimate responsibilities (probabilities
 #' that a count comes from a spike distribution at 0).
 #' @seealso \code{\link{fitZig}}
-doEStep <-
-function(countResiduals,  zeroResiduals, zeroIndices, per_feature=FALSE)
-{
+doEStep <- function(countResiduals,  zeroResiduals, zeroIndices, per_feature=FALSE) {
+  
 	pi_prop <- getPi(zeroResiduals)
 	
 	if (!isTRUE(per_feature)) {
