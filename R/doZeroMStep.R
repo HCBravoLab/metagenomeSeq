@@ -19,14 +19,15 @@
 #' the number of OTUs observed as a linear effect of the depth of coverage.
 #' @param dampening_limit <numeric> z values used will be within param and 1-param (default: 1e-8)
 #' @param per_feature <logical> fit zero model per feature independently (default: FALSE)
+#' @param active Index <logical vector m> stating if a gene is active or not (used only in per_feature)
 #' 
 #' @return List of the zero fit (zero mean model) coefficients, variance -
 #' scale parameter (scalar), and normalized residuals of length
 #' sum(zeroIndices).
 #' @seealso \code{\link{fitZig}}
-doZeroMStep <- function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE) {
+doZeroMStep <- function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_feature=FALSE, active) {
   if (isTRUE(per_feature)) {
-    .doZeroMStep_perFeature(z, zeroIndices, mmZero, dampening_limit)
+    .doZeroMStep_perFeature(z, zeroIndices, mmZero, dampening_limit, active)
   } else {
     .doZeroMStep_combined(z, zeroIndices, mmZero, dampening_limit)
   }
@@ -55,14 +56,14 @@ doZeroMStep <- function(z, zeroIndices, mmZero, dampening_limit=1e-8, per_featur
   pmax(dampening_limit, pmin(1-dampening_limit, y))
 }
 
-.doZeroMStep_perFeature <- function(z, zeroIndices, mmZero, dampening_limit=1e-8) {
+.doZeroMStep_perFeature <- function(z, zeroIndices, mmZero, dampening_limit=1e-8, stillActive) {
   nfeatures <- nrow(z)
   zeroLMs <- vector("list", nfeatures)
   zeroCoef <- matrix(NA, nrow=nfeatures, ncol=ncol(mmZero))
   r <- matrix(NA, nrow=nfeatures, ncol=ncol(z))
   sigma <- vector("numeric", nfeatures)
 
-  for (i in seq_len(nfeatures)) {
+  for (i in seq_len(nfeatures)[stillActive]) {
     res <- .doZeroMStep_oneFeature(z[i, ], zeroIndices[i, ], mmZero, dampening_limit)
     zeroLMs[[i]] <- res$fit
     zeroCoef[i, ] <- res$coef

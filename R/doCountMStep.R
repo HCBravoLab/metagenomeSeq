@@ -23,21 +23,31 @@
 #' @return Update matrix (m x n) of estimate responsibilities (probabilities
 #' that a count comes from a spike distribution at 0).
 #' @seealso \code{\link{fitZig}}
-doCountMStep <-
-function(z, y, mmCount, stillActive,fit2=NULL,dfMethod="modified"){
+doCountMStep <- function(z, y, mmCount, stillActive,fit2=NULL,dfMethod="modified"){
 
 	if (is.null(fit2)){
-		fit=limma::lmFit(y[stillActive,],mmCount,weights = (1-z[stillActive,]))
-		if(dfMethod=="modified"){
-			df = rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount)
-			fit$df[stillActive] = df
-			fit$df.residual[stillActive] = df
-		}
-		countCoef = fit$coefficients
-		countMu=tcrossprod(countCoef, mmCount)
-		residuals=sweep((y[stillActive,,drop=FALSE]-countMu),1,fit$sigma,"/")
-		dat = list(fit = fit, residuals = residuals)
-		return(dat)
+	  fit=limma::lmFit(y,mmCount,weights = (1-z))
+	  if(dfMethod=="modified"){
+	    df = rowSums(1-z) - ncol(mmCount)
+	    fit$df = df
+	    fit$df.residual = df
+	  }
+	  countCoef = fit$coefficients
+	  countMu=tcrossprod(countCoef, mmCount)
+	  residuals=sweep((y-countMu),1,fit$sigma,"/")
+	  dat = list(fit = fit, residuals = residuals)
+	  return(dat)
+		# fit=limma::lmFit(y[stillActive,],mmCount,weights = (1-z[stillActive,]))
+		# if(dfMethod=="modified"){
+		# 	df = rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount)
+		# 	fit$df[stillActive] = df
+		# 	fit$df.residual[stillActive] = df
+		# }
+		# countCoef = fit$coefficients
+		# countMu=tcrossprod(countCoef, mmCount)
+		# residuals=sweep((y[stillActive,,drop=FALSE]-countMu),1,fit$sigma,"/")
+		# dat = list(fit = fit, residuals = residuals)
+		# return(dat)
 	} else {
 
 		residuals = fit2$residuals

@@ -5,8 +5,8 @@
 #' algorithm where we treat mixture membership $delta_ij = 1$ if $y_ij$ is
 #' generated from the zero point mass as latent indicator variables. The
 #' density is defined as $f_zig(y_ij = pi_j(S_j)*f_0(y_ij) +(1-pi_j (S_j)) *
-#' f_count(y_ij; mu_i, sigma_i^2)$. The log-likelihood in this extended model
-#' is: $(1-delta_ij) log f_count(y;mu_i,sigma_i^2 )+delta_ij log
+#' f_count(y_ij mu_i, sigma_i^2)$. The log-likelihood in this extended model
+#' is: $(1-delta_ij) log f_count(ymu_i,sigma_i^2 )+delta_ij log
 #' pi_j(s_j)+(1-delta_ij) log (1-pi_j (s_j))$. The responsibilities are defined
 #' as $z_ij = pr(delta_ij=1 | data)$.
 #' 
@@ -144,33 +144,35 @@ fitZig <- function(obj,
   nllUSED <- nll
   stillActive <- rep(TRUE, nr)
   stillActiveNLL <- rep(1, nr)
-  dupcor <- NULL
-  
+  zeroCoef <- dupcor <- NULL
+  # Anything that is fewer than 2 zero samples 
+  # should not be active (especially for per_feature)
+  stillActive[which(rowSums(y==0)<2)] = FALSE
   modRank <- ncol(count_model_matrix)
+
   # E-M Algorithm
+  fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod)
+  
   while (any(stillActive) && (curIt < maxit)) {
     
     # M-step for count density (each feature independently)
-    if (curIt == 0) {
-      fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod)
-    } else {
-      fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod)
-    }
-    
+    fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod)
+
     # M-step for zero density (all features together)
-    zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix, per_feature=per_feature_zeroModel)
+    zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix, per_feature=per_feature_zeroModel,active = stillActive)
 
     # E-step
     z <- doEStep(fit$residuals, zeroCoef$residuals, zeroIndices, per_feature=per_feature_zeroModel)
-    zzdata <- getZ(z, zUsed, stillActive, nll, nllUSED);
-    zUsed <- zzdata$zUsed;
+    zzdata <- getZ(z, zUsed, stillActive, nll, nllUSED)
+    zUsed <- zzdata$zUsed
     
     # NLL 
     nll <- getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals, per_feature=per_feature_zeroModel)
     eps <- getEpsilon(nll, nllOld)
-    active <- isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
-    stillActive <- active$stillActive;
-    stillActiveNLL <- active$stillActiveNLL;
+    active <- isItStillActive(eps,tol,stillActive,stillActiveNLL,nll)
+    stillActive <- active$stillActive
+    stillActiveNLL <- active$stillActiveNLL
+
     if (verbose == TRUE){
       cat(sprintf("it=%2d, nll=%0.2f, log10(eps+1)=%0.2f, stillActive=%d\n", curIt, mean(nll,na.rm=TRUE), log10(max(eps,na.rm=TRUE)+1), sum(stillActive)))
     }
@@ -179,7 +181,7 @@ fitZig <- function(obj,
     
     if (sum(rowSums((1-z) > 0) <= modRank, na.rm=TRUE) > 0) {
       k <- which(rowSums((1-z) > 0) <= modRank)
-      stillActive[k] <- FALSE;
+      stillActive[k] <- FALSE
       stillActiveNLL[k] <- nll[k]
     }
   }
@@ -254,7 +256,7 @@ fitZig <- function(obj,
 	
 # # M-step for count density (each feature independently)
 # 		if(curIt==0){
-# 			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,dfMethod=dfMethod);
+# 			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,dfMethod=dfMethod)
 # 		} else {
 # 			fit=doCountMStep(z, Nmatrix, mmCount, stillActive,fit2=fit,dfMethod=dfMethod)
 # 		}
@@ -264,14 +266,14 @@ fitZig <- function(obj,
 			
 # # E-step
 # 		z = doEStep(fit$residuals, zeroCoef$residuals, zeroIndices)
-# 		zzdata<-getZ(z,zUsed,stillActive,nll,nllUSED);
-# 		zUsed = zzdata$zUsed;
+# 		zzdata<-getZ(z,zUsed,stillActive,nll,nllUSED)
+# 		zUsed = zzdata$zUsed
 # # NLL 
 # 		nll = getNegativeLogLikelihoods(z, fit$residuals, zeroCoef$residuals)
 # 		eps = getEpsilon(nll, nllOld)
 # 		active = isItStillActive(eps, tol,stillActive,stillActiveNLL,nll)
-# 		stillActive = active$stillActive;
-# 		stillActiveNLL = active$stillActiveNLL;
+# 		stillActive = active$stillActive
+# 		stillActiveNLL = active$stillActiveNLL
 # 		if(verbose==TRUE){
 # 			cat(sprintf("it=%2d, nll=%0.2f, log10(eps+1)=%0.2f, stillActive=%d\n", curIt, mean(nll,na.rm=TRUE), log10(max(eps,na.rm=TRUE)+1), sum(stillActive)))
 # 		}
@@ -280,7 +282,7 @@ fitZig <- function(obj,
 
 # 		if(sum(rowSums((1-z)>0)<=modRank,na.rm=TRUE)>0){
 # 			k = which(rowSums((1-z)>0)<=modRank)
-# 			stillActive[k] = FALSE;
+# 			stillActive[k] = FALSE
 # 			stillActiveNLL[k] = nll[k]
 # 		}
 # 	}
