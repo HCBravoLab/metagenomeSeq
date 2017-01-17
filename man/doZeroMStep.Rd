@@ -5,7 +5,7 @@
 \title{Compute the zero Maximization step.}
 \usage{
 doZeroMStep(z, zeroIndices, mmZero, dampening_limit = 1e-08,
-  per_feature = FALSE)
+  per_feature = FALSE, active)
 }
 \arguments{
 \item{z}{Matrix (m x n) of estimate responsibilities (probabilities that a
@@ -19,6 +19,8 @@ the number of OTUs observed as a linear effect of the depth of coverage.}
 \item{dampening_limit}{<numeric> z values used will be within param and 1-param (default: 1e-8)}
 
 \item{per_feature}{<logical> fit zero model per feature independently (default: FALSE)}
+
+\item{active}{Index <logical vector m> stating if a gene is active or not (used only in per_feature)}
 }
 \value{
 List of the zero fit (zero mean model) coefficients, variance -

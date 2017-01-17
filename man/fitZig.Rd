@@ -48,8 +48,8 @@ $f_count$ fits.  Maximum-likelihood estimates are approximated using the EM
 algorithm where we treat mixture membership $delta_ij = 1$ if $y_ij$ is
 generated from the zero point mass as latent indicator variables. The
 density is defined as $f_zig(y_ij = pi_j(S_j)*f_0(y_ij) +(1-pi_j (S_j)) *
-f_count(y_ij; mu_i, sigma_i^2)$. The log-likelihood in this extended model
-is: $(1-delta_ij) log f_count(y;mu_i,sigma_i^2 )+delta_ij log
+f_count(y_ij mu_i, sigma_i^2)$. The log-likelihood in this extended model
+is: $(1-delta_ij) log f_count(ymu_i,sigma_i^2 )+delta_ij log
 pi_j(s_j)+(1-delta_ij) log (1-pi_j (s_j))$. The responsibilities are defined
 as $z_ij = pr(delta_ij=1 | data)$.
 }

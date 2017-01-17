@@ -4,7 +4,7 @@
 \alias{doEStep}
 \title{Compute the Expectation step.}
 \usage{
-doEStep(countResiduals, zeroResiduals, zeroIndices)
+doEStep(countResiduals, zeroResiduals, zeroIndices, per_feature = FALSE)
 }
 \arguments{
 \item{countResiduals}{Residuals from the count model.}

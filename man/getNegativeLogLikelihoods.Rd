@@ -5,7 +5,8 @@
 \title{Calculate the negative log-likelihoods for the various features given the
 residuals.}
 \usage{
-getNegativeLogLikelihoods(z, countResiduals, zeroResiduals)
+getNegativeLogLikelihoods(z, countResiduals, zeroResiduals,
+  per_feature = FALSE)
 }
 \arguments{
 \item{z}{Matrix (m x n) of estimate responsibilities (probabilities that a

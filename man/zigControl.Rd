@@ -6,7 +6,8 @@
 \title{Settings for the fitZig function}
 \usage{
 zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
-  dfMethod = "modified", pvalMethod = "default")
+  dfMethod = c("modified", "default"), pvalMethod = c("default",
+  "bootstrap"), log = TRUE, per_feature_zeroModel = FALSE)
 }
 \arguments{
 \item{tol}{The tolerance for the difference in negative log likelihood estimates for a feature to remain active.}
@@ -15,9 +16,13 @@ zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
 
 \item{verbose}{Whether to display iterative step summary statistics or not.}
 
-\item{dfMethod}{Either 'default' or 'modified' (by responsibilities).}
+\item{dfMethod}{Method to calculate degrees of freedom, either 'default', (non-zero) or 'modified' (weighted by responsibilities).}
 
-\item{pvalMethod}{Either 'default' or 'bootstrap'.}
+\item{pvalMethod}{Method to calculate p-values, either 'default' (parametric) or 'bootstrap'.}
+
+\item{log}{Boolean, whether to Log_2 transform or not.}
+
+\item{per_feature_zeroModel}{<logical> Fit a logistic model per feature indepdently (default: FALSE)}
 }
 \value{
 The value for the tolerance, maximum no. of iterations, and the verbose warning.
