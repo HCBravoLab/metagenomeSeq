@@ -306,7 +306,7 @@ system(paste("rm",file.path(dataDirectory,"tmp.tsv")))
 
 \newpage
 \section{Statistical testing}
-Now that we have taken care of normalization we can address the effects of under sampling on the detecting differentially abundant features (OTUs, genes, etc). This is our latest development and we recommend \textit{fitFeatureModel} over \textit{fitZig}. \textit{MRcoefs}, \textit{MRtable} and \textit{MRfulltable} are useful summary tables of the model outputs.
+Now that we have taken care of normalization we can address the effects of under sampling on detecting differentially abundant features (OTUs, genes, etc). This is our latest development and we recommend \textit{fitFeatureModel} over \textit{fitZig}. \textit{MRcoefs}, \textit{MRtable} and \textit{MRfulltable} are useful summary tables of the model outputs.
 
 \subsection{Zero-inflated Log-Normal mixture model for each feature}
 By reparametrizing our zero-inflation model, we're able to fit a zero-inflated model for each specific OTU separately.
