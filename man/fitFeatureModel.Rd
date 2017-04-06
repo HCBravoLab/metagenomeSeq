@@ -50,4 +50,3 @@ lungres1 = fitFeatureModel(lungData,mod)
 \seealso{
 \code{\link{cumNorm}}
 }
-

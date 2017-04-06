@@ -28,4 +28,3 @@ data(mouseData)
 head(uniqueFeatures(mouseData[1:100,],cl=pData(mouseData)[,3]))
 
 }
-

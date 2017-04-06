@@ -37,4 +37,3 @@ head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\\t"))
 \seealso{
 \code{\link{cumNorm}}
 }
-

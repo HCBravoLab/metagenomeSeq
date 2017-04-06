@@ -69,4 +69,3 @@ head(MRcoefs(fit))
 \seealso{
 \code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRtable}} \code{\link{MRfulltable}}
 }
-

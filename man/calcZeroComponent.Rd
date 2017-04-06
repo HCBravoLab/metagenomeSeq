@@ -19,4 +19,3 @@ Fit the zero (logisitic) component
 \seealso{
 \code{\link{fitZeroLogNormal}} \code{\link{fitFeatureModel}}
 }
-

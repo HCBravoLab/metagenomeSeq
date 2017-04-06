@@ -42,4 +42,3 @@ as $z_ij = pr(delta_ij=1 | data)$.
 \seealso{
 \code{\link{fitZig}}
 }
-

@@ -42,4 +42,3 @@ head(res)
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitZig}} \code{\link{fitDO}} \code{\link{fitMeta}}
 }
-

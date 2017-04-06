@@ -30,4 +30,3 @@ head(cumNormMat(mouseData))
 \seealso{
 \code{\link{fitZig}} \code{\link{cumNorm}}
 }
-

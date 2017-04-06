@@ -74,4 +74,3 @@ fit = fitFeatureModel(obj = lungTrim,mod=mod)
 \code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRcoefs}} \code{\link{MRtable}}
 \code{\link{fitPA}}
 }
-

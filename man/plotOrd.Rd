@@ -48,4 +48,3 @@ plotOrd(mouseData,tran=TRUE,useDist=TRUE,pch=21,bg=factor(cl),usePCA=FALSE)
 \seealso{
 \code{\link{cumNormMat}}
 }
-

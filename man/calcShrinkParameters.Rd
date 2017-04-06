@@ -21,4 +21,3 @@ Calculate the shrunken variances and variance of parameters of interest across f
 \seealso{
 \code{\link{fitZeroLogNormal}} \code{\link{fitFeatureModel}}
 }
-

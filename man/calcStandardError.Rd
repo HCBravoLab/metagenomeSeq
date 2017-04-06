@@ -25,4 +25,3 @@ zero-inflated log-normal models for semicontinuous data", ED Mills
 \seealso{
 \code{\link{fitZeroLogNormal}} \code{\link{fitFeatureModel}}
 }
-

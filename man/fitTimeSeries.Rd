@@ -6,7 +6,7 @@
 \usage{
 fitTimeSeries(obj, formula, feature, class, time, id, method = c("ssanova"),
   lvl = NULL, include = c("class", "time:class"), C = 0, B = 1000,
-  norm = TRUE, log = TRUE, sl = 1000, ...)
+  norm = TRUE, log = TRUE, sl = 1000, feature_order = NULL, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
@@ -65,4 +65,3 @@ res = fitTimeSeries(obj=mouseData,feature="Actinobacteria",
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitSSTimeSeries}} \code{\link{plotTimeSeries}}
 }
-

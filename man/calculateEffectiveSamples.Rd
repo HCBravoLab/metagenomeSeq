@@ -21,4 +21,3 @@ belongs to the technical distribution.
 \seealso{
 \code{\link{fitZig}} \code{\link{MRcoefs}} \code{\link{MRfulltable}}
 }
-

@@ -17,4 +17,3 @@ Merged table
 \description{
 Merge two tables
 }
-

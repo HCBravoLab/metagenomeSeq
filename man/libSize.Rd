@@ -27,4 +27,3 @@ head(libSize(lungData))
 \author{
 Joseph N. Paulson
 }
-

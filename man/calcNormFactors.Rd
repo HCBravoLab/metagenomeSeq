@@ -26,4 +26,3 @@ head(calcNormFactors(mouseData))
 \seealso{
 \code{\link{fitZig}} \code{\link{cumNormStatFast}} \code{\link{cumNorm}}
 }
-

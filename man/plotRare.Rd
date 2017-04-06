@@ -34,4 +34,3 @@ legend("topleft", c("Diet 1","Diet 2"), text.col=c(1,2),box.col=NA)
 \seealso{
 \code{\link{plotOrd}}, \code{\link{plotMRheatmap}}, \code{\link{plotCorr}}, \code{\link{plotOTU}}, \code{\link{plotGenus}}
 }
-

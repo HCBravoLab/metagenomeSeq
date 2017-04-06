@@ -29,4 +29,3 @@ Wrapper to convert MRexperiment objects to biom objects.
 \seealso{
 \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{loadBiom}} \code{\link{biom2MRexperiment}}
 }
-

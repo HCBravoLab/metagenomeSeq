@@ -43,4 +43,3 @@ mod = model.matrix(~smokingStatus)
 fit = fitLogNormal(obj = lungTrim,mod=mod,B=1)
 
 }
-

@@ -52,4 +52,3 @@ plotOTU(mouseData,otu=9083,classIndex,norm=FALSE,main="9083 feature abundances")
 \seealso{
 \code{\link{cumNorm}}
 }
-

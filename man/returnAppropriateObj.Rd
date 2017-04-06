@@ -28,4 +28,3 @@ data(lungData)
 head(returnAppropriateObj(lungData,norm=FALSE,log=FALSE))
 
 }
-

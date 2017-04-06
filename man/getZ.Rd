@@ -30,4 +30,3 @@ Calculate the current Z estimate responsibilities (posterior probabilities)
 \seealso{
 \code{\link{fitZig}}
 }
-

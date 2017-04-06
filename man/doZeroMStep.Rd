@@ -35,4 +35,3 @@ f_count(y;mu_i,sigma_i^2 )+delta_ij log pi_j(s_j)+(1-delta_ij)log (1-pi_j
 \seealso{
 \code{\link{fitZig}}
 }
-
