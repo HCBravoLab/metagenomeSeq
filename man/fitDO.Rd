@@ -48,4 +48,3 @@ head(res)
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitZig}} \code{\link{fitPA}} \code{\link{fitMeta}}
 }
-

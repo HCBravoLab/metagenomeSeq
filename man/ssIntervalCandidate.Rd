@@ -31,4 +31,3 @@ Calculates time intervals of interest using SS-Anova fitted confidence intervals
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}}
 }
-

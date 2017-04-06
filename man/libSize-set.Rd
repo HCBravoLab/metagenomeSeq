@@ -29,4 +29,3 @@ head(libSize(lungData)<- rnorm(1))
 \author{
 Joseph N. Paulson
 }
-

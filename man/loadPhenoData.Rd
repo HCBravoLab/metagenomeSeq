@@ -30,4 +30,3 @@ clin = loadPhenoData(file.path(dataDirectory,"CHK_clinical.csv"),tran=TRUE)
 \seealso{
 \code{\link{loadMeta}}
 }
-

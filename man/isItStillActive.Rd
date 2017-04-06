@@ -27,4 +27,3 @@ whether or not the feature's negative log-likelihood (measure of the fit) has ch
 \seealso{
 \code{\link{fitZig}}
 }
-

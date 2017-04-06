@@ -38,4 +38,3 @@ plotTimeSeries(res)
 \seealso{
 \code{\link{fitTimeSeries}}
 }
-

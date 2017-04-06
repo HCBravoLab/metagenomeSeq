@@ -19,4 +19,3 @@ Fit the positive (log-normal) component
 \seealso{
 \code{\link{fitZeroLogNormal}} \code{\link{fitFeatureModel}}
 }
-

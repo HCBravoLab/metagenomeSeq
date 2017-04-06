@@ -33,4 +33,3 @@ table(cormat[1,-1] - cors[1:5,1])
 \seealso{
 \code{\link{correlationTest}}
 }
-

@@ -26,4 +26,3 @@ data(mouseData)
 filterData(mouseData)
 
 }
-

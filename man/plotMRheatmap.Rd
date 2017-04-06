@@ -43,4 +43,3 @@ plotMRheatmap(obj=mouseData,n=50,fun=mad,cexRow = 0.4,cexCol = 0.4,trace="none",
 \seealso{
 \code{\link{cumNormMat}}
 }
-

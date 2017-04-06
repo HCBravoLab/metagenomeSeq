@@ -7,7 +7,8 @@ an MRexperiment that can be plotted with metavizr}
 \usage{
 ts2MRexperiment(obj, sampleNames = NULL, sampleDescription = "timepoints",
   taxonomyLevels = NULL, taxonomyHierarchyRoot = "bacteria",
-  taxonomyDescription = "taxonomy", featuresOfInterest = NULL)
+  taxonomyDescription = "taxonomy", featuresOfInterest = NULL,
+  feature_data = NULL)
 }
 \arguments{
 \item{obj}{Output of fitMultipleTimeSeries}
@@ -43,4 +44,3 @@ obj
 \seealso{
 \code{\link{fitTimeSeries}} \code{\link{fitMultipleTimeSeries}}
 }
-

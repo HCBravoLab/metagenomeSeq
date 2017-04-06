@@ -34,4 +34,3 @@ Function comes from the pracma package.
  trapz(x, y) - h^2/12 * (cb - ca)  #=> 1.999999969
 
 }
-

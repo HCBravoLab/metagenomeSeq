@@ -2,13 +2,13 @@
 % Please edit documentation in R/deprecated_metagenomeSeq_function.R
 \docType{package}
 \name{metagenomeSeq-deprecated}
+\alias{metagenomeSeq-deprecated}
 \alias{deprecated_metagenomeSeq_function}
 \alias{fitMeta}
-\alias{load_biom}
-\alias{load_meta}
-\alias{load_metaQ}
 \alias{load_phenoData}
-\alias{metagenomeSeq-deprecated}
+\alias{load_meta}
+\alias{load_biom}
+\alias{load_metaQ}
 \alias{metagenomeSeq-deprecated-package}
 \title{Depcrecated functions in the metagenomeSeq package.}
 \usage{
@@ -27,4 +27,3 @@ parameters to be passed to the modern version of the function (see table).}
 \description{
 These functions may be removed completely in the next release.
 }
-

@@ -33,4 +33,3 @@ p = round(cumNormStatFast(mouseData,pFlag=FALSE),digits=2)
 \seealso{
 \code{\link{fitZig}} \code{\link{cumNorm}} \code{\link{cumNormStat}}
 }
-

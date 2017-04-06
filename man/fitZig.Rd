@@ -72,4 +72,3 @@ fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 \seealso{
 \code{\link{cumNorm}} \code{\link{zigControl}}
 }
-

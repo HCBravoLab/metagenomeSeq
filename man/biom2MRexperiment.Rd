@@ -26,4 +26,3 @@ biom2MRexperiment(x)
 \seealso{
 \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{loadBiom}}
 }
-

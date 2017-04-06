@@ -27,4 +27,3 @@ data(mouseData)
 head(metagenomeSeq:::extractMR(mouseData))
 
 }
-

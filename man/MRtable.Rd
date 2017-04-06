@@ -72,4 +72,3 @@ head(MRtable(fit))
 \seealso{
 \code{\link{fitZig}} \code{\link{fitFeatureModel}} \code{\link{MRcoefs}} \code{\link{MRfulltable}}
 }
-

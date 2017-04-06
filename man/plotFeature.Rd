@@ -51,4 +51,3 @@ col=dates,sortby=dates,ylab="Raw reads")
 \seealso{
 \code{\link{cumNorm}}
 }
-

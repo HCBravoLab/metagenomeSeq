@@ -43,4 +43,3 @@ plotClassTimeSeries(res,pch=21,bg=res$data$class,ylim=c(0,8))
 \seealso{
 \code{\link{fitTimeSeries}}
 }
-

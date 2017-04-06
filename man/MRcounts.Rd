@@ -34,4 +34,3 @@ head(MRcounts(lungData))
 \author{
 Joseph N. Paulson, jpaulson@umiacs.umd.edu
 }
-
