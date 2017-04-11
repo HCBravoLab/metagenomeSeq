@@ -7,11 +7,12 @@
 \title{Aggregates a MRexperiment object or counts matrix to a particular level.}
 \usage{
 aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = FALSE,
-  log = FALSE, aggfun = colSums, sl = 1000, feature_order = NULL,
-  out = "MRexperiment")
+  log = FALSE, aggfun = colSums, sl = 1000, featureOrder = NULL,
+  returnFullHierarchy = TRUE, out = "MRexperiment")
 
 aggTax(obj, lvl, alternate = FALSE, norm = FALSE, log = FALSE,
-  aggfun = colSums, sl = 1000, out = "MRexperiment")
+  aggfun = colSums, sl = 1000, featureOrder = NULL,
+  returnFullHierarchy = TRUE, out = "MRexperiment")
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}
@@ -27,6 +28,10 @@ aggTax(obj, lvl, alternate = FALSE, norm = FALSE, log = FALSE,
 \item{aggfun}{Aggregation function.}
 
 \item{sl}{scaling value, default is 1000.}
+
+\item{featureOrder}{Hierarchy of levels in taxonomy as fData colnames}
+
+\item{returnFullHierarchy}{Boolean value to indicate return single column of fData or all columns of hierarchy}
 
 \item{out}{Either 'MRexperiment' or 'matrix'}
 }

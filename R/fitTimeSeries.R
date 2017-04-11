@@ -234,6 +234,7 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' @param norm When aggregating counts to normalize or not.
 #' @param log Log2 transform.
 #' @param sl Scaling value.
+#' @param featureOrder Hierarchy of levels in taxonomy as fData colnames
 #' @param ... Options for ssanova
 #' @return List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
 #' @return A list of objects including:
@@ -253,10 +254,10 @@ ssIntervalCandidate <- function(fit, standardError, timePoints, positive=TRUE,C=
 #' res = fitSSTimeSeries(obj=mouseData,feature="Actinobacteria",
 #'    class="status",id="mouseID",time="relativeTime",lvl='class',B=2)
 #'
-fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c("class", "time:class"),C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,feature_order=NULL,...) {
+fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c("class", "time:class"),C=0,B=1000,norm=TRUE,log=TRUE,sl=1000,featureOrder=NULL,...) {
     
     if(!is.null(lvl)){
-        aggData = aggregateByTaxonomy(obj,lvl,norm=norm,sl=sl, feature_order=feature_order)
+        aggData = aggregateByTaxonomy(obj,lvl,norm=norm,sl=sl, featureOrder=featureOrder)
         abundance = MRcounts(aggData,norm=FALSE,log=log,sl=1)[feature,]
     } else { 
         abundance = MRcounts(obj,norm=norm,log=log,sl=sl)[feature,]
@@ -347,6 +348,7 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
 #' @param norm When aggregating counts to normalize or not.
 #' @param log Log2 transform.
 #' @param sl Scaling value.
+#' @param featureOrder Hierarchy of levels in taxonomy as fData colnames
 #' @param ... Options for ssanova
 #' @return List of matrix of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations, and call.
 #' @return A list of objects including:
@@ -368,16 +370,16 @@ fitSSTimeSeries <- function(obj,formula,feature,class,time,id,lvl=NULL,include=c
 #'
 fitTimeSeries <- function(obj,formula,feature,class,time,id,method=c("ssanova"),
                         lvl=NULL,include=c("class", "time:class"),C=0,B=1000,
-                        norm=TRUE,log=TRUE,sl=1000,feature_order=NULL,...) {
+                        norm=TRUE,log=TRUE,sl=1000,featureOrder=NULL,...) {
     if(method=="ssanova"){
         if(requireNamespace("gss")){
             if(missing(formula)){
                 res = fitSSTimeSeries(obj=obj,feature=feature,class=class,time=time,id=id,
-                        lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,include=include,feature_order=feature_order,...)
+                        lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,include=include,featureOrder=featureOrder,...)
             } else {
                 res = fitSSTimeSeries(obj=obj,formula=formula,feature=feature,class=class,
                         time=time,id=id,lvl=lvl,C=C,B=B,norm=norm,log=log,sl=sl,
-                        include=include,feature_order=feature_order,...)
+                        include=include,featureOrder=featureOrder,...)
             }
         }
     }
@@ -494,6 +496,7 @@ plotClassTimeSeries<-function(res,formula,xlab="Time",ylab="Abundance",color0="b
 #' @param obj metagenomeSeq MRexperiment-class object.
 #' @param lvl Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).
 #' @param B Number of permutations to perform.
+#' @param featureOrder Hierarchy of levels in taxonomy as fData colnames
 #' @param ... Options for \code{\link{fitTimeSeries}}, except feature.
 #' @return List of lists of matrices of time point intervals of interest, Difference in abundance area and p-value, fit, area permutations.
 #' @return A list of lists for which each includes:
@@ -513,7 +516,7 @@ plotClassTimeSeries<-function(res,formula,xlab="Time",ylab="Abundance",color0="b
 #' res = fitMultipleTimeSeries(obj=mouseData,lvl='phylum',class="status",
 #'           id="mouseID",time="relativeTime",B=1)
 #'
-fitMultipleTimeSeries <- function(obj,lvl=NULL,B=1,feature_order=NULL,...) {
+fitMultipleTimeSeries <- function(obj,lvl=NULL,B=1,featureOrder=NULL,...) {
     if(is.null(lvl)){
         bacteria = seq(nrow(obj))
     } else {
@@ -523,7 +526,7 @@ fitMultipleTimeSeries <- function(obj,lvl=NULL,B=1,feature_order=NULL,...) {
         bacteria = unique(fData(obj)[,lvl])
     }
     fits = lapply(bacteria,function(bact){
-        try(fitTimeSeries(obj,lvl=lvl,feature=bact,B=B,feature_order=feature_order,...))
+        try(fitTimeSeries(obj,lvl=lvl,feature=bact,B=B,featureOrder=featureOrder,...))
     })
     names(fits) = bacteria
     fits = c(fits,call=match.call())
@@ -540,6 +543,7 @@ fitMultipleTimeSeries <- function(obj,lvl=NULL,B=1,feature_order=NULL,...) {
 #' @param taxonomyHierarchyRoot Root of feature hierarchy for MRexperiment
 #' @param taxonomyDescription Description of features for plot axis label
 #' @param featuresOfInterest The features to select from the fitMultipleTimeSeries output
+#' @param featureDataOfInterest featureData for the resulting MRexperiment
 #' @return MRexperiment that contains fitTimeSeries data, featureData, and phenoData
 #' @rdname ts2MRexperiment
 #' @seealso \code{\link{fitTimeSeries}} \code{\link{fitMultipleTimeSeries}}
@@ -558,7 +562,7 @@ ts2MRexperiment<-function(obj,sampleNames=NULL,
                           taxonomyHierarchyRoot="bacteria",
                           taxonomyDescription="taxonomy",
                           featuresOfInterest = NULL,
-                          feature_data=NULL){
+                          featureDataOfInterest=NULL){
   if(is.null(obj)){
     stop("Matrix cannot be null")
   }
@@ -599,7 +603,7 @@ ts2MRexperiment<-function(obj,sampleNames=NULL,
   varMetadata(annotatedDFSamples) <- metaDataSamples
   validObject(annotatedDFSamples)
   
-  if(is.null(feature_data)){
+  if(is.null(featureDataOfInterest)){
     dfFeatures <- data.frame(taxonomy1=rep(taxonomyHierarchyRoot, numLevels),taxonomy2=taxonomyLevels)
     metaDataFeatures <-data.frame(labelDescription=paste(taxonomyDescription, 1:2, sep=""))
     annotatedDFFeatures <- AnnotatedDataFrame()
@@ -608,7 +612,7 @@ ts2MRexperiment<-function(obj,sampleNames=NULL,
     validObject(annotatedDFFeatures)
   }
   else{
-    annotatedDFFeatures <- feature_data
+    annotatedDFFeatures <- featureDataOfInterest
   }
   
   fitTimeSeriesMRexp <- newMRexperiment(counts=results,
