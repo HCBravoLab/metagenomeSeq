@@ -25,4 +25,3 @@ x
 \seealso{
 \code{\link{loadMeta}} \code{\link{loadPhenoData}} \code{\link{newMRexperiment}} \code{\link{biom2MRexperiment}}
 }
-

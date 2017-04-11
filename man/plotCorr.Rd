@@ -37,4 +37,3 @@ plotCorr(obj=mouseData,n=200,cexRow = 0.4,cexCol = 0.4,trace="none",dendrogram="
 \seealso{
 \code{\link{cumNormMat}}
 }
-

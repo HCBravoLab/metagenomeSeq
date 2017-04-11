@@ -25,4 +25,3 @@ fold change.
 \seealso{
 \code{\link{fitZeroLogNormal}} \code{\link{fitFeatureModel}}
 }
-

@@ -30,4 +30,3 @@ as $z_ij = pr(delta_ij=1 | data and current values)$.
 \seealso{
 \code{\link{fitZig}}
 }
-

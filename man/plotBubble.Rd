@@ -52,4 +52,3 @@ plotBubble(y,x)
 \seealso{
 \code{\link{plotMRheatmap}}
 }
-

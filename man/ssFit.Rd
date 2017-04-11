@@ -45,4 +45,3 @@ the fitted values for the fitted model.
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssPermAnalysis}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
 }
-

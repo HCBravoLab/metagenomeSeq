@@ -6,7 +6,7 @@
 \usage{
 fitSSTimeSeries(obj, formula, feature, class, time, id, lvl = NULL,
   include = c("class", "time:class"), C = 0, B = 1000, norm = TRUE,
-  log = TRUE, sl = 1000, ...)
+  log = TRUE, sl = 1000, feature_order = NULL, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
@@ -70,4 +70,3 @@ res = fitSSTimeSeries(obj=mouseData,feature="Actinobacteria",
 \seealso{
 \code{\link{cumNorm}} \code{\link{ssFit}} \code{\link{ssIntervalCandidate}} \code{\link{ssPerm}} \code{\link{ssPermAnalysis}} \code{\link{plotTimeSeries}}
 }
-

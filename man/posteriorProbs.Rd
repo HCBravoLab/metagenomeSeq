@@ -38,4 +38,3 @@ head(posteriorProbs(lungTrim))
 \author{
 Joseph N. Paulson
 }
-

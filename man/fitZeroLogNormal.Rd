@@ -40,4 +40,3 @@ and model matrix. Not for the average user, assumes structure of the model matri
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitFeatureModel}}
 }
-

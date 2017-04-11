@@ -28,4 +28,3 @@ expSummary(mouseData)
 \author{
 Joseph N. Paulson, jpaulson@umiacs.umd.edu
 }
-

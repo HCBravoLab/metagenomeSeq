@@ -29,4 +29,3 @@ head(normFactors(lungData)<- rnorm(1))
 \author{
 Joseph N. Paulson
 }
-

@@ -38,4 +38,3 @@ intervals of differential abundance.
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitTimeSeries}} \code{\link{ssFit}} \code{\link{ssPerm}} \code{\link{ssIntervalCandidate}}
 }
-

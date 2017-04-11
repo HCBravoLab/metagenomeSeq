@@ -4,7 +4,7 @@
 \alias{fitMultipleTimeSeries}
 \title{Discover differentially abundant time intervals for all bacteria}
 \usage{
-fitMultipleTimeSeries(obj, lvl = NULL, B = 1, ...)
+fitMultipleTimeSeries(obj, lvl = NULL, B = 1, feature_order = NULL, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
@@ -42,4 +42,3 @@ res = fitMultipleTimeSeries(obj=mouseData,lvl='phylum',class="status",
 \seealso{
 \code{\link{cumNorm}} \code{\link{fitSSTimeSeries}} \code{\link{fitTimeSeries}}
 }
-

@@ -23,4 +23,3 @@ from the zero model.
 \seealso{
 \code{\link{fitZig}}
 }
-
