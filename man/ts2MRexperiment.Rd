@@ -8,7 +8,7 @@ an MRexperiment that can be plotted with metavizr}
 ts2MRexperiment(obj, sampleNames = NULL, sampleDescription = "timepoints",
   taxonomyLevels = NULL, taxonomyHierarchyRoot = "bacteria",
   taxonomyDescription = "taxonomy", featuresOfInterest = NULL,
-  feature_data = NULL)
+  featureDataOfInterest = NULL)
 }
 \arguments{
 \item{obj}{Output of fitMultipleTimeSeries}
@@ -24,6 +24,8 @@ ts2MRexperiment(obj, sampleNames = NULL, sampleDescription = "timepoints",
 \item{taxonomyDescription}{Description of features for plot axis label}
 
 \item{featuresOfInterest}{The features to select from the fitMultipleTimeSeries output}
+
+\item{featureDataOfInterest}{featureData for the resulting MRexperiment}
 }
 \value{
 MRexperiment that contains fitTimeSeries data, featureData, and phenoData

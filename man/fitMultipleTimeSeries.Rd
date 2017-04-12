@@ -4,7 +4,7 @@
 \alias{fitMultipleTimeSeries}
 \title{Discover differentially abundant time intervals for all bacteria}
 \usage{
-fitMultipleTimeSeries(obj, lvl = NULL, B = 1, feature_order = NULL, ...)
+fitMultipleTimeSeries(obj, lvl = NULL, B = 1, featureOrder = NULL, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
@@ -12,6 +12,8 @@ fitMultipleTimeSeries(obj, lvl = NULL, B = 1, feature_order = NULL, ...)
 \item{lvl}{Vector or name of column in featureData of MRexperiment-class object for aggregating counts (if not OTU level).}
 
 \item{B}{Number of permutations to perform.}
+
+\item{featureOrder}{Hierarchy of levels in taxonomy as fData colnames}
 
 \item{...}{Options for \code{\link{fitTimeSeries}}, except feature.}
 }
