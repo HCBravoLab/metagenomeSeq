@@ -13,6 +13,8 @@
 #' @param aggfun Aggregation function.
 #' @param sl scaling value, default is 1000.
 #' @param out Either 'MRexperiment' or 'matrix'
+#' @param featureOrder Hierarchy of levels in taxonomy as fData colnames
+#' @param returnFullHierarchy Boolean value to indicate return single column of fData or all columns of hierarchy
 #' @return An aggregated count matrix.
 #' @aliases aggTax
 #' @rdname aggregateByTaxonomy
@@ -25,7 +27,7 @@
 #' # aggregateByTaxonomy(mouseData,lvl="class",norm=TRUE,aggfun=colMedians)
 #' # aggTax(mouseData,lvl='phylum',norm=FALSE,aggfun=colSums)
 #' 
-aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfun = colSums,sl=1000,feature_order=NULL,out="MRexperiment"){
+aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfun = colSums,sl=1000,featureOrder=NULL,returnFullHierarchy=TRUE,out="MRexperiment"){
   if(class(obj)=="MRexperiment"){
     mat = MRcounts(obj,norm=norm,log=log,sl=sl)
     if(length(lvl)==1) levels = as.character(fData(obj)[,lvl])
@@ -57,13 +59,21 @@ aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfu
   colnames(newMat) = colnames(obj)
   if(out=='matrix') return(newMat)
   if(out=='MRexperiment'){
-    if(is.null(feature_order)){
-      feature_order <- colnames(fData(obj))
+    if(returnFullHierarchy){
+
+      if(is.null(featureOrder)){
+        featureOrder <- colnames(fData(obj))
+      }
+      
+      taxa = featureData(obj)[match(names(grps), fData(obj)[,lvl]),featureOrder[1:which(featureOrder == lvl)]]
+      featureNames(taxa) = names(grps)
+    } else{
+       taxa = data.frame(names(grps))
+       colnames(taxa) = "Taxa"
+       rownames(taxa) = names(grps)
+       taxa = as(taxa,"AnnotatedDataFrame")
     }
-    
-    taxa = featureData(obj)[match(names(grps), fData(obj)[,lvl]),feature_order[1:which(feature_order == lvl)]]
-    featureNames(taxa) = names(grps)
-    
+
     if(class(obj)=="MRexperiment"){
       pd = phenoData(obj)
       newObj = newMRexperiment(newMat,featureData=taxa,phenoData=pd)
@@ -75,6 +85,6 @@ aggregateByTaxonomy<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfu
 }
 #' @rdname aggregateByTaxonomy
 #' @export
-aggTax<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfun = colSums,sl=1000,out='MRexperiment'){
-	aggregateByTaxonomy(obj,lvl,alternate=alternate,norm=norm,log=log,aggfun = aggfun,sl=sl,out=out)
+aggTax<-function(obj,lvl,alternate=FALSE,norm=FALSE,log=FALSE,aggfun = colSums,sl=1000,featureOrder=NULL,returnFullHierarchy=TRUE,out='MRexperiment'){
+  aggregateByTaxonomy(obj,lvl,alternate=alternate,norm=norm,log=log,aggfun = aggfun,sl=sl,featureOrder=featureOrder,returnFullHierarchy=returnFullHierarchy,out=out)
 }
