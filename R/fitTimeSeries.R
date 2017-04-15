@@ -592,7 +592,7 @@ ts2MRexperiment<-function(obj,sampleNames=NULL,
   
   rangeSamples <- 1:numSamples
   rangeFeaturesOfInterest <- 1:numFeaturesOfInterest
-  print(hasFit)
+#  print(hasFit)
   
   results <- do.call(rbind, lapply(hasFit,function(i){ if (i != 0) t(obj[[i]]$fit)[1,] else rep(NA, numSamples) }))
   
