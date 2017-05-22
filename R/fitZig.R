@@ -124,7 +124,6 @@ fitZig <- function(obj,
   dfMethod <- control$dfMethod
   pvalMethod <- control$pvalMethod
   per_feature_zeroModel <- control$per_feature_zeroModel
-  shrink_coefs <- control$shrink_coefs
 
   nr <- nrow(y)
   nc <- ncol(y)
@@ -196,11 +195,6 @@ fitZig <- function(obj,
   }
   
   eb <- limma::eBayes(fit$fit)
-  
-  if (!is.null(shrink_coefs)) {
-    eb <- .shrink_fitZig_coefs(eb)
-  }
-  
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
               z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive, 
               stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor)
@@ -294,6 +288,3 @@ fitZig <- function(obj,
 # 	}
 # }
 
-.shrink_fitZig_coefs <- function(obj) {
-  obj
-}

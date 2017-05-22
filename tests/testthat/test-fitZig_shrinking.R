@@ -12,7 +12,8 @@ test_that("per feature `fitZig` runs with shrinkage", {
   smokingStatus = pData(lungTrim)$SmokingStatus
   mod = model.matrix(~smokingStatus)
 
-  settings = zigControl(maxit=1,verbose=FALSE, per_feature_zeroModel=TRUE, shrink_coefs=TRUE)
+  settings = zigControl(maxit=1,verbose=FALSE, per_feature_zeroModel=TRUE)
   fit2 = fitZig(obj = lungTrim,mod=mod,control=settings)
+  fit2 <- shrinkZig(fit2, coef=2)
   expect_is(fit2, "list")
 })
