@@ -19,7 +19,7 @@ shrinkZig <- function(obj, coef=2) {
 
   # calcuate variance of coefficient tau
   betas <- eb$coefficients[,coef]
-  tau <- var(betas, na.rm=TRUE) * nrow(y)
+  tau <- var(betas, na.rm=TRUE)
 
   # get residuals with reduced model
   mat1 <- eb$design
