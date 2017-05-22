@@ -7,6 +7,8 @@
 #' @param pvalMethod Method to calculate p-values, either 'default' (parametric) or 'bootstrap'.
 #' @param log Boolean, whether to Log_2 transform or not.
 #' @param per_feature_zeroModel <logical> Fit a logistic model per feature indepdently (default: FALSE)
+#' @param shrink_coefs <logical> Shrink coefficients using ridge regression in the M-step (default: FALSE)
+#' 
 #' @return The value for the tolerance, maximum no. of iterations, and the verbose warning.
 #' @note \code{\link{fitZig}} makes use of zigControl.
 #'
@@ -22,7 +24,8 @@ zigControl <- function(tol=1e-4,
                       dfMethod=c("modified", "default"),
                       pvalMethod=c("default", "bootstrap"),
                       log = TRUE,
-                      per_feature_zeroModel=FALSE) {
+                      per_feature_zeroModel=FALSE,
+                      shrink_coefs=FALSE) {
 
 	dfMethod <- match.arg(dfMethod)
 	pvalMethod <- match.arg(pvalMethod)
@@ -33,6 +36,7 @@ zigControl <- function(tol=1e-4,
 	           dfMethod=dfMethod,
 	           pvalMethod=pvalMethod,
 	           log = log,
-	           per_feature_zeroModel=per_feature_zeroModel)
+	           per_feature_zeroModel=per_feature_zeroModel,
+	           shrink_coefs=shrink_coefs)
 	return(set)	
 }

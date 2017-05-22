@@ -7,7 +7,8 @@
 \usage{
 zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
   dfMethod = c("modified", "default"), pvalMethod = c("default",
-  "bootstrap"), log = TRUE, per_feature_zeroModel = FALSE)
+  "bootstrap"), log = TRUE, per_feature_zeroModel = FALSE,
+  shrink_coefs = FALSE)
 }
 \arguments{
 \item{tol}{The tolerance for the difference in negative log likelihood estimates for a feature to remain active.}
@@ -23,6 +24,8 @@ zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
 \item{log}{Boolean, whether to Log_2 transform or not.}
 
 \item{per_feature_zeroModel}{<logical> Fit a logistic model per feature indepdently (default: FALSE)}
+
+\item{shrink_coefs}{<logical> Shrink coefficients using ridge regression in the M-step (default: FALSE)}
 }
 \value{
 The value for the tolerance, maximum no. of iterations, and the verbose warning.

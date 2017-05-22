@@ -124,7 +124,8 @@ fitZig <- function(obj,
   dfMethod <- control$dfMethod
   pvalMethod <- control$pvalMethod
   per_feature_zeroModel <- control$per_feature_zeroModel
-  
+  shrink_coefs <- control$shrink_coefs
+
   nr <- nrow(y)
   nc <- ncol(y)
   
@@ -151,12 +152,12 @@ fitZig <- function(obj,
   modRank <- ncol(count_model_matrix)
 
   # E-M Algorithm
-  fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod)
+  fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod, shrink_coefs = shrink_coefs)
   
   while (any(stillActive) && (curIt < maxit)) {
     
     # M-step for count density (each feature independently)
-    fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod)
+    fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod, shrink_coefs = shrink_coefs)
 
     # M-step for zero density (all features together)
     zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix, per_feature=per_feature_zeroModel,active = stillActive)

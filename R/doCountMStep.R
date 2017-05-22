@@ -20,23 +20,31 @@
 #' converged or not.
 #' @param fit2 Previous fit of the count model.
 #' @param dfMethod Either 'default' or 'modified' (by responsibilities)
+#' @param shrink_coefs <logical> Shrink coefficients using ridge regression (default: FALSE)
 #' @return Update matrix (m x n) of estimate responsibilities (probabilities
 #' that a count comes from a spike distribution at 0).
 #' @seealso \code{\link{fitZig}}
-doCountMStep <- function(z, y, mmCount, stillActive,fit2=NULL,dfMethod="modified"){
+doCountMStep <- function(z, y, mmCount, 
+                         stillActive, 
+                         fit2=NULL,
+                         dfMethod="modified",
+                         shrink_coefs=FALSE) {
 
-	if (is.null(fit2)){
+	if (is.null(fit2)) {
 	  fit=limma::lmFit(y,mmCount,weights = (1-z))
-	  if(dfMethod=="modified"){
+	  
+	  if (dfMethod=="modified") {
 	    df = rowSums(1-z) - ncol(mmCount)
 	    fit$df = df
 	    fit$df.residual = df
 	  }
+	  
 	  countCoef = fit$coefficients
-	  countMu=tcrossprod(countCoef, mmCount)
-	  residuals=sweep((y-countMu),1,fit$sigma,"/")
+	  countMu = tcrossprod(countCoef, mmCount)
+	  residuals = sweep((y-countMu),1,fit$sigma,"/")
 	  dat = list(fit = fit, residuals = residuals)
 	  return(dat)
+	  
 		# fit=limma::lmFit(y[stillActive,],mmCount,weights = (1-z[stillActive,]))
 		# if(dfMethod=="modified"){
 		# 	df = rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount)
@@ -56,22 +64,23 @@ doCountMStep <- function(z, y, mmCount, stillActive,fit2=NULL,dfMethod="modified
 		fit=limma::lmFit(y[stillActive,,drop=FALSE],mmCount,weights = (1-z[stillActive,,drop=FALSE]))
 		
 		fit2$coefficients[stillActive,] = fit$coefficients
-		fit2$stdev.unscaled[stillActive,]=fit$stdev.unscaled
+		fit2$stdev.unscaled[stillActive,] = fit$stdev.unscaled
 		fit2$sigma[stillActive] = fit$sigma
 		fit2$Amean[stillActive] = fit$Amean
 
-		if(dfMethod=="modified"){
+		if (dfMethod=="modified") {
 			df = rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount)
 			fit$df = df
 			fit$df.residual = df
 		}
-		fit2$df[stillActive]    = fit$df
-		fit2$df.residual[stillActive]    = fit$df.residual
+		
+		fit2$df[stillActive] = fit$df
+		fit2$df.residual[stillActive] = fit$df.residual
 
 		countCoef = fit$coefficients
-		countMu=tcrossprod(countCoef, mmCount)
-		r=sweep((y[stillActive,,drop=FALSE]-countMu),1,fit$sigma,"/")
-		residuals[stillActive,]=r
+		countMu = tcrossprod(countCoef, mmCount)
+		r = sweep((y[stillActive,,drop=FALSE]-countMu),1,fit$sigma,"/")
+		residuals[stillActive,] = r
 
 		dat = list(fit = fit2, residuals=residuals)
 

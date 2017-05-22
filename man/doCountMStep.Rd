@@ -4,7 +4,8 @@
 \alias{doCountMStep}
 \title{Compute the Maximization step calculation for features still active.}
 \usage{
-doCountMStep(z, y, mmCount, stillActive, fit2 = NULL, dfMethod = "modified")
+doCountMStep(z, y, mmCount, stillActive, fit2 = NULL, dfMethod = "modified",
+  shrink_coefs = FALSE)
 }
 \arguments{
 \item{z}{Matrix (m x n) of estimate responsibilities (probabilities that a
@@ -20,6 +21,8 @@ converged or not.}
 \item{fit2}{Previous fit of the count model.}
 
 \item{dfMethod}{Either 'default' or 'modified' (by responsibilities)}
+
+\item{shrink_coefs}{<logical> Shrink coefficients using ridge regression (default: FALSE)}
 }
 \value{
 Update matrix (m x n) of estimate responsibilities (probabilities
