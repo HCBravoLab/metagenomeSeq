@@ -20,15 +20,14 @@
 #' converged or not.
 #' @param fit2 Previous fit of the count model.
 #' @param dfMethod Either 'default' or 'modified' (by responsibilities)
-#' @param shrink_coefs <logical> Shrink coefficients using ridge regression (default: FALSE)
+#' 
 #' @return Update matrix (m x n) of estimate responsibilities (probabilities
 #' that a count comes from a spike distribution at 0).
 #' @seealso \code{\link{fitZig}}
 doCountMStep <- function(z, y, mmCount, 
                          stillActive, 
                          fit2=NULL,
-                         dfMethod="modified",
-                         shrink_coefs=FALSE) {
+                         dfMethod="modified") {
 
 	if (is.null(fit2)) {
 	  fit=limma::lmFit(y,mmCount,weights = (1-z))
@@ -44,9 +43,6 @@ doCountMStep <- function(z, y, mmCount,
 	  residuals = sweep((y-countMu),1,fit$sigma,"/")
 	  dat = list(fit = fit, residuals = residuals)
 	  
-	  if (shrink_coefs) {
-	    dat <- .shrink_countMStep(dat)
-	  }
 	  return(dat)
 	  
 		# fit=limma::lmFit(y[stillActive,],mmCount,weights = (1-z[stillActive,]))
@@ -87,13 +83,7 @@ doCountMStep <- function(z, y, mmCount,
 		residuals[stillActive,] = r
 
 		dat = list(fit = fit2, residuals=residuals)
-    if (shrink_coefs) {
-      dat <- .shrink_countMStep(dat)
-    }
 		return(dat)
 	}
 }
 
-.shrink_countMStep <- function(dat) {
-  dat
-}

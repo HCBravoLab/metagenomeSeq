@@ -152,12 +152,12 @@ fitZig <- function(obj,
   modRank <- ncol(count_model_matrix)
 
   # E-M Algorithm
-  fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod, shrink_coefs = shrink_coefs)
+  fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod)
   
   while (any(stillActive) && (curIt < maxit)) {
     
     # M-step for count density (each feature independently)
-    fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod, shrink_coefs = shrink_coefs)
+    fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod)
 
     # M-step for zero density (all features together)
     zeroCoef <- doZeroMStep(z, zeroIndices, zero_model_matrix, per_feature=per_feature_zeroModel,active = stillActive)
@@ -196,6 +196,11 @@ fitZig <- function(obj,
   }
   
   eb <- limma::eBayes(fit$fit)
+  
+  if (!is.null(shrink_coefs)) {
+    eb <- .shrink_fitZig_coefs(eb)
+  }
+  
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
               z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive, 
               stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor)
@@ -288,3 +293,7 @@ fitZig <- function(obj,
 # 		}
 # 	}
 # }
+
+.shrink_fitZig_coefs <- function(obj) {
+  obj
+}
