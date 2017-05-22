@@ -107,6 +107,9 @@ fitZig <- function(obj,
 	  dat$zUsed <- NULL
 	}
 
+	if (!is.null(dat$y)) {
+	  dat$y <- NULL
+	}
 	dat <- c(dat, list(call=match.call(),taxa=rownames(obj),counts=y))
 	dat
 }
@@ -197,7 +200,7 @@ fitZig <- function(obj,
   eb <- limma::eBayes(fit$fit)
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
               z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive, 
-              stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor)
+              stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor, y=y)
   dat
 }
 
