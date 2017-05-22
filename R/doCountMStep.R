@@ -43,6 +43,10 @@ doCountMStep <- function(z, y, mmCount,
 	  countMu = tcrossprod(countCoef, mmCount)
 	  residuals = sweep((y-countMu),1,fit$sigma,"/")
 	  dat = list(fit = fit, residuals = residuals)
+	  
+	  if (shrink_coefs) {
+	    dat <- .shrink_countMStep(dat)
+	  }
 	  return(dat)
 	  
 		# fit=limma::lmFit(y[stillActive,],mmCount,weights = (1-z[stillActive,]))
@@ -83,7 +87,13 @@ doCountMStep <- function(z, y, mmCount,
 		residuals[stillActive,] = r
 
 		dat = list(fit = fit2, residuals=residuals)
-
+    if (shrink_coefs) {
+      dat <- .shrink_countMStep(dat)
+    }
 		return(dat)
 	}
+}
+
+.shrink_countMStep <- function(dat) {
+  dat
 }
