@@ -1,3 +1,5 @@
+version 1.19.xx (2017)
+	+ Fixed filterData function in cases where column names are numeric
 version 1.15.xx (2016)
 	+ Added 'mergeMRexperiment' function
 	+ Added 'normFactors' and 'libSize' generics

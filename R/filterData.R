@@ -17,5 +17,5 @@ filterData <- function(obj,present=1,depth=1000){
     mat = returnAppropriateObj(obj,norm=FALSE,log=FALSE)>0
 	cols = which(colSums(MRcounts(obj))>=depth)
 	rows = which(rowSums(mat[,cols])>=present)
-	return(obj[rows,cols])
+	return(obj[names(rows),names(cols)])
 }
