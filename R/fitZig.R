@@ -196,6 +196,13 @@ fitZig <- function(obj,
     fit$residuals <- sweep((y-countMu), 1, fit$fit$sigma, "/")
   }
   
+  if (dfMethod == "modified") {
+    browser()
+    df <- pmax(1, fit$fit$df.residual)
+    fit$fit$df <- df
+    fit$fit$df.residual <- df
+  }
+  
   eb <- limma::eBayes(fit$fit)
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
               z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive, 
