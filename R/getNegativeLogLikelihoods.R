@@ -25,8 +25,8 @@ getNegativeLogLikelihoods <- function(z, countResiduals, zeroResiduals, per_feat
   	res <- res+sweep(z, 2, log(pi), FUN="*")
   	res <- res+sweep(1-z,2,log(1-pi), FUN="*")
 	} else {
-	  res <- res + z * log(pi)
-	  res <- res + (1-z) * log(1-pi)
+	  res <- res + ifelse(!is.na(pi), z * log(pi), 0)
+	  res <- res + ifelse(!is.na(pi), (1-z) * log(1-pi), 0)
 	}
 	-rowSums(res)
 }

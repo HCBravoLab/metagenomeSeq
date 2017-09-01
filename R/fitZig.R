@@ -157,7 +157,6 @@ fitZig <- function(obj,
   fit <- doCountMStep(z, y, count_model_matrix, stillActive, dfMethod=dfMethod)
   
   while (any(stillActive) && (curIt < maxit)) {
-    
     # M-step for count density (each feature independently)
     fit <- doCountMStep(z, y, count_model_matrix, stillActive, fit2=fit, dfMethod=dfMethod)
 
