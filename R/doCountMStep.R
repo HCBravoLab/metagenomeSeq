@@ -33,7 +33,7 @@ doCountMStep <- function(z, y, mmCount,
 	  fit=limma::lmFit(y,mmCount,weights = (1-z))
 	  
 	  if (dfMethod=="modified") {
-	    df = rowSums(1-z) - ncol(mmCount)
+	    df = pmax(1, rowSums(1-z) - ncol(mmCount))
 	    fit$df = df
 	    fit$df.residual = df
 	  }
@@ -69,7 +69,7 @@ doCountMStep <- function(z, y, mmCount,
 		fit2$Amean[stillActive] = fit$Amean
 
 		if (dfMethod=="modified") {
-			df = rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount)
+			df = pmax(1, rowSums(1-z[stillActive,,drop=FALSE]) - ncol(mmCount))
 			fit$df = df
 			fit$df.residual = df
 		}
