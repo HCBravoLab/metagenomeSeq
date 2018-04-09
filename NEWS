@@ -1,3 +1,5 @@
+version 1.21.xx (2018)
+	+ Numerous changes. Added greater flexibility to fitFeatureModel
 version 1.15.xx (2016)
 	+ Added 'mergeMRexperiment' function
 	+ Added 'normFactors' and 'libSize' generics
