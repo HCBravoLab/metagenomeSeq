@@ -50,8 +50,17 @@ fitFeatureModel<-function(obj,mod,coef=2,B=1,szero=FALSE,spos=TRUE){
 
   # These pieces get to be a part of the new zero-ln model!
   fitzeroln = fitZeroLogNormal(obj,mmCount,coef=coef,szero=szero,spos=spos)
+  
+  if(any(is.na(fitzeroln$logFC))){
+    feats = which(is.na(fitzeroln$logFC))
+    mat = MRcounts(obj[feats,], norm=TRUE, log=FALSE,sl=median(nf))
+    fit = lmFit(log(mat+1),mmCount)
+    fit = eBayes(fit)
+    fitzeroln$logFC[feats] = coefficients(fit)[,coef]
+    fitzeroln$se[feats] = (sqrt(fit$s2.post)*fit$stdev.unscaled)[,coef]
+  }
   zscore = fitzeroln$logFC/fitzeroln$se
-
+  
   if(B>1){
     permutations = replicate(B,sample(mmCount[,coef]))
     mmCountPerm  = mmCount
