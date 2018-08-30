@@ -14,8 +14,9 @@ association detection and the testing of feature correlations.
 
 To install the latest release version of metagenomeSeq:
 ```S
-source("http://bioconductor.org/biocLite.R")
-biocLite("metagenomeSeq")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("metagenomeSeq")
 ```
 
 To install the latest development version of metagenomeSeq:
