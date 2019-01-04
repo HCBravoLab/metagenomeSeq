@@ -1,6 +1,6 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.24.0
+Version: 1.24.1
 Date: 2016-07-21
 Author: Joseph Nathaniel Paulson, Nathan D. Olson, Justin Wagner, Hisham Talukder, Mihai Pop, Hector Corrada
     Bravo
@@ -38,7 +38,7 @@ Imports:
 VignetteBuilder: knitr
 URL: https://github.com/nosson/metagenomeSeq/
 BugReports: https://github.com/nosson/metagenomeSeq/issues
-biocViews: Classification, Clustering, GeneticVariability,
+biocViews: ImmunoOncology, Classification, Clustering, GeneticVariability,
     DifferentialExpression, Microbiome, Metagenomics, Normalization, Visualization,
     MultipleComparison, Sequencing, Software
 RoxygenNote: 6.0.1
