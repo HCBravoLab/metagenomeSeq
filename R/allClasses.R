@@ -1,9 +1,9 @@
-setClass("MRexperiment", contains=c("eSet"), representation=representation(expSummary = "environment"),prototype = prototype( new( "VersionedBiobase",versions = c(classVersion("eSet"),MRexperiment = "1.0.0" ))))
+setClass("MRexperiment", contains=c("eSet"), representation=representation(expSummary = "list"),prototype = prototype( new( "VersionedBiobase",versions = c(classVersion("eSet"),MRexperiment = "1.0.0" ))))
             
 setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
         obj= callNextMethod()
         if(!missing(j)){
-            obj@expSummary = new("environment",expSummary=as(expSummary(x)[j,1:2,...,drop=drop],"AnnotatedDataFrame"),cumNormStat=x@expSummary$cumNormStat)
+            obj@expSummary = new("list",expSummary=as(expSummary(x)[j,1:2,...,drop=drop],"AnnotatedDataFrame"),cumNormStat=x@expSummary$cumNormStat)
             if(length(pData(obj))>0){
               for(i in 1:length(pData(obj))){
                 if(is.factor(pData(obj)[,i])){
