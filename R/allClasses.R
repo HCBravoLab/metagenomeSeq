@@ -171,7 +171,7 @@ newMRexperiment <- function(counts, phenoData=NULL, featureData=NULL,libSize=NUL
       rownames(normFactors) = rownames(libSize)
     }
 
-    obj <-new("MRexperiment", assayData = assayDataNew("environment",counts=counts),phenoData = phenoData,featureData = featureData ,expSummary = new("environment",expSummary=annotatedDataFrameFrom(counts,byrow=FALSE),cumNormStat=NULL))
+    obj <-new("MRexperiment", assayData = assayDataNew("environment",counts=counts),phenoData = phenoData,featureData = featureData ,expSummary = new("list",expSummary=annotatedDataFrameFrom(counts,byrow=FALSE),cumNormStat=NULL))
     obj@expSummary$expSummary$libSize = libSize;
     obj@expSummary$expSummary$normFactors=normFactors;
     validObject(obj)
