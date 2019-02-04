@@ -285,6 +285,15 @@ The user can alternatively choose different percentiles for the normalization sc
 
 There are other functions, including \texttt{normFactors}, \texttt{cumNormMat}, that return the normalization factors or a normalized matrix for a specified percentile. To see a full list of functions please refer to the manual and help pages. 
 
+\subsubsection{Calculating normalization factors using Wrench}
+
+An alternative to normalizing counts using \texttt{cumNorm} is to use \texttt{wrenchNorm}. It behaves similarly to \texttt{cumNorm}, however, it takes the argument \texttt{condition} instead of \texttt{p}. \texttt{condition} is a character vector with values that separate samples into two groups that are being compared to one another. In the example below, \texttt{mouseData} samples are compared based on diet.
+
+<<wrenchNorm>>=
+condition = mouseData$diet
+mouseData = wrenchNorm(mouseData,condition=condition)
+@
+
 \subsection{Exporting data}
 To export normalized count matrices:
 <<saveData>>=
