@@ -1,5 +1,5 @@
 setClass("MRexperiment", contains=c("eSet"), representation=representation(expSummary = "list"),prototype = prototype( new( "VersionedBiobase",versions = c(classVersion("eSet"),MRexperiment = "1.0.0" ))))
-            
+
 setMethod("[", "MRexperiment", function (x, i, j, ..., drop = FALSE) {
         obj= callNextMethod()
         if(!missing(j)){
@@ -306,3 +306,4 @@ returnAppropriateObj <- function(obj,norm,log,sl=1000) {
   }
   mat
 }
+

@@ -4,7 +4,8 @@
 \alias{exportStats}
 \title{Various statistics of the count data.}
 \usage{
-exportStats(obj, p = cumNormStat(obj), file = "~/Desktop/res.stats.tsv")
+exportStats(obj, p = cumNormStat(obj),
+  file = "~/Desktop/res.stats.tsv")
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}

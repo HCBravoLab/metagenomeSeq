@@ -19,7 +19,7 @@ Depends:
     limma,
     glmnet,
     methods,
-    RColorBrewer
+    RColorBrewer  
 Suggests:
     annotate,
     BiocGenerics,
@@ -34,7 +34,12 @@ Imports:
     matrixStats,
     foreach,
     Matrix,
-    gplots
+    gplots,
+    graphics,
+    grDevices,
+    stats,
+    utils,
+    Wrench
 VignetteBuilder: knitr
 URL: https://github.com/nosson/metagenomeSeq/
 BugReports: https://github.com/nosson/metagenomeSeq/issues

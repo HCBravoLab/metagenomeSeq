@@ -4,7 +4,8 @@
 \alias{doCountMStep}
 \title{Compute the Maximization step calculation for features still active.}
 \usage{
-doCountMStep(z, y, mmCount, stillActive, fit2 = NULL, dfMethod = "modified")
+doCountMStep(z, y, mmCount, stillActive, fit2 = NULL,
+  dfMethod = "modified")
 }
 \arguments{
 \item{z}{Matrix (m x n) of estimate responsibilities (probabilities that a

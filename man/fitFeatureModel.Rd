@@ -4,7 +4,8 @@
 \alias{fitFeatureModel}
 \title{Computes differential abundance analysis using a zero-inflated log-normal model}
 \usage{
-fitFeatureModel(obj, mod, coef = 2, B = 1, szero = FALSE, spos = TRUE)
+fitFeatureModel(obj, mod, coef = 2, B = 1, szero = FALSE,
+  spos = TRUE)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}

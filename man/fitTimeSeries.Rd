@@ -4,9 +4,10 @@
 \alias{fitTimeSeries}
 \title{Discover differentially abundant time intervals}
 \usage{
-fitTimeSeries(obj, formula, feature, class, time, id, method = c("ssanova"),
-  lvl = NULL, include = c("class", "time:class"), C = 0, B = 1000,
-  norm = TRUE, log = TRUE, sl = 1000, featureOrder = NULL, ...)
+fitTimeSeries(obj, formula, feature, class, time, id,
+  method = c("ssanova"), lvl = NULL, include = c("class",
+  "time:class"), C = 0, B = 1000, norm = TRUE, log = TRUE,
+  sl = 1000, featureOrder = NULL, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}
