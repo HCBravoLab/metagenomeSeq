@@ -19,7 +19,7 @@ Depends:
     limma,
     glmnet,
     methods,
-    RColorBrewer
+    RColorBrewer  
 Suggests:
     annotate,
     BiocGenerics,
@@ -34,11 +34,16 @@ Imports:
     matrixStats,
     foreach,
     Matrix,
-    gplots
+    gplots,
+    graphics,
+    grDevices,
+    stats,
+    utils,
+    Wrench
 VignetteBuilder: knitr
 URL: https://github.com/nosson/metagenomeSeq/
 BugReports: https://github.com/nosson/metagenomeSeq/issues
 biocViews: Classification, Clustering, GeneticVariability,
     DifferentialExpression, Microbiome, Metagenomics, Normalization, Visualization,
     MultipleComparison, Sequencing, Software
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

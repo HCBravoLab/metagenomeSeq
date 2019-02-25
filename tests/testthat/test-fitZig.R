@@ -1,7 +1,9 @@
 ################################################################################
 # metagenomeSeq plot functions unit tests
 ################################################################################
-library("metagenomeSeq"); library("testthat"); 
+context("Testing fitZig")
+library("metagenomeSeq"); library("testthat");
+
 
 test_that("`fitZig` function provides expected values prior to split", {
   # uses the lung data and pre-calculated fitZig result from 

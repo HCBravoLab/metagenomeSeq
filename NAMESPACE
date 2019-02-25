@@ -3,6 +3,7 @@ import(RColorBrewer)
 import(limma)
 import(glmnet)
 import(methods)
+import(Wrench)
 importFrom(parallel,makeCluster)
 importFrom(parallel,stopCluster)
 importFrom(parallel,parRapply)
@@ -100,5 +101,6 @@ ts2MRexperiment,
 trapz,
 zigControl,
 newMRexperiment,
-posteriorProbs
+posteriorProbs,
+wrenchNorm
 )

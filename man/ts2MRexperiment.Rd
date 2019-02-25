@@ -5,10 +5,10 @@
 \title{With a list of fitTimeSeries results, generate
 an MRexperiment that can be plotted with metavizr}
 \usage{
-ts2MRexperiment(obj, sampleNames = NULL, sampleDescription = "timepoints",
-  taxonomyLevels = NULL, taxonomyHierarchyRoot = "bacteria",
-  taxonomyDescription = "taxonomy", featuresOfInterest = NULL,
-  featureDataOfInterest = NULL)
+ts2MRexperiment(obj, sampleNames = NULL,
+  sampleDescription = "timepoints", taxonomyLevels = NULL,
+  taxonomyHierarchyRoot = "bacteria", taxonomyDescription = "taxonomy",
+  featuresOfInterest = NULL, featureDataOfInterest = NULL)
 }
 \arguments{
 \item{obj}{Output of fitMultipleTimeSeries}
