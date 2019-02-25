@@ -1,7 +1,9 @@
 ################################################################################
 # metagenomeSeq plot functions unit tests
 ################################################################################
-library("metagenomeSeq"); library("testthat"); 
+context("Testing norm factor calculation")
+library("metagenomeSeq"); library("testthat")
+
 
 test_that("`calcNormFactors` function provides expected values", {
   # uses the lung data and pre-calculated normalization factors 

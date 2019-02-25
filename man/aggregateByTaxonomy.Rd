@@ -3,7 +3,6 @@
 \name{aggregateByTaxonomy}
 \alias{aggregateByTaxonomy}
 \alias{aggTax}
-\alias{aggTax}
 \title{Aggregates a MRexperiment object or counts matrix to a particular level.}
 \usage{
 aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = FALSE,

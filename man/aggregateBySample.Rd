@@ -3,7 +3,6 @@
 \name{aggregateBySample}
 \alias{aggregateBySample}
 \alias{aggSamp}
-\alias{aggSamp}
 \title{Aggregates a MRexperiment object or counts matrix to by a factor.}
 \usage{
 aggregateBySample(obj, fct, aggfun = rowMeans, out = "MRexperiment")
