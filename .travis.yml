@@ -1,6 +1,7 @@
 # Sample .travis.yml for R projects
 
 language: r
+r: bioc-devel
 bioc_required: true
 warnings_are_errors: true
 r_build_args: " --compact-vignettes=gs+qpdf" 
