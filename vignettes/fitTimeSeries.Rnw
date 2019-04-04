@@ -192,6 +192,7 @@ str(res)
 
 For example, to test every class in the mouse dataset:
 <<timeSeriesAllClasses, tidy=FALSE>>=
+set.seed(123)
 classes = unique(fData(mouseData)[,"class"])
 
 timeSeriesFits = lapply(classes,function(i){
