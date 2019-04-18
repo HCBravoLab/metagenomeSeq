@@ -192,6 +192,7 @@ str(res)
 
 For example, to test every class in the mouse dataset:
 <<timeSeriesAllClasses, tidy=FALSE>>=
+set.seed(123)
 classes = unique(fData(mouseData)[,"class"])
 
 timeSeriesFits = lapply(classes,function(i){
@@ -208,7 +209,7 @@ names(timeSeriesFits) = classes
 
 # Removing classes of bacteria without a potentially
 # interesting time interval difference.
-timeSeriesFits = sapply(timeSeriesFits,function(i){i[[1]]})[-grep("No",timeSeriesFits)]
+timeSeriesFits = lapply(timeSeriesFits,function(i){i[[1]]})[-grep("No",timeSeriesFits)]
 
 # Naming the various interesting time intervals.
 for(i in 1:length(timeSeriesFits)){

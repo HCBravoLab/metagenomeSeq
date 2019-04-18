@@ -10,6 +10,6 @@ test_that( "norm factors generated are correct",{
   lungData <- lungData[, -which(is.na(pData(lungData)$SmokingStatus))]
   lungData2 <- wrenchNorm(lungData, condition = lungData$SmokingStatus)
   mouseData2 <- wrenchNorm(mouseData, condition = mouseData$diet)
-  expect_equal(as.numeric(normFactors(lungData2)[1:10]), lungNF)
+  expect_equal(as.numeric(normFactors(lungData2)[1:10]), lungNF, tolerance=1e-03)
   expect_equal(as.numeric(unlist(normFactors(mouseData2)[1:10])), mouseNF, tolerance = 1e-03)
 })
