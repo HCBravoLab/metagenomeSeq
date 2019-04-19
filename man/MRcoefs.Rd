@@ -4,9 +4,9 @@
 \alias{MRcoefs}
 \title{Table of top-ranked features from fitZig or fitFeatureModel}
 \usage{
-MRcoefs(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
-  uniqueNames = FALSE, adjustMethod = "fdr", group = 0, eff = 0,
-  numberEff = FALSE, counts = 0, file = NULL)
+MRcoefs(obj, by = 2, coef = NULL, number = 10, taxa = obj@taxa,
+  uniqueNames = FALSE, adjustMethod = "fdr", alpha = 0.1,
+  group = 0, eff = 0, numberEff = FALSE, counts = 0, file = NULL)
 }
 \arguments{
 \item{obj}{Output of fitFeatureModel or fitZig.}
@@ -24,8 +24,11 @@ or contrast of the linear model to display.}
 \item{uniqueNames}{Number the various taxa.}
 
 \item{adjustMethod}{Method to adjust p-values by. Default is "FDR". Options
-include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
+include "IHW", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 "none". See \code{\link{p.adjust}} for more details.}
+
+\item{alpha}{Value for p-value significance threshold when running IHW. 
+The default is set to 0.1}
 
 \item{group}{One of five choices, 0,1,2,3,4. 0: the sort is ordered by a
 decreasing absolute value coefficient fit. 1: the sort is ordered by the raw
@@ -40,6 +43,11 @@ of the coefficient fit in increasing order. 4: no sorting.}
 \item{counts}{Filter features to have at least 'counts' counts.}
 
 \item{file}{Name of output file, including location, to save the table.}
+
+\item{IHWcov}{Character value specifying which covariate to use when adjusting pvalues
+using IHW. Options include: "nnz" (number of non-zero elements per feature), 
+"median" (median abundance value per feature), "Amean" (adjusted mean, used for a 
+fitZigResults obj)}
 }
 \value{
 Table of the top-ranked features determined by the linear fit's

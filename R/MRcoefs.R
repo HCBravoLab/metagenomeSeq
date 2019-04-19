@@ -14,8 +14,14 @@
 #' @param taxa Taxa list.
 #' @param uniqueNames Number the various taxa.
 #' @param adjustMethod Method to adjust p-values by. Default is "FDR". Options
-#' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
+#' include "IHW", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
 #' "none". See \code{\link{p.adjust}} for more details.
+#' @param IHWcov Character value specifying which covariate to use when adjusting pvalues
+#' using IHW. Options include: "nnz" (number of non-zero elements per feature), 
+#' "median" (median abundance value per feature), "Amean" (adjusted mean, used for a 
+#' fitZigResults obj)
+#' @param alpha Value for p-value significance threshold when running IHW. 
+#' The default is set to 0.1 
 #' @param group One of five choices, 0,1,2,3,4. 0: the sort is ordered by a
 #' decreasing absolute value coefficient fit. 1: the sort is ordered by the raw
 #' coefficient fit in decreasing order. 2: the sort is ordered by the raw
@@ -43,21 +49,22 @@
 #' fit = fitFeatureModel(obj = lungTrim,mod=mod)
 #' head(MRcoefs(fit))
 #'
-MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
-    uniqueNames=FALSE,adjustMethod="fdr",group=0,eff=0,numberEff=FALSE,counts=0,file=NULL){
+MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj@taxa,
+    uniqueNames=FALSE,adjustMethod="fdr",alpha=0.1,
+    group=0,eff=0,numberEff=FALSE,counts=0,file=NULL){
 
-    if(length(grep("fitFeatureModel",obj$call))){
-        groups = factor(obj$design[,by])
+    if(length(grep("fitFeatureModel",obj@call))){
+        groups = factor(obj@design[,by])
         by = "logFC"; coef = 1:2;
-        tb = data.frame(logFC=obj$fitZeroLogNormal$logFC,se=obj$fitZeroLogNormal$se)
-        p  = obj$pvalues
+        tb = data.frame(logFC=obj@fitZeroLogNormal$logFC,se=obj@fitZeroLogNormal$se)
+        p  = obj@pvalues
     } else {
-        tb = obj$fit$coefficients
+        tb = obj@fit$coefficients
         if(is.null(coef)){
             coef = 1:ncol(tb)
         }
-        p=obj$eb$p.value[,by]
-        groups = factor(obj$fit$design[,by])
+        p=obj@eb$p.value[,by]
+        groups = factor(obj@fit$design[,by])
         if(eff>0){
             effectiveSamples = calculateEffectiveSamples(obj)
             if(numberEff == FALSE){
@@ -75,8 +82,24 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
             tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
         }
     }
-    padj = p.adjust(p,method=adjustMethod)
-
+    
+    # # adding IHW as pvalue adjustment method
+    # if(adjustMethod == "ihw") {
+    #   # run MRihw
+    #   padj = MRihw(obj, p, IHWcov, alpha)
+    # } else {
+    #   padj = p.adjust(p, method = adjustMethod) # use classic pvalue adjusment methods
+    # }
+    
+    # adding 'ihw' as pvalue adjustment method
+    if (adjustMethod == "ihw-ubiquity" | adjustMethod == "ihw-abundance") {
+      # use IHW to adjust pvalues
+      padj = MRihw(obj, p, adjustMethod, alpha)
+    } else {
+      # use classic pvalue adjusment method
+      padj = p.adjust(p, method = adjustMethod)
+    }
+    
     if(group==0){
         srt = order(abs(tb[,by]),decreasing=TRUE)
     } else if(group==1){
@@ -91,7 +114,7 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
     
     valid = 1:length(padj);
     if(counts>0){
-        np=rowSums(obj$counts);
+        np=rowSums(obj@counts);
         valid = intersect(valid,which(np>=counts));
     }
     srt = srt[which(srt%in%valid)][1:min(number,nrow(tb))];
