@@ -4,6 +4,7 @@ import(limma)
 import(glmnet)
 import(methods)
 import(Wrench)
+importFrom(IHW,ihw)
 importFrom(parallel,makeCluster)
 importFrom(parallel,stopCluster)
 importFrom(parallel,parRapply)
@@ -25,7 +26,9 @@ importFrom("stats", "approx", "approxfun", "binomial", "cmdscale",
              "sd", "var")
 importFrom("utils", "packageVersion", "read.delim", "read.table",
              "tail")
-exportClasses( "MRexperiment" )
+exportClasses( "MRexperiment",
+               "fitFeatureModelResults",
+               "fitZigResults")
 
 exportMethods(
 "[",
@@ -36,7 +39,8 @@ exportMethods(
 "normFactors",
 "normFactors<-",
 "libSize",
-"libSize<-"
+"libSize<-",
+"MRihw"
 )
 
 export(

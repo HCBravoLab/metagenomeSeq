@@ -287,7 +287,7 @@ There are other functions, including \texttt{normFactors}, \texttt{cumNormMat}, 
 
 \subsubsection{Calculating normalization factors using Wrench}
 
-An alternative to normalizing counts using \texttt{cumNorm} is to use \texttt{wrenchNorm}. It behaves similarly to \texttt{cumNorm}, however, it takes the argument \texttt{condition} instead of \texttt{p}. \texttt{condition} is a character vector with values that separate samples into two groups that are being compared to one another. In the example below, \texttt{mouseData} samples are compared based on diet.
+An alternative to normalizing counts using \texttt{cumNorm} is to use \texttt{wrenchNorm}. It behaves similarly to \texttt{cumNorm}, however, it takes the argument \texttt{condition} instead of \texttt{p}. \texttt{condition} is a factor with values that separate samples into phenotypic groups of interest. When appropriate, wrench normalization is preferrable over cumulative normalization (see https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-5160-5 for details). In the example below, \texttt{mouseData} samples are compared based on diet.
 
 <<wrenchNorm>>=
 condition = mouseData$diet
@@ -346,7 +346,7 @@ The depth of coverage in a sample is directly related to how many features are d
 
 Function \texttt{fitZig} performs a complex mathematical optimization routine to estimate probabilities that a zero for a particular feature in a sample is a technical zero or not. The function relies heavily on the \texttt{limma} package \cite{limma}. Design matrices can be created in R by using the \texttt{model.matrix} function and are inputs for \texttt{fitZig}. 
 
-For large survey studies it is often pertinent to include phenotype information or confounders into a design matrix when testing the association between the abundance of taxonomic features and a phenotype phenotype of interest (disease, for
+For large survey studies it is often pertinent to include phenotype information or confounders into a design matrix when testing the association between the abundance of taxonomic features and a phenotype of interest (disease, for
 instance). Our linear model methodology can easily incorporate these
 confounding covariates in a straightforward manner. \texttt{fitZig} output includes weighted fits for each of the $m$ features. Results can be filtered and saved using \texttt{MRcoefs} or \texttt{MRtable}.
 
@@ -386,7 +386,7 @@ fit = fitZig(obj = lungTrim,mod=mod,useCSSoffset = FALSE,
 The result, \texttt{fit}, is a list providing detailed estimates of the fits including a 
 \texttt{limma} fit in \texttt{fit\$fit} and an \texttt{ebayes} statistical fit in \texttt{fit\$eb}.
 This data can be analyzed like any \texttt{limma} fit and in this example, the column of 
-the fitted coefficientsrepresents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
+the fitted coefficients represents the fold-change for our "smoker" vs. "nonsmoker" analysis. 
 
 Looking at the particular analysis just performed, there appears to be OTUs representing two
 \textit{Prevotella}, two \textit{Neisseria}, a \textit{Porphyromonas} and a \textit{Leptotrichia} that are differentially abundant. One should check that similarly annotated OTUs are not equally differentially abundant in controls. 
@@ -406,8 +406,8 @@ res = fitZig(obj = lungTrim,mod=mod,control=settings)
 # The output of fitZig contains a list of various useful items. hint: names(res).
 # 
 # Probably the most useful is the limma 'MLArrayLM' object called fit.
-zigFit = res$fit
-finalMod = res$fit$design
+zigFit = slot(res,"fit")
+finalMod = slot(res,"fit")$design
 
 contrast.matrix = makeContrasts(BAL.A-BAL.B,OW-PSB,levels=finalMod)
 fit2 = contrasts.fit(zigFit, contrast.matrix)

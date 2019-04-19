@@ -39,7 +39,8 @@ Imports:
     grDevices,
     stats,
     utils,
-    Wrench
+    Wrench,
+    IHW
 VignetteBuilder: knitr
 URL: https://github.com/nosson/metagenomeSeq/
 BugReports: https://github.com/nosson/metagenomeSeq/issues
