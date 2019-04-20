@@ -24,7 +24,7 @@ considers compositional bias introduced by sequencers.
 \examples{
 
 data(mouseData)
-mouseData <- wrenchNorm(mouseData)
+mouseData <- wrenchNorm(mouseData, condition = mouseData$diet)
 head(normFactors(mouseData))
 
 }

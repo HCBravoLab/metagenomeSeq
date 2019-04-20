@@ -15,9 +15,10 @@ setGeneric("MRihw", function(obj, ...){standardGeneric("MRihw")})
 #' @rdname MRihw-fitFeatureModelResults
 #' @param obj Either a fitFeatureModelResults or fitZigResults object
 #' @param p a vector of pvalues extracted from obj
-#' @param IHWcov Value specifying which covariate to use in IHW pvalue adjustment. For obj
-#' of class \code{\link{fitFeatureModelResults}}, options are "median" and "nnz" (number of non-zero 
-#' features per row). For obj of class \code{\link{fitZigResults}}, options are "Amean" and "nnz".
+#' @param adjustMethod Value specifying which adjustment method and which covariate to use for IHW pvalue adjustment. 
+#' For obj of class \code{\link{fitFeatureModelResults}}, options are "ihw-abundance" (median feature count per row) 
+#' and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults}}, 
+#' options are "ihw-abundance" (weighted mean per feature) and "ihw-ubiquity" (number of non-zero features per row). 
 #' @param alpha pvalue significance level specified for IHW call. Default is 0.1
 #' 
 setMethod("MRihw", signature = "fitFeatureModelResults", function(obj, p, adjustMethod, alpha){
@@ -44,9 +45,10 @@ setMethod("MRihw", signature = "fitFeatureModelResults", function(obj, p, adjust
 #' @rdname MRihw-fitZigResults
 #' @param obj Either a fitFeatureModelResults or fitZigResults object
 #' @param p a vector of pvalues extracted from obj
-#' @param IHWcov Value specifying which covariate to use in IHW pvalue adjustment. For obj
-#' of class \code{\link{fitFeatureModelResults}}, options are "median" and "nnz" (number of non-zero 
-#' features per row). For obj of class \code{\link{fitZigResults}}, options are "Amean" and "nnz".
+#' @param adjustMethod Value specifying which adjustment method and which covariate to use for IHW pvalue adjustment. 
+#' For obj of class \code{\link{fitFeatureModelResults}}, options are "ihw-abundance" (median feature count per row) 
+#' and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults}}, 
+#' options are "ihw-abundance" (weighted mean per feature) and "ihw-ubiquity" (number of non-zero features per row). 
 #' @param alpha pvalue significance level specified for IHW call. Default is 0.1
 #' 
 setMethod("MRihw", signature = "fitZigResults", function(obj, p, adjustMethod, alpha){

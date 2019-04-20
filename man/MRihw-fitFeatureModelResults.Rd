@@ -12,11 +12,12 @@
 
 \item{p}{a vector of pvalues extracted from obj}
 
-\item{alpha}{pvalue significance level specified for IHW call. Default is 0.1}
+\item{adjustMethod}{Value specifying which adjustment method and which covariate to use for IHW pvalue adjustment. 
+For obj of class \code{\link{fitFeatureModelResults}}, options are "ihw-abundance" (median feature count per row) 
+and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults}}, 
+options are "ihw-abundance" (weighted mean per feature) and "ihw-ubiquity" (number of non-zero features per row).}
 
-\item{IHWcov}{Value specifying which covariate to use in IHW pvalue adjustment. For obj
-of class \code{\link{fitFeatureModelResults}}, options are "median" and "nnz" (number of non-zero 
-features per row). For obj of class \code{\link{fitZigResults}}, options are "Amean" and "nnz".}
+\item{alpha}{pvalue significance level specified for IHW call. Default is 0.1}
 }
 \description{
 Function used in MRcoefs() when "IHW" is set as the p value adjustment method

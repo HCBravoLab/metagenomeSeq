@@ -14,7 +14,7 @@
 #' @examples
 #' 
 #' data(mouseData)
-#' mouseData <- wrenchNorm(mouseData)
+#' mouseData <- wrenchNorm(mouseData, condition = mouseData$diet)
 #' head(normFactors(mouseData))
 #' 
 wrenchNorm <- function(obj, condition) {
