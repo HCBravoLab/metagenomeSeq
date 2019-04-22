@@ -4,6 +4,7 @@ language: r
 r: bioc-devel
 bioc_required: true
 warnings_are_errors: true
+fortran: true
 r_build_args: " --compact-vignettes=gs+qpdf" 
 sudo: required
 
