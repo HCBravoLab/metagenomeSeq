@@ -25,7 +25,13 @@ test_that("`fitZig` function provides expected values prior to split", {
   # because the ordering is wrong
   expect_failure(expect_equal(fit,fit2))
   # check that they're equal now 
-  fit2 = fit2[names(fit)]
+  #fit2 = fit2[names(fit)] # old way
+  setAs("fitZigResults", "list", function(from) {
+    list(call = from@call, fit = from@fit, countResiduals = from@countResiduals, 
+         z = from@z, eb = from@eb, taxa = from@taxa, counts = from@counts, zeroMod = from@zeroMod, 
+         stillActive = from@stillActive, stillActiveNLL = from@stillActiveNLL, zeroCoef = from@zeroCoef, 
+         dupcor = from@dupcor) }) # new way
+  fit2 = as(fit2, "list")
   expect_equal(fit,fit2)
 })
 
@@ -49,7 +55,9 @@ test_that("`fitZig` function treats a matrix the same", {
   settings = zigControl(maxit=1,verbose=FALSE)
   cnts = MRcounts(lungTrim)
   fit2 = fitZig(obj = lungTrim,mod=mod,control=settings,useCSSoffset=FALSE)
-  fit2 = fit2[names(fit)]
+  #fit2 = fit2[names(fit)] # old way
+  # new way - turning fitZigResults back to list
+  fit2 = as(fit2, "list")
 
   # expecting failure because of call
   expect_failure(expect_equal(fit,fit2))

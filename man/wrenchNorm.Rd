@@ -9,13 +9,25 @@ wrenchNorm(obj, condition)
 \arguments{
 \item{obj}{an MRexperiment object}
 
-\item{condition}{case control label that wrench uses to calculate normalization factors}
+\item{condition}{case control label that wrench uses to calculate 
+normalization factors}
+}
+\value{
+an MRexperiment object with updated normalization factors.
+Accessible by \code{\link{normFactors}}.
 }
 \description{
-Behaves in a similar manner to cumNorm but uses method published by
-M. Sentil Kumar et al. (2018) to compute normalization factors which consider
-compositional bias introduced by sequencers
+Calculates normalization factors using method published by
+M. Sentil Kumar et al. (2018) to compute normalization factors which 
+considers compositional bias introduced by sequencers.
+}
+\examples{
+
+data(mouseData)
+mouseData <- wrenchNorm(mouseData, condition = mouseData$diet)
+head(normFactors(mouseData))
+
 }
 \seealso{
-\code{\link{cumNorm}}
+\code{\link{cumNorm}} \code{\link{fitZig}}
 }

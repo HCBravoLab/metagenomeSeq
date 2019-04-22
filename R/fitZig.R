@@ -100,7 +100,16 @@ fitZig <- function(obj,
 	dat$zUsed <- NULL
 	
 	dat <- c(dat, list(call=match.call(),taxa=rownames(obj),counts=y))
-	dat
+	
+	# old way of outputting results with list
+	# dat <- c(dat, list(call=match.call(),taxa=rownames(obj),counts=y))
+	
+	# new output with defined results class
+	dat <- new("fitZigResults", fit=dat$fit, countResiduals=dat$countResiduals,
+	           z=dat$z, zUsed=dat$zUsed, eb=dat$eb, zeroMod=dat$zeroMod, stillActive=dat$stillActive,
+	           stillActiveNLL=dat$stillActiveNLL, zeroCoef=dat$zeroCoef, dupcor=dat$dupcor, call = dat$call,
+	           taxa = rownames(obj), counts = dat$counts)
+ 	dat
 }
 
 .do_fitZig <- function(y, 
@@ -181,7 +190,7 @@ fitZig <- function(obj,
   
   eb <- limma::eBayes(fit$fit)
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
-              z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive, 
+              z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive,
               stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor)
   dat
 }

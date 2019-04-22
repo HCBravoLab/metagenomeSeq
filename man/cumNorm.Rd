@@ -22,7 +22,7 @@ that quantile.
 \examples{
 
 data(mouseData)
-cumNorm(mouseData)
+mouseData <- cumNorm(mouseData)
 head(normFactors(mouseData))
 
 }

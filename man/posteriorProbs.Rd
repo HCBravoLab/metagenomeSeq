@@ -29,7 +29,7 @@ lungTrim = cumNorm(lungTrim)
 lungTrim = lungTrim[-k,]
 smokingStatus = pData(lungTrim)$SmokingStatus
 mod = model.matrix(~smokingStatus)
-# The maxit is not meant to be 1 - this is for demonstration/speed
+# The maxit is not meant to be 1 -- this is for demonstration/speed
 settings = zigControl(maxit=1,verbose=FALSE)
 fit = fitZig(obj = lungTrim,mod=mod,control=settings)
 head(posteriorProbs(lungTrim))

@@ -11,7 +11,7 @@
 #' @examples
 #' 
 #' data(mouseData)
-#' cumNorm(mouseData)
+#' mouseData <- cumNorm(mouseData)
 #' head(normFactors(mouseData))
 #' 
 cumNorm <- function(obj,p=cumNormStatFast(obj)){

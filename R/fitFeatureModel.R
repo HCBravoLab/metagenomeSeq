@@ -76,7 +76,13 @@ fitFeatureModel<-function(obj,mod,coef=2,B=1,szero=FALSE,spos=TRUE){
   } else {
     pvals = 2*(1-pnorm(abs(zscore)))
   }
-  res = list(call=match.call(),fitZeroLogNormal=fitzeroln,design=mmCount,
-    taxa=rownames(obj),counts=MRcounts(obj),pvalues=pvals,permuttedFits=permuttedFits)
+  # old way of creating results object
+  # res = list(call=match.call(),fitZeroLogNormal=fitzeroln,design=mmCount,
+  #   taxa=rownames(obj),counts=MRcounts(obj),pvalues=pvals,permuttedFits=permuttedFits)
+  
+  # new way with defined results class
+  res = new("fitFeatureModelResults", call = match.call(), fitZeroLogNormal=fitzeroln, 
+            design = mmCount, taxa = rownames(obj), counts = MRcounts(obj), 
+            pvalues = pvals, permuttedFits = permuttedFits)
   res
 }
