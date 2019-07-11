@@ -2,8 +2,8 @@ Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
 Version: 1.27.0
 Date: 2016-07-21
-Author: Joseph Nathaniel Paulson, Nathan D. Olson, Justin Wagner, Hisham Talukder, Mihai Pop, Hector Corrada
-    Bravo
+Author: Joseph Nathaniel Paulson, Nathan D. Olson, Domenick J. Braccia, 
+    Justin Wagner, Hisham Talukder, Mihai Pop, Hector Corrada Bravo
 Maintainer: Joseph N. Paulson <jpaulson@jimmy.harvard.edu>
 Description: metagenomeSeq is designed to determine features (be it
     Operational Taxanomic Unit (OTU), species, etc.) that are
