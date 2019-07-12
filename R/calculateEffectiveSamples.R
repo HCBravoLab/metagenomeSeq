@@ -10,5 +10,5 @@
 #' @seealso \code{\link{fitZig}} \code{\link{MRcoefs}} \code{\link{MRfulltable}}
 #' 
 calculateEffectiveSamples<-function(obj){
-    rowSums(1-obj$z)
+    rowSums(1-obj@z)
 }
