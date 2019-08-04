@@ -8,8 +8,7 @@
 #' ensure significant features called are moderately present.
 #' 
 #' 
-#' @param obj A list containing the linear model fit produced by lmFit through
-#' fitZig.
+#' @param obj  Output of fitFeatureModel or fitZig.
 #' @param by Column number or column name specifying which coefficient or
 #' contrast of the linear model is of interest.
 #' @param coef Column number(s) or column name(s) specifying which coefficient
@@ -43,26 +42,26 @@
 #' smokingStatus = pData(lungTrim)$SmokingStatus
 #' mod = model.matrix(~smokingStatus)
 #' fit = fitZig(obj = lungTrim,mod=mod)
-#' # head(MRfulltable(fit))
+#' head(MRfulltable(fit))
 #' ####
 #' fit = fitFeatureModel(obj = lungTrim,mod=mod)
-#' # head(MRfulltable(fit))
+#' head(MRfulltable(fit))
 #'
-MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
+MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj@taxa,
     uniqueNames=FALSE,adjustMethod="fdr",group=0,eff=0,numberEff=FALSE,ncounts=0,file=NULL){
     
-    if(length(grep("fitFeatureModel",obj$call))){
-        groups = factor(obj$design[,by])
+    if(length(grep("fitFeatureModel",obj@call))){
+        groups = factor(obj@design[,by])
         by = "logFC"; coef = 1:2;
-        tb = data.frame(logFC=obj$fitZeroLogNormal$logFC,se=obj$fitZeroLogNormal$se)
-        p  = obj$pvalues
+        tb = data.frame(logFC=obj@fitZeroLogNormal$logFC,se=obj@fitZeroLogNormal$se)
+        p  = obj@pvalues
     } else {
-        tb = obj$fit$coefficients
+        tb = obj@fit$coefficients
         if(is.null(coef)){
             coef = 1:ncol(tb)
         }
-        p=obj$eb$p.value[,by]
-        groups = factor(obj$fit$design[,by])
+        p=obj@eb$p.value[,by]
+        groups = factor(obj@fit$design[,by])
         if(eff>0){
             effectiveSamples = calculateEffectiveSamples(obj)
             if(numberEff == FALSE){
@@ -81,10 +80,10 @@ MRfulltable<-function(obj,by=2,coef=NULL,number=10,taxa=obj$taxa,
         }
     }
     padj = p.adjust(p,method=adjustMethod)
-    cnts = obj$counts
+    cnts = obj@counts
     yy = cnts>0
     
-    pa = matrix(unlist(fitPA(obj$counts,groups)),ncol=5)
+    pa = matrix(unlist(fitPA(obj@counts,groups)),ncol=5)
     
     np0 = rowSums(yy[,groups==0])
     np1 = rowSums(yy[,groups==1])

@@ -5,13 +5,12 @@
 \title{Table of top microbial marker gene from linear model fit including sequence
 information}
 \usage{
-MRfulltable(obj, by = 2, coef = NULL, number = 10, taxa = obj$taxa,
+MRfulltable(obj, by = 2, coef = NULL, number = 10, taxa = obj@taxa,
   uniqueNames = FALSE, adjustMethod = "fdr", group = 0, eff = 0,
   numberEff = FALSE, ncounts = 0, file = NULL)
 }
 \arguments{
-\item{obj}{A list containing the linear model fit produced by lmFit through
-fitZig.}
+\item{obj}{Output of fitFeatureModel or fitZig.}
 
 \item{by}{Column number or column name specifying which coefficient or
 contrast of the linear model is of interest.}
@@ -64,10 +63,10 @@ lungTrim=cumNorm(lungTrim,p=0.5)
 smokingStatus = pData(lungTrim)$SmokingStatus
 mod = model.matrix(~smokingStatus)
 fit = fitZig(obj = lungTrim,mod=mod)
-# head(MRfulltable(fit))
+head(MRfulltable(fit))
 ####
 fit = fitFeatureModel(obj = lungTrim,mod=mod)
-# head(MRfulltable(fit))
+head(MRfulltable(fit))
 
 }
 \seealso{
