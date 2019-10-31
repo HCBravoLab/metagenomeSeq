@@ -53,6 +53,12 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj@taxa,
     uniqueNames=FALSE,adjustMethod="fdr",alpha=0.1,
     group=0,eff=0,numberEff=FALSE,counts=0,file=NULL){
 
+    if (adjustMethod == "ihw-ubiquity" || adjustMethod == "ihw-abundance") {
+	if (!require(IHW)) {
+	  stop("Adjustment using IHW for adjustment requires the 'IHW' package. Please install.")
+	}
+    } 
+
     if(length(grep("fitFeatureModel",obj@call))){
         groups = factor(obj@design[,by])
         by = "logFC"; coef = 1:2;
