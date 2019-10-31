@@ -28,7 +28,8 @@ Suggests:
     gss,
     testthat (>= 0.8),
     vegan,
-    interactiveDisplay
+    interactiveDisplay,
+    IHW
 Imports:
     parallel,
     matrixStats,
@@ -39,8 +40,7 @@ Imports:
     grDevices,
     stats,
     utils,
-    Wrench,
-    IHW
+    Wrench
 VignetteBuilder: knitr
 URL: https://github.com/nosson/metagenomeSeq/
 BugReports: https://github.com/nosson/metagenomeSeq/issues
