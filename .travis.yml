@@ -1,7 +1,7 @@
 # Sample .travis.yml for R projects
 
 language: r
-r: bioc-devel
+r: bioc-release
 bioc_required: true
 warnings_are_errors: true
 fortran: true
