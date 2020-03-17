@@ -258,7 +258,7 @@ calcStandardError<-function(mod,fitln,fitzero,coef=2,exclude=NULL){
       p0 <- t(exp(theta0) / (1+exp(theta0)))
 
       checkInverse <- function(m){
-        class(try(qr.solve(m),silent=T))=="matrix"
+        inherits(try(qr.solve(m),silent=T), "matrix")
       }
       
       Dp2 <- diag(length(p))*as.vector(p*(1-p))
