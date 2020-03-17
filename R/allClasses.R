@@ -341,9 +341,9 @@ expSummary<-function(obj){
 #' head(returnAppropriateObj(lungData,norm=FALSE,log=FALSE))
 #'
 returnAppropriateObj <- function(obj,norm,log,sl=1000) {
-  if(class(obj)=="MRexperiment"){
+  if (inherits(obj, "MRexperiment")) {
     mat = MRcounts(obj,norm=norm,log=log,sl=sl)
-  } else if(class(obj) == "matrix") {
+  } else if (inherits(obj, "matrix")) {
     mat = obj
   } else {
     stop("Object needs to be either a MRexperiment object or matrix")
