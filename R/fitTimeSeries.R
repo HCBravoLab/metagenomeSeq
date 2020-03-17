@@ -471,8 +471,8 @@ plotClassTimeSeries<-function(res,formula,xlab="Time",ylab="Abundance",color0="b
     }
     
     timePoints = seq(min(dat$time),max(dat$time),by=1)
-    group0 = data.frame(time=timePoints,class=levels(dat$class)[1])
-    group1 = data.frame(time=timePoints,class=levels(dat$class)[2])
+    group0 = data.frame(time=timePoints,class=factor(levels(dat$class)[1]))
+    group1 = data.frame(time=timePoints,class=factor(levels(dat$class)[2]))
 
     pred0  = predict(mod, newdata=group0,include=include, se=TRUE)
     pred1  = predict(mod, newdata=group1,include=include, se=TRUE)

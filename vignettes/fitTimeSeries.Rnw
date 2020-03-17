@@ -159,6 +159,9 @@ res2 = fitTimeSeries(obj,feature=2,
 
 
 classInfo = factor(res1$data$class)
+@
+
+<<plotMRexperiment3,tidy=FALSE>>=
 par(mfrow=c(3,1))
 plotClassTimeSeries(res1,pch=21,bg=classInfo)
 plotTimeSeries(res2)
