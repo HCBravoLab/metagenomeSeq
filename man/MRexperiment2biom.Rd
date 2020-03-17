@@ -4,8 +4,14 @@
 \alias{MRexperiment2biom}
 \title{MRexperiment to biom objects}
 \usage{
-MRexperiment2biom(obj, id = NULL, norm = FALSE, log = FALSE,
-  sl = 1000, qiimeVersion = TRUE)
+MRexperiment2biom(
+  obj,
+  id = NULL,
+  norm = FALSE,
+  log = FALSE,
+  sl = 1000,
+  qiimeVersion = TRUE
+)
 }
 \arguments{
 \item{obj}{The MRexperiment object.}

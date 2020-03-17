@@ -4,8 +4,7 @@
 \alias{ssIntervalCandidate}
 \title{calculate interesting time intervals}
 \usage{
-ssIntervalCandidate(fit, standardError, timePoints, positive = TRUE,
-  C = 0)
+ssIntervalCandidate(fit, standardError, timePoints, positive = TRUE, C = 0)
 }
 \arguments{
 \item{fit}{SS-Anova fits.}

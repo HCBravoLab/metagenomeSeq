@@ -4,8 +4,13 @@
 \alias{newMRexperiment}
 \title{Create a MRexperiment object}
 \usage{
-newMRexperiment(counts, phenoData = NULL, featureData = NULL,
-  libSize = NULL, normFactors = NULL)
+newMRexperiment(
+  counts,
+  phenoData = NULL,
+  featureData = NULL,
+  libSize = NULL,
+  normFactors = NULL
+)
 }
 \arguments{
 \item{counts}{A matrix or data frame of count data. The count data is

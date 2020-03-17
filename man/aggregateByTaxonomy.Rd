@@ -5,13 +5,31 @@
 \alias{aggTax}
 \title{Aggregates a MRexperiment object or counts matrix to a particular level.}
 \usage{
-aggregateByTaxonomy(obj, lvl, alternate = FALSE, norm = FALSE,
-  log = FALSE, aggfun = colSums, sl = 1000, featureOrder = NULL,
-  returnFullHierarchy = TRUE, out = "MRexperiment")
+aggregateByTaxonomy(
+  obj,
+  lvl,
+  alternate = FALSE,
+  norm = FALSE,
+  log = FALSE,
+  aggfun = colSums,
+  sl = 1000,
+  featureOrder = NULL,
+  returnFullHierarchy = TRUE,
+  out = "MRexperiment"
+)
 
-aggTax(obj, lvl, alternate = FALSE, norm = FALSE, log = FALSE,
-  aggfun = colSums, sl = 1000, featureOrder = NULL,
-  returnFullHierarchy = TRUE, out = "MRexperiment")
+aggTax(
+  obj,
+  lvl,
+  alternate = FALSE,
+  norm = FALSE,
+  log = FALSE,
+  aggfun = colSums,
+  sl = 1000,
+  featureOrder = NULL,
+  returnFullHierarchy = TRUE,
+  out = "MRexperiment"
+)
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}

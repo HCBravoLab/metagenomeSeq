@@ -4,8 +4,18 @@
 \alias{plotFeature}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-plotFeature(obj, otuIndex, classIndex, col = "black", sort = TRUE,
-  sortby = NULL, norm = TRUE, log = TRUE, sl = 1000, ...)
+plotFeature(
+  obj,
+  otuIndex,
+  classIndex,
+  col = "black",
+  sort = TRUE,
+  sortby = NULL,
+  norm = TRUE,
+  log = TRUE,
+  sl = 1000,
+  ...
+)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}

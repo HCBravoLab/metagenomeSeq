@@ -5,9 +5,17 @@
 \alias{corTest}
 \title{Correlation of each row of a matrix or MRexperiment object}
 \usage{
-correlationTest(obj, y = NULL, method = "pearson",
-  alternative = "two.sided", norm = TRUE, log = TRUE, cores = 1,
-  override = FALSE, ...)
+correlationTest(
+  obj,
+  y = NULL,
+  method = "pearson",
+  alternative = "two.sided",
+  norm = TRUE,
+  log = TRUE,
+  cores = 1,
+  override = FALSE,
+  ...
+)
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}

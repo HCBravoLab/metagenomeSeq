@@ -11,3 +11,5 @@ vignettes/figure/
 .httr-oauth
 .Rproj.user
 update_remotes.sh
+doc
+Meta

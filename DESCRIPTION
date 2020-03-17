@@ -47,4 +47,4 @@ BugReports: https://github.com/nosson/metagenomeSeq/issues
 biocViews: ImmunoOncology, Classification, Clustering, GeneticVariability,
     DifferentialExpression, Microbiome, Metagenomics, Normalization, Visualization,
     MultipleComparison, Sequencing, Software
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0

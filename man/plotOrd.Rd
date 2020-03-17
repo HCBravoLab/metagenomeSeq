@@ -4,9 +4,19 @@
 \alias{plotOrd}
 \title{Plot of either PCA or MDS coordinates for the distances of normalized or unnormalized counts.}
 \usage{
-plotOrd(obj, tran = TRUE, comp = 1:2, norm = TRUE, log = TRUE,
-  usePCA = TRUE, useDist = FALSE, distfun = stats::dist,
-  dist.method = "euclidian", n = NULL, ...)
+plotOrd(
+  obj,
+  tran = TRUE,
+  comp = 1:2,
+  norm = TRUE,
+  log = TRUE,
+  usePCA = TRUE,
+  useDist = FALSE,
+  distfun = stats::dist,
+  dist.method = "euclidian",
+  n = NULL,
+  ...
+)
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}

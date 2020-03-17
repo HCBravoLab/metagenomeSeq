@@ -4,8 +4,7 @@
 \alias{fitMultipleTimeSeries}
 \title{Discover differentially abundant time intervals for all bacteria}
 \usage{
-fitMultipleTimeSeries(obj, lvl = NULL, B = 1, featureOrder = NULL,
-  ...)
+fitMultipleTimeSeries(obj, lvl = NULL, B = 1, featureOrder = NULL, ...)
 }
 \arguments{
 \item{obj}{metagenomeSeq MRexperiment-class object.}

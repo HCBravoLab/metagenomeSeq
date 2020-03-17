@@ -4,8 +4,7 @@
 \alias{exportStats}
 \title{Various statistics of the count data.}
 \usage{
-exportStats(obj, p = cumNormStat(obj),
-  file = "~/Desktop/res.stats.tsv")
+exportStats(obj, p = cumNormStat(obj), file = "~/Desktop/res.stats.tsv")
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}
@@ -27,7 +26,7 @@ sample scaling factor, quantile value, the number identified features, and libra
 data(lungData)
 dataDirectory <- system.file("extdata", package="metagenomeSeq")
 exportStats(lungData[,1:5],file=file.path(dataDirectory,"tmp.tsv"))
-head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\\t"))
+head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\t"))
 
 }
 \seealso{

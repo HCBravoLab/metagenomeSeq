@@ -5,8 +5,13 @@
 \alias{settings2}
 \title{Settings for the fitZig function}
 \usage{
-zigControl(tol = 1e-04, maxit = 10, verbose = TRUE,
-  dfMethod = "modified", pvalMethod = "default")
+zigControl(
+  tol = 1e-04,
+  maxit = 10,
+  verbose = TRUE,
+  dfMethod = "modified",
+  pvalMethod = "default"
+)
 }
 \arguments{
 \item{tol}{The tolerance for the difference in negative log likelihood estimates for a feature to remain active.}

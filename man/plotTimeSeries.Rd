@@ -4,9 +4,14 @@
 \alias{plotTimeSeries}
 \title{Plot difference function for particular bacteria}
 \usage{
-plotTimeSeries(res, C = 0, xlab = "Time",
+plotTimeSeries(
+  res,
+  C = 0,
+  xlab = "Time",
   ylab = "Difference in abundance",
-  main = "SS difference function prediction", ...)
+  main = "SS difference function prediction",
+  ...
+)
 }
 \arguments{
 \item{res}{Output of fitTimeSeries function}

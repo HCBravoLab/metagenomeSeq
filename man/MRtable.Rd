@@ -5,9 +5,20 @@
 \title{Table of top microbial marker gene from linear model fit including sequence
 information}
 \usage{
-MRtable(obj, by = 2, coef = NULL, number = 10, taxa = obj@taxa,
-  uniqueNames = FALSE, adjustMethod = "fdr", group = 0, eff = 0,
-  numberEff = FALSE, ncounts = 0, file = NULL)
+MRtable(
+  obj,
+  by = 2,
+  coef = NULL,
+  number = 10,
+  taxa = obj@taxa,
+  uniqueNames = FALSE,
+  adjustMethod = "fdr",
+  group = 0,
+  eff = 0,
+  numberEff = FALSE,
+  ncounts = 0,
+  file = NULL
+)
 }
 \arguments{
 \item{obj}{Output of fitFeatureModel or fitZig.}

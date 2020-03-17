@@ -4,8 +4,7 @@
 \alias{fitLogNormal}
 \title{Computes a log-normal linear model and permutation based p-values.}
 \usage{
-fitLogNormal(obj, mod, useCSSoffset = TRUE, B = 1000, coef = 2,
-  sl = 1000)
+fitLogNormal(obj, mod, useCSSoffset = TRUE, B = 1000, coef = 2, sl = 1000)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}

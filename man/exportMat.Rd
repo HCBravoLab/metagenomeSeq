@@ -5,8 +5,13 @@
 \alias{exportMatrix}
 \title{Export the normalized MRexperiment dataset as a matrix.}
 \usage{
-exportMat(obj, log = TRUE, norm = TRUE, sep = "\\t",
-  file = "~/Desktop/matrix.tsv")
+exportMat(
+  obj,
+  log = TRUE,
+  norm = TRUE,
+  sep = "\\t",
+  file = "~/Desktop/matrix.tsv"
+)
 }
 \arguments{
 \item{obj}{A MRexperiment object or count matrix.}
@@ -31,7 +36,7 @@ dataset to the user's workspace as a tab-delimited file, etc.
 data(lungData)
 dataDirectory <- system.file("extdata", package="metagenomeSeq")
 exportMat(lungData[,1:5],file=file.path(dataDirectory,"tmp.tsv"))
-head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\\t"))
+head(read.csv(file=file.path(dataDirectory,"tmp.tsv"),sep="\t"))
 
 }
 \seealso{

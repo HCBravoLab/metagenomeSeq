@@ -4,8 +4,15 @@
 \alias{fitZig}
 \title{Computes the weighted fold-change estimates and t-statistics.}
 \usage{
-fitZig(obj, mod, zeroMod = NULL, useCSSoffset = TRUE,
-  control = zigControl(), useMixedModel = FALSE, ...)
+fitZig(
+  obj,
+  mod,
+  zeroMod = NULL,
+  useCSSoffset = TRUE,
+  control = zigControl(),
+  useMixedModel = FALSE,
+  ...
+)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}

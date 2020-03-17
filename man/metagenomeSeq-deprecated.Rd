@@ -9,7 +9,6 @@
 \alias{load_meta}
 \alias{load_biom}
 \alias{load_metaQ}
-\alias{metagenomeSeq-deprecated-package}
 \title{Depcrecated functions in the metagenomeSeq package.}
 \usage{
 deprecated_metagenomeSeq_function(x, value, ...)

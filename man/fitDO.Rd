@@ -4,8 +4,7 @@
 \alias{fitDO}
 \title{Wrapper to calculate Discovery Odds Ratios on feature values.}
 \usage{
-fitDO(obj, cl, norm = TRUE, log = TRUE, adjust.method = "fdr",
-  cores = 1, ...)
+fitDO(obj, cl, norm = TRUE, log = TRUE, adjust.method = "fdr", cores = 1, ...)
 }
 \arguments{
 \item{obj}{A MRexperiment object with a count matrix, or a simple count

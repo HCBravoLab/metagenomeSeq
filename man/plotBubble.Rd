@@ -4,10 +4,17 @@
 \alias{plotBubble}
 \title{Basic plot of binned vectors.}
 \usage{
-plotBubble(yvector, xvector, sigvector = NULL, nbreaks = 10,
+plotBubble(
+  yvector,
+  xvector,
+  sigvector = NULL,
+  nbreaks = 10,
   ybreak = quantile(yvector, p = seq(0, 1, length.out = nbreaks)),
   xbreak = quantile(xvector, p = seq(0, 1, length.out = nbreaks)),
-  scale = 1, local = FALSE, ...)
+  scale = 1,
+  local = FALSE,
+  ...
+)
 }
 \arguments{
 \item{yvector}{A vector of values represented along y-axis.}

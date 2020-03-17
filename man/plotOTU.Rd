@@ -4,9 +4,20 @@
 \alias{plotOTU}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-plotOTU(obj, otu, classIndex, log = TRUE, norm = TRUE,
-  jitter.factor = 1, pch = 21, labs = TRUE, xlab = NULL,
-  ylab = NULL, jitter = TRUE, ...)
+plotOTU(
+  obj,
+  otu,
+  classIndex,
+  log = TRUE,
+  norm = TRUE,
+  jitter.factor = 1,
+  pch = 21,
+  labs = TRUE,
+  xlab = NULL,
+  ylab = NULL,
+  jitter = TRUE,
+  ...
+)
 }
 \arguments{
 \item{obj}{A MRexperiment object with count data.}

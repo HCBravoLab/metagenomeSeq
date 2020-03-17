@@ -4,9 +4,21 @@
 \alias{MRcoefs}
 \title{Table of top-ranked features from fitZig or fitFeatureModel}
 \usage{
-MRcoefs(obj, by = 2, coef = NULL, number = 10, taxa = obj@taxa,
-  uniqueNames = FALSE, adjustMethod = "fdr", alpha = 0.1,
-  group = 0, eff = 0, numberEff = FALSE, counts = 0, file = NULL)
+MRcoefs(
+  obj,
+  by = 2,
+  coef = NULL,
+  number = 10,
+  taxa = obj@taxa,
+  uniqueNames = FALSE,
+  adjustMethod = "fdr",
+  alpha = 0.1,
+  group = 0,
+  eff = 0,
+  numberEff = FALSE,
+  counts = 0,
+  file = NULL
+)
 }
 \arguments{
 \item{obj}{Output of fitFeatureModel or fitZig.}

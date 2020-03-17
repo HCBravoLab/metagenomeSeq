@@ -5,9 +5,21 @@
 \alias{genusPlot}
 \title{Basic plot function of the raw or normalized data.}
 \usage{
-plotGenus(obj, otuIndex, classIndex, norm = TRUE, log = TRUE,
-  no = 1:length(otuIndex), labs = TRUE, xlab = NULL, ylab = NULL,
-  jitter = TRUE, jitter.factor = 1, pch = 21, ...)
+plotGenus(
+  obj,
+  otuIndex,
+  classIndex,
+  norm = TRUE,
+  log = TRUE,
+  no = 1:length(otuIndex),
+  labs = TRUE,
+  xlab = NULL,
+  ylab = NULL,
+  jitter = TRUE,
+  jitter.factor = 1,
+  pch = 21,
+  ...
+)
 }
 \arguments{
 \item{obj}{An MRexperiment object with count data.}
