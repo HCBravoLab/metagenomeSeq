@@ -26,13 +26,13 @@ setMethod("MRihw", signature = "fitFeatureModelResults", function(obj, p, adjust
     # set covariate to be num of non-zero elements per row
     p <- obj@pvalues
     covariate <- rowSums(obj@counts != 0)
-    ihwRes <- ihw(p, covariate, alpha)
+    ihwRes <- IHW::ihw(p, covariate, alpha)
     padj <- ihwRes@df$adj_pvalue 
   }
   if (adjustMethod == "ihw-abundance"){
     # use feature median count as covariate
     covariate <- rowMedians(obj@counts)
-    ihwRes <- ihw(p, covariate, alpha)
+    ihwRes <- IHW::ihw(p, covariate, alpha)
     padj <- ihwRes@df$adj_pvalue
   }
   padj
@@ -61,7 +61,7 @@ setMethod("MRihw", signature = "fitZigResults", function(obj, p, adjustMethod, a
   if (adjustMethod == "ihw-abundance"){
     # use Amean as covariate
     covariate <- obj@eb$Amean
-    ihwRes <- ihw(p, covariate, alpha)
+    ihwRes <- IHW::ihw(p, covariate, alpha)
     padj <- ihwRes@df$adj_pvalue
   }
   padj
