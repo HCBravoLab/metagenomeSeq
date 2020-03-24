@@ -146,7 +146,7 @@ setReplaceMethod("libSize", signature=c(object="MRexperiment", value="numeric"),
 #' @slot stillActive convergence
 #' @slot stillActiveNLL nll at convergence
 #' @slot dupcor correlation of duplicates
-#' @exportClass
+#' 
 #' 
 setClass("fitZigResults", 
          slots = c(fit = "list", countResiduals = "matrix", z = "matrix", zUsed = "ANY", 
@@ -165,7 +165,7 @@ setClass("fitZigResults",
 #' @slot counts  count matrix
 #' @slot pvalues  calculated p-values
 #' @slot permuttedFits  permutted z-score estimates under the null
-#' @exportClass
+#' 
 #' 
 setClass("fitFeatureModelResults",
          slots = c(call = "call", fitZeroLogNormal = "list", design = "matrix", taxa = "character",

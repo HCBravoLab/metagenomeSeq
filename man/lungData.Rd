@@ -7,6 +7,6 @@
 \value{
 MRexperiment-class object of 16S lung samples.
 }
-\usage{lungData}
+%\usage{lungData}
 \format{A list of OTU matrix, taxa, otus, and phenotypes}
 \references{http://www.ncbi.nlm.nih.gov/pubmed/21680950}

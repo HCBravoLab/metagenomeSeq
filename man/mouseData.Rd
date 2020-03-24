@@ -7,6 +7,6 @@
 \value{
 MRexperiment-class object of 16S mouse samples.
 }
-\usage{mouseData}
+%\usage{mouseData}
 \format{A list of OTU matrix, taxa, otus, and phenotypes}
 \references{http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2894525/}

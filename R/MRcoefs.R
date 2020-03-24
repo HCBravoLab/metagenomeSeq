@@ -14,12 +14,10 @@
 #' @param taxa Taxa list.
 #' @param uniqueNames Number the various taxa.
 #' @param adjustMethod Method to adjust p-values by. Default is "FDR". Options
-#' include "IHW", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
-#' "none". See \code{\link{p.adjust}} for more details.
-#' @param IHWcov Character value specifying which covariate to use when adjusting pvalues
-#' using IHW. Options include: "nnz" (number of non-zero elements per feature), 
-#' "median" (median abundance value per feature), "Amean" (adjusted mean, used for a 
-#' fitZigResults obj)
+#' include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
+#' "none". See \code{\link{p.adjust}} for more details. Additionally, options using
+#' independent hypothesis weighting (IHW) are available. See \code{\link{MRihw}} for more
+#' details.
 #' @param alpha Value for p-value significance threshold when running IHW. 
 #' The default is set to 0.1 
 #' @param group One of five choices, 0,1,2,3,4. 0: the sort is ordered by a
@@ -53,12 +51,6 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj@taxa,
     uniqueNames=FALSE,adjustMethod="fdr",alpha=0.1,
     group=0,eff=0,numberEff=FALSE,counts=0,file=NULL){
 
-    if (adjustMethod == "ihw-ubiquity" || adjustMethod == "ihw-abundance") {
-	if (!require(IHW)) {
-	  stop("Adjustment using IHW for adjustment requires the 'IHW' package. Please install.")
-	}
-    } 
-
     if(length(grep("fitFeatureModel",obj@call))){
         groups = factor(obj@design[,by])
         by = "logFC"; coef = 1:2;
@@ -88,14 +80,6 @@ MRcoefs<-function(obj,by=2,coef=NULL,number=10,taxa=obj@taxa,
             tx[ii]=paste(tx[ii],seq_along(ii),sep=":")
         }
     }
-    
-    # # adding IHW as pvalue adjustment method
-    # if(adjustMethod == "ihw") {
-    #   # run MRihw
-    #   padj = MRihw(obj, p, IHWcov, alpha)
-    # } else {
-    #   padj = p.adjust(p, method = adjustMethod) # use classic pvalue adjusment methods
-    # }
     
     # adding 'ihw' as pvalue adjustment method
     if (adjustMethod == "ihw-ubiquity" | adjustMethod == "ihw-abundance") {

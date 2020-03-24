@@ -16,8 +16,8 @@ setGeneric("MRihw", function(obj, ...){standardGeneric("MRihw")})
 #' @param obj Either a fitFeatureModelResults or fitZigResults object
 #' @param p a vector of pvalues extracted from obj
 #' @param adjustMethod Value specifying which adjustment method and which covariate to use for IHW pvalue adjustment. 
-#' For obj of class \code{\link{fitFeatureModelResults}}, options are "ihw-abundance" (median feature count per row) 
-#' and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults}}, 
+#' For obj of class \code{\link{fitFeatureModelResults-class}}, options are "ihw-abundance" (median feature count per row) 
+#' and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults-class}}, 
 #' options are "ihw-abundance" (weighted mean per feature) and "ihw-ubiquity" (number of non-zero features per row). 
 #' @param alpha pvalue significance level specified for IHW call. Default is 0.1
 #' 
@@ -46,8 +46,8 @@ setMethod("MRihw", signature = "fitFeatureModelResults", function(obj, p, adjust
 #' @param obj Either a fitFeatureModelResults or fitZigResults object
 #' @param p a vector of pvalues extracted from obj
 #' @param adjustMethod Value specifying which adjustment method and which covariate to use for IHW pvalue adjustment. 
-#' For obj of class \code{\link{fitFeatureModelResults}}, options are "ihw-abundance" (median feature count per row) 
-#' and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults}}, 
+#' For obj of class \code{\link{fitFeatureModelResults-class}}, options are "ihw-abundance" (median feature count per row) 
+#' and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults-class}}, 
 #' options are "ihw-abundance" (weighted mean per feature) and "ihw-ubiquity" (number of non-zero features per row). 
 #' @param alpha pvalue significance level specified for IHW call. Default is 0.1
 #' 
@@ -55,7 +55,7 @@ setMethod("MRihw", signature = "fitZigResults", function(obj, p, adjustMethod, a
   if (adjustMethod == "ihw-ubiquity"){
     #use number of non-zero features per row as the covariate in ihw() call
     covariate <- rowSums(obj@counts != 0)
-    ihwRes <- ihw(p, covariate, alpha)
+    ihwRes <- IHW::ihw(p, covariate, alpha)
     padj <- ihwRes@df$adj_pvalue
   }
   if (adjustMethod == "ihw-abundance"){

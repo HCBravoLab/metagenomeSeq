@@ -36,8 +36,10 @@ or contrast of the linear model to display.}
 \item{uniqueNames}{Number the various taxa.}
 
 \item{adjustMethod}{Method to adjust p-values by. Default is "FDR". Options
-include "IHW", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
-"none". See \code{\link{p.adjust}} for more details.}
+include "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
+"none". See \code{\link{p.adjust}} for more details. Additionally, options using
+independent hypothesis weighting (IHW) are available. See \code{\link{MRihw}} for more
+details.}
 
 \item{alpha}{Value for p-value significance threshold when running IHW. 
 The default is set to 0.1}
@@ -55,11 +57,6 @@ of the coefficient fit in increasing order. 4: no sorting.}
 \item{counts}{Filter features to have at least 'counts' counts.}
 
 \item{file}{Name of output file, including location, to save the table.}
-
-\item{IHWcov}{Character value specifying which covariate to use when adjusting pvalues
-using IHW. Options include: "nnz" (number of non-zero elements per feature), 
-"median" (median abundance value per feature), "Amean" (adjusted mean, used for a 
-fitZigResults obj)}
 }
 \value{
 Table of the top-ranked features determined by the linear fit's

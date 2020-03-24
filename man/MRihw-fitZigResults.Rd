@@ -12,8 +12,8 @@
 \item{p}{a vector of pvalues extracted from obj}
 
 \item{adjustMethod}{Value specifying which adjustment method and which covariate to use for IHW pvalue adjustment. 
-For obj of class \code{\link{fitFeatureModelResults}}, options are "ihw-abundance" (median feature count per row) 
-and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults}}, 
+For obj of class \code{\link{fitFeatureModelResults-class}}, options are "ihw-abundance" (median feature count per row) 
+and "ihw-ubiquity" (number of non-zero features per row). For obj of class \code{\link{fitZigResults-class}}, 
 options are "ihw-abundance" (weighted mean per feature) and "ihw-ubiquity" (number of non-zero features per row).}
 
 \item{alpha}{pvalue significance level specified for IHW call. Default is 0.1}
