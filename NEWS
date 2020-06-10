@@ -3,6 +3,7 @@ version 1.25.xx (2019)
 	+ Added option to use IHW as p-value adustment method in 'MRcoefs'
 	+ Modified 'expSummary' slot in 'MRexperiment' object to be of class 'list' instead of 'environment'
 	+ Added results classes for 'fitZig' and 'fitFeatureModel' results
+
 version 1.21.xx (2018)
 	+ Numerous changes. Added greater flexibility to fitFeatureModel
 version 1.15.xx (2016)
