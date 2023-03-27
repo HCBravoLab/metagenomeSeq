@@ -13,7 +13,7 @@ bibentry(bibtype="Article",
          header = "To cite the original statistical method and normalization method implemented in metagenomeSeq use")
          
 bibentry(bibtype="Manual",
-         title = "metagenomeSeq: Statistical analysis for sparse high-throughput sequncing.",
+         title = "metagenomeSeq: Statistical analysis for sparse high-throughput sequencing.",
          author = personList( as.person("Joseph N. Paulson"),
                               as.person("Nathan D. Olson"),
                               as.person("Domenick J. Braccia"),
