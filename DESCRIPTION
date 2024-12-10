@@ -1,7 +1,7 @@
 Package: metagenomeSeq
 Title: Statistical analysis for sparse high-throughput sequencing
-Version: 1.49.0
-Date: 2024-03-12
+Version: 1.49.1
+Date: 2024-12-10
 Author: Joseph Nathaniel Paulson, Nathan D. Olson, Domenick J. Braccia, 
     Justin Wagner, Hisham Talukder, Mihai Pop, Hector Corrada Bravo
 Maintainer: Joseph N. Paulson <josephpaulson@gmail.com>
