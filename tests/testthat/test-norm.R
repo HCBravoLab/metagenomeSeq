@@ -25,13 +25,13 @@ test_that("`cumNorm` returns the same object as defined in the package", {
 
 test_that("`cumNormStat` returns the correct value", {
   data(lungData); data(mouseData);
-  expect_equal(cumNormStat(lungData),0.7014946)
-  expect_equal(cumNormStat(mouseData),0.5)
+  expect_equal(as.numeric(cumNormStat(lungData)),0.7014946)
+  expect_equal(as.numeric(cumNormStat(mouseData)),0.5)
 })
 
 test_that("`cumNormStatFast` returns the correct value", {
   data(lungData); data(mouseData);
-  expect_equal(cumNormStatFast(lungData),0.7014946)
-  expect_equal(cumNormStatFast(mouseData),0.5)
+  expect_equal(as.numeric(cumNormStatFast(lungData)),0.7014946)
+  expect_equal(as.numeric(cumNormStatFast(mouseData)),0.5)
 })
 

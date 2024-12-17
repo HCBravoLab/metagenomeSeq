@@ -188,7 +188,7 @@ fitZig <- function(obj,
     fit$residuals <- sweep((y-countMu), 1, fit$fit$sigma, "/")
   }
   
-  eb <- limma::eBayes(fit$fit)
+  eb <- limma::eBayes(fit$fit, legacy = TRUE)
   dat <- list(fit=fit$fit, countResiduals=fit$residuals,
               z=z, zUsed=zUsed, eb=eb, zeroMod=zero_model_matrix, stillActive=stillActive,
               stillActiveNLL=stillActiveNLL, zeroCoef=zeroCoef, dupcor=dupcor)
